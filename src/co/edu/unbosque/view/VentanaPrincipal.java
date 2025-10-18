@@ -2,6 +2,9 @@ package co.edu.unbosque.view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import co.edu.unbosque.controller.Controller;
+
 import javax.swing.JButton;
 
 public class VentanaPrincipal extends JFrame{
@@ -25,7 +28,7 @@ public class VentanaPrincipal extends JFrame{
 	
 	//me faltan los label para las imagenes de los muñequitos
 	
-	public VentanaPrincipal() {
+	public VentanaPrincipal(Controller controller) {
 		initializeComponents();
 		setVisible(true);
 	}
