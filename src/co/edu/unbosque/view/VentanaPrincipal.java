@@ -56,8 +56,8 @@ public class VentanaPrincipal extends JFrame{
 		this.add(icon);
 		
 		//label frase
-		phrase = new JLabel("¡La app perfecta para encontrar a tu pareja ideal!");
-		phrase.setBounds(300, 170, 480, 30);
+		phrase = new JLabel("¡Tu amor ideal te está esperando!");
+		phrase.setBounds(360, 170, 480, 30);
 		phrase.setForeground(Color.decode("#03080D"));
 		phrase.setFont(new Font("Arial", Font.BOLD, 18));
 		this.add(phrase);
