@@ -100,4 +100,142 @@ public class MainWindow extends JFrame{
 		
 	}
 
+	public JLabel getIcon() {
+		return icon;
+	}
+
+	public void setIcon(JLabel icon) {
+		this.icon = icon;
+	}
+
+	public JLabel getPhrase() {
+		return phrase;
+	}
+
+	public void setPhrase(JLabel phrase) {
+		this.phrase = phrase;
+	}
+
+	public JButton getStart() {
+		return start;
+	}
+
+	public void setStart(JButton start) {
+		this.start = start;
+	}
+
+	public JLabel getChangeLanguage() {
+		return changeLanguage;
+	}
+
+	public void setChangeLanguage(JLabel changeLanguage) {
+		this.changeLanguage = changeLanguage;
+	}
+
+	public JButton getbSpanish() {
+		return bSpanish;
+	}
+
+	public void setbSpanish(JButton bSpanish) {
+		this.bSpanish = bSpanish;
+	}
+
+	public JButton getbPortuguese() {
+		return bPortuguese;
+	}
+
+	public void setbPortuguese(JButton bPortuguese) {
+		this.bPortuguese = bPortuguese;
+	}
+
+	public JButton getbRussian() {
+		return bRussian;
+	}
+
+	public void setbRussian(JButton bRussian) {
+		this.bRussian = bRussian;
+	}
+
+	public JButton getbChinese() {
+		return bChinese;
+	}
+
+	public void setbChinese(JButton bChinese) {
+		this.bChinese = bChinese;
+	}
+
+	public JButton getbHebrew() {
+		return bHebrew;
+	}
+
+	public void setbHebrew(JButton bHebrew) {
+		this.bHebrew = bHebrew;
+	}
+
+	public JLabel getlSpanish() {
+		return lSpanish;
+	}
+
+	public void setlSpanish(JLabel lSpanish) {
+		this.lSpanish = lSpanish;
+	}
+
+	public JLabel getlPortuguese() {
+		return lPortuguese;
+	}
+
+	public void setlPortuguese(JLabel lPortuguese) {
+		this.lPortuguese = lPortuguese;
+	}
+
+	public JLabel getlRussian() {
+		return lRussian;
+	}
+
+	public void setlRussian(JLabel lRussian) {
+		this.lRussian = lRussian;
+	}
+
+	public JLabel getlChinesse() {
+		return lChinesse;
+	}
+
+	public void setlChinesse(JLabel lChinesse) {
+		this.lChinesse = lChinesse;
+	}
+
+	public JLabel getlHebrew() {
+		return lHebrew;
+	}
+
+	public void setlHebrew(JLabel lHebrew) {
+		this.lHebrew = lHebrew;
+	}
+
+	public JLabel getlPartnerOne() {
+		return lPartnerOne;
+	}
+
+	public void setlPartnerOne(JLabel lPartnerOne) {
+		this.lPartnerOne = lPartnerOne;
+	}
+
+	public JLabel getlPartnerTwo() {
+		return lPartnerTwo;
+	}
+
+	public void setlPartnerTwo(JLabel lPartnerTwo) {
+		this.lPartnerTwo = lPartnerTwo;
+	}
+
+	public JLabel getlHeart() {
+		return lHeart;
+	}
+
+	public void setlHeart(JLabel lHeart) {
+		this.lHeart = lHeart;
+	}
+	
+	
+
 }
