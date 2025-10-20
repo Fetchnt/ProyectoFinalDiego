@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 import co.edu.unbosque.controller.Controller;
 
-public class MainWindow extends JFrame{
+public class PrincipalWindow extends JFrame{
 
 	private JLabel icon;
 	private JLabel phrase;
@@ -36,7 +36,7 @@ public class MainWindow extends JFrame{
 	private JLabel lPartnerTwo;
 	private JLabel lHeart;
 	
-	public MainWindow(Controller controller) {
+	public PrincipalWindow(Controller controller) {
 		initializeComponents();
 		setVisible(true);
 	}

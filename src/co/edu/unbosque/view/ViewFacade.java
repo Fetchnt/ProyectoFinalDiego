@@ -7,10 +7,12 @@ public class ViewFacade {
 	private StartWindow sw;
 	private LoginWindow lw;
 	private MapWindow mw;
+	private PrincipalWindow pw;
 	private SignInWindow siw;
 
 	public ViewFacade() {
 		lw = new LoginWindow();
+		pw = new PrincipalWindow(null);
 		mw = new MapWindow();
 		sw = new StartWindow();
 		siw = new SignInWindow();
@@ -46,5 +48,13 @@ public class ViewFacade {
 
 	public void setSiw(SignInWindow siw) {
 		this.siw = siw;
+	}
+
+	public PrincipalWindow getMaw() {
+		return pw;
+	}
+
+	public void setMaw(PrincipalWindow maw) {
+		this.pw = maw;
 	}
 }
