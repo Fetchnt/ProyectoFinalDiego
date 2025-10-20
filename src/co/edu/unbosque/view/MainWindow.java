@@ -15,7 +15,6 @@ public class MainWindow extends JFrame{
 	private JLabel icon;
 	private JLabel phrase;
 	private JButton start;
-	private JButton exit;
 	
 	//idiomas
 	private JLabel changeLanguage;
@@ -120,16 +119,6 @@ public class MainWindow extends JFrame{
 		start.setFocusPainted(false);
 		start.setBorderPainted(false);
 		this.add(start);
-		
-		//boton salir -> no sé si dejarlo o quitarlo
-		exit = new JButton("SALIR");
-		exit.setBounds(430, 620, 100, 40);
-		exit.setFont(new Font("Arial", Font.BOLD,12));
-		exit.setForeground(Color.decode("#000000"));
-		exit.setBackground(Color.decode("#EB5F5B"));
-		exit.setFocusPainted(false);
-		exit.setBorderPainted(false);
-		this.add(exit);
 		
 		//imagenes recursos adicionales
 		ImageIcon imageHeart = new ImageIcon(getClass().getResource("heart.JPG"));
