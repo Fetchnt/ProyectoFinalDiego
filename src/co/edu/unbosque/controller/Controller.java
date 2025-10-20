@@ -1,14 +1,14 @@
 package co.edu.unbosque.controller;
 
-import co.edu.unbosque.view.VentanaPrincipal;
+import co.edu.unbosque.view.MainWindow;
 
 public class Controller {
 	
 	//interfaz
-	private VentanaPrincipal vp;
+	private MainWindow mw;
 	
 	public Controller() {
-		vp = new VentanaPrincipal(this);
+		mw = new MainWindow(this);
 		asignarOyentes();	
 		}
 	
@@ -18,7 +18,7 @@ public class Controller {
 	}
 	
 	public void runGUI() {
-		vp.setVisible(true);
+		mw.setVisible(true);
 	}
 
 }

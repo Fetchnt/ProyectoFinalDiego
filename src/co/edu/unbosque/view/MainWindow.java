@@ -1,16 +1,17 @@
 package co.edu.unbosque.view;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import co.edu.unbosque.controller.Controller;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
-public class VentanaPrincipal extends JFrame{
-	
+import co.edu.unbosque.controller.Controller;
+
+public class MainWindow extends JFrame{
+
 	private JLabel icon;
 	private JLabel phrase;
 	private JButton start;
@@ -35,7 +36,7 @@ public class VentanaPrincipal extends JFrame{
 	private JLabel lPartnerTwo;
 	private JLabel lHeart;
 	
-	public VentanaPrincipal(Controller controller) {
+	public MainWindow(Controller controller) {
 		initializeComponents();
 		setVisible(true);
 	}
@@ -43,7 +44,7 @@ public class VentanaPrincipal extends JFrame{
 	public void initializeComponents() {
 		//configuracion de la ventana
 		this.setTitle("BosTinder");
-		this.setBounds(275, 20, 980, 720);
+		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setLayout(null);
@@ -61,6 +62,13 @@ public class VentanaPrincipal extends JFrame{
 		phrase.setForeground(Color.decode("#03080D"));
 		phrase.setFont(new Font("Arial", Font.BOLD, 18));
 		this.add(phrase);
+		
+		//label para idiomas
+		changeLanguage = new JLabel("-> Cambiar Idioma");
+		changeLanguage.setBounds(415, 440, 250, 150);
+		changeLanguage.setForeground(Color.decode("#03080D"));
+		changeLanguage.setFont(new Font("Arial", Font.BOLD, 15));
+		this.add(changeLanguage);
 
 		//boton iniciar
 		start = new JButton("INICIAR");
@@ -87,7 +95,9 @@ public class VentanaPrincipal extends JFrame{
 		JLabel lPartnerTwo = new JLabel(imagePartnerTwo);
 		lPartnerTwo.setBounds(600, 330, 300, 300);
 		this.add(lPartnerTwo);
+		
+		//botones con imagenes de los idiomas
+		
 	}
-	
 
 }
