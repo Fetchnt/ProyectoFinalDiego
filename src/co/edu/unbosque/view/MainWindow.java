@@ -22,13 +22,13 @@ public class MainWindow extends JFrame{
 	private JButton bSpanish;
 	private JButton bPortuguese;
 	private JButton bRussian;
-	private JButton bChinese;
+	private JButton bChinnesse;
 	private JButton bHebrew;
 	
 	private JLabel lSpanish;
 	private JLabel lPortuguese;
 	private JLabel lRussian;
-	private JLabel lChinesse;
+	private JLabel lChinnesse;
 	private JLabel lHebrew;
 	
 	//recursos adicionales
@@ -63,16 +63,56 @@ public class MainWindow extends JFrame{
 		phrase.setFont(new Font("Arial", Font.BOLD, 18));
 		this.add(phrase);
 		
-		//label para idiomas
+		//para idiomas
 		changeLanguage = new JLabel("-> Cambiar Idioma");
 		changeLanguage.setBounds(415, 440, 250, 150);
 		changeLanguage.setForeground(Color.decode("#03080D"));
 		changeLanguage.setFont(new Font("Arial", Font.BOLD, 15));
 		this.add(changeLanguage);
 
+		ImageIcon imagen1 = new ImageIcon(getClass().getResource("spanish.jpg"));
+		JLabel labelImagen1 = new JLabel(imagen1);
+		bSpanish = new JButton(imagen1);
+		bSpanish.setBounds(380, 540, 35, 35);
+		bSpanish.setFocusPainted(false);
+		bSpanish.setBorderPainted(true);
+		this.add(bSpanish);
+		
+		ImageIcon imagen2 = new ImageIcon(getClass().getResource("chinnesse.png"));
+		JLabel labelImagen2 = new JLabel(imagen2);
+		bChinnesse = new JButton(imagen2);
+		bChinnesse.setBounds(420, 540, 35, 35);
+		bChinnesse.setFocusPainted(false);
+		bChinnesse.setBorderPainted(true);
+		this.add(bChinnesse);
+		
+		ImageIcon imagen3 = new ImageIcon(getClass().getResource("hebrew.png"));
+		JLabel labelImagen3 = new JLabel(imagen3);
+		bHebrew = new JButton(imagen3);
+		bHebrew.setBounds(460, 540, 35, 35);
+		bHebrew.setFocusPainted(false);
+		bHebrew.setBorderPainted(true);
+		this.add(bHebrew);
+		
+		ImageIcon imagen4 = new ImageIcon(getClass().getResource("russian.png"));
+		JLabel labelImagen4 = new JLabel(imagen4);
+		bRussian = new JButton(imagen4);
+		bRussian.setBounds(500, 540, 35, 35);
+		bRussian.setFocusPainted(false);
+		bRussian.setBorderPainted(true);
+		this.add(bRussian);
+		
+		ImageIcon imagen5 = new ImageIcon(getClass().getResource("portuguesse.png"));
+		JLabel labelImagen5 = new JLabel(imagen5);
+		bPortuguese = new JButton(imagen1);
+		bPortuguese.setBounds(540, 540, 35, 35);
+		bPortuguese.setFocusPainted(false);
+		bPortuguese.setBorderPainted(true);
+		this.add(bPortuguese);
+		
 		//boton iniciar
 		start = new JButton("INICIAR");
-		start.setBounds(400, 410, 180, 50);
+		start.setBounds(390, 410, 180, 50);
 		start.setFont(new Font("Arial", Font.BOLD, 20));
 		start.setForeground(Color.decode("#000000"));//color letra
 		start.setBackground(Color.decode("#EB5F5B"));
@@ -95,8 +135,6 @@ public class MainWindow extends JFrame{
 		JLabel lPartnerTwo = new JLabel(imagePartnerTwo);
 		lPartnerTwo.setBounds(600, 330, 300, 300);
 		this.add(lPartnerTwo);
-		
-		//botones con imagenes de los idiomas
 		
 	}
 
@@ -156,12 +194,21 @@ public class MainWindow extends JFrame{
 		this.bRussian = bRussian;
 	}
 
-	public JButton getbChinese() {
-		return bChinese;
+
+	public JButton getbChinnesse() {
+		return bChinnesse;
 	}
 
-	public void setbChinese(JButton bChinese) {
-		this.bChinese = bChinese;
+	public void setbChinnesse(JButton bChinnesse) {
+		this.bChinnesse = bChinnesse;
+	}
+
+	public JLabel getlChinnesse() {
+		return lChinnesse;
+	}
+
+	public void setlChinnesse(JLabel lChinnesse) {
+		this.lChinnesse = lChinnesse;
 	}
 
 	public JButton getbHebrew() {
@@ -196,13 +243,6 @@ public class MainWindow extends JFrame{
 		this.lRussian = lRussian;
 	}
 
-	public JLabel getlChinesse() {
-		return lChinesse;
-	}
-
-	public void setlChinesse(JLabel lChinesse) {
-		this.lChinesse = lChinesse;
-	}
 
 	public JLabel getlHebrew() {
 		return lHebrew;
