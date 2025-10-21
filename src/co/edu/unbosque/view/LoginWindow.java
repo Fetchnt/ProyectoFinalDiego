@@ -8,7 +8,7 @@ public class LoginWindow extends JFrame{
 	
 	public LoginWindow() {
 		initializeComponents();
-		setVisible(true);
+		setVisible(false);
 	}
 
 	public void initializeComponents() {

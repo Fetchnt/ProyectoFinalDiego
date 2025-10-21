@@ -11,7 +11,7 @@ public class MapWindow extends JFrame {
 	
 	public MapWindow() {
 		initializeComponents();
-		setVisible(true);
+		setVisible(false);
 	}
 
 	public void initializeComponents() {

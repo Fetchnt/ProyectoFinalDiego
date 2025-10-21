@@ -8,7 +8,7 @@ public class SignInPrincipalWindow extends JFrame{
 	
 	public SignInPrincipalWindow() {
 		initializeComponents();
-		setVisible(true);
+		setVisible(false);
 	}
 
 	public void initializeComponents() {
