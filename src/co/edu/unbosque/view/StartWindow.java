@@ -73,4 +73,76 @@ public class StartWindow extends JFrame {
 
 	}
 
+	public JLabel getlIcon() {
+		return lIcon;
+	}
+
+	public void setlIcon(JLabel lIcon) {
+		this.lIcon = lIcon;
+	}
+
+	public JButton getSignIn() {
+		return signIn;
+	}
+
+	public void setSignIn(JButton signIn) {
+		this.signIn = signIn;
+	}
+
+	public JButton getLogin() {
+		return login;
+	}
+
+	public void setLogin(JButton login) {
+		this.login = login;
+	}
+
+	public JButton getExit() {
+		return exit;
+	}
+
+	public void setExit(JButton exit) {
+		this.exit = exit;
+	}
+
+	public JButton getBack() {
+		return back;
+	}
+
+	public void setBack(JButton back) {
+		this.back = back;
+	}
+
+	public JLabel getlImage() {
+		return lImage;
+	}
+
+	public void setlImage(JLabel lImage) {
+		this.lImage = lImage;
+	}
+
+	public JLabel getViewMode() {
+		return viewMode;
+	}
+
+	public void setViewMode(JLabel viewMode) {
+		this.viewMode = viewMode;
+	}
+
+	public JButton getDarkMode() {
+		return darkMode;
+	}
+
+	public void setDarkMode(JButton darkMode) {
+		this.darkMode = darkMode;
+	}
+
+	public JButton getLightMode() {
+		return lightMode;
+	}
+
+	public void setLightMode(JButton lightMode) {
+		this.lightMode = lightMode;
+	}
+
 }
