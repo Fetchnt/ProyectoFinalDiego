@@ -17,32 +17,54 @@ public class Controller implements ActionListener {
 	}
 
 	public void asignarOyentes() {// Acá se agregan los lectores a los componentes
-		vf.getMaw().getStart().addActionListener(this);
-		vf.getMaw().getStart().setActionCommand("boton_start");
-
+		// BOTONES
+		vf.getPw().getStart().addActionListener(this);
+		vf.getPw().getStart().setActionCommand("boton_start");
+		
+		vf.getSw().getSignIn().addActionListener(this);
+		vf.getSw().getSignIn().setActionCommand("boton_signIn");
+		
+		vf.getSw().getLogin().addActionListener(this);
+		vf.getSw().getLogin().setActionCommand("boton_login");
+		
+		vf.getSw().getExit().addActionListener(this);
+		vf.getSw().getExit().setActionCommand("boton_exit");
+		
+		vf.getSw().getBack().addActionListener(this);
+		vf.getSw().getBack().setActionCommand("boton_back");
 	}
-
-	/*
-	 * @Override public void actionPerfomed(ActionEvent e) { String alias =
-	 * e.getActionCommand(); switch (alias) {
-	 * 
-	 * } }
-	 */
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String alias = e.getActionCommand();
 		switch (alias) {
 		case "boton_start": {
-			vf.getMaw().dispose();
+			vf.getPw().dispose();
 			vf.getSw().setVisible(true);
-			}
+		}
+	/*
+		case "boton_signIn": {
+			vf.getSiw().setVisible(true);
+			vf.getSw().setVisible(true);
+		}
+		case "boton_login": {
+			vf.getSw().dispose();
+			vf.getLw().setVisible(true);
+		}
+		case "boton_exit": {
+			vf.getSw().dispose();
+		}
+		case "boton_back": {
+			vf.getSw().dispose();
+			vf.getPw().setVisible(true);
+		}
+	 */
 		}
 
 	}
 
 	public void runGUI() {
-		vf.getMaw().setVisible(true);
+		vf.getPw().setVisible(true);
 	}
 
 }

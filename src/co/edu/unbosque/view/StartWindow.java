@@ -28,7 +28,6 @@ public class StartWindow extends JFrame {
 	}
 
 	public void initializeComponents() {
-
 		// configuracion de la ventana -> aplica para todas en modo claro
 		this.setTitle("Inicio");
 		this.setBounds(230, 5, 980, 720);
@@ -42,13 +41,13 @@ public class StartWindow extends JFrame {
 		JLabel lIcon = new JLabel(imageLogo);
 		lIcon.setBounds(0, 0, 980, 150);
 		add(lIcon);
-		
-		//-------CONTENEDOR------------
+
+		// -------CONTENEDOR------------
 		JPanel panelOption = new JPanel();
 		panelOption.setBounds(600, 220, 300, 400);
 		panelOption.setBackground(Color.decode("#FFFFFF"));
 		panelOption.setVisible(true);
-		
+
 		// botones
 		signIn = new JButton("Registrarse");
 		signIn.setBounds(60, 30, 180, 50);
@@ -87,12 +86,92 @@ public class StartWindow extends JFrame {
 		panelOption.add(back);
 
 		add(panelOption);
-		//----------------------------
-		
+		// ----------------------------
+
 		ImageIcon imagePartnerThree = new ImageIcon(getClass().getResource("partnerThree.JPG"));
 		JLabel lPartnerThree = new JLabel(imagePartnerThree);
 		lPartnerThree.setBounds(100, 200, 450, 420);
 		this.add(lPartnerThree);
+	}
+
+	public JLabel getlIcon() {
+		return lIcon;
+	}
+
+	public void setlIcon(JLabel lIcon) {
+		this.lIcon = lIcon;
+	}
+
+	public JLabel getlPartnerThree() {
+		return lPartnerThree;
+	}
+
+	public void setlPartnerThree(JLabel lPartnerThree) {
+		this.lPartnerThree = lPartnerThree;
+	}
+
+	public JButton getSignIn() {
+		return signIn;
+	}
+
+	public void setSignIn(JButton signIn) {
+		this.signIn = signIn;
+	}
+
+	public JButton getLogin() {
+		return login;
+	}
+
+	public void setLogin(JButton login) {
+		this.login = login;
+	}
+
+	public JButton getExit() {
+		return exit;
+	}
+
+	public void setExit(JButton exit) {
+		this.exit = exit;
+	}
+
+	public JButton getBack() {
+		return back;
+	}
+
+	public void setBack(JButton back) {
+		this.back = back;
+	}
+
+	public JLabel getlImage() {
+		return lImage;
+	}
+
+	public void setlImage(JLabel lImage) {
+		this.lImage = lImage;
+	}
+
+	public JLabel getViewMode() {
+		return viewMode;
+	}
+
+	public void setViewMode(JLabel viewMode) {
+		this.viewMode = viewMode;
+	}
+
+	public JButton getDarkMode() {
+		return darkMode;
+	}
+
+	public void setDarkMode(JButton darkMode) {
+		this.darkMode = darkMode;
+	}
+
+	public JButton getLightMode() {
+		return lightMode;
+	}
+
+	public void setLightMode(JButton lightMode) {
+		this.lightMode = lightMode;
 	}
 
 }
