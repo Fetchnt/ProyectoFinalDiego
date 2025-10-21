@@ -3,13 +3,16 @@ package co.edu.unbosque.view;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class StartWindow extends JFrame {
 
 	private JLabel lIcon;
+	private JLabel lPartnerThree;
 	private JButton signIn;
 	private JButton login;
 	private JButton exit;
@@ -32,45 +35,64 @@ public class StartWindow extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setLayout(null);
-		this.getContentPane().setBackground(Color.decode("#FFFFFF")); // -> falta agregarle color
+		this.getContentPane().setBackground(Color.decode("#F9CFCE"));
 
+		// logo y título -> lo voy a cambiar después :)
+		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
+		JLabel lIcon = new JLabel(imageLogo);
+		lIcon.setBounds(0, 0, 980, 150);
+		add(lIcon);
+		
+		//-------CONTENEDOR------------
+		JPanel panelOption = new JPanel();
+		panelOption.setBounds(600, 220, 300, 400);
+		panelOption.setBackground(Color.decode("#FFFFFF"));
+		panelOption.setVisible(true);
+		
 		// botones
 		signIn = new JButton("Registrarse");
-		signIn.setBounds(400, 410, 180, 50);
+		signIn.setBounds(60, 30, 180, 50);
 		signIn.setFont(new Font("Arial", Font.BOLD, 20));
-		signIn.setForeground(Color.decode("#000000"));// color letra
-		signIn.setBackground(Color.decode("#EB5F5B"));
+		signIn.setForeground(Color.decode("#EB5F5B"));// color letra
+		signIn.setBackground(Color.decode("#F9CFCE"));
 		signIn.setFocusPainted(false);
 		signIn.setBorderPainted(false);
-		add(signIn);
+		panelOption.add(signIn);
 
 		login = new JButton("Iniciar Sesion");
-		login.setBounds(400, 410, 180, 50);
+		login.setBounds(60, 90, 180, 50);
 		login.setFont(new Font("Arial", Font.BOLD, 20));
-		login.setForeground(Color.decode("#000000"));
-		login.setBackground(Color.decode("#EB5F5B"));
+		login.setForeground(Color.decode("#EB5F5B"));
+		login.setBackground(Color.decode("#F9CFCE"));
 		login.setFocusPainted(false);
 		login.setBorderPainted(false);
-		add(login);
+		panelOption.add(login);
 
 		exit = new JButton("Salir");
-		exit.setBounds(400, 410, 180, 50);
-		exit.setFont(new Font("Arial", Font.BOLD, 20));
-		exit.setForeground(Color.decode("#000000"));
-		exit.setBackground(Color.decode("#EB5F5B"));
+		exit.setBounds(120, 120, 80, 50);
+		exit.setFont(new Font("Arial", Font.BOLD, 15));
+		exit.setForeground(Color.decode("#EB5F5B"));
+		exit.setBackground(Color.decode("#F9CFCE"));
 		exit.setFocusPainted(false);
 		exit.setBorderPainted(false);
-		add(exit);
+		panelOption.add(exit);
 
 		back = new JButton("Volver");
-		back.setBounds(400, 410, 180, 50);
-		back.setFont(new Font("Arial", Font.BOLD, 20));
-		back.setForeground(Color.decode("#000000"));
-		back.setBackground(Color.decode("#EB5F5B"));
+		back.setBounds(60, 120, 80, 50);
+		back.setFont(new Font("Arial", Font.BOLD, 15));
+		back.setForeground(Color.decode("#EB5F5B"));
+		back.setBackground(Color.decode("#F9CFCE"));
 		back.setFocusPainted(false);
 		back.setBorderPainted(false);
-		add(back);
+		panelOption.add(back);
 
+		add(panelOption);
+		//----------------------------
+		
+		ImageIcon imagePartnerThree = new ImageIcon(getClass().getResource("partnerThree.JPG"));
+		JLabel lPartnerThree = new JLabel(imagePartnerThree);
+		lPartnerThree.setBounds(100, 200, 450, 420);
+		this.add(lPartnerThree);
 	}
 
 }
