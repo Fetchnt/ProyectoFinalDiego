@@ -8,14 +8,14 @@ public class ViewFacade {
 	private LoginWindow lw;
 	private MapWindow mw;
 	private PrincipalWindow pw;
-	private SignInWindow siw;
+	private SignInPrincipalWindow siw;
 
 	public ViewFacade() {
 		lw = new LoginWindow();
 		pw = new PrincipalWindow(null);
 		mw = new MapWindow();
 		sw = new StartWindow();
-		siw = new SignInWindow();
+		siw = new SignInPrincipalWindow();
 	}
 
 	public StartWindow getSw() {
@@ -42,11 +42,11 @@ public class ViewFacade {
 		this.mw = mw;
 	}
 
-	public SignInWindow getSiw() {
+	public SignInPrincipalWindow getSiw() {
 		return siw;
 	}
 
-	public void setSiw(SignInWindow siw) {
+	public void setSiw(SignInPrincipalWindow siw) {
 		this.siw = siw;
 	}
 

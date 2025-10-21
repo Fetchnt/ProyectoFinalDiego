@@ -43,7 +43,8 @@ public class PrincipalWindow extends JFrame{
 	
 	public void initializeComponents() {
 		//configuracion de la ventana -> aplica para todas en modo claro
-		this.setTitle("BosTinder");
+		this.setTitle("BosT"
+				+ "inder");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
