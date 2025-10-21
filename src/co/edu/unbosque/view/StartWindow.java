@@ -21,7 +21,7 @@ public class StartWindow extends JFrame {
 
 	public StartWindow() {
 		initializeComponents();
-		setVisible(true);
+		setVisible(false);
 	}
 
 	public void initializeComponents() {

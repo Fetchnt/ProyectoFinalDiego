@@ -36,7 +36,7 @@ public class PrincipalWindow extends JFrame{
 	private JLabel lPartnerTwo;
 	private JLabel lHeart;
 	
-	public PrincipalWindow(Controller controller) {
+	public PrincipalWindow() {
 		initializeComponents();
 		setVisible(true);
 	}

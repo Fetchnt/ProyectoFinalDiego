@@ -12,7 +12,7 @@ public class ViewFacade {
 
 	public ViewFacade() {
 		lw = new LoginWindow();
-		pw = new PrincipalWindow(null);
+		pw = new PrincipalWindow();
 		mw = new MapWindow();
 		sw = new StartWindow();
 		siw = new SignInPrincipalWindow();
