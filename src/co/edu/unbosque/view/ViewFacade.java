@@ -9,6 +9,8 @@ public class ViewFacade {
 	private MapWindow mw;
 	private PrincipalWindow pw;
 	private SignInPrincipalWindow siw;
+	private SignInMenWindow simw;
+	private SignInWomanWindow siww;
 	private ModelFacade model;
 
 	public ViewFacade(ModelFacade model) {
@@ -19,6 +21,8 @@ public class ViewFacade {
 		mw = new MapWindow(model);
 		sw = new StartWindow();
 		siw = new SignInPrincipalWindow();
+		simw = new SignInMenWindow();
+		siww = new SignInWomanWindow();
 	}
 
 	public ModelFacade getModel() {
@@ -53,22 +57,6 @@ public class ViewFacade {
 		this.mw = mw;
 	}
 
-	public SignInPrincipalWindow getSiw() {
-		return siw;
-	}
-
-	public void setSiw(SignInPrincipalWindow siw) {
-		this.siw = siw;
-	}
-
-	public PrincipalWindow getMaw() {
-		return pw;
-	}
-
-	public void setMaw(PrincipalWindow maw) {
-		this.pw = maw;
-	}
-
 	public PrincipalWindow getPw() {
 		return pw;
 	}
@@ -77,4 +65,28 @@ public class ViewFacade {
 		this.pw = pw;
 	}
 
+	public SignInPrincipalWindow getSiw() {
+		return siw;
+	}
+
+	public void setSiw(SignInPrincipalWindow siw) {
+		this.siw = siw;
+	}
+
+	public SignInMenWindow getSimw() {
+		return simw;
+	}
+
+	public void setSimw(SignInMenWindow simw) {
+		this.simw = simw;
+	}
+
+	public SignInWomanWindow getSiww() {
+		return siww;
+	}
+
+	public void setSiww(SignInWomanWindow siww) {
+		this.siww = siww;
+	}
+	
 }

@@ -108,7 +108,7 @@ public class MapWindow extends JFrame {
 		for (Map.Entry<String, Point> entry : puntosPaises.entrySet()) {
 			Point paisPoint = entry.getValue();
 			double distancia = p.distance(paisPoint);
-			if (distancia < 10) { 
+			if (distancia < 10) {
 				return entry.getKey();
 			}
 		}

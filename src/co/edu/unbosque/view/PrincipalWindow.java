@@ -24,7 +24,6 @@ public class PrincipalWindow extends JFrame {
 	private JButton bRussian;
 	private JButton bChinnesse;
 	private JButton bHebrew;
-	private JButton mapButton;
 
 	private JLabel lSpanish;
 	private JLabel lPortuguese;
@@ -136,15 +135,6 @@ public class PrincipalWindow extends JFrame {
 		JLabel lPartnerTwo = new JLabel(imagePartnerTwo);
 		lPartnerTwo.setBounds(600, 330, 300, 300);
 		this.add(lPartnerTwo);
-
-		mapButton = new JButton("Ver mapa");
-		mapButton.setBounds(400, 450, 180, 50);
-		mapButton.setFont(new Font("Arial", Font.BOLD, 20));
-		mapButton.setForeground(Color.decode("#000000"));
-		mapButton.setBackground(Color.decode("#5BEB9E"));
-		mapButton.setFocusPainted(false);
-		mapButton.setBorderPainted(false);
-		add(mapButton);
 
 	}
 
@@ -282,14 +272,6 @@ public class PrincipalWindow extends JFrame {
 
 	public void setlHeart(JLabel lHeart) {
 		this.lHeart = lHeart;
-	}
-
-	public JButton getMapButton() {
-		return mapButton;
-	}
-
-	public void setMapButton(JButton mapButton) {
-		this.mapButton = mapButton;
 	}
 
 }
