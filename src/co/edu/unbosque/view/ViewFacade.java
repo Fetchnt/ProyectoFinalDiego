@@ -9,6 +9,8 @@ public class ViewFacade {
 	private MapWindow mw;
 	private PrincipalWindow pw;
 	private SignInPrincipalWindow siw;
+	private SignInMenWindow simw;
+	private SignInWomanWindow siww;
 
 	public ViewFacade() {
 		lw = new LoginWindow();
@@ -16,6 +18,8 @@ public class ViewFacade {
 		mw = new MapWindow();
 		sw = new StartWindow();
 		siw = new SignInPrincipalWindow();
+		simw = new SignInMenWindow();
+		siww = new SignInWomanWindow();
 	}
 
 	public StartWindow getSw() {
@@ -42,6 +46,14 @@ public class ViewFacade {
 		this.mw = mw;
 	}
 
+	public PrincipalWindow getPw() {
+		return pw;
+	}
+
+	public void setPw(PrincipalWindow pw) {
+		this.pw = pw;
+	}
+
 	public SignInPrincipalWindow getSiw() {
 		return siw;
 	}
@@ -50,11 +62,20 @@ public class ViewFacade {
 		this.siw = siw;
 	}
 
-	public PrincipalWindow getMaw() {
-		return pw;
+	public SignInMenWindow getSimw() {
+		return simw;
 	}
 
-	public void setMaw(PrincipalWindow maw) {
-		this.pw = maw;
+	public void setSimw(SignInMenWindow simw) {
+		this.simw = simw;
 	}
+
+	public SignInWomanWindow getSiww() {
+		return siww;
+	}
+
+	public void setSiww(SignInWomanWindow siww) {
+		this.siww = siww;
+	}
+
 }
