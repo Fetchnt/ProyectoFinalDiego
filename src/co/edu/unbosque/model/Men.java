@@ -1,6 +1,8 @@
 package co.edu.unbosque.model;
 
-public class Men extends User {
+import java.io.Serializable;
+
+public class Men extends User implements Serializable {
 
 	private long mensualIncome;
 

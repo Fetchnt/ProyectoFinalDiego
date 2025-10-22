@@ -1,7 +1,13 @@
 package co.edu.unbosque.model;
 
-public class MenDTO extends User {
+import java.io.Serializable;
 
+public class MenDTO extends User implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8703244232885622082L;
 	private long mensualIncome;
 
 	public MenDTO() {

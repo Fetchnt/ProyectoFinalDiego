@@ -1,6 +1,8 @@
 package co.edu.unbosque.model;
 
-public class Women extends User {
+import java.io.Serializable;
+
+public class Women extends User implements Serializable{
 
 	private boolean hadDivorces;
 
