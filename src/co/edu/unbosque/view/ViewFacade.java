@@ -1,6 +1,6 @@
 package co.edu.unbosque.view;
 
-import co.edu.unbosque.view.*;
+import co.edu.unbosque.model.ModelFacade;
 
 public class ViewFacade {
 
@@ -11,15 +11,26 @@ public class ViewFacade {
 	private SignInPrincipalWindow siw;
 	private SignInMenWindow simw;
 	private SignInWomanWindow siww;
+	private ModelFacade model;
 
-	public ViewFacade() {
+	public ViewFacade(ModelFacade model) {
+		this.model = model;
+
 		lw = new LoginWindow();
 		pw = new PrincipalWindow();
-		mw = new MapWindow();
+		mw = new MapWindow(model);
 		sw = new StartWindow();
 		siw = new SignInPrincipalWindow();
 		simw = new SignInMenWindow();
 		siww = new SignInWomanWindow();
+	}
+
+	public ModelFacade getModel() {
+		return model;
+	}
+
+	public void setModel(ModelFacade model) {
+		this.model = model;
 	}
 
 	public StartWindow getSw() {
@@ -77,5 +88,5 @@ public class ViewFacade {
 	public void setSiww(SignInWomanWindow siww) {
 		this.siww = siww;
 	}
-
+	
 }

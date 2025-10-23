@@ -21,6 +21,7 @@ public class StartWindow extends JFrame {
 	private JLabel viewMode;
 	private JButton darkMode;
 	private JButton lightMode;
+	private JButton mapButton;
 
 	public StartWindow() {
 		initializeComponents();
@@ -84,6 +85,15 @@ public class StartWindow extends JFrame {
 		back.setFocusPainted(false);
 		back.setBorderPainted(false);
 		panelOption.add(back);
+
+		mapButton = new JButton("Ver mapa");
+		mapButton.setBounds(60, 190, 140, 50);
+		mapButton.setFont(new Font("Arial", Font.BOLD, 15));
+		mapButton.setForeground(Color.decode("#EB5F5B"));
+		mapButton.setBackground(Color.decode("#F9CFCE"));
+		mapButton.setFocusPainted(false);
+		mapButton.setBorderPainted(false);
+		panelOption.add(mapButton);
 
 		add(panelOption);
 		// ----------------------------
@@ -172,6 +182,14 @@ public class StartWindow extends JFrame {
 
 	public void setLightMode(JButton lightMode) {
 		this.lightMode = lightMode;
+	}
+
+	public JButton getMapButton() {
+		return mapButton;
+	}
+
+	public void setMapButton(JButton mapButton) {
+		this.mapButton = mapButton;
 	}
 
 }
