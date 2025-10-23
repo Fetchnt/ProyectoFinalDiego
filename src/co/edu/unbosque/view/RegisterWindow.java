@@ -245,7 +245,7 @@ public class RegisterWindow extends JFrame {
 		});
 	}
 
-	// ---------- GETTERS Y SETTERS ----------
+	// ---------- GETTERS Y SETTERSS ----------
 	
 	public JLabel getlIcon() {
 		return lIcon;
