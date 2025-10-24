@@ -29,7 +29,7 @@ public class StartWindow extends JFrame {
 	}
 
 	public void initializeComponents() {
-		// configuracion de la ventana -> aplica para todas en modo claro
+		// CONFIGURACIÓN GENERAL DE LA VENTANA 
 		this.setTitle("Inicio");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -37,21 +37,22 @@ public class StartWindow extends JFrame {
 		this.setLayout(null);
 		this.getContentPane().setBackground(Color.decode("#F9CFCE"));
 
-		// logo y título -> lo voy a cambiar después :)
+		// ---------IMAGEN SUPERIOR--------------
 		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
 		JLabel lIcon = new JLabel(imageLogo);
 		lIcon.setBounds(0, 0, 980, 150);
 		add(lIcon);
 
-		// -------CONTENEDOR------------
+		// -------PANEL------------
 		JPanel panelOption = new JPanel();
 		panelOption.setBounds(600, 220, 300, 400);
 		panelOption.setBackground(Color.decode("#FFFFFF"));
-		panelOption.setVisible(true);
+		panelOption.setLayout(null);
+		add(panelOption);
 
-		// botones
+		// ---------BOTONES-------------
 		signIn = new JButton("Registrarse");
-		signIn.setBounds(60, 30, 180, 50);
+		signIn.setBounds(60, 40, 180, 50);
 		signIn.setFont(new Font("Arial", Font.BOLD, 20));
 		signIn.setForeground(Color.decode("#EB5F5B"));// color letra
 		signIn.setBackground(Color.decode("#F9CFCE"));
@@ -60,7 +61,7 @@ public class StartWindow extends JFrame {
 		panelOption.add(signIn);
 
 		login = new JButton("Iniciar Sesion");
-		login.setBounds(60, 90, 180, 50);
+		login.setBounds(60, 100, 180, 50);
 		login.setFont(new Font("Arial", Font.BOLD, 20));
 		login.setForeground(Color.decode("#EB5F5B"));
 		login.setBackground(Color.decode("#F9CFCE"));
@@ -69,7 +70,7 @@ public class StartWindow extends JFrame {
 		panelOption.add(login);
 
 		exit = new JButton("Salir");
-		exit.setBounds(120, 120, 80, 50);
+		exit.setBounds(155, 220, 85, 50);
 		exit.setFont(new Font("Arial", Font.BOLD, 15));
 		exit.setForeground(Color.decode("#EB5F5B"));
 		exit.setBackground(Color.decode("#F9CFCE"));
@@ -78,7 +79,7 @@ public class StartWindow extends JFrame {
 		panelOption.add(exit);
 
 		back = new JButton("Volver");
-		back.setBounds(60, 120, 80, 50);
+		back.setBounds(60, 220, 85, 50);
 		back.setFont(new Font("Arial", Font.BOLD, 15));
 		back.setForeground(Color.decode("#EB5F5B"));
 		back.setBackground(Color.decode("#F9CFCE"));
@@ -87,16 +88,15 @@ public class StartWindow extends JFrame {
 		panelOption.add(back);
 
 		mapButton = new JButton("Ver mapa");
-		mapButton.setBounds(60, 190, 140, 50);
-		mapButton.setFont(new Font("Arial", Font.BOLD, 15));
+		mapButton.setBounds(60, 160, 180, 50);
+		mapButton.setFont(new Font("Arial", Font.BOLD, 20));
 		mapButton.setForeground(Color.decode("#EB5F5B"));
 		mapButton.setBackground(Color.decode("#F9CFCE"));
 		mapButton.setFocusPainted(false);
 		mapButton.setBorderPainted(false);
 		panelOption.add(mapButton);
 
-		add(panelOption);
-		// ----------------------------
+		// -----------IMAGE-----------------
 
 		ImageIcon imagePartnerThree = new ImageIcon(getClass().getResource("partnerThree.JPG"));
 		JLabel lPartnerThree = new JLabel(imagePartnerThree);
@@ -104,6 +104,7 @@ public class StartWindow extends JFrame {
 		this.add(lPartnerThree);
 	}
 
+	//--------GETTERS Y SETTERS------
 	public JLabel getlIcon() {
 		return lIcon;
 	}

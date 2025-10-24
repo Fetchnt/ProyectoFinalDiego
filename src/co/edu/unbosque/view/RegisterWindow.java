@@ -68,7 +68,7 @@ public class RegisterWindow extends JFrame {
 		// ---------- IMAGEN SUPERIOR ----------
 		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
 		lIcon = new JLabel(imageLogo);
-		lIcon.setBounds(10, 11, 938, 144);
+		lIcon.setBounds(0, 0, 980, 150);
 		add(lIcon);
 
 		// ---------- TÍTULO ----------
