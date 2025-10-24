@@ -21,6 +21,7 @@ public class RegisterWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JLabel lIcon;
+	private JLabel lImage;
 	private JLabel lFotoPreview;
 	private JLabel lAreaDeRegistro;
 	private JLabel lNombres;
@@ -70,11 +71,17 @@ public class RegisterWindow extends JFrame {
 		lIcon = new JLabel(imageLogo);
 		lIcon.setBounds(0, 0, 980, 150);
 		add(lIcon);
+		
+		// ----------IMAGEN ADICIONAL -----------
+		ImageIcon imagePenguin = new ImageIcon(getClass().getResource("penguin.JPG"));
+		lImage = new JLabel(imagePenguin);
+		lImage.setBounds(650, 247, 300, 300);
+		add(lImage);
 
 		// ---------- TÍTULO ----------
 		lAreaDeRegistro = new JLabel("¡Regístrate y encuentra el amor!");
 		lAreaDeRegistro.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		lAreaDeRegistro.setBounds(32, 194, 549, 58);
+		lAreaDeRegistro.setBounds(350, 174, 549, 58);
 		add(lAreaDeRegistro);
 
 		// ---------- PANEL DE FORMULARIO ----------
@@ -183,24 +190,24 @@ public class RegisterWindow extends JFrame {
 
 		// ---------- SUBIR FOTO ----------
 		JLabel lFoto = new JLabel("Foto de perfil (.png):");
-		lFoto.setBounds(600, 20, 176, 20);
+		lFoto.setBounds(470, 20, 176, 20);
 		panelForm.add(lFoto);
 
 		btnSubirFoto = new JButton("Subir foto");
-		btnSubirFoto.setBounds(600, 45, 124, 30);
+		btnSubirFoto.setBounds(470, 45, 124, 30);
 		btnSubirFoto.setBackground(Color.decode("#F9CFCE"));
 		btnSubirFoto.setFocusPainted(false);
 		btnSubirFoto.setBorderPainted(false);
 		panelForm.add(btnSubirFoto);
 
 		lFotoPreview = new JLabel();
-		lFotoPreview.setBounds(600, 90, 150, 150);
+		lFotoPreview.setBounds(470, 90, 150, 150);
 		lFotoPreview.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		panelForm.add(lFotoPreview);
 
 		// ---------- BOTÓN REGISTRAR ----------
 		btnRegistrar = new JButton("Registrar");
-		btnRegistrar.setBounds(720, 320, 140, 50);
+		btnRegistrar.setBounds(720, 320, 140, 45);
 		btnRegistrar.setFont(new Font("Arial", Font.BOLD, 16));
 		btnRegistrar.setBackground(Color.decode("#F9CFCE"));
 		btnRegistrar.setFocusPainted(false);

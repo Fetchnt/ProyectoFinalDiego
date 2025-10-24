@@ -17,10 +17,8 @@ public class StartWindow extends JFrame {
 	private JButton login;
 	private JButton exit;
 	private JButton back;
+	private JLabel lMail;
 	private JLabel lImage;
-	private JLabel viewMode;
-	private JButton darkMode;
-	private JButton lightMode;
 	private JButton mapButton;
 
 	public StartWindow() {
@@ -30,7 +28,7 @@ public class StartWindow extends JFrame {
 
 	public void initializeComponents() {
 		// CONFIGURACIÓN GENERAL DE LA VENTANA 
-		this.setTitle("Inicio");
+		this.setTitle("Menú principal");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -45,7 +43,7 @@ public class StartWindow extends JFrame {
 
 		// -------PANEL------------
 		JPanel panelOption = new JPanel();
-		panelOption.setBounds(600, 220, 300, 400);
+		panelOption.setBounds(600, 270, 300, 300);
 		panelOption.setBackground(Color.decode("#FFFFFF"));
 		panelOption.setLayout(null);
 		add(panelOption);
@@ -96,12 +94,18 @@ public class StartWindow extends JFrame {
 		mapButton.setBorderPainted(false);
 		panelOption.add(mapButton);
 
-		// -----------IMAGE-----------------
+		// -----------IMAGES-----------------
 
 		ImageIcon imagePartnerThree = new ImageIcon(getClass().getResource("partnerThree.JPG"));
 		JLabel lPartnerThree = new JLabel(imagePartnerThree);
 		lPartnerThree.setBounds(100, 200, 450, 420);
 		this.add(lPartnerThree);
+		
+		ImageIcon imageMail = new ImageIcon(getClass().getResource("mail.JPG"));
+		JLabel lMail = new JLabel(imageMail);
+		lMail.setBounds(700, 170, 100, 100);
+		this.add(lMail);
+		
 	}
 
 	//--------GETTERS Y SETTERS------
@@ -161,28 +165,12 @@ public class StartWindow extends JFrame {
 		this.lImage = lImage;
 	}
 
-	public JLabel getViewMode() {
-		return viewMode;
+	public JLabel getlMail() {
+		return lMail;
 	}
 
-	public void setViewMode(JLabel viewMode) {
-		this.viewMode = viewMode;
-	}
-
-	public JButton getDarkMode() {
-		return darkMode;
-	}
-
-	public void setDarkMode(JButton darkMode) {
-		this.darkMode = darkMode;
-	}
-
-	public JButton getLightMode() {
-		return lightMode;
-	}
-
-	public void setLightMode(JButton lightMode) {
-		this.lightMode = lightMode;
+	public void setlMail(JLabel lMail) {
+		this.lMail = lMail;
 	}
 
 	public JButton getMapButton() {
