@@ -195,4 +195,21 @@ public class LoginWindow extends JFrame {
 		this.back = back;
 	}
 
+	public JLabel getlTitle() {
+		return lTitle;
+	}
+
+	public void setlTitle(JLabel lTitle) {
+		this.lTitle = lTitle;
+	}
+
+	public JButton getVerificate() {
+		return verificate;
+	}
+
+	public void setVerificate(JButton verificate) {
+		this.verificate = verificate;
+	}
+	
+
 }

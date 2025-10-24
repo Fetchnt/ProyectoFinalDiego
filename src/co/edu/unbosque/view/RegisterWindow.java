@@ -34,6 +34,8 @@ public class RegisterWindow extends JFrame {
 	private JLabel lIngresos;
 	private JLabel lDivorcios;
 	private JLabel lFechaNacimiento;
+	private JLabel lPais;
+	private JLabel lPassword;
 
 	private JTextField txtNombres;
 	private JTextField txtApellidos;
@@ -42,10 +44,12 @@ public class RegisterWindow extends JFrame {
 	private JTextField txtEstatura;
 	private JTextField txtIngresos;
 	private JTextField txtFechaNacimiento;
+	private JTextField txtPassword;
 
 	private JComboBox<String> cmbGenero;
 	private JComboBox<String> cmbOrientacion;
 	private JComboBox<String> cmbDivorcios;
+	private JComboBox<String> cmbPais;
 
 	private JButton btnSubirFoto;
 	private JButton btnVerificarCorreo;
@@ -188,6 +192,7 @@ public class RegisterWindow extends JFrame {
 		cmbDivorcios.setBounds(250, 210, 124, 22);
 		cmbDivorcios.setVisible(false);
 		panelForm.add(cmbDivorcios);
+		
 
 		// ---------- SUBIR FOTO ----------
 		JLabel lFoto = new JLabel("Foto de perfil (.png):");
