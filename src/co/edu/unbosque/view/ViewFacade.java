@@ -8,9 +8,6 @@ public class ViewFacade {
 	private LoginWindow lw;
 	private MapWindow mw;
 	private PrincipalWindow pw;
-	private SignInPrincipalWindow siw;
-	private SignInMenWindow simw;
-	private SignInWomanWindow siww;
 	private RegisterWindow rw;
 	private ModelFacade model;
 
@@ -21,9 +18,6 @@ public class ViewFacade {
 		pw = new PrincipalWindow();
 		mw = new MapWindow(model);
 		sw = new StartWindow();
-		siw = new SignInPrincipalWindow();
-		simw = new SignInMenWindow();
-		siww = new SignInWomanWindow();
 		rw = new RegisterWindow();
 	}
 
@@ -65,30 +59,6 @@ public class ViewFacade {
 
 	public void setPw(PrincipalWindow pw) {
 		this.pw = pw;
-	}
-
-	public SignInPrincipalWindow getSiw() {
-		return siw;
-	}
-
-	public void setSiw(SignInPrincipalWindow siw) {
-		this.siw = siw;
-	}
-
-	public SignInMenWindow getSimw() {
-		return simw;
-	}
-
-	public void setSimw(SignInMenWindow simw) {
-		this.simw = simw;
-	}
-
-	public SignInWomanWindow getSiww() {
-		return siww;
-	}
-
-	public void setSiww(SignInWomanWindow siww) {
-		this.siww = siww;
 	}
 
 	public RegisterWindow getRw() {

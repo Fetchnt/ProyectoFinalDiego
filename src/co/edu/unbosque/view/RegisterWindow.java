@@ -50,6 +50,7 @@ public class RegisterWindow extends JFrame {
 	private JButton btnSubirFoto;
 	private JButton btnVerificarCorreo;
 	private JButton btnRegistrar;
+	private JButton btnVolver;
 
 	public RegisterWindow() {
 		initializeComponents();
@@ -205,14 +206,22 @@ public class RegisterWindow extends JFrame {
 		lFotoPreview.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		panelForm.add(lFotoPreview);
 
-		// ---------- BOTÓN REGISTRAR ----------
+		// ---------- BOTONES ----------
 		btnRegistrar = new JButton("Registrar");
-		btnRegistrar.setBounds(720, 320, 140, 45);
+		btnRegistrar.setBounds(755, 320, 120, 40);
 		btnRegistrar.setFont(new Font("Arial", Font.BOLD, 16));
 		btnRegistrar.setBackground(Color.decode("#F9CFCE"));
 		btnRegistrar.setFocusPainted(false);
 		btnRegistrar.setBorderPainted(false);
 		panelForm.add(btnRegistrar);
+		
+		btnVolver = new JButton("Volver");
+		btnVolver.setBounds(660, 320, 90, 40);
+		btnVolver.setFont(new Font("Arial", Font.BOLD, 16));
+		btnVolver.setBackground(Color.decode("#F9CFCE"));
+		btnVolver.setFocusPainted(false);
+		btnVolver.setBorderPainted(false);
+		panelForm.add(btnVolver);
 
 		/* ---------- EVENTO: SUBIR FOTO ---------- (POSIBLE FORMA PARA SUBIR FOTOS PNG, SOLO PRUEBA)
 		btnSubirFoto.addActionListener(new ActionListener() {
