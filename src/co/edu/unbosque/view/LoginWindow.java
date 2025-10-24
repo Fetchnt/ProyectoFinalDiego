@@ -15,6 +15,7 @@ public class LoginWindow extends JFrame {
 	// PARA DECORACION
 	private JLabel lIcon;
 	private JLabel lDeco;
+	private JLabel lTitle;
 
 	// PARA EL PANEL
 	private JLabel lUser;
@@ -23,6 +24,7 @@ public class LoginWindow extends JFrame {
 	private JTextField user;
 	private JTextField password;
 	private JTextField email;
+	private JButton verificate;
 	private JButton login;
 	private JButton back;
 
@@ -46,6 +48,12 @@ public class LoginWindow extends JFrame {
 		lIcon = new JLabel(imageLogo);
 		lIcon.setBounds(0, 0, 980, 150);
 		add(lIcon);
+		
+		//-------TITULO----------
+		lTitle = new JLabel("¡Inicia sesión para continuar!");
+		lTitle.setFont(new Font("Cooper Black", Font.PLAIN, 18));
+		lTitle.setBounds(380, 225, 549, 58);
+		add(lTitle);
 
 		// -------PANEL----------
 		JPanel panelLogin = new JPanel();
@@ -56,27 +64,27 @@ public class LoginWindow extends JFrame {
 
 		// --------CAMPOS DE TEXTO--------
 		lUser = new JLabel("Usuario");
-		lUser.setBounds(125, 60, 150, 20);
+		lUser.setBounds(128, 80, 150, 20);
 		panelLogin.add(lUser);
 
 		lPassword = new JLabel("Contraseña");
-		lPassword.setBounds(120, 115, 150, 20);
+		lPassword.setBounds(123, 135, 150, 20);
 		panelLogin.add(lPassword);
 
 		lEmail = new JLabel("Correo electrónico");
-		lEmail.setBounds(100, 170, 150, 20);
+		lEmail.setBounds(103, 190, 150, 20);
 		panelLogin.add(lEmail);
 
 		user = new JTextField();
-		user.setBounds(70, 85, 164, 20);
+		user.setBounds(73, 105, 164, 20);
 		panelLogin.add(user);
 
 		password = new JTextField();
-		password.setBounds(70, 140, 164, 20);
+		password.setBounds(73, 160, 164, 20);
 		panelLogin.add(password);
 
 		email = new JTextField();
-		email.setBounds(70, 195, 164, 20);
+		email.setBounds(73, 215, 164, 20);
 		panelLogin.add(email);
 
 		// --------BOTONES--------
@@ -96,7 +104,14 @@ public class LoginWindow extends JFrame {
 		back.setBorderPainted(false);
 		panelLogin.add(back);
 
-		//lo del codigo de verficacion
+		verificate = new JButton("Verificar Correo");
+		verificate.setBounds(60, 260, 190, 40);
+		verificate.setFont(new Font("Arial", Font.BOLD, 14));
+		verificate.setBackground(Color.decode("#F9CFCE"));
+		verificate.setFocusPainted(false);
+		verificate.setBorderPainted(false);
+		panelLogin.add(verificate);
+		
 	}
 	// ---------GETTERS Y SETTERS---------
 
