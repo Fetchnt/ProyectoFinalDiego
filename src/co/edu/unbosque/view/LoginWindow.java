@@ -51,6 +51,7 @@ public class LoginWindow extends JFrame {
 		JPanel panelLogin = new JPanel();
 		panelLogin.setLayout(null);
 		panelLogin.setBounds(360, 210, 300, 400);
+		panelLogin.setBackground(Color.WHITE);
 		add(panelLogin);
 
 		// --------CAMPOS DE TEXTO--------
@@ -95,6 +96,7 @@ public class LoginWindow extends JFrame {
 		back.setBorderPainted(false);
 		panelLogin.add(back);
 
+		//lo del codigo de verficacion
 	}
 	// ---------GETTERS Y SETTERS---------
 

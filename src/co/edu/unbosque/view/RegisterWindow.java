@@ -223,7 +223,7 @@ public class RegisterWindow extends JFrame {
 		btnVolver.setBorderPainted(false);
 		panelForm.add(btnVolver);
 
-		/* ---------- EVENTO: SUBIR FOTO ---------- (POSIBLE FORMA PARA SUBIR FOTOS PNG, SOLO PRUEBA)
+	//	---------- EVENTO: SUBIR FOTO ---------- (POSIBLE FORMA PARA SUBIR FOTOS PNG, SOLO PRUEBA)
 		btnSubirFoto.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -238,7 +238,7 @@ public class RegisterWindow extends JFrame {
 					lFotoPreview.setIcon(scaled);
 				}
 			}
-		}); */
+		}); 
 
 		// ---------- EVENTO: MOSTRAR CAMPOS SEGÚN GÉNERO ---------- (ESTO VA EN CONTROLADOR, ESTA AQUI PRA PRUEBA NADA MAS)
 		cmbGenero.addActionListener(new ActionListener() {
