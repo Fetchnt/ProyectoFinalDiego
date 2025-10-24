@@ -11,6 +11,7 @@ public class ViewFacade {
 	private SignInPrincipalWindow siw;
 	private SignInMenWindow simw;
 	private SignInWomanWindow siww;
+	private RegisterWindow rw;
 	private ModelFacade model;
 
 	public ViewFacade(ModelFacade model) {
@@ -23,6 +24,7 @@ public class ViewFacade {
 		siw = new SignInPrincipalWindow();
 		simw = new SignInMenWindow();
 		siww = new SignInWomanWindow();
+		rw = new RegisterWindow();
 	}
 
 	public ModelFacade getModel() {
@@ -88,5 +90,14 @@ public class ViewFacade {
 	public void setSiww(SignInWomanWindow siww) {
 		this.siww = siww;
 	}
+
+	public RegisterWindow getRw() {
+		return rw;
+	}
+
+	public void setRw(RegisterWindow rw) {
+		this.rw = rw;
+	}
+	
 	
 }

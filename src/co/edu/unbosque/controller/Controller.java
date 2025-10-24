@@ -2,6 +2,9 @@ package co.edu.unbosque.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
+
 import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.view.ViewFacade;
 
@@ -34,6 +37,16 @@ public class Controller implements ActionListener {
 		vf.getSw().getBack().addActionListener(this);
 		vf.getSw().getBack().setActionCommand("boton_back");
 
+		// ---------- BOTONES en BTRegisterWindow ----------
+		vf.getRw().getBtnRegistrar().addActionListener(this);
+		vf.getRw().getBtnRegistrar().setActionCommand("boton_registrar");
+
+		vf.getRw().getBtnSubirFoto().addActionListener(this);
+		vf.getRw().getBtnSubirFoto().setActionCommand("boton_subir_foto");
+
+		vf.getRw().getCmbGenero().addActionListener(this);
+		vf.getRw().getCmbGenero().setActionCommand("seleccionar_genero");
+
 		// Mapa
 		vf.getSw().getMapButton().addActionListener(this);
 		vf.getSw().getMapButton().setActionCommand("abrir_mapa");
@@ -55,8 +68,8 @@ public class Controller implements ActionListener {
 			break;
 
 		case "boton_signIn":
-			vf.getSiw().setVisible(true);
 			vf.getSw().setVisible(false);
+			vf.getRw().setVisible(true);
 			break;
 
 		case "boton_login":
@@ -71,6 +84,21 @@ public class Controller implements ActionListener {
 		case "boton_back":
 			vf.getSw().dispose();
 			vf.getPw().setVisible(true);
+			break;
+
+		// ---------- ACCIONES DEL REGISTRO ----------
+		case "boton_subir_foto":
+			JOptionPane.showMessageDialog(null, "Sube tu foto desde la ventana de registro.");
+			break;
+
+		case "seleccionar_genero":
+			// 	LOGICA DE SELECCIONAR GENERO (ESTA EN REGISTER WINDOW)
+			break;
+
+		case "boton_registrar":
+			JOptionPane.showMessageDialog(null, "Registro exitoso.\n¡Bienvenido al sistema!");
+			vf.getRw().setVisible(false);
+			vf.getSw().setVisible(true);
 			break;
 
 		default:
