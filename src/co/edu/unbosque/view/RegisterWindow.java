@@ -76,7 +76,7 @@ public class RegisterWindow extends JFrame {
 		lIcon = new JLabel(imageLogo);
 		lIcon.setBounds(0, 0, 980, 150);
 		add(lIcon);
-		
+
 		// ----------IMAGEN ADICIONAL -----------
 		ImageIcon imagePenguin = new ImageIcon(getClass().getResource("penguin.JPG"));
 		lImage = new JLabel(imagePenguin);
@@ -145,54 +145,62 @@ public class RegisterWindow extends JFrame {
 		panelForm.add(btnVerificarCorreo);
 
 		// ---------- CAMPOS DE SELECCIÓN ----------
+		lPais = new JLabel("Pais de residencia:");
+		lPais.setBounds(250, 20, 150, 20);
+		panelForm.add(lPais);
+
+		cmbPais = new JComboBox<>(new String[] { "...", "Angola", "Argentina", "Brasil", "Colombia", "España", "Irael",
+				"Kasaistan", "Macao", "Mexico", "Portugal", "Rusia", "Singapur", "Taiwan" });
+		cmbPais.setBounds(250, 45, 150, 20);
+		panelForm.add(cmbPais);
+
 		lGenero = new JLabel("Selecciona tu género:");
-		lGenero.setBounds(250, 20, 150, 20);
+		lGenero.setBounds(250, 75, 150, 20);
 		panelForm.add(lGenero);
 
 		cmbGenero = new JComboBox<>(new String[] { "...", "Masculino", "Femenino" });
-		cmbGenero.setBounds(250, 45, 150, 22);
+		cmbGenero.setBounds(250, 100, 150, 22);
 		panelForm.add(cmbGenero);
 
 		lEstatura = new JLabel("Estatura (cm):");
-		lEstatura.setBounds(250, 75, 150, 20);
+		lEstatura.setBounds(250, 130, 150, 20);
 		lEstatura.setVisible(false);
 		panelForm.add(lEstatura);
 
 		txtEstatura = new JTextField();
-		txtEstatura.setBounds(250, 100, 124, 20);
+		txtEstatura.setBounds(250, 155, 124, 20);
 		txtEstatura.setVisible(false);
 		panelForm.add(txtEstatura);
 
 		lOrientacion = new JLabel("Orientación sexual:");
-		lOrientacion.setBounds(250, 130, 150, 20);
+		lOrientacion.setBounds(250, 185, 150, 20);
 		lOrientacion.setVisible(false);
 		panelForm.add(lOrientacion);
 
 		cmbOrientacion = new JComboBox<>(new String[] { "...", "Heterosexual", "Homosexual", "Bisexual", "Asexual" });
-		cmbOrientacion.setBounds(250, 155, 150, 22);
+		cmbOrientacion.setBounds(250, 210, 150, 22);
 		cmbOrientacion.setVisible(false);
 		panelForm.add(cmbOrientacion);
 
 		lIngresos = new JLabel("Ingresos mensuales:");
-		lIngresos.setBounds(250, 185, 150, 20);
+		lIngresos.setBounds(250, 240, 150, 20);
 		lIngresos.setVisible(false);
 		panelForm.add(lIngresos);
 
 		txtIngresos = new JTextField();
-		txtIngresos.setBounds(250, 210, 124, 20);
+		txtIngresos.setBounds(250, 265, 124, 20);
 		txtIngresos.setVisible(false);
 		panelForm.add(txtIngresos);
 
 		lDivorcios = new JLabel("¿Ha tenido divorcios?");
-		lDivorcios.setBounds(250, 185, 150, 20);
+		lDivorcios.setBounds(250, 240, 150, 20);
 		lDivorcios.setVisible(false);
 		panelForm.add(lDivorcios);
 
 		cmbDivorcios = new JComboBox<>(new String[] { "...", "Sí", "No" });
-		cmbDivorcios.setBounds(250, 210, 124, 22);
+		cmbDivorcios.setBounds(250, 265, 124, 22);
 		cmbDivorcios.setVisible(false);
 		panelForm.add(cmbDivorcios);
-		
 
 		// ---------- SUBIR FOTO ----------
 		JLabel lFoto = new JLabel("Foto de perfil (.png):");
@@ -219,7 +227,7 @@ public class RegisterWindow extends JFrame {
 		btnRegistrar.setFocusPainted(false);
 		btnRegistrar.setBorderPainted(false);
 		panelForm.add(btnRegistrar);
-		
+
 		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(660, 320, 90, 40);
 		btnVolver.setFont(new Font("Arial", Font.BOLD, 16));
@@ -228,7 +236,8 @@ public class RegisterWindow extends JFrame {
 		btnVolver.setBorderPainted(false);
 		panelForm.add(btnVolver);
 
-	//	---------- EVENTO: SUBIR FOTO ---------- (POSIBLE FORMA PARA SUBIR FOTOS PNG, SOLO PRUEBA)
+		// ---------- EVENTO: SUBIR FOTO ---------- (POSIBLE FORMA PARA SUBIR FOTOS PNG,
+		// SOLO PRUEBA)
 		btnSubirFoto.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -243,9 +252,10 @@ public class RegisterWindow extends JFrame {
 					lFotoPreview.setIcon(scaled);
 				}
 			}
-		}); 
+		});
 
-		// ---------- EVENTO: MOSTRAR CAMPOS SEGÚN GÉNERO ---------- (ESTO VA EN CONTROLADOR, ESTA AQUI PRA PRUEBA NADA MAS)
+		// ---------- EVENTO: MOSTRAR CAMPOS SEGÚN GÉNERO ---------- (ESTO VA EN
+		// CONTROLADOR, ESTA AQUI PRA PRUEBA NADA MAS)
 		cmbGenero.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -267,7 +277,7 @@ public class RegisterWindow extends JFrame {
 	}
 
 	// ---------- GETTERS Y SETTERSS ----------
-	
+
 	public JLabel getlIcon() {
 		return lIcon;
 	}
