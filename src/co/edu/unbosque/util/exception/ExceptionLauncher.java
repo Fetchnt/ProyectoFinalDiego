@@ -1,9 +1,14 @@
 package co.edu.unbosque.util.exception;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class ExceptionLauncher {
 
 	public static void verifyName(String s) throws NameException {
-		if (s == null) {
+		if (s == null || s.isEmpty()) {
 			throw new NameException();
 		}
 		if (!s.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$") || s.length() < 5) {
@@ -12,7 +17,7 @@ public class ExceptionLauncher {
 	}
 
 	public static void verifyLastName(String s) throws LastNameException {
-		if (s == null) {
+		if (s == null || s.isEmpty()) {
 			throw new LastNameException();
 		}
 		if (!s.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$") || s.length() < 5) {
@@ -20,8 +25,17 @@ public class ExceptionLauncher {
 		}
 	}
 
+	public static void verifyNickname(String s) throws NickNameException {
+		if (s == null || s.isEmpty()) {
+			throw new NickNameException();
+		}
+		if (!s.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$") || s.length() < 5) {
+			throw new NickNameException();
+		}
+	}
+
 	public static void verifyStature(String s) throws StatureException {
-		if (s == null) {
+		if (s == null || s.isEmpty()) {
 			throw new StatureException();
 		}
 
@@ -73,6 +87,44 @@ public class ExceptionLauncher {
 
 		if (!dominio.contains(".")) {
 			throw new EmailException();
+		}
+	}
+
+	public static void verifyBornDate(String s) throws BornDateException {
+		if (s == null || s.isEmpty()) {
+			throw new BornDateException();
+		}
+
+		// Solo debe contener números y barras (no letras ni símbolos)
+		if (!s.matches("^[0-9/]+$")) {
+			throw new BornDateException();
+		}
+
+		// Validar formato DD/MM/AAAA
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fechaNacimiento;
+		try {
+			fechaNacimiento = LocalDate.parse(s, formatter);
+		} catch (DateTimeParseException e) {
+			throw new BornDateException(); // formato o fecha inválida
+		}
+
+		// Calcular edad
+		LocalDate hoy = LocalDate.now();
+		int edad = Period.between(fechaNacimiento, hoy).getYears();
+
+		if (edad < 18) {
+			throw new BornDateException();
+		}
+	}
+	public static void verifyComboBox(String s) throws ComboBoxException {
+		if (s == null || s.equals("...")) {
+			throw new ComboBoxException();
+		}
+	}
+	public static void verifyRegisterPassword(String s) throws RegisterPasswordException {
+		if (s == null || s.isEmpty() || s.length() < 12) {
+			throw new RegisterPasswordException();
 		}
 	}
 }
