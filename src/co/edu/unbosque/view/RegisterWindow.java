@@ -143,6 +143,15 @@ public class RegisterWindow extends JFrame {
 		btnVerificarCorreo.setFocusPainted(false);
 		btnVerificarCorreo.setBorderPainted(false);
 		panelForm.add(btnVerificarCorreo);
+		
+		lPassword = new JLabel("Contraseña");
+		lPassword.setBounds(470, 265, 164, 20);
+		panelForm.add(lPassword);
+		
+		txtPassword = new JTextField();
+		txtPassword.setBounds(470, 295, 164, 20);
+		panelForm.add(txtPassword);
+
 
 		// ---------- CAMPOS DE SELECCIÓN ----------
 		lPais = new JLabel("Pais de residencia:");
