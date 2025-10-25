@@ -6,7 +6,7 @@ public abstract class User {
 	private String lastName;
 	private String alias;
 	private byte age;
-	private float stature;
+	private String stature;
 	private String email;
 	private String gender;
 	private String sexualOrientation;
@@ -17,7 +17,7 @@ public abstract class User {
 		super();
 	}
 
-	public User(String name, String lastName, String alias, byte age, float stature, String email, String gender,
+	public User(String name, String lastName, String alias, byte age, String stature, String email, String gender,
 			String sexualOrientation, String profilePictureRoute, String country) {
 		super();
 		this.name = name;
@@ -64,11 +64,11 @@ public abstract class User {
 		this.age = age;
 	}
 
-	public float getStature() {
+	public String getStature() {
 		return stature;
 	}
 
-	public void setStature(float stature) {
+	public void setStature(String stature) {
 		this.stature = stature;
 	}
 

@@ -78,7 +78,7 @@ public class MenDAO implements DAO<MenDTO> {
 			temp.setLastName(columnas[1]);
 			temp.setAlias(columnas[2]);
 			temp.setAge(Byte.parseByte(columnas[3]));
-			temp.setStature(Float.parseFloat(columnas[4]));
+			temp.setStature(columnas[4]);
 			temp.setEmail(columnas[5]);
 			temp.setGender(columnas[6]);
 			temp.setSexualOrientation(columnas[7]);
