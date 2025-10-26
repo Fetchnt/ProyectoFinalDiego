@@ -6,12 +6,13 @@ import co.edu.unbosque.model.MenDTO;
 public class MenDAO implements DAO<MenDTO> {
 
 	public ArrayList<MenDTO> listaMenDTO;
-	private final String FILE_NAME = "Men.txt";
+	private final String FILE_NAME = "Men.csv";
 	private final String SERIAL_FILE_NAME = "Men.bin";
 	
 	public MenDAO() {
 		listaMenDTO = new ArrayList<>();
 		loadFromSerializedFile();
+		
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class MenDAO implements DAO<MenDTO> {
 	@Override
 	public void readFromTextFile(String url) {
 		String content;
-		content = FileHandler.leerDesdeArchivoDeTexto("ave.csv");
+		content = FileHandler.leerDesdeArchivoDeTexto("Men.csv");
 		if (content == "" || content.isBlank()) {
 			return;
 		}
@@ -77,7 +78,7 @@ public class MenDAO implements DAO<MenDTO> {
 			temp.setName(columnas[0]);
 			temp.setLastName(columnas[1]);
 			temp.setAlias(columnas[2]);
-			temp.setAge(Byte.parseByte(columnas[3]));
+			temp.setBornDate(columnas[3]);
 			temp.setStature(columnas[4]);
 			temp.setEmail(columnas[5]);
 			temp.setGender(columnas[6]);
@@ -98,7 +99,7 @@ public class MenDAO implements DAO<MenDTO> {
 			sb.append(men.getName() + ";");
 			sb.append(men.getLastName() + ";");
 			sb.append(men.getAlias() + ";");
-			sb.append(men.getAge() + ";");
+			sb.append(men.getBornDate() + ";");
 			sb.append(men.getStature() + ";");
 			sb.append(men.getEmail() + ";");
 			sb.append(men.getGender() + ";");

@@ -6,7 +6,7 @@ import co.edu.unbosque.model.WomenDTO;
 public class WomenDAO implements DAO<WomenDTO> {
 
 	public ArrayList<WomenDTO> listaWomenDTO;
-	private final String FILE_NAME = "Women.txt";
+	private final String FILE_NAME = "Women.csv";
 	private final String SERIAL_FILE_NAME = "Women.bin";
 	
 	public WomenDAO() {
@@ -66,7 +66,7 @@ public class WomenDAO implements DAO<WomenDTO> {
 	@Override
 	public void readFromTextFile(String url) {
 		String content;
-		content = FileHandler.leerDesdeArchivoDeTexto("ave.csv");
+		content = FileHandler.leerDesdeArchivoDeTexto("Women.csv");
 		if (content == "" || content.isBlank()) {
 			return;
 		}
@@ -77,7 +77,7 @@ public class WomenDAO implements DAO<WomenDTO> {
 			temp.setName(columnas[0]);
 			temp.setLastName(columnas[1]);
 			temp.setAlias(columnas[2]);
-			temp.setAge(Byte.parseByte(columnas[3]));
+			temp.setBornDate(columnas[3]);
 			temp.setStature(columnas[4]);
 			temp.setEmail(columnas[5]);
 			temp.setGender(columnas[6]);
@@ -98,7 +98,7 @@ public class WomenDAO implements DAO<WomenDTO> {
 			sb.append(women.getName() + ";");
 			sb.append(women.getLastName() + ";");
 			sb.append(women.getAlias() + ";");
-			sb.append(women.getAge() + ";");
+			sb.append(women.getBornDate() + ";");
 			sb.append(women.getStature() + ";");
 			sb.append(women.getEmail() + ";");
 			sb.append(women.getGender() + ";");

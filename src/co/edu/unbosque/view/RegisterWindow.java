@@ -143,15 +143,14 @@ public class RegisterWindow extends JFrame {
 		btnVerificarCorreo.setFocusPainted(false);
 		btnVerificarCorreo.setBorderPainted(false);
 		panelForm.add(btnVerificarCorreo);
-		
+
 		lPassword = new JLabel("Contraseña");
 		lPassword.setBounds(250, 20, 164, 20);
 		panelForm.add(lPassword);
-		
+
 		txtPassword = new JTextField();
 		txtPassword.setBounds(250, 45, 164, 20);
 		panelForm.add(txtPassword);
-
 
 		// ---------- CAMPOS DE SELECCIÓN ----------
 		lPais = new JLabel("Pais de residencia:");
@@ -245,44 +244,6 @@ public class RegisterWindow extends JFrame {
 		btnVolver.setBorderPainted(false);
 		panelForm.add(btnVolver);
 
-		// ---------- EVENTO: SUBIR FOTO ---------- (POSIBLE FORMA PARA SUBIR FOTOS PNG,
-		// SOLO PRUEBA)
-		btnSubirFoto.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
-				chooser.setFileFilter(filter);
-				int result = chooser.showOpenDialog(null);
-				if (result == JFileChooser.APPROVE_OPTION) {
-					ImageIcon image = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
-					ImageIcon scaled = new ImageIcon(
-							image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH));
-					lFotoPreview.setIcon(scaled);
-				}
-			}
-		});
-
-		// ---------- EVENTO: MOSTRAR CAMPOS SEGÚN GÉNERO ---------- (ESTO VA EN
-		// CONTROLADOR, ESTA AQUI PRA PRUEBA NADA MAS)
-		cmbGenero.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String genero = (String) cmbGenero.getSelectedItem();
-				boolean mostrarCampos = genero.equals("Masculino") || genero.equals("Femenino");
-
-				lEstatura.setVisible(mostrarCampos);
-				txtEstatura.setVisible(mostrarCampos);
-				lOrientacion.setVisible(mostrarCampos);
-				cmbOrientacion.setVisible(mostrarCampos);
-
-				lIngresos.setVisible(genero.equals("Masculino"));
-				txtIngresos.setVisible(genero.equals("Masculino"));
-
-				lDivorcios.setVisible(genero.equals("Femenino"));
-				cmbDivorcios.setVisible(genero.equals("Femenino"));
-			}
-		});
 	}
 
 	// ---------- GETTERS Y SETTERSS ----------
@@ -493,6 +454,54 @@ public class RegisterWindow extends JFrame {
 
 	public void setBtnRegistrar(JButton btnRegistrar) {
 		this.btnRegistrar = btnRegistrar;
+	}
+
+	public JLabel getlImage() {
+		return lImage;
+	}
+
+	public void setlImage(JLabel lImage) {
+		this.lImage = lImage;
+	}
+
+	public JLabel getlPais() {
+		return lPais;
+	}
+
+	public void setlPais(JLabel lPais) {
+		this.lPais = lPais;
+	}
+
+	public JLabel getlPassword() {
+		return lPassword;
+	}
+
+	public void setlPassword(JLabel lPassword) {
+		this.lPassword = lPassword;
+	}
+
+	public JTextField getTxtPassword() {
+		return txtPassword;
+	}
+
+	public void setTxtPassword(JTextField txtPassword) {
+		this.txtPassword = txtPassword;
+	}
+
+	public JComboBox<String> getCmbPais() {
+		return cmbPais;
+	}
+
+	public void setCmbPais(JComboBox<String> cmbPais) {
+		this.cmbPais = cmbPais;
+	}
+
+	public JButton getBtnVolver() {
+		return btnVolver;
+	}
+
+	public void setBtnVolver(JButton btnVolver) {
+		this.btnVolver = btnVolver;
 	}
 
 }
