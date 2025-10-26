@@ -163,10 +163,8 @@ public class MapWindow extends JFrame {
 	private class ClickMouseListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			System.out.println(e.getX() + ", " + e.getY()); // muestra coordenadas del clic
 			String pais = getPaisEnPunto(e.getPoint());
 			if (pais != null) {
-				System.out.println("Has hecho clic en: " + pais); // 👈 imprime el país
 				mostrarUsuariosPorPais(pais);
 			}
 		}
