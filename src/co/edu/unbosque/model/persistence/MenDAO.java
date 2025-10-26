@@ -6,41 +6,45 @@ import co.edu.unbosque.model.MenDTO;
 public class MenDAO implements DAO<MenDTO> {
 
 	public ArrayList<MenDTO> listaMenDTO;
-	private final String FILE_NAME = "Men.txt";
+	private final String FILE_NAME = "Men.csv";
 	private final String SERIAL_FILE_NAME = "Men.bin";
-	
+
 	public MenDAO() {
 		listaMenDTO = new ArrayList<>();
 		loadFromSerializedFile();
+		readFromTextFile(FILE_NAME);
+
 	}
 
 	@Override
 	public void create(MenDTO nuevoDato) {
 		listaMenDTO.add(nuevoDato);
-		WriteSerializedFile();
+		writeSerializedFile();
+		writeTextFile();
 	}
 
 	private String content = "";
+
 	@Override
 	public String showAll() {
 		content = "";
 		for (int i = 0; i < listaMenDTO.size(); i++) {
 			content += i + "." + listaMenDTO.get(i).toString() + "\n";
 		}
-		writeFromTextFile();
+		writeTextFile();
 		return content;
 	}
 
 	@Override
 	public boolean delete(int indice) {
-		if(indice<0 || indice >= listaMenDTO.size()) {
-		return false;
+		if (indice < 0 || indice >= listaMenDTO.size()) {
+			return false;
 		}
-		else {
-			return true;
-		}
+		listaMenDTO.remove(indice);
+		writeSerializedFile();
+		writeTextFile();
+		return true;
 	}
-	
 
 	@Override
 	public boolean delete(MenDTO objetoAEliminar) {
@@ -49,12 +53,11 @@ public class MenDAO implements DAO<MenDTO> {
 
 	@Override
 	public boolean update(int indice, MenDTO datoActualizado) {
-		if (indice <0 || indice >= listaMenDTO.size()) {
-			return false;			
-		}
-		else {
-			WriteSerializedFile();
-			return true;			
+		if (indice < 0 || indice >= listaMenDTO.size()) {
+			return false;
+		} else {
+			writeSerializedFile();
+			return true;
 		}
 	}
 
@@ -66,7 +69,7 @@ public class MenDAO implements DAO<MenDTO> {
 	@Override
 	public void readFromTextFile(String url) {
 		String content;
-		content = FileHandler.leerDesdeArchivoDeTexto("ave.csv");
+		content = FileHandler.leerDesdeArchivoTexto("Men.csv");
 		if (content == "" || content.isBlank()) {
 			return;
 		}
@@ -77,28 +80,27 @@ public class MenDAO implements DAO<MenDTO> {
 			temp.setName(columnas[0]);
 			temp.setLastName(columnas[1]);
 			temp.setAlias(columnas[2]);
-			temp.setAge(Byte.parseByte(columnas[3]));
+			temp.setBornDate(columnas[3]);
 			temp.setStature(columnas[4]);
 			temp.setEmail(columnas[5]);
 			temp.setGender(columnas[6]);
 			temp.setSexualOrientation(columnas[7]);
 			temp.setCountry(columnas[8]);
 			temp.setMensualIncome(Long.parseLong(columnas[9]));
-			
-			
+
 			listaMenDTO.add(temp);
 		}
-		
+
 	}
 
 	@Override
-	public void writeFromTextFile() {
+	public void writeTextFile() {
 		StringBuilder sb = new StringBuilder();
 		for (MenDTO men : listaMenDTO) {
 			sb.append(men.getName() + ";");
 			sb.append(men.getLastName() + ";");
 			sb.append(men.getAlias() + ";");
-			sb.append(men.getAge() + ";");
+			sb.append(men.getBornDate() + ";");
 			sb.append(men.getStature() + ";");
 			sb.append(men.getEmail() + ";");
 			sb.append(men.getGender() + ";");
@@ -107,27 +109,25 @@ public class MenDAO implements DAO<MenDTO> {
 			sb.append(men.getMensualIncome() + ";");
 		}
 
-		
-		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString()); //hay que actualizar o sobreescribir el archivo cada vez que usted agregue, elimine y actualice//
+		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString()); // hay que actualizar o sobreescribir el archivo
+																		// cada vez que usted agregue, elimine y
+																		// actualice//
 	}
 
 	@Override
 	public void loadFromSerializedFile() {
 		Object content = FileHandler.leerDesdeArchivoSerializado(SERIAL_FILE_NAME);
 		if (content != null) {
-			listaMenDTO = (ArrayList<MenDTO>) content;		
-		}
-		else {
+			listaMenDTO = (ArrayList<MenDTO>) content;
+		} else {
 			listaMenDTO = new ArrayList<MenDTO>();
-		}	
+		}
 	}
 
 	@Override
-	public void WriteSerializedFile() {
+	public void writeSerializedFile() {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, listaMenDTO);
-		
+
 	}
-	
-	
-	
+
 }

@@ -5,7 +5,7 @@ public abstract class User {
 	private String name;
 	private String lastName;
 	private String alias;
-	private byte age;
+	private String bornDate;
 	private String stature;
 	private String email;
 	private String gender;
@@ -17,13 +17,13 @@ public abstract class User {
 		super();
 	}
 
-	public User(String name, String lastName, String alias, byte age, String stature, String email, String gender,
+	public User(String name, String lastName, String alias, String bornDate, String stature, String email, String gender,
 			String sexualOrientation, String profilePictureRoute, String country) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
 		this.alias = alias;
-		this.age = age;
+		this.bornDate = bornDate;
 		this.stature = stature;
 		this.email = email;
 		this.gender = gender;
@@ -56,12 +56,12 @@ public abstract class User {
 		this.alias = alias;
 	}
 
-	public byte getAge() {
-		return age;
+	public String getBornDate() {
+		return bornDate;
 	}
 
-	public void setAge(byte age) {
-		this.age = age;
+	public void setBornDate(String bornDate) {
+		this.bornDate = bornDate;
 	}
 
 	public String getStature() {
@@ -114,7 +114,7 @@ public abstract class User {
 
 	@Override
 	public String toString() {
-		return "==========================================\n - Name: " + name + "\n - last Name: " + lastName + "\n - Alias" + alias + "\n -  Age: " + age + "\n - Stature: "
+		return "==========================================\n - Name: " + name + "\n - last Name: " + lastName + "\n - Nickname" + alias + "\n -  Born Date: " + bornDate + "\n - Stature: "
 				+ stature + "\n - Email: " + email + "\n - Gender: " + gender + "\n - Sexual Orientation: " + sexualOrientation
 				+ " \n - Country: " + country ;
 	}	

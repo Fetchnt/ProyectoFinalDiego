@@ -19,15 +19,15 @@ public class MenDTO extends User implements Serializable {
 		this.mensualIncome = mensualIncome;
 	}
 
-	public MenDTO(String name, String lastName, String alias, byte age, String stature, String email, String gender,
+	public MenDTO(String name, String lastName, String alias, String bornDate, String stature, String email, String gender,
 			String sexualOrientation, String profilePictureRoute, String country, long mensualIncome) {
-		super(name, lastName, alias, age, stature, email, gender, sexualOrientation, profilePictureRoute, country);
+		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country);
 		this.mensualIncome = mensualIncome;
 	}
 
-	public MenDTO(String name, String lastName, String alias, byte age, String stature, String email, String gender,
+	public MenDTO(String name, String lastName, String alias, String bornDate, String stature, String email, String gender,
 			String sexualOrientation, String profilePictureRoute, String country) {
-		super(name, lastName, alias, age, stature, email, gender, sexualOrientation, profilePictureRoute, country);
+		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country);
 	}
 
 	public long getMensualIncome() {

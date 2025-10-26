@@ -9,9 +9,9 @@ public interface DAO<A> {
 		public boolean update(int indice, A datoActualizado);
 		public int count();
 		public void readFromTextFile(String url);
-		public void writeFromTextFile();
+		public void writeTextFile();
 		public void loadFromSerializedFile();
-		public void WriteSerializedFile();
+		public void writeSerializedFile();
 		
 	}
 
