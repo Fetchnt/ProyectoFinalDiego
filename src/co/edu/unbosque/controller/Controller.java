@@ -51,6 +51,9 @@ public class Controller implements ActionListener {
 		vf.getSw().getMapButton().addActionListener(this);
 		vf.getSw().getMapButton().setActionCommand("abrir_mapa");
 
+		vf.getMw().getBtnBackMap().addActionListener(this);
+		vf.getMw().getBtnBackMap().setActionCommand("back_mapa");
+
 	}
 
 	@Override
@@ -92,12 +95,17 @@ public class Controller implements ActionListener {
 			break;
 
 		case "seleccionar_genero":
-			// 	LOGICA DE SELECCIONAR GENERO (ESTA EN REGISTER WINDOW)
+			// LOGICA DE SELECCIONAR GENERO (ESTA EN REGISTER WINDOW)
 			break;
 
 		case "boton_registrar":
 			JOptionPane.showMessageDialog(null, "Registro exitoso.\n¡Bienvenido al sistema!");
 			vf.getRw().setVisible(false);
+			vf.getSw().setVisible(true);
+			break;
+
+		case "back_mapa":
+			vf.getMw().dispose();
 			vf.getSw().setVisible(true);
 			break;
 

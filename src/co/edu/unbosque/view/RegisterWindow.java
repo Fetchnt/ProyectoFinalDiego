@@ -143,15 +143,14 @@ public class RegisterWindow extends JFrame {
 		btnVerificarCorreo.setFocusPainted(false);
 		btnVerificarCorreo.setBorderPainted(false);
 		panelForm.add(btnVerificarCorreo);
-		
+
 		lPassword = new JLabel("Contraseña");
 		lPassword.setBounds(250, 20, 164, 20);
 		panelForm.add(lPassword);
-		
+
 		txtPassword = new JTextField();
 		txtPassword.setBounds(250, 45, 164, 20);
 		panelForm.add(txtPassword);
-
 
 		// ---------- CAMPOS DE SELECCIÓN ----------
 		lPais = new JLabel("Pais de residencia:");
@@ -159,7 +158,7 @@ public class RegisterWindow extends JFrame {
 		panelForm.add(lPais);
 
 		cmbPais = new JComboBox<>(new String[] { "...", "Angola", "Argentina", "Brasil", "Colombia", "España", "Irael",
-				"Kasaistan", "Macao", "Mexico", "Portugal", "Rusia", "Singapur", "Taiwan" });
+				"Kazajistan", "Macao", "Mexico", "Portugal", "Rusia", "Singapur", "Taiwan" });
 		cmbPais.setBounds(250, 100, 150, 20);
 		panelForm.add(cmbPais);
 

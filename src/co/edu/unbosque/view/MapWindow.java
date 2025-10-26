@@ -1,7 +1,5 @@
 package co.edu.unbosque.view;
 
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -11,28 +9,28 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-
 import co.edu.unbosque.model.ModelFacade;
-import co.edu.unbosque.model.MenDTO;
-import co.edu.unbosque.model.WomenDTO;
 
 public class MapWindow extends JFrame {
 
 	private BufferedImage mapaImg;
 	private Map<String, Point> puntosPaises;
 	private ModelFacade model;
+	private JButton btnBackMap;
+	private JPanel panelMapa;
 
 	public MapWindow(ModelFacade model) {
 		this.model = model;
@@ -45,63 +43,52 @@ public class MapWindow extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setLayout(null);
-		getContentPane().setBackground(Color.decode("#FFFFFF"));
+		getContentPane().setBackground(Color.WHITE);
 
 		cargarMapa();
 		definirPuntosPaises();
 
-		JPanel panelMapa = new JPanel() {
-			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				if (mapaImg != null) {
-					g.drawImage(mapaImg, 0, 0, getWidth(), getHeight(), null);
-					g.setColor(Color.RED);
-					for (Point p : puntosPaises.values()) {
-						g.fillOval(p.x - 5, p.y - 5, 10, 10);
-					}
-				}
-			}
-		};
-
+		panelMapa = new PanelMapa();
 		panelMapa.setBounds(10, 10, 950, 650);
 		panelMapa.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		panelMapa.addMouseMotionListener((MouseMotionListener) new MouseMotionAdapter() {
-			public void mouseMoved(MouseEvent e) {
-				String pais = getPaisEnPunto(e.getPoint());
-				setTitle(pais != null ? "BosTinder - " + pais : "BosTinder - Mapa");
-			}
-		});
+		// listeners
+		panelMapa.addMouseMotionListener(new MoverMouseListener());
+		panelMapa.addMouseListener(new ClickMouseListener());
 
-		panelMapa.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				String pais = getPaisEnPunto(e.getPoint());
-				if (pais != null) {
-					mostrarUsuariosPorPais(pais);
-				}
-			}
-		});
-
+		btnBackMap = new JButton("Volver");
+		btnBackMap.setFont(new Font("Arial", Font.BOLD, 14));
+		btnBackMap.setBackground(Color.decode("#F9CFCE"));
+		btnBackMap.setForeground(Color.BLACK);
+		btnBackMap.setBounds(0, 0, 120, 30);
+		add(btnBackMap);
 		add(panelMapa);
 	}
 
 	private void cargarMapa() {
 		try {
 			mapaImg = javax.imageio.ImageIO.read(new java.io.File("src/co/edu/unbosque/view/mapWorld.jpg"));
-		} catch (Exception ex) {
-			System.err.println("❌ Error al cargar mapa: " + ex.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error al cargar el mapa: " + e.getMessage());
 		}
 	}
 
 	private void definirPuntosPaises() {
 		puntosPaises = new HashMap<>();
-		puntosPaises.put("España", new Point(470, 180));
-		puntosPaises.put("Portugal", new Point(450, 190));
-		puntosPaises.put("Israel", new Point(540, 220));
-		puntosPaises.put("Rusia", new Point(620, 120));
-		puntosPaises.put("China", new Point(720, 200));
+		puntosPaises.put("España", new Point(454, 263));
+		puntosPaises.put("Portugal", new Point(433, 270));
+		puntosPaises.put("Israel", new Point(531, 292));
+		puntosPaises.put("Rusia", new Point(663, 166));
+		puntosPaises.put("Taiwan", new Point(729, 340));
+		puntosPaises.put("Singapur", new Point(629, 360));
+		puntosPaises.put("Brasil", new Point(325, 416));
+		puntosPaises.put("Macao", new Point(714, 326));
+		puntosPaises.put("Angola", new Point(480, 410));
+		puntosPaises.put("Kazajistan", new Point(595, 227));
+		puntosPaises.put("Mexico", new Point(213, 314));
+		puntosPaises.put("Argentina", new Point(295, 476));
+		puntosPaises.put("Colombia", new Point(281, 378));
+
 	}
 
 	private String getPaisEnPunto(Point p) {
@@ -136,5 +123,52 @@ public class MapWindow extends JFrame {
 		JScrollPane scroll = new JScrollPane(panel);
 		scroll.setPreferredSize(new Dimension(500, 300));
 		JOptionPane.showMessageDialog(this, scroll, "Usuarios en " + pais, JOptionPane.PLAIN_MESSAGE);
+	}
+
+	public JButton getBtnBackMap() {
+		return btnBackMap;
+	}
+
+	public void setBtnBackMap(JButton btnVolverMap) {
+		this.btnBackMap = btnVolverMap;
+	}
+
+	private class PanelMapa extends JPanel {
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			if (mapaImg != null) {
+				g.drawImage(mapaImg, 0, 0, getWidth(), getHeight(), null);
+				g.setColor(Color.RED);
+				for (Point p : puntosPaises.values()) {
+					g.fillOval(p.x - 5, p.y - 5, 10, 10);
+				}
+			}
+		}
+	}
+
+	private class MoverMouseListener implements MouseMotionListener {
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			String pais = getPaisEnPunto(e.getPoint());
+			setTitle(pais != null ? "BosTinder - " + pais : "BosTinder - Mapa");
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// Este no se usa pero se debe dejar prque es del mousemotionlistener
+		}
+	}
+
+	private class ClickMouseListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			System.out.println(e.getX() + ", " + e.getY()); // muestra coordenadas del clic
+			String pais = getPaisEnPunto(e.getPoint());
+			if (pais != null) {
+				System.out.println("Has hecho clic en: " + pais); // 👈 imprime el país
+				mostrarUsuariosPorPais(pais);
+			}
+		}
 	}
 }

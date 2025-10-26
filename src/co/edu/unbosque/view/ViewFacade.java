@@ -68,6 +68,5 @@ public class ViewFacade {
 	public void setRw(RegisterWindow rw) {
 		this.rw = rw;
 	}
-	
-	
+
 }
