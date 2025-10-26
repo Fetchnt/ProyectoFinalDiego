@@ -145,69 +145,69 @@ public class RegisterWindow extends JFrame {
 		panelForm.add(btnVerificarCorreo);
 		
 		lPassword = new JLabel("Contraseña");
-		lPassword.setBounds(470, 265, 164, 20);
+		lPassword.setBounds(250, 20, 164, 20);
 		panelForm.add(lPassword);
 		
 		txtPassword = new JTextField();
-		txtPassword.setBounds(470, 295, 164, 20);
+		txtPassword.setBounds(250, 45, 164, 20);
 		panelForm.add(txtPassword);
 
 
 		// ---------- CAMPOS DE SELECCIÓN ----------
 		lPais = new JLabel("Pais de residencia:");
-		lPais.setBounds(250, 20, 150, 20);
+		lPais.setBounds(250, 75, 150, 20);
 		panelForm.add(lPais);
 
 		cmbPais = new JComboBox<>(new String[] { "...", "Angola", "Argentina", "Brasil", "Colombia", "España", "Irael",
 				"Kasaistan", "Macao", "Mexico", "Portugal", "Rusia", "Singapur", "Taiwan" });
-		cmbPais.setBounds(250, 45, 150, 20);
+		cmbPais.setBounds(250, 100, 150, 20);
 		panelForm.add(cmbPais);
 
 		lGenero = new JLabel("Selecciona tu género:");
-		lGenero.setBounds(250, 75, 150, 20);
+		lGenero.setBounds(250, 130, 150, 20);
 		panelForm.add(lGenero);
 
 		cmbGenero = new JComboBox<>(new String[] { "...", "Masculino", "Femenino" });
-		cmbGenero.setBounds(250, 100, 150, 22);
+		cmbGenero.setBounds(250, 155, 150, 22);
 		panelForm.add(cmbGenero);
 
 		lEstatura = new JLabel("Estatura (cm):");
-		lEstatura.setBounds(250, 130, 150, 20);
+		lEstatura.setBounds(250, 185, 150, 20);
 		lEstatura.setVisible(false);
 		panelForm.add(lEstatura);
 
 		txtEstatura = new JTextField();
-		txtEstatura.setBounds(250, 155, 124, 20);
+		txtEstatura.setBounds(250, 210, 150, 20);
 		txtEstatura.setVisible(false);
 		panelForm.add(txtEstatura);
 
 		lOrientacion = new JLabel("Orientación sexual:");
-		lOrientacion.setBounds(250, 185, 150, 20);
+		lOrientacion.setBounds(250, 240, 150, 20);
 		lOrientacion.setVisible(false);
 		panelForm.add(lOrientacion);
 
 		cmbOrientacion = new JComboBox<>(new String[] { "...", "Heterosexual", "Homosexual", "Bisexual", "Asexual" });
-		cmbOrientacion.setBounds(250, 210, 150, 22);
+		cmbOrientacion.setBounds(250, 265, 150, 20);
 		cmbOrientacion.setVisible(false);
 		panelForm.add(cmbOrientacion);
 
 		lIngresos = new JLabel("Ingresos mensuales:");
-		lIngresos.setBounds(250, 240, 150, 20);
+		lIngresos.setBounds(250, 295, 150, 20);
 		lIngresos.setVisible(false);
 		panelForm.add(lIngresos);
 
 		txtIngresos = new JTextField();
-		txtIngresos.setBounds(250, 265, 124, 20);
+		txtIngresos.setBounds(250, 330, 150, 20);
 		txtIngresos.setVisible(false);
 		panelForm.add(txtIngresos);
 
 		lDivorcios = new JLabel("¿Ha tenido divorcios?");
-		lDivorcios.setBounds(250, 240, 150, 20);
+		lDivorcios.setBounds(250, 295, 340, 20);
 		lDivorcios.setVisible(false);
 		panelForm.add(lDivorcios);
 
 		cmbDivorcios = new JComboBox<>(new String[] { "...", "Sí", "No" });
-		cmbDivorcios.setBounds(250, 265, 124, 22);
+		cmbDivorcios.setBounds(250, 330, 150, 20);
 		cmbDivorcios.setVisible(false);
 		panelForm.add(cmbDivorcios);
 
