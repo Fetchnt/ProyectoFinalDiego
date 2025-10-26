@@ -117,14 +117,17 @@ public class ExceptionLauncher {
 			throw new BornDateException();
 		}
 	}
+
 	public static void verifyComboBox(String s) throws ComboBoxException {
 		if (s == null || s.equals("...")) {
 			throw new ComboBoxException();
 		}
 	}
+
 	public static void verifyRegisterPassword(String s) throws RegisterPasswordException {
 		if (s == null || s.isEmpty() || s.length() < 12) {
 			throw new RegisterPasswordException();
 		}
 	}
+
 }

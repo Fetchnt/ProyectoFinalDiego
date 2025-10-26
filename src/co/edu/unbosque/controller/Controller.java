@@ -12,18 +12,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import co.edu.unbosque.util.exception.*;
 import co.edu.unbosque.model.MenDTO;
 import co.edu.unbosque.model.ModelFacade;
-import co.edu.unbosque.model.Women;
 import co.edu.unbosque.model.WomenDTO;
 import co.edu.unbosque.view.ViewFacade;
 
 public class Controller implements ActionListener {
 
-	private ModelFacade model;
+	private ModelFacade mf;
 	private ViewFacade vf;
 
 	public Controller() {
-		model = new ModelFacade();
-		vf = new ViewFacade(model);
+		mf = new ModelFacade();
+		vf = new ViewFacade(mf);
 		asignarOyentes();
 	}
 
@@ -45,7 +44,7 @@ public class Controller implements ActionListener {
 		vf.getSw().getBack().addActionListener(this);
 		vf.getSw().getBack().setActionCommand("boton_back");
 
-		// ---------- BOTONES en BTRegisterWindow ----------
+		// ---------- BOTONES en RegisterWindow ----------
 		vf.getRw().getBtnRegistrar().addActionListener(this);
 		vf.getRw().getBtnRegistrar().setActionCommand("boton_registrar");
 
@@ -55,6 +54,9 @@ public class Controller implements ActionListener {
 		vf.getRw().getCmbGenero().addActionListener(this);
 		vf.getRw().getCmbGenero().setActionCommand("seleccionar_genero");
 
+		vf.getRw().getBtnVolver().addActionListener(this);
+		vf.getRw().getBtnVolver().setActionCommand("boton_volver_registro");
+
 		// Mapa
 		vf.getSw().getMapButton().addActionListener(this);
 		vf.getSw().getMapButton().setActionCommand("abrir_mapa");
@@ -62,6 +64,12 @@ public class Controller implements ActionListener {
 		vf.getMw().getBtnBackMap().addActionListener(this);
 		vf.getMw().getBtnBackMap().setActionCommand("back_mapa");
 
+		// ---------- BOTONES en LoginWindow ----------
+		vf.getLw().getBack().addActionListener(this);
+		vf.getLw().getBack().setActionCommand("boton_volver_iniciosesion");
+
+		vf.getLw().getLogin().addActionListener(this);
+		vf.getLw().getLogin().setActionCommand("boton_iniciosesion");
 	}
 
 	@Override
@@ -89,7 +97,11 @@ public class Controller implements ActionListener {
 			break;
 
 		case "boton_exit":
-			vf.getSw().dispose();
+			int confirm = JOptionPane.showConfirmDialog(vf.getSw(), "Confirmar salida", "¿Desea salir de BosTinder?",
+					JOptionPane.YES_NO_OPTION);
+			if (confirm == JOptionPane.YES_OPTION) {
+				System.exit(0);
+			}
 			break;
 
 		case "boton_back":
@@ -116,8 +128,6 @@ public class Controller implements ActionListener {
 			break;
 
 		case "seleccionar_genero":
-			// LOGICA DE SELECCIONAR GENERO (ESTA EN REGISTER WINDOW)
-
 			mostrarCamposPorGenero();
 			break;
 
@@ -167,6 +177,7 @@ public class Controller implements ActionListener {
 					// Crear objeto Men
 					MenDTO hombre = new MenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
 							orientacion, "ruta_foto_predeterminada", pais, ingresos);
+					mf.getmDAO().create(hombre);
 
 				} else if (genero.equals("Femenino")) {
 					// Validar campos específicos para mujeres
@@ -185,6 +196,7 @@ public class Controller implements ActionListener {
 					// Crear objeto Women
 					WomenDTO mujer = new WomenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
 							orientacion, "ruta_foto_predeterminada", pais, tuvoDivorcios);
+					mf.getwDAO().create(mujer);
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Género no válido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -235,6 +247,24 @@ public class Controller implements ActionListener {
 			}
 			break;
 
+		case "boton_volver_registro": {
+			limpiarCamposRegistro();
+			vf.getRw().setVisible(false);
+			vf.getSw().setVisible(true);
+			break;
+		}
+
+		case "boton_volver_iniciosesion": {
+			vf.getLw().setVisible(false);
+			vf.getSw().setVisible(true);
+			break;
+		}
+
+		case "boton_iniciosesion": {
+			
+			break;
+		}
+
 		case "back_mapa":
 			vf.getMw().dispose();
 			vf.getSw().setVisible(true);
@@ -263,7 +293,7 @@ public class Controller implements ActionListener {
 		vf.getRw().getCmbDivorcios().setVisible(genero.equals("Femenino"));
 	}
 
-	private void limpiarCamposRegistro() {
+	public void limpiarCamposRegistro() {
 		// Limpiar campos de texto
 		vf.getRw().getTxtNombres().setText("");
 		vf.getRw().getTxtApellidos().setText("");
