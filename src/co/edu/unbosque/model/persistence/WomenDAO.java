@@ -12,12 +12,14 @@ public class WomenDAO implements DAO<WomenDTO> {
 	public WomenDAO() {
 		listaWomenDTO = new ArrayList<>();
 		loadFromSerializedFile();
+		readFromTextFile(FILE_NAME);
 	}
 
 	@Override
 	public void create(WomenDTO nuevoDato) {
 		listaWomenDTO.add(nuevoDato);
-		WriteSerializedFile();
+		writeSerializedFile();
+		writeTextFile();
 	}
 
 	private String content = "";
@@ -27,18 +29,20 @@ public class WomenDAO implements DAO<WomenDTO> {
 		for (int i = 0; i < listaWomenDTO.size(); i++) {
 			content += i + "." + listaWomenDTO.get(i).toString() + "\n";
 		}
-		writeFromTextFile();
+		writeTextFile();
+		writeSerializedFile();
 		return content;
 	}
 
 	@Override
 	public boolean delete(int indice) {
-		if(indice<0 || indice >= listaWomenDTO.size()) {
-		return false;
+		if (indice < 0 || indice >= listaWomenDTO.size()) {
+			return false;
 		}
-		else {
-			return true;
-		}
+		listaWomenDTO.remove(indice);
+		writeSerializedFile();
+		writeTextFile();
+		return true;
 	}
 	
 
@@ -53,7 +57,8 @@ public class WomenDAO implements DAO<WomenDTO> {
 			return false;			
 		}
 		else {
-			WriteSerializedFile();
+			writeSerializedFile();
+			writeTextFile();
 			return true;			
 		}
 	}
@@ -66,7 +71,7 @@ public class WomenDAO implements DAO<WomenDTO> {
 	@Override
 	public void readFromTextFile(String url) {
 		String content;
-		content = FileHandler.leerDesdeArchivoDeTexto("Women.csv");
+		content = FileHandler.leerDesdeArchivoTexto("Women.csv");
 		if (content == "" || content.isBlank()) {
 			return;
 		}
@@ -92,7 +97,7 @@ public class WomenDAO implements DAO<WomenDTO> {
 	}
 
 	@Override
-	public void writeFromTextFile() {
+	public void writeTextFile() {
 		StringBuilder sb = new StringBuilder();
 		for (WomenDTO women : listaWomenDTO) {
 			sb.append(women.getName() + ";");
@@ -123,7 +128,7 @@ public class WomenDAO implements DAO<WomenDTO> {
 	}
 
 	@Override
-	public void WriteSerializedFile() {
+	public void writeSerializedFile() {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, listaWomenDTO);
 		
 	}

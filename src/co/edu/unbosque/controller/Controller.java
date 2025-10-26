@@ -107,118 +107,128 @@ public class Controller implements ActionListener {
 				ImageIcon scaled = new ImageIcon(
 						image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH));
 
-				//Mostrar imagen seleccionada
+				// Mostrar imagen seleccionada
 				vf.getRw().getlFotoPreview().setIcon(scaled);
 			}
 			break;
-			
+
 		case "seleccionar_genero":
 			mostrarCamposPorGenero();
 			break;
 
 		case "boton_registrar":
-		    try {
-		        // Obtener datos básicos comunes a todos los usuarios
-		        String nombres = vf.getRw().getTxtNombres().getText();
-		        String apellidos = vf.getRw().getTxtApellidos().getText();
-		        String apodo = vf.getRw().getTxtApodo().getText();
-		        String correo = vf.getRw().getTxtCorreo().getText();
-		        String password = vf.getRw().getTxtPassword().getText();
-		        String pais = (String) vf.getRw().getCmbPais().getSelectedItem();
-		        String genero = (String) vf.getRw().getCmbGenero().getSelectedItem();
-		        String fechaNacimiento = vf.getRw().getTxtFechaNacimiento().getText();
-		        
-		        // Validar campos básicos usando tus excepciones
-		        ExceptionLauncher.verifyName(nombres);
-		        ExceptionLauncher.verifyLastName(apellidos);
-		        ExceptionLauncher.verifyNickname(apodo);
-		        ExceptionLauncher.verifyEmail(correo);
-		        ExceptionLauncher.verifyBornDate(fechaNacimiento);
-		        ExceptionLauncher.verifyComboBox(pais);
-		        ExceptionLauncher.verifyComboBox(genero);
-		        ExceptionLauncher.verifyRegisterPassword(password);
-		        
-		        // Crear usuario según el género seleccionado
-		        if (genero.equals("Masculino")) {
-		            // Validar campos específicos para hombres
-		            String estatura = vf.getRw().getTxtEstatura().getText();
-		            String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
-		            String ingresosStr = vf.getRw().getTxtIngresos().getText();
-		            
-		            // Validar campos específicos
-		            ExceptionLauncher.verifyStature(estatura);
-		            ExceptionLauncher.verifyComboBox(orientacion);
-		            
-		            if (ingresosStr.isEmpty()) {
-		                throw new NumberFormatException("Los ingresos mensuales son obligatorios");
-		            }
-		            
-		            // Convertir y validar ingresos
-		            long ingresos = Long.parseLong(ingresosStr);
-		            if (ingresos < 0) {
-		                throw new NumberFormatException("Los ingresos no pueden ser negativos");
-		            }
-		            
-		            // Crear objeto Men
-		            MenDTO hombre = new MenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero, 
-		                               orientacion, "ruta_foto_predeterminada", pais, ingresos);
-		            
-		            
-		        } else if (genero.equals("Femenino")) {
-		            // Validar campos específicos para mujeres
-		            String estatura = vf.getRw().getTxtEstatura().getText();
-		            String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
-		            String divorciosStr = (String) vf.getRw().getCmbDivorcios().getSelectedItem();
-		            
-		            // Validar campos específicos
-		            ExceptionLauncher.verifyStature(estatura);
-		            ExceptionLauncher.verifyComboBox(orientacion);
-		            ExceptionLauncher.verifyComboBox(divorciosStr);
-		            
-		            // Convertir divorcios a boolean
-		            boolean tuvoDivorcios = divorciosStr.equals("Sí");
-		            
-		            // Crear objeto Women
-		            WomenDTO mujer = new WomenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero, 
-		                                  orientacion, "ruta_foto_predeterminada", pais, tuvoDivorcios);
-		            
+			try {
+				// Obtener datos básicos comunes a todos los usuarios
+				String nombres = vf.getRw().getTxtNombres().getText();
+				String apellidos = vf.getRw().getTxtApellidos().getText();
+				String apodo = vf.getRw().getTxtApodo().getText();
+				String correo = vf.getRw().getTxtCorreo().getText();
+				String password = vf.getRw().getTxtPassword().getText();
+				String pais = (String) vf.getRw().getCmbPais().getSelectedItem();
+				String genero = (String) vf.getRw().getCmbGenero().getSelectedItem();
+				String fechaNacimiento = vf.getRw().getTxtFechaNacimiento().getText();
 
-		            
-		        } else {
-		            JOptionPane.showMessageDialog(null, "Género no válido", "Error", JOptionPane.ERROR_MESSAGE);
-		            return;
-		        }
-		        
-		        JOptionPane.showMessageDialog(null, "Registro exitoso.\n¡Bienvenido al sistema!");
-		        vf.getRw().setVisible(false);
-		        vf.getSw().setVisible(true);
-		        
-		        // Limpiar campos después del registro
-		        limpiarCamposRegistro();
-		        
-		    } catch (NameException ex) {
-		        JOptionPane.showMessageDialog(null, "Error en el nombre: Debe tener al menos 5 caracteres y solo letras", "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (LastNameException ex) {
-		        JOptionPane.showMessageDialog(null, "Error en los apellidos: Deben tener al menos 5 caracteres y solo letras", "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (NickNameException ex) {
-		        JOptionPane.showMessageDialog(null, "Error en el apodo: Debe tener al menos 5 caracteres y solo letras", "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (EmailException ex) {
-		        JOptionPane.showMessageDialog(null, "Error en el email: Formato inválido o dominio no permitido", "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (BornDateException ex) {
-		        JOptionPane.showMessageDialog(null, "Error en la fecha de nacimiento: Formato inválido (DD/MM/AAAA) o menor de 18 años", "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (ComboBoxException ex) {
-		        JOptionPane.showMessageDialog(null, "Error: Debe seleccionar una opción válida en los campos de selección", "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (RegisterPasswordException ex) {
-		        JOptionPane.showMessageDialog(null, "Error en la contraseña: Debe tener al menos 12 caracteres", "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (StatureException ex) {
-		        JOptionPane.showMessageDialog(null, "Error en la estatura: Debe ser un número entre 0.60 y 2.10 metros", "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (NumberFormatException ex) {
-		        JOptionPane.showMessageDialog(null, "Error en formato numérico: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		    } catch (Exception ex) {
-		        JOptionPane.showMessageDialog(null, "Error en el registro: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		    }
-		    break;
-			   
+				// Validar campos básicos usando tus excepciones
+				ExceptionLauncher.verifyName(nombres);
+				ExceptionLauncher.verifyLastName(apellidos);
+				ExceptionLauncher.verifyNickname(apodo);
+				ExceptionLauncher.verifyEmail(correo);
+				ExceptionLauncher.verifyBornDate(fechaNacimiento);
+				ExceptionLauncher.verifyComboBox(pais);
+				ExceptionLauncher.verifyComboBox(genero);
+				ExceptionLauncher.verifyRegisterPassword(password);
+
+				// Crear usuario según el género seleccionado
+				if (genero.equals("Masculino")) {
+					// Validar campos específicos para hombres
+					String estatura = vf.getRw().getTxtEstatura().getText();
+					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
+					String ingresosStr = vf.getRw().getTxtIngresos().getText();
+
+					// Validar campos específicos
+					ExceptionLauncher.verifyStature(estatura);
+					ExceptionLauncher.verifyComboBox(orientacion);
+
+					if (ingresosStr.isEmpty()) {
+						throw new NumberFormatException("Los ingresos mensuales son obligatorios");
+					}
+
+					// Convertir y validar ingresos
+					long ingresos = Long.parseLong(ingresosStr);
+					if (ingresos < 0) {
+						throw new NumberFormatException("Los ingresos no pueden ser negativos");
+					}
+
+					// Crear objeto Men
+					MenDTO hombre = new MenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
+							orientacion, "ruta_foto_predeterminada", pais, ingresos);
+
+				} else if (genero.equals("Femenino")) {
+					// Validar campos específicos para mujeres
+					String estatura = vf.getRw().getTxtEstatura().getText();
+					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
+					String divorciosStr = (String) vf.getRw().getCmbDivorcios().getSelectedItem();
+
+					// Validar campos específicos
+					ExceptionLauncher.verifyStature(estatura);
+					ExceptionLauncher.verifyComboBox(orientacion);
+					ExceptionLauncher.verifyComboBox(divorciosStr);
+
+					// Convertir divorcios a boolean
+					boolean tuvoDivorcios = divorciosStr.equals("Sí");
+
+					// Crear objeto Women
+					WomenDTO mujer = new WomenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
+							orientacion, "ruta_foto_predeterminada", pais, tuvoDivorcios);
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Género no válido", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				JOptionPane.showMessageDialog(null, "Registro exitoso.\n¡Bienvenido al sistema!");
+				vf.getRw().setVisible(false);
+				vf.getSw().setVisible(true);
+
+				// Limpiar campos después del registro
+				limpiarCamposRegistro();
+
+			} catch (NameException ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error en el nombre: Debe tener al menos 5 caracteres y solo letras", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (LastNameException ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error en los apellidos: Deben tener al menos 5 caracteres y solo letras", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (NickNameException ex) {
+				JOptionPane.showMessageDialog(null, "Error en el apodo: Debe tener al menos 5 caracteres y solo letras",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			} catch (EmailException ex) {
+				JOptionPane.showMessageDialog(null, "Error en el email: Formato inválido o dominio no permitido",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			} catch (BornDateException ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error en la fecha de nacimiento: Formato inválido (DD/MM/AAAA) o menor de 18 años", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (ComboBoxException ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: Debe seleccionar una opción válida en los campos de selección", "Error",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (RegisterPasswordException ex) {
+				JOptionPane.showMessageDialog(null, "Error en la contraseña: Debe tener al menos 12 caracteres",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			} catch (StatureException ex) {
+				JOptionPane.showMessageDialog(null, "Error en la estatura: Debe ser un número entre 0.60 y 2.10 metros",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Error en formato numérico: " + ex.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Error en el registro: " + ex.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			break;
 
 		default:
 			System.out.println("Acción no definida: " + alias);
@@ -242,26 +252,26 @@ public class Controller implements ActionListener {
 		vf.getRw().getlDivorcios().setVisible(genero.equals("Femenino"));
 		vf.getRw().getCmbDivorcios().setVisible(genero.equals("Femenino"));
 	}
-	
+
 	private void limpiarCamposRegistro() {
-	    // Limpiar campos de texto
-	    vf.getRw().getTxtNombres().setText("");
-	    vf.getRw().getTxtApellidos().setText("");
-	    vf.getRw().getTxtApodo().setText("");
-	    vf.getRw().getTxtCorreo().setText("");
-	    vf.getRw().getTxtPassword().setText("");
-	    vf.getRw().getTxtFechaNacimiento().setText("");
-	    vf.getRw().getTxtEstatura().setText("");
-	    vf.getRw().getTxtIngresos().setText("");
-	    
-	    // Restablecer combobox
-	    vf.getRw().getCmbPais().setSelectedIndex(0);
-	    vf.getRw().getCmbGenero().setSelectedIndex(0);
-	    vf.getRw().getCmbOrientacion().setSelectedIndex(0);
-	    vf.getRw().getCmbDivorcios().setSelectedIndex(0);
-	    
-	    // Ocultar campos específicos
-	    mostrarCamposPorGenero();
+		// Limpiar campos de texto
+		vf.getRw().getTxtNombres().setText("");
+		vf.getRw().getTxtApellidos().setText("");
+		vf.getRw().getTxtApodo().setText("");
+		vf.getRw().getTxtCorreo().setText("");
+		vf.getRw().getTxtPassword().setText("");
+		vf.getRw().getTxtFechaNacimiento().setText("");
+		vf.getRw().getTxtEstatura().setText("");
+		vf.getRw().getTxtIngresos().setText("");
+
+		// Restablecer combobox
+		vf.getRw().getCmbPais().setSelectedIndex(0);
+		vf.getRw().getCmbGenero().setSelectedIndex(0);
+		vf.getRw().getCmbOrientacion().setSelectedIndex(0);
+		vf.getRw().getCmbDivorcios().setSelectedIndex(0);
+
+		// Ocultar campos específicos
+		mostrarCamposPorGenero();
 	}
 
 	public void runGUI() {
