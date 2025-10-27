@@ -56,6 +56,8 @@ public class RegisterWindow extends JFrame {
 	private JButton btnRegistrar;
 	private JButton btnVolver;
 
+	private String rutaImagenSeleccionada;
+
 	public RegisterWindow() {
 		initializeComponents();
 		setVisible(false);
@@ -502,6 +504,14 @@ public class RegisterWindow extends JFrame {
 
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
+	}
+
+	public String getRutaImagenSeleccionada() {
+		return rutaImagenSeleccionada;
+	}
+
+	public void setRutaImagenSeleccionada(String rutaImagenSeleccionada) {
+		this.rutaImagenSeleccionada = rutaImagenSeleccionada;
 	}
 
 }

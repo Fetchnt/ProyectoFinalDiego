@@ -130,4 +130,10 @@ public class ExceptionLauncher {
 		}
 	}
 
+	public static void verifyImageSelected(String imgurl) throws ImageNotSelectedException {
+		if (imgurl == null || imgurl.isEmpty()) {
+			throw new ImageNotSelectedException();
+		}
+	}
+
 }

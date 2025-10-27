@@ -124,6 +124,8 @@ public class Controller implements ActionListener {
 
 				// Mostrar imagen seleccionada
 				vf.getRw().getlFotoPreview().setIcon(scaled);
+				vf.getRw().setRutaImagenSeleccionada(selectedFile.getAbsolutePath());
+
 			}
 			break;
 
@@ -152,6 +154,7 @@ public class Controller implements ActionListener {
 				ExceptionLauncher.verifyComboBox(pais);
 				ExceptionLauncher.verifyComboBox(genero);
 				ExceptionLauncher.verifyRegisterPassword(password);
+				ExceptionLauncher.verifyImageSelected(vf.getRw().getRutaImagenSeleccionada());
 
 				// Crear usuario según el género seleccionado
 				if (genero.equals("Masculino")) {
@@ -261,7 +264,7 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_iniciosesion": {
-			
+
 			break;
 		}
 
