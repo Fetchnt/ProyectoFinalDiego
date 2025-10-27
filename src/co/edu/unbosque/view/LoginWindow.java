@@ -16,6 +16,8 @@ public class LoginWindow extends JFrame {
 	private JLabel lIcon;
 	private JLabel lDeco;
 	private JLabel lTitle;
+	private JLabel lWoman;
+	private JLabel lMen;
 
 	// PARA EL PANEL
 	private JLabel lUser;
@@ -48,6 +50,17 @@ public class LoginWindow extends JFrame {
 		lIcon = new JLabel(imageLogo);
 		lIcon.setBounds(0, 0, 980, 150);
 		add(lIcon);
+		
+		//--------- IMAGENES--------------
+		ImageIcon imageWoman = new ImageIcon(getClass().getResource("womanLogin.JPG"));
+		lWoman = new JLabel(imageWoman);
+		lWoman.setBounds(23, 220, 340, 375);
+		add(lWoman);
+		
+		ImageIcon imageMen = new ImageIcon(getClass().getResource("menLogin.JPG"));
+		lMen = new JLabel(imageMen);
+		lMen.setBounds(650, 220, 340, 375);
+		add(lMen);
 		
 		//-------TITULO----------
 		lTitle = new JLabel("¡Inicia sesión para continuar!");

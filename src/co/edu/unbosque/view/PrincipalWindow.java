@@ -70,23 +70,25 @@ public class PrincipalWindow extends JFrame {
 		changeLanguage.setFont(new Font("Arial", Font.BOLD, 15));
 		this.add(changeLanguage);
 
-		ImageIcon imagen1 = new ImageIcon(getClass().getResource("spanish.jpg"));
+		ImageIcon imagen1 = new ImageIcon(getClass().getResource("spanish.JPG"));
 		JLabel labelImagen1 = new JLabel(imagen1);
 		bSpanish = new JButton(imagen1);
+		bSpanish.setBackground(Color.RED);
 		bSpanish.setBounds(380, 540, 35, 35);
 		bSpanish.setFocusPainted(false);
 		bSpanish.setBorderPainted(true);
 		this.add(bSpanish);
 
-		ImageIcon imagen2 = new ImageIcon(getClass().getResource("chinnesse.png"));
+		ImageIcon imagen2 = new ImageIcon(getClass().getResource("chinnesse.JPG"));
 		JLabel labelImagen2 = new JLabel(imagen2);
 		bChinnesse = new JButton(imagen2);
+		bChinnesse.setBackground(Color.RED);
 		bChinnesse.setBounds(420, 540, 35, 35);
 		bChinnesse.setFocusPainted(false);
 		bChinnesse.setBorderPainted(true);
 		this.add(bChinnesse);
 
-		ImageIcon imagen3 = new ImageIcon(getClass().getResource("hebrew.png"));
+		ImageIcon imagen3 = new ImageIcon(getClass().getResource("hebrew.JPG"));
 		JLabel labelImagen3 = new JLabel(imagen3);
 		bHebrew = new JButton(imagen3);
 		bHebrew.setBounds(460, 540, 35, 35);
@@ -94,7 +96,7 @@ public class PrincipalWindow extends JFrame {
 		bHebrew.setBorderPainted(true);
 		this.add(bHebrew);
 
-		ImageIcon imagen4 = new ImageIcon(getClass().getResource("russian.png"));
+		ImageIcon imagen4 = new ImageIcon(getClass().getResource("russian.JPG"));
 		JLabel labelImagen4 = new JLabel(imagen4);
 		bRussian = new JButton(imagen4);
 		bRussian.setBounds(500, 540, 35, 35);
@@ -102,9 +104,9 @@ public class PrincipalWindow extends JFrame {
 		bRussian.setBorderPainted(true);
 		this.add(bRussian);
 
-		ImageIcon imagen5 = new ImageIcon(getClass().getResource("portuguesse.png"));
+		ImageIcon imagen5 = new ImageIcon(getClass().getResource("portuguesse.JPG"));
 		JLabel labelImagen5 = new JLabel(imagen5);
-		bPortuguese = new JButton(imagen1);
+		bPortuguese = new JButton(imagen5);
 		bPortuguese.setBounds(540, 540, 35, 35);
 		bPortuguese.setFocusPainted(false);
 		bPortuguese.setBorderPainted(true);
