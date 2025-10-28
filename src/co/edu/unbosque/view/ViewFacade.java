@@ -9,6 +9,7 @@ public class ViewFacade {
 	private MapWindow mw;
 	private PrincipalWindow pw;
 	private RegisterWindow rw;
+	private MainWindow mmw;
 	private ModelFacade model;
 
 	public ViewFacade(ModelFacade model) {
@@ -19,6 +20,7 @@ public class ViewFacade {
 		mw = new MapWindow(model);
 		sw = new StartWindow();
 		rw = new RegisterWindow();
+		mmw = new MainWindow();
 	}
 
 	public ModelFacade getModel() {
@@ -68,5 +70,14 @@ public class ViewFacade {
 	public void setRw(RegisterWindow rw) {
 		this.rw = rw;
 	}
+
+	public MainWindow getMmw() {
+		return mmw;
+	}
+
+	public void setMmw(MainWindow mmw) {
+		this.mmw = mmw;
+	}
+	
 
 }
