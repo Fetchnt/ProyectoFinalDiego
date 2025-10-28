@@ -15,11 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import javax.mail.*;
-import javax.mail.internet.*;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import co.edu.unbosque.util.exception.*;
 import co.edu.unbosque.model.MenDTO;

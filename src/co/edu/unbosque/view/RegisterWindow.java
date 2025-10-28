@@ -159,7 +159,7 @@ public class RegisterWindow extends JFrame {
 		lPais.setBounds(250, 75, 150, 20);
 		panelForm.add(lPais);
 
-		cmbPais = new JComboBox<>(new String[] { "...", "Angola", "Argentina", "Brasil", "Colombia", "España", "Irael",
+		cmbPais = new JComboBox<>(new String[] { "...", "Angola", "Argentina", "Brasil", "Colombia", "España", "Israel",
 				"Kazajistan", "Macao", "Mexico", "Portugal", "Rusia", "Singapur", "Taiwan" });
 		cmbPais.setBounds(250, 100, 150, 20);
 		panelForm.add(cmbPais);
