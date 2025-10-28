@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,37 +32,61 @@ public class MapWindow extends JFrame {
 	private ModelFacade model;
 	private JButton btnBackMap;
 	private JPanel panelMapa;
-
+	private JLabel icon;
+	private JPanel panelOption;
+	
 	public MapWindow(ModelFacade model) {
 		this.model = model;
 		initializeComponents();
 	}
 
 	public void initializeComponents() {
+		//--------CONFIGURACIÓN VENTANA--------
 		setTitle("BosTinder - Mapa de usuarios");
 		setBounds(230, 5, 980, 720);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setLayout(null);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setBackground(Color.decode("#F9CFCE"));
 
+		//-------IMAGEN SUPERIOR------------
+		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
+		icon = new JLabel(imageLogo);
+		icon.setBounds(0, 0, 980, 150);
+		add(icon);
+		
+		//--------PANEL OPCIONES---------
+		panelOption = new JPanel();
+		panelOption.setBounds(750, 592, 190, 70);
+		panelOption.setLayout(null);
+		panelOption.setBackground(Color.WHITE);
+		add(panelOption);
+		
+		
+		//------
 		cargarMapa();
 		definirPuntosPaises();
 
+		//------PANEL MAPA--------
 		panelMapa = new PanelMapa();
-		panelMapa.setBounds(10, 10, 950, 650);
+		panelMapa.setBounds(5, 155, 730, 520);
 		panelMapa.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		// listeners
 		panelMapa.addMouseMotionListener(new MoverMouseListener());
 		panelMapa.addMouseListener(new ClickMouseListener());
 
+		//-------BOTON-------------
 		btnBackMap = new JButton("Volver");
+		btnBackMap.setBounds(40, 20, 120, 30);
+		btnBackMap.setBackground(Color.decode("#F4716D"));
+		btnBackMap.setForeground(Color.WHITE);
 		btnBackMap.setFont(new Font("Arial", Font.BOLD, 14));
-		btnBackMap.setBackground(Color.decode("#F9CFCE"));
-		btnBackMap.setForeground(Color.BLACK);
-		btnBackMap.setBounds(0, 0, 120, 30);
-		add(btnBackMap);
+		btnBackMap.setFocusPainted(false);
+		btnBackMap.setBorderPainted(false);
+		panelOption.add(btnBackMap);
+		
+		
 		add(panelMapa);
 	}
 
