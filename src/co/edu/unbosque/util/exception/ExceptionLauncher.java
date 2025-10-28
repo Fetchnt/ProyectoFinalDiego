@@ -57,37 +57,42 @@ public class ExceptionLauncher {
 
 	public static void verifyEmail(String s) throws EmailException {
 		if (s == null || s.isEmpty()) {
-			throw new EmailException();
-		}
+	        throw new EmailException();
+	    }
 
-		if (s.contains(" ")) {
-			throw new EmailException();
-		}
+	    if (s.contains(" ")) {
+	        throw new EmailException();
+	    }
 
-		String[] partes = s.split("@");
-		if (partes.length != 2) {
-			throw new EmailException();
-		}
+	    String[] partes = s.split("@");
+	    if (partes.length != 2) {
+	        throw new EmailException();
+	    }
 
-		String usuario = partes[0];
-		String dominio = partes[1];
+	    String usuario = partes[0];
+	    String dominio = partes[1];
 
-		if (usuario.isEmpty()) {
-			throw new EmailException();
-		}
+	    if (usuario.isEmpty()) {
+	        throw new EmailException();
+	    }
 
-		if (!usuario.matches("^[A-Za-z0-9.]+$")) {
-			throw new EmailException();
-		}
+	    if (!usuario.matches("^[A-Za-z0-9._-]+$")) {
+	        throw new EmailException();
+	    }
 
-		if (!(dominio.contains("gmail") || dominio.contains("hotmail") || dominio.contains("outlook")
-				|| dominio.contains("yahoo") || dominio.contains("unbosque.edu.co"))) {
-			throw new EmailException();
-		}
+	    // Verificar formato general del dominio (por ejemplo: unbosque.edu.co)
+	    if (!dominio.matches("^[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+	        throw new EmailException();
+	    }
 
-		if (!dominio.contains(".")) {
-			throw new EmailException();
-		}
+	    // Verificar dominios permitidos
+	    if (!(dominio.endsWith("gmail.com")
+	            || dominio.endsWith("hotmail.com")
+	            || dominio.endsWith("outlook.com")
+	            || dominio.endsWith("yahoo.com")
+	            || dominio.endsWith("unbosque.edu.co"))) {
+	        throw new EmailException();
+	    }
 	}
 
 	public static void verifyBornDate(String s) throws BornDateException {
