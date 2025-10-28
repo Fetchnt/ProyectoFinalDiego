@@ -34,6 +34,8 @@ public class MapWindow extends JFrame {
 	private JPanel panelMapa;
 	private JLabel icon;
 	private JPanel panelOption;
+	private JLabel lImage;
+	private JLabel lText;
 	
 	public MapWindow(ModelFacade model) {
 		this.model = model;
@@ -54,6 +56,18 @@ public class MapWindow extends JFrame {
 		icon = new JLabel(imageLogo);
 		icon.setBounds(0, 0, 980, 150);
 		add(icon);
+		
+		//-------IMAGEN ADICIONAL--------
+		ImageIcon imagePartnerFour = new ImageIcon(getClass().getResource("partnerFour.JPG"));
+		lImage = new JLabel(imagePartnerFour);
+		lImage.setBounds(750, 247, 200, 300);
+		add(lImage);
+		
+		lText = new JLabel("-MAPA USUARIOS-");
+		lText.setBounds(755, 190, 200, 100);
+		lText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		add(lText);
+		
 		
 		//--------PANEL OPCIONES---------
 		panelOption = new JPanel();
