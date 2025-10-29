@@ -100,5 +100,28 @@ public class FileHandler {
 			// serializacion, y todo se hace en el modelo
 		}
 	}
+	public static Object leerDesdeArchivoSerializado(String url) {
+		try {
+			archivo = new File(url);
+			if (!archivo.exists()) {
+				archivo.createNewFile();
+			}
+			fis = new FileInputStream(archivo);
+			ois = new ObjectInputStream(fis);
+			Object contenido = ois.readObject();
+			
+			ois.close();
+			fis.close();
+			return contenido;
+			
+		} catch (IOException e) {
+			System.err.println("Error al leer el archivo serializado.");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al deserializar los datos del usuario.");
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }
