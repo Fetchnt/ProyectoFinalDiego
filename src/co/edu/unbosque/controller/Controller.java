@@ -375,25 +375,22 @@ public class Controller implements ActionListener {
 		mostrarCamposPorGenero();
 	}
 
-	private String generarCodigo() {
+	public String generarCodigo() {
 		Random rand = new Random();
 		int codigo = 100000 + rand.nextInt(900000);
 		return String.valueOf(codigo);
 	}
 
-	/**
-	 * Intenta enviar el correo con STARTTLS (puerto 587). Devuelve true si el envío
-	 * fue correcto, false si hubo fallo.
-	 */
-	private boolean enviarCorreo(String destinatario, String codigo) {
-		// 1) Propiedades comunes para STARTTLS
+	
+	public boolean enviarCorreo(String destinatario, String codigo) {
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.starttls.required", "true"); // fuerza STARTTLS
+		props.put("mail.smtp.starttls.required", "true"); 
 		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.ssl.protocols", "TLSv1.2"); // forzar TLSv1.2
-		// determinar host según remitente
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2"); 
+
 		String host;
 		if (REMITENTE.endsWith("@gmail.com")) {
 			host = "smtp.gmail.com";
@@ -409,16 +406,14 @@ public class Controller implements ActionListener {
 			return false;
 		}
 		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.ssl.trust", host); // confiar en el host para SSL/TLS
-
-		// 2) Crear sesión con autenticación
+		props.put("mail.smtp.ssl.trust", host); 
 		Session session = Session.getInstance(props, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(REMITENTE, CONTRASENA);
 			}
 		});
-		session.setDebug(false); // poner true si necesitas traza en consola
+		session.setDebug(false);
 
 		try {
 			Message message = new MimeMessage(session);
@@ -439,7 +434,6 @@ public class Controller implements ActionListener {
 					"Error de envío", JOptionPane.ERROR_MESSAGE);
 			return false;
 		} catch (MessagingException e) {
-			// Mensaje con detalle para diagnóstico (no demasiado técnico al usuario)
 			JOptionPane.showMessageDialog(null, "❌ Error SMTP al enviar el correo.\nDetalle: " + e.getMessage(),
 					"Error SMTP", JOptionPane.ERROR_MESSAGE);
 			return false;
