@@ -1,6 +1,7 @@
 package co.edu.unbosque.model;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 public class MenDTO extends User implements Serializable {
 
@@ -9,6 +10,7 @@ public class MenDTO extends User implements Serializable {
 	 */
 	private static final long serialVersionUID = 8703244232885622082L;
 	private long mensualIncome;
+	private Properties prop;
 
 	public MenDTO() {
 		super();
@@ -36,6 +38,10 @@ public class MenDTO extends User implements Serializable {
 
 	public void setMensualIncome(long mensualIncome) {
 		this.mensualIncome = mensualIncome;
+	}
+	
+	public void internacionalizacion(Properties prop) {
+		this.prop = prop;
 	}
 
 	@Override

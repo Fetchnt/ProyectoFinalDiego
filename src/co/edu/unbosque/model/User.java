@@ -1,5 +1,7 @@
 package co.edu.unbosque.model;
 
+import java.util.Properties;
+
 public abstract class User {
 
 	private String name;
@@ -12,6 +14,7 @@ public abstract class User {
 	private String sexualOrientation;
 	private String profilePictureRoute;
 	private String country;
+	protected Properties prop;
 	
 	public User() {
 		super();
@@ -110,6 +113,14 @@ public abstract class User {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public Properties getProp() {
+		return prop;
+	}
+
+	public void setProp(Properties prop) {
+		this.prop = prop;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package co.edu.unbosque.view;
 
+import java.util.Properties;
+
 import co.edu.unbosque.model.ModelFacade;
 
 public class ViewFacade {
@@ -22,6 +24,15 @@ public class ViewFacade {
 		rw = new RegisterWindow();
 		mmw = new MainWindow();
 	}
+	
+	/*public void aplicarInternacionalizacion(Properties prop) {
+        sw.aplicarInternacionalizacion(prop);
+        lw.aplicarInternacionalizacion(prop);
+        mw.aplicarInternacionalizacion(prop);
+        pw.aplicarInternacionalizacion(prop);
+        rw.aplicarInternacionalizacion(prop);
+        mmw.aplicarInternacionalizacion(prop);
+    }*/
 
 	public ModelFacade getModel() {
 		return model;

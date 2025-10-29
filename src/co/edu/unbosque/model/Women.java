@@ -1,10 +1,12 @@
 package co.edu.unbosque.model;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 public class Women extends User implements Serializable{
 
 	private boolean hadDivorces;
+	private Properties prop;
 
 	public Women() {
 		super();
@@ -33,6 +35,10 @@ public class Women extends User implements Serializable{
 
 	public void setHadDivorces(boolean hadDivorces) {
 		this.hadDivorces = hadDivorces;
+	}
+	
+	public void internacionalizacion(Properties prop) {
+		this.prop = prop;
 	}
 
 	@Override

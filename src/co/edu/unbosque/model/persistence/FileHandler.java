@@ -9,6 +9,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 import co.edu.unbosque.model.*;
 
@@ -35,6 +36,8 @@ public class FileHandler {
 	public static FileOutputStream fos;
 
 	public static ObjectOutputStream oos;
+	
+	public static Properties prop;
 
 	// Es obligatorio que exista el archivo serializado antes de leer
 
@@ -121,6 +124,24 @@ public class FileHandler {
 			System.err.println("Error al deserializar los datos del usuario.");
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	public static Properties cargarArchivoPropiedades (String url) {
+		try {
+			archivo = new File(url);
+			if (!archivo.exists()) {
+				archivo.createNewFile();
+			}
+			prop = new Properties();
+			prop.load(new FileInputStream(archivo));
+			return prop;
+			
+		} catch (IOException e) {
+			System.err.println("Error al cargar el archivo de propiedades.");
+			e.printStackTrace();
+		}
+		// LAS PROPIEDADES SE CARGAN EN EL CONTROLADOR, NO EN EL DAO
 		return null;
 	}
 

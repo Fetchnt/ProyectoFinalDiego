@@ -1,11 +1,15 @@
 package co.edu.unbosque.model.persistence;
 
 import java.util.ArrayList;
+import java.util.Properties;
+
+
 import co.edu.unbosque.model.MenDTO;
 
 public class MenDAO implements DAO<MenDTO> {
 
 	public ArrayList<MenDTO> listaMenDTO;
+	private Properties props;
 	private final String FILE_NAME = "Men.csv";
 	private final String SERIAL_FILE_NAME = "Men.bin";
 
@@ -106,7 +110,7 @@ public class MenDAO implements DAO<MenDTO> {
 			sb.append(men.getGender() + ";");
 			sb.append(men.getSexualOrientation() + ";");
 			sb.append(men.getCountry() + ";");
-			sb.append(men.getMensualIncome() + ";");
+			sb.append(men.getMensualIncome() + "\n");
 		}
 
 		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString()); // hay que actualizar o sobreescribir el archivo
@@ -128,5 +132,13 @@ public class MenDAO implements DAO<MenDTO> {
 	public void writeSerializedFile() {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, listaMenDTO);
 
+	}
+	
+	@Override
+	public void internacionalizacion(Properties prop) {
+		this.props = prop;
+		for (MenDTO men : listaMenDTO) {
+			men.internacionalizacion(prop);
+		}
 	}
 }

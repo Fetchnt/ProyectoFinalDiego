@@ -2,6 +2,7 @@ package co.edu.unbosque.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import co.edu.unbosque.model.persistence.MenDAO;
 import co.edu.unbosque.model.persistence.WomenDAO;
@@ -49,4 +50,10 @@ public class ModelFacade {
 
 		return resultado;
 	}
+	
+	 public void cargarProperties(Properties prop) {
+	        mDAO.internacionalizacion(prop);
+	        wDAO.internacionalizacion(prop);
+	        
+	    }
 }

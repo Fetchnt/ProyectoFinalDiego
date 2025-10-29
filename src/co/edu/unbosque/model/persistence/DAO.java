@@ -1,5 +1,7 @@
 package co.edu.unbosque.model.persistence;
 
+import java.util.Properties;
+
 public interface DAO<A> {
 		
 		public void create(A nuevoDato);
@@ -12,6 +14,7 @@ public interface DAO<A> {
 		public void writeTextFile();
 		public void loadFromSerializedFile();
 		public void writeSerializedFile();
+		public void internacionalizacion(Properties prop); 
 		
 	}
 

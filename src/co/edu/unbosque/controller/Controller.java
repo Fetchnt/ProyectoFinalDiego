@@ -25,12 +25,14 @@ import co.edu.unbosque.util.exception.*;
 import co.edu.unbosque.model.MenDTO;
 import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.model.WomenDTO;
+import co.edu.unbosque.model.persistence.FileHandler;
 import co.edu.unbosque.view.ViewFacade;
 
 public class Controller implements ActionListener {
 
 	private ModelFacade mf;
 	private ViewFacade vf;
+	private Properties prop;
 
 	// --- Variables para verificación de correo ---
 	private boolean correoVerificado = false;
@@ -47,9 +49,24 @@ public class Controller implements ActionListener {
 	}
 
 	public void asignarOyentes() {
-		// BOTONES Start en PrincipalWindow
+		// BOTONES en PrincipalWindow
 		vf.getPw().getStart().addActionListener(this);
 		vf.getPw().getStart().setActionCommand("boton_start");
+		
+		vf.getPw().getbSpanish().addActionListener(this);
+		vf.getPw().getbSpanish().setActionCommand("internacionalizacion_esp");
+		
+		vf.getPw().getbChinnesse().addActionListener(this);
+		vf.getPw().getbChinnesse().setActionCommand("internacinalizacion_chi");
+		
+		vf.getPw().getbHebrew().addActionListener(this);
+		vf.getPw().getbHebrew().setActionCommand("internacionalizacion_heb");
+		
+		vf.getPw().getbPortuguese().addActionListener(this);
+		vf.getPw().getbPortuguese().setActionCommand("internacinalizacion_por");
+		
+		vf.getPw().getbRussian().addActionListener(this);
+		vf.getPw().getbRussian().setActionCommand("internacinalizacion_rus");
 
 		// BOTONES en SignInWindow
 		vf.getSw().getSignIn().addActionListener(this);
@@ -103,7 +120,17 @@ public class Controller implements ActionListener {
 			vf.getPw().dispose();
 			vf.getSw().setVisible(true);
 			break;
-
+			
+		case "internacionalizacion_esp":
+			/*prop = FileHandler.cargarArchivoPropiedades("esp.properties");
+			
+			vf.aplicarInternacionalizacion(prop);
+			mf.cargarProperties(prop);
+			vf.getsw().mostrarProductos(mf.mostrarPaginaPrincipal());
+			vf.getStartWin().repaint();
+			vf.getStartWin().revalidate();*/
+			break;
+		
 		case "abrir_mapa":
 			vf.getSw().dispose();
 			vf.getMw().setVisible(true);

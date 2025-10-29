@@ -1,10 +1,12 @@
 package co.edu.unbosque.model;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 public class Men extends User implements Serializable {
 
 	private long mensualIncome;
+	private Properties prop;
 
 	public Men() {
 		super();
@@ -32,6 +34,10 @@ public class Men extends User implements Serializable {
 
 	public void setMensualIncome(long mensualIncome) {
 		this.mensualIncome = mensualIncome;
+	}
+	
+	public void internacionalizacion(Properties prop) {
+		this.prop = prop;
 	}
 
 	@Override

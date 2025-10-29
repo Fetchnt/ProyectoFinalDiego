@@ -1,11 +1,15 @@
 package co.edu.unbosque.model.persistence;
 
 import java.util.ArrayList;
+import java.util.Properties;
+
+import co.edu.unbosque.model.MenDTO;
 import co.edu.unbosque.model.WomenDTO;
 
 public class WomenDAO implements DAO<WomenDTO> {
 
 	public ArrayList<WomenDTO> listaWomenDTO;
+	private Properties props;
 	private final String FILE_NAME = "Women.csv";
 	private final String SERIAL_FILE_NAME = "Women.bin";
 	
@@ -109,7 +113,7 @@ public class WomenDAO implements DAO<WomenDTO> {
 			sb.append(women.getGender() + ";");
 			sb.append(women.getSexualOrientation() + ";");
 			sb.append(women.getCountry() + ";");
-//			sb.append(women.getHadDivorces() + ";");
+			sb.append(women.isHadDivorces() + "\n");
 		}
 
 		
@@ -131,6 +135,14 @@ public class WomenDAO implements DAO<WomenDTO> {
 	public void writeSerializedFile() {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, listaWomenDTO);
 		
+	}
+	
+	@Override
+	public void internacionalizacion(Properties prop) {
+		this.props = prop;
+		for (WomenDTO women : listaWomenDTO) {
+			women.internacionalizacion(prop);
+		}
 	}
 	
 	
