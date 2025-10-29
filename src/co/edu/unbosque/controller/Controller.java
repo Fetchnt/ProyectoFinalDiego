@@ -1,41 +1,30 @@
 package co.edu.unbosque.controller;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import javax.mail.Authenticator;
-import javax.mail.AuthenticationFailedException;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.SendFailedException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JPanel;
 
-import co.edu.unbosque.util.exception.EmailException;
-import co.edu.unbosque.util.exception.ExceptionLauncher;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import co.edu.unbosque.util.exception.*;
 import co.edu.unbosque.model.MenDTO;
 import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.model.WomenDTO;
-import co.edu.unbosque.view.MapWindow;
 import co.edu.unbosque.view.ViewFacade;
 
 public class Controller implements ActionListener {
@@ -97,19 +86,6 @@ public class Controller implements ActionListener {
 
 		vf.getMw().getBtnBackMap().addActionListener(this);
 		vf.getMw().getBtnBackMap().setActionCommand("back_mapa");
-		vf.getMw().setMapaListener(new MapWindow.MapaListener() {
-			@Override
-			public void onPaisClick(String pais) {
-				if (pais != null) {
-					mostrarUsuariosPorPais(pais);
-				}
-			}
-
-			@Override
-			public void onPaisHover(String pais) {
-				vf.getMw().setTitle(pais != null ? "BosTinder - " + pais : "BosTinder - Mapa");
-			}
-		});
 
 		// ---------- BOTONES en LoginWindow ----------
 		vf.getLw().getBack().addActionListener(this);
@@ -157,12 +133,90 @@ public class Controller implements ActionListener {
 			break;
 
 		case "verificar_correo":
-			procesoVerificacionCorreo();
+			try {
+				String correo = vf.getRw().getTxtCorreo().getText().trim();
+				ExceptionLauncher.verifyEmail(correo); // tu validación personalizada
+
+				String codigo = generarCodigo();
+
+				// Intentar enviar correo real
+				boolean enviado = enviarCorreo(correo, codigo);
+
+				if (!enviado) {
+					// Si falla el envío SMTP, ofrecer verificación simulada
+					int opc = JOptionPane.showConfirmDialog(null,
+							"No fue posible enviar el correo.\n¿Deseas usar verificación simulada?", "SMTP falló",
+							JOptionPane.YES_NO_OPTION);
+					if (opc != JOptionPane.YES_OPTION) {
+						correoVerificado = false;
+						break;
+					}
+
+					// Mostrar código en pantalla (modo prueba)
+					JOptionPane.showMessageDialog(null,
+							"Modo SIMULADO: tu código es: " + codigo + "\n(En modo real este mensaje no aparece).",
+							"Código simulado", JOptionPane.INFORMATION_MESSAGE);
+				}
+
+				// --- Verificación con tiempo límite ---
+				long inicio = System.currentTimeMillis();
+				boolean verificado = false;
+
+				while (System.currentTimeMillis() - inicio < 5 * 60 * 1000) { // 5 minutos
+					String codigoIngresado = JOptionPane.showInputDialog(null,
+							"Introduce el código recibido por correo:", "Verificación de correo",
+							JOptionPane.QUESTION_MESSAGE);
+
+					if (codigoIngresado == null) { // Usuario canceló
+						JOptionPane.showMessageDialog(null, "Verificación cancelada.");
+						correoVerificado = false;
+						break;
+					}
+
+					if (codigoIngresado.trim().equals(codigo)) {
+						JOptionPane.showMessageDialog(null, "✅ Correo verificado correctamente.");
+						correoVerificado = true;
+						correoVerificadoActual = correo;
+						verificado = true;
+						break;
+					} else {
+						JOptionPane.showMessageDialog(null, "❌ Código incorrecto. Intenta nuevamente.");
+					}
+				}
+
+				if (!verificado && (System.currentTimeMillis() - inicio >= 5 * 60 * 1000)) {
+					JOptionPane.showMessageDialog(null, "⏰ Tiempo de verificación expirado. Intenta de nuevo.");
+					correoVerificado = false;
+				}
+
+			} catch (EmailException ex) {
+				JOptionPane.showMessageDialog(null,
+						"Formato de correo inválido o dominio no permitido:\n" + ex.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Error al verificar correo: " + ex.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 			break;
 
 		// ---------- ACCIONES DEL REGISTRO ----------
 		case "boton_subir_foto":
-			seleccionarYMostrarImagen();
+			JFileChooser chooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
+			chooser.setFileFilter(filter);
+			int result = chooser.showOpenDialog(null);
+
+			if (result == JFileChooser.APPROVE_OPTION) {
+				File selectedFile = chooser.getSelectedFile();
+				ImageIcon image = new ImageIcon(selectedFile.getAbsolutePath());
+				ImageIcon scaled = new ImageIcon(
+						image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH));
+
+				// Mostrar imagen seleccionada
+				vf.getRw().getlFotoPreview().setIcon(scaled);
+				vf.getRw().setRutaImagenSeleccionada(selectedFile.getAbsolutePath());
+
+			}
 			break;
 
 		case "seleccionar_genero":
@@ -170,7 +224,87 @@ public class Controller implements ActionListener {
 			break;
 
 		case "boton_registrar":
-			procesoRegistro();
+			try {
+				String correo = vf.getRw().getTxtCorreo().getText();
+
+				// Verificar si el correo ya fue validado antes
+				if (!correoVerificado || !correo.equals(correoVerificadoActual)) {
+					JOptionPane.showMessageDialog(null,
+							"⚠️ Debes verificar tu correo electrónico antes de registrarte.", "Verificación requerida",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				// Obtener datos básicos comunes
+				String nombres = vf.getRw().getTxtNombres().getText();
+				String apellidos = vf.getRw().getTxtApellidos().getText();
+				String apodo = vf.getRw().getTxtApodo().getText();
+				String password = vf.getRw().getTxtPassword().getText();
+				String pais = (String) vf.getRw().getCmbPais().getSelectedItem();
+				String genero = (String) vf.getRw().getCmbGenero().getSelectedItem();
+				String fechaNacimiento = vf.getRw().getTxtFechaNacimiento().getText();
+
+				// Validaciones
+				ExceptionLauncher.verifyName(nombres);
+				ExceptionLauncher.verifyLastName(apellidos);
+				ExceptionLauncher.verifyNickname(apodo);
+				ExceptionLauncher.verifyBornDate(fechaNacimiento);
+				ExceptionLauncher.verifyComboBox(pais);
+				ExceptionLauncher.verifyComboBox(genero);
+				ExceptionLauncher.verifyRegisterPassword(password);
+				ExceptionLauncher.verifyImageSelected(vf.getRw().getRutaImagenSeleccionada());
+
+				// Crear usuario según género
+				if (genero.equals("Masculino")) {
+					String estatura = vf.getRw().getTxtEstatura().getText();
+					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
+					String ingresosStr = vf.getRw().getTxtIngresos().getText();
+
+					ExceptionLauncher.verifyStature(estatura);
+					ExceptionLauncher.verifyComboBox(orientacion);
+
+					if (ingresosStr.isEmpty()) {
+						throw new NumberFormatException("Los ingresos mensuales son obligatorios");
+					}
+
+					long ingresos = Long.parseLong(ingresosStr);
+					if (ingresos < 0) {
+						throw new NumberFormatException("Los ingresos no pueden ser negativos");
+					}
+
+					MenDTO hombre = new MenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
+							orientacion, "ruta_foto_predeterminada", pais, ingresos);
+					mf.getmDAO().create(hombre);
+
+				} else if (genero.equals("Femenino")) {
+					String estatura = vf.getRw().getTxtEstatura().getText();
+					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
+					String divorciosStr = (String) vf.getRw().getCmbDivorcios().getSelectedItem();
+
+					ExceptionLauncher.verifyStature(estatura);
+					ExceptionLauncher.verifyComboBox(orientacion);
+					ExceptionLauncher.verifyComboBox(divorciosStr);
+
+					boolean tuvoDivorcios = divorciosStr.equals("Sí");
+
+					WomenDTO mujer = new WomenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
+							orientacion, "ruta_foto_predeterminada", pais, tuvoDivorcios);
+					mf.getwDAO().create(mujer);
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Género no válido", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				JOptionPane.showMessageDialog(null, "Registro exitoso.\n¡Bienvenido al sistema!");
+				vf.getRw().setVisible(false);
+				vf.getSw().setVisible(true);
+				limpiarCamposRegistro();
+
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Error en el registro: " + ex.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 			break;
 
 		case "boton_volver_registro": {
@@ -187,9 +321,7 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_iniciosesion": {
-			// Aquí puedes implementar el inicio de sesión con mf (faltante en tu código
-			// original)
-			// Por ahora dejamos el esqueleto.
+
 			break;
 		}
 
@@ -201,200 +333,6 @@ public class Controller implements ActionListener {
 		default:
 			System.out.println("Acción no definida: " + alias);
 			break;
-		}
-	}
-
-	// ------------------- Métodos de mapa (controlador) -------------------
-	private void mostrarUsuariosPorPais(String pais) {
-		List<String> usuarios = mf.getUsuariosPorPais(pais);
-
-		if (usuarios == null || usuarios.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getMw(), "No hay usuarios registrados en " + pais);
-			return;
-		}
-
-		JPanel panel = new JPanel(new GridLayout(0, 3, 10, 10));
-		for (String alias : usuarios) {
-			JLabel lbl = new JLabel(alias, SwingConstants.CENTER);
-			lbl.setFont(new Font("Arial", Font.PLAIN, 14));
-			lbl.setOpaque(true);
-			lbl.setBackground(java.awt.Color.WHITE);
-			lbl.setBorder(BorderFactory.createLineBorder(java.awt.Color.LIGHT_GRAY));
-			panel.add(lbl);
-		}
-
-		JScrollPane scroll = new JScrollPane(panel);
-		scroll.setPreferredSize(new Dimension(500, 300));
-		JOptionPane.showMessageDialog(vf.getMw(), scroll, "Usuarios en " + pais, JOptionPane.PLAIN_MESSAGE);
-	}
-
-	// ------------- METODOS AUXILIARES DEL CORREO -----------------
-	private void procesoVerificacionCorreo() {
-		try {
-			String correo = vf.getRw().getTxtCorreo().getText().trim();
-			ExceptionLauncher.verifyEmail(correo); // tu validación personalizada
-
-			String codigo = generarCodigo();
-
-			// Intentar enviar correo real
-			boolean enviado = enviarCorreo(correo, codigo);
-
-			if (!enviado) {
-				// Si falla el envío SMTP, ofrecer verificación simulada
-				int opc = JOptionPane.showConfirmDialog(null,
-						"No fue posible enviar el correo.\n¿Deseas usar verificación simulada?", "SMTP falló",
-						JOptionPane.YES_NO_OPTION);
-				if (opc != JOptionPane.YES_OPTION) {
-					correoVerificado = false;
-					return;
-				}
-
-				// Mostrar código en pantalla (modo prueba)
-				JOptionPane.showMessageDialog(null,
-						"Modo SIMULADO: tu código es: " + codigo + "\n(En modo real este mensaje no aparece).",
-						"Código simulado", JOptionPane.INFORMATION_MESSAGE);
-			}
-
-			// --- Verificación con tiempo límite ---
-			long inicio = System.currentTimeMillis();
-			boolean verificado = false;
-
-			while (System.currentTimeMillis() - inicio < 5 * 60 * 1000) { // 5 minutos
-				String codigoIngresado = JOptionPane.showInputDialog(null, "Introduce el código recibido por correo:",
-						"Verificación de correo", JOptionPane.QUESTION_MESSAGE);
-
-				if (codigoIngresado == null) { // Usuario canceló
-					JOptionPane.showMessageDialog(null, "Verificación cancelada.");
-					correoVerificado = false;
-					return;
-				}
-
-				if (codigoIngresado.trim().equals(codigo)) {
-					JOptionPane.showMessageDialog(null, "✅ Correo verificado correctamente.");
-					correoVerificado = true;
-					correoVerificadoActual = vf.getRw().getTxtCorreo().getText().trim();
-					verificado = true;
-					break;
-				} else {
-					JOptionPane.showMessageDialog(null, "❌ Código incorrecto. Intenta nuevamente.");
-				}
-			}
-
-			if (!verificado && (System.currentTimeMillis() - inicio >= 5 * 60 * 1000)) {
-				JOptionPane.showMessageDialog(null, "⏰ Tiempo de verificación expirado. Intenta de nuevo.");
-				correoVerificado = false;
-			}
-
-		} catch (EmailException ex) {
-			JOptionPane.showMessageDialog(null,
-					"Formato de correo inválido o dominio no permitido:\n" + ex.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Error al verificar correo: " + ex.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	// ---------------- Registro: Extracts -----------------
-	private void seleccionarYMostrarImagen() {
-		JFileChooser chooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
-		chooser.setFileFilter(filter);
-		int result = chooser.showOpenDialog(null);
-
-		if (result == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = chooser.getSelectedFile();
-			ImageIcon image = new ImageIcon(selectedFile.getAbsolutePath());
-			ImageIcon scaled = new ImageIcon(image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH));
-
-			// Mostrar imagen seleccionada
-			vf.getRw().getlFotoPreview().setIcon(scaled);
-			vf.getRw().setRutaImagenSeleccionada(selectedFile.getAbsolutePath());
-		}
-	}
-
-	private void procesoRegistro() {
-		try {
-			String correo = vf.getRw().getTxtCorreo().getText();
-
-			// Verificar si el correo ya fue validado antes
-			if (!correoVerificado || !correo.equals(correoVerificadoActual)) {
-				JOptionPane.showMessageDialog(null, "⚠️ Debes verificar tu correo electrónico antes de registrarte.",
-						"Verificación requerida", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-
-			// Obtener datos básicos comunes
-			String nombres = vf.getRw().getTxtNombres().getText();
-			String apellidos = vf.getRw().getTxtApellidos().getText();
-			String apodo = vf.getRw().getTxtApodo().getText();
-			String password = vf.getRw().getTxtPassword().getText();
-			String pais = (String) vf.getRw().getCmbPais().getSelectedItem();
-			String genero = (String) vf.getRw().getCmbGenero().getSelectedItem();
-			String fechaNacimiento = vf.getRw().getTxtFechaNacimiento().getText();
-
-			// Validaciones
-			ExceptionLauncher.verifyName(nombres);
-			ExceptionLauncher.verifyLastName(apellidos);
-			ExceptionLauncher.verifyNickname(apodo);
-			ExceptionLauncher.verifyBornDate(fechaNacimiento);
-			ExceptionLauncher.verifyComboBox(pais);
-			ExceptionLauncher.verifyComboBox(genero);
-			ExceptionLauncher.verifyRegisterPassword(password);
-			ExceptionLauncher.verifyImageSelected(vf.getRw().getRutaImagenSeleccionada());
-
-			String rutaFoto = vf.getRw().getRutaImagenSeleccionada(); // usar la real seleccionada
-
-			// Crear usuario según género
-			if (genero.equals("Masculino")) {
-				String estatura = vf.getRw().getTxtEstatura().getText();
-				String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
-				String ingresosStr = vf.getRw().getTxtIngresos().getText();
-
-				ExceptionLauncher.verifyStature(estatura);
-				ExceptionLauncher.verifyComboBox(orientacion);
-
-				if (ingresosStr.isEmpty()) {
-					throw new NumberFormatException("Los ingresos mensuales son obligatorios");
-				}
-
-				long ingresos = Long.parseLong(ingresosStr);
-				if (ingresos < 0) {
-					throw new NumberFormatException("Los ingresos no pueden ser negativos");
-				}
-
-				MenDTO hombre = new MenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
-						orientacion, rutaFoto, pais, ingresos);
-				mf.getmDAO().create(hombre);
-
-			} else if (genero.equals("Femenino")) {
-				String estatura = vf.getRw().getTxtEstatura().getText();
-				String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
-				String divorciosStr = (String) vf.getRw().getCmbDivorcios().getSelectedItem();
-
-				ExceptionLauncher.verifyStature(estatura);
-				ExceptionLauncher.verifyComboBox(orientacion);
-				ExceptionLauncher.verifyComboBox(divorciosStr);
-
-				boolean tuvoDivorcios = divorciosStr.equals("Sí");
-
-				WomenDTO mujer = new WomenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
-						orientacion, rutaFoto, pais, tuvoDivorcios);
-				mf.getwDAO().create(mujer);
-
-			} else {
-				JOptionPane.showMessageDialog(null, "Género no válido", "Error", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-
-			JOptionPane.showMessageDialog(null, "Registro exitoso.\n¡Bienvenido al sistema!");
-			vf.getRw().setVisible(false);
-			vf.getSw().setVisible(true);
-			limpiarCamposRegistro();
-
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Error en el registro: " + ex.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -426,8 +364,6 @@ public class Controller implements ActionListener {
 		vf.getRw().getTxtFechaNacimiento().setText("");
 		vf.getRw().getTxtEstatura().setText("");
 		vf.getRw().getTxtIngresos().setText("");
-		vf.getRw().setRutaImagenSeleccionada(null);
-		vf.getRw().getlFotoPreview().setIcon(null);
 
 		// Restablecer combobox
 		vf.getRw().getCmbPais().setSelectedIndex(0);
