@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import co.edu.unbosque.model.MenDTO;
+import co.edu.unbosque.model.Women;
 import co.edu.unbosque.model.WomenDTO;
 
 public class WomenDAO implements DAO<WomenDTO> {
@@ -12,7 +13,7 @@ public class WomenDAO implements DAO<WomenDTO> {
 	private Properties props;
 	private final String FILE_NAME = "Women.csv";
 	private final String SERIAL_FILE_NAME = "Women.bin";
-	
+
 	public WomenDAO() {
 		listaWomenDTO = new ArrayList<>();
 		loadFromSerializedFile();
@@ -21,21 +22,22 @@ public class WomenDAO implements DAO<WomenDTO> {
 
 	@Override
 	public void create(WomenDTO nuevoDato) {
+		Women entity = DataMapper.convertirWomenDTOAWomen(nuevoDato);
 		listaWomenDTO.add(nuevoDato);
 		writeSerializedFile();
 		writeTextFile();
 	}
 
-	private String content = "";
 	@Override
 	public String showAll() {
-		content = "";
-		for (int i = 0; i < listaWomenDTO.size(); i++) {
-			content += i + "." + listaWomenDTO.get(i).toString() + "\n";
+		StringBuilder content = new StringBuilder();
+		ArrayList<Women> entities = DataMapper.convertirListaWomenDTOAListaWomen(listaWomenDTO);
+		for (int i = 0; i < entities.size(); i++) {
+			content.append(i).append(". ").append(entities.get(i).toString()).append("\n");
 		}
-		writeTextFile();
 		writeSerializedFile();
-		return content;
+		writeTextFile();
+		return content.toString();
 	}
 
 	@Override
@@ -48,7 +50,6 @@ public class WomenDAO implements DAO<WomenDTO> {
 		writeTextFile();
 		return true;
 	}
-	
 
 	@Override
 	public boolean delete(WomenDTO objetoAEliminar) {
@@ -57,13 +58,14 @@ public class WomenDAO implements DAO<WomenDTO> {
 
 	@Override
 	public boolean update(int indice, WomenDTO datoActualizado) {
-		if (indice <0 || indice >= listaWomenDTO.size()) {
-			return false;			
-		}
-		else {
+		if (indice < 0 || indice >= listaWomenDTO.size()) {
+			return false;
+		} else {
+			Women entity = DataMapper.convertirWomenDTOAWomen(datoActualizado);
+			listaWomenDTO.set(indice, datoActualizado);
 			writeSerializedFile();
 			writeTextFile();
-			return true;			
+			return true;
 		}
 	}
 
@@ -93,11 +95,10 @@ public class WomenDAO implements DAO<WomenDTO> {
 			temp.setSexualOrientation(columnas[7]);
 			temp.setCountry(columnas[8]);
 			temp.setHadDivorces(Boolean.parseBoolean(columnas[9]));
-			
-			
+
 			listaWomenDTO.add(temp);
 		}
-		
+
 	}
 
 	@Override
@@ -116,27 +117,27 @@ public class WomenDAO implements DAO<WomenDTO> {
 			sb.append(women.isHadDivorces() + "\n");
 		}
 
-		
-		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString()); //hay que actualizar o sobreescribir el archivo cada vez que usted agregue, elimine y actualice//
+		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString()); // hay que actualizar o sobreescribir el archivo
+																		// cada vez que usted agregue, elimine y
+																		// actualice//
 	}
 
 	@Override
 	public void loadFromSerializedFile() {
 		Object content = FileHandler.leerDesdeArchivoSerializado(SERIAL_FILE_NAME);
 		if (content != null) {
-			listaWomenDTO = (ArrayList<WomenDTO>) content;		
-		}
-		else {
+			listaWomenDTO = (ArrayList<WomenDTO>) content;
+		} else {
 			listaWomenDTO = new ArrayList<WomenDTO>();
-		}	
+		}
 	}
 
 	@Override
 	public void writeSerializedFile() {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, listaWomenDTO);
-		
+
 	}
-	
+
 	@Override
 	public void internacionalizacion(Properties prop) {
 		this.props = prop;
@@ -144,7 +145,5 @@ public class WomenDAO implements DAO<WomenDTO> {
 			women.internacionalizacion(prop);
 		}
 	}
-	
-	
-	
+
 }

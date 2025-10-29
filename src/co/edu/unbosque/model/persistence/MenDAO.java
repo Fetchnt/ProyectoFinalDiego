@@ -3,7 +3,7 @@ package co.edu.unbosque.model.persistence;
 import java.util.ArrayList;
 import java.util.Properties;
 
-
+import co.edu.unbosque.model.Men;
 import co.edu.unbosque.model.MenDTO;
 
 public class MenDAO implements DAO<MenDTO> {
@@ -22,21 +22,22 @@ public class MenDAO implements DAO<MenDTO> {
 
 	@Override
 	public void create(MenDTO nuevoDato) {
+		Men entity = DataMapper.convertirMenDTOAMen(nuevoDato);
 		listaMenDTO.add(nuevoDato);
 		writeSerializedFile();
 		writeTextFile();
 	}
 
-	private String content = "";
-
 	@Override
 	public String showAll() {
-		content = "";
-		for (int i = 0; i < listaMenDTO.size(); i++) {
-			content += i + "." + listaMenDTO.get(i).toString() + "\n";
+		StringBuilder content = new StringBuilder();
+		ArrayList<Men> entities = DataMapper.convertirListaMenDTOAListaMen(listaMenDTO);
+		for (int i = 0; i < entities.size(); i++) {
+			content.append(i).append(". ").append(entities.get(i).toString()).append("\n");
 		}
+		writeSerializedFile();
 		writeTextFile();
-		return content;
+		return content.toString();
 	}
 
 	@Override
@@ -60,6 +61,8 @@ public class MenDAO implements DAO<MenDTO> {
 		if (indice < 0 || indice >= listaMenDTO.size()) {
 			return false;
 		} else {
+			Men entity = DataMapper.convertirMenDTOAMen(datoActualizado);
+			listaMenDTO.set(indice, datoActualizado);
 			writeSerializedFile();
 			return true;
 		}
@@ -133,7 +136,7 @@ public class MenDAO implements DAO<MenDTO> {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, listaMenDTO);
 
 	}
-	
+
 	@Override
 	public void internacionalizacion(Properties prop) {
 		this.props = prop;
