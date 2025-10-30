@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -246,6 +247,58 @@ public class RegisterWindow extends JFrame {
 		btnVolver.setBorderPainted(false);
 		panelForm.add(btnVolver);
 
+	}
+	
+	public void aplicarInternacionalizacion(Properties prop) {
+	    // 🔹 Ventana
+	    setTitle(prop.getProperty("bostinder.view.registerwindow.title"));
+
+	    // 🔹 Título principal
+	    lAreaDeRegistro.setText(prop.getProperty("bostinder.view.registerwindow.label.areaRegistro"));
+
+	    // 🔹 Labels de texto
+	    lNombres.setText(prop.getProperty("bostinder.view.registerwindow.label.nombres"));
+	    lApellidos.setText(prop.getProperty("bostinder.view.registerwindow.label.apellidos"));
+	    lApodo.setText(prop.getProperty("bostinder.view.registerwindow.label.apodo"));
+	    lFechaNacimiento.setText(prop.getProperty("bostinder.view.registerwindow.label.fechaNacimiento"));
+	    lCorreo.setText(prop.getProperty("bostinder.view.registerwindow.label.correo"));
+	    lPassword.setText(prop.getProperty("bostinder.view.registerwindow.label.password"));
+	    lPais.setText(prop.getProperty("bostinder.view.registerwindow.label.pais"));
+	    lGenero.setText(prop.getProperty("bostinder.view.registerwindow.label.genero"));
+	    lEstatura.setText(prop.getProperty("bostinder.view.registerwindow.label.estatura"));
+	    lOrientacion.setText(prop.getProperty("bostinder.view.registerwindow.label.orientacion"));
+	    lIngresos.setText(prop.getProperty("bostinder.view.registerwindow.label.ingresos"));
+	    lDivorcios.setText(prop.getProperty("bostinder.view.registerwindow.label.divorcios"));
+
+	    // 🔹 Botones
+	    btnSubirFoto.setText(prop.getProperty("bostinder.view.registerwindow.button.subirFoto"));
+	    btnVerificarCorreo.setText(prop.getProperty("bostinder.view.registerwindow.button.verificarCorreo"));
+	    btnRegistrar.setText(prop.getProperty("bostinder.view.registerwindow.button.registrar"));
+	    btnVolver.setText(prop.getProperty("bostinder.view.registerwindow.button.volver"));
+
+	    // 🔹 ComboBox País
+	    String paises = prop.getProperty("bostinder.view.registerwindow.combo.paises");
+	    if (paises != null) {
+	        cmbPais.setModel(new javax.swing.DefaultComboBoxModel<>(paises.split(",")));
+	    }
+
+	    // 🔹 ComboBox Género
+	    String generos = prop.getProperty("bostinder.view.registerwindow.combo.generos");
+	    if (generos != null) {
+	        cmbGenero.setModel(new javax.swing.DefaultComboBoxModel<>(generos.split(",")));
+	    }
+
+	    // 🔹 ComboBox Orientación
+	    String orientaciones = prop.getProperty("bostinder.view.registerwindow.combo.orientaciones");
+	    if (orientaciones != null) {
+	        cmbOrientacion.setModel(new javax.swing.DefaultComboBoxModel<>(orientaciones.split(",")));
+	    }
+
+	    // 🔹 ComboBox Divorcios
+	    String divorcios = prop.getProperty("bostinder.view.registerwindow.combo.divorcios");
+	    if (divorcios != null) {
+	        cmbDivorcios.setModel(new javax.swing.DefaultComboBoxModel<>(divorcios.split(",")));
+	    }
 	}
 
 	// ---------- GETTERS Y SETTERSS ----------

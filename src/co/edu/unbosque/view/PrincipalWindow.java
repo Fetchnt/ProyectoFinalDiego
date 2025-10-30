@@ -2,6 +2,7 @@ package co.edu.unbosque.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -138,6 +139,27 @@ public class PrincipalWindow extends JFrame {
 		lPartnerTwo.setBounds(600, 330, 300, 300);
 		this.add(lPartnerTwo);
 
+	}
+	
+	public void aplicarInternacionalizacion(Properties prop) {
+	    // 🔹 Ventana
+	    setTitle(prop.getProperty("bostinder.view.principalwindow.title"));
+
+	    // 🔹 Frase principal
+	    phrase.setText(prop.getProperty("bostinder.view.principalwindow.label.phrase"));
+
+	    // 🔹 Botón principal
+	    start.setText(prop.getProperty("bostinder.view.principalwindow.button.start"));
+
+	    // 🔹 Cambio de idioma
+	    changeLanguage.setText(prop.getProperty("bostinder.view.principalwindow.label.changeLanguage"));
+
+	    // 🔹 Etiquetas de idiomas (debajo de los botones con banderas)
+	    if (lSpanish != null) lSpanish.setText(prop.getProperty("bostinder.view.principalwindow.label.spanish"));
+	    if (lPortuguese != null) lPortuguese.setText(prop.getProperty("bostinder.view.principalwindow.label.portuguese"));
+	    if (lRussian != null) lRussian.setText(prop.getProperty("bostinder.view.principalwindow.label.russian"));
+	    if (lChinnesse != null) lChinnesse.setText(prop.getProperty("bostinder.view.principalwindow.label.chinnesse"));
+	    if (lHebrew != null) lHebrew.setText(prop.getProperty("bostinder.view.principalwindow.label.hebrew"));
 	}
 
 	public JLabel getIcon() {

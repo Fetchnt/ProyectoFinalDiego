@@ -2,6 +2,7 @@ package co.edu.unbosque.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -126,6 +127,25 @@ public class LoginWindow extends JFrame {
 		panelLogin.add(verificate);
 		
 	}
+	
+	public void aplicarInternacionalizacion(Properties prop) {
+	    // 🔹 Título de la ventana
+	    setTitle(prop.getProperty("bostinder.view.loginwindow.title"));
+
+	    // 🔹 Título principal
+	    lTitle.setText(prop.getProperty("bostinder.view.loginwindow.label.title"));
+
+	    // 🔹 Etiquetas de campos
+	    lUser.setText(prop.getProperty("bostinder.view.loginwindow.label.user"));
+	    lPassword.setText(prop.getProperty("bostinder.view.loginwindow.label.password"));
+	    lEmail.setText(prop.getProperty("bostinder.view.loginwindow.label.email"));
+
+	    // 🔹 Botones
+	    login.setText(prop.getProperty("bostinder.view.loginwindow.button.login"));
+	    back.setText(prop.getProperty("bostinder.view.loginwindow.button.back"));
+	    verificate.setText(prop.getProperty("bostinder.view.loginwindow.button.verify"));
+	}
+
 	// ---------GETTERS Y SETTERS---------
 
 	public JLabel getlIcon() {
