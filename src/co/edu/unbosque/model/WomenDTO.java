@@ -12,21 +12,25 @@ public class WomenDTO extends User implements Serializable {
 		super();
 	}
 
-	public WomenDTO(boolean hadDivorces) {
+	public WomenDTO(boolean hadDivorces, Properties prop) {
 		super();
 		this.hadDivorces = hadDivorces;
+		this.prop = prop;
 	}
 
-	public WomenDTO(String name, String lastName, String alias, String bornDate, String stature, String email, String gender,
-			String sexualOrientation, String profilePictureRoute, String country, boolean hadDivorces) {
-		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country);
+	public WomenDTO(String name, String lastName, String alias, String bornDate, String stature, String email,
+			String gender, String sexualOrientation, String profilePictureRoute, String country, String password,
+			boolean hadDivorces, Properties prop) {
+		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country,
+				password);
 		this.hadDivorces = hadDivorces;
+		this.prop = prop;
 	}
 
-	public WomenDTO(String name, String lastName, String alias, String bornDate, String stature, String email, String gender,
-			String sexualOrientation, String profilePictureRoute, String country) {
-		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country);
-		// TODO Auto-generated constructor stub
+	public WomenDTO(String name, String lastName, String alias, String bornDate, String stature, String email,
+			String gender, String sexualOrientation, String profilePictureRoute, String country, String password) {
+		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country,
+				password);
 	}
 
 	public boolean isHadDivorces() {
@@ -36,7 +40,7 @@ public class WomenDTO extends User implements Serializable {
 	public void setHadDivorces(boolean hadDivorces) {
 		this.hadDivorces = hadDivorces;
 	}
-	
+
 	public void internacionalizacion(Properties prop) {
 		this.prop = prop;
 	}
@@ -45,9 +49,5 @@ public class WomenDTO extends User implements Serializable {
 	public String toString() {
 		return super.toString() + "\n Had divorces: " + hadDivorces + "\n==========================================";
 	}
-	
-	
-	
-	
-	
+
 }

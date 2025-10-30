@@ -16,20 +16,26 @@ public class MenDTO extends User implements Serializable {
 		super();
 	}
 
-	public MenDTO(long mensualIncome) {
+	public MenDTO(long mensualIncome, Properties prop) {
 		super();
 		this.mensualIncome = mensualIncome;
+		this.prop = prop;
 	}
 
-	public MenDTO(String name, String lastName, String alias, String bornDate, String stature, String email, String gender,
-			String sexualOrientation, String profilePictureRoute, String country, long mensualIncome) {
-		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country);
+	public MenDTO(String name, String lastName, String alias, String bornDate, String stature, String email,
+			String gender, String sexualOrientation, String profilePictureRoute, String country, String password,
+			long mensualIncome, Properties prop) {
+		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country,
+				password);
 		this.mensualIncome = mensualIncome;
+		this.prop = prop;
 	}
 
-	public MenDTO(String name, String lastName, String alias, String bornDate, String stature, String email, String gender,
-			String sexualOrientation, String profilePictureRoute, String country) {
-		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country);
+	public MenDTO(String name, String lastName, String alias, String bornDate, String stature, String email,
+			String gender, String sexualOrientation, String profilePictureRoute, String country, String password) {
+		super(name, lastName, alias, bornDate, stature, email, gender, sexualOrientation, profilePictureRoute, country,
+				password);
+		// TODO Auto-generated constructor stub
 	}
 
 	public long getMensualIncome() {
@@ -39,16 +45,15 @@ public class MenDTO extends User implements Serializable {
 	public void setMensualIncome(long mensualIncome) {
 		this.mensualIncome = mensualIncome;
 	}
-	
+
 	public void internacionalizacion(Properties prop) {
 		this.prop = prop;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n - Mensual Income" + mensualIncome + "\n==========================================";
+		return super.toString() + "\n - Mensual Income" + mensualIncome
+				+ "\n==========================================";
 	}
-	
-	
-	
+
 }

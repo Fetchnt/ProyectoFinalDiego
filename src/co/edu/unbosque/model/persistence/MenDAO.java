@@ -93,7 +93,9 @@ public class MenDAO implements DAO<MenDTO> {
 			temp.setGender(columnas[6]);
 			temp.setSexualOrientation(columnas[7]);
 			temp.setCountry(columnas[8]);
-			temp.setMensualIncome(Long.parseLong(columnas[9]));
+			temp.setPassword(columnas[9]);
+			temp.setProfilePictureRoute(columnas[10]);
+			temp.setMensualIncome(Long.parseLong(columnas[11]));
 
 			listaMenDTO.add(temp);
 		}
@@ -113,6 +115,8 @@ public class MenDAO implements DAO<MenDTO> {
 			sb.append(men.getGender() + ";");
 			sb.append(men.getSexualOrientation() + ";");
 			sb.append(men.getCountry() + ";");
+			sb.append(men.getPassword() + ";");
+			sb.append(men.getProfilePictureRoute() + ";");
 			sb.append(men.getMensualIncome() + "\n");
 		}
 

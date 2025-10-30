@@ -16,6 +16,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.junit.rules.Verifier;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.swing.*;
@@ -52,19 +54,19 @@ public class Controller implements ActionListener {
 		// BOTONES en PrincipalWindow
 		vf.getPw().getStart().addActionListener(this);
 		vf.getPw().getStart().setActionCommand("boton_start");
-		
+
 		vf.getPw().getbSpanish().addActionListener(this);
 		vf.getPw().getbSpanish().setActionCommand("internacionalizacion_esp");
-		
+
 		vf.getPw().getbChinnesse().addActionListener(this);
 		vf.getPw().getbChinnesse().setActionCommand("internacinalizacion_chi");
-		
+
 		vf.getPw().getbHebrew().addActionListener(this);
 		vf.getPw().getbHebrew().setActionCommand("internacionalizacion_heb");
-		
+
 		vf.getPw().getbPortuguese().addActionListener(this);
 		vf.getPw().getbPortuguese().setActionCommand("internacinalizacion_por");
-		
+
 		vf.getPw().getbRussian().addActionListener(this);
 		vf.getPw().getbRussian().setActionCommand("internacinalizacion_rus");
 
@@ -120,17 +122,17 @@ public class Controller implements ActionListener {
 			vf.getPw().dispose();
 			vf.getSw().setVisible(true);
 			break;
-			
+
 		case "internacionalizacion_esp":
-			/*prop = FileHandler.cargarArchivoPropiedades("esp.properties");
-			
-			vf.aplicarInternacionalizacion(prop);
-			mf.cargarProperties(prop);
-			vf.getsw().mostrarProductos(mf.mostrarPaginaPrincipal());
-			vf.getStartWin().repaint();
-			vf.getStartWin().revalidate();*/
+			/*
+			 * prop = FileHandler.cargarArchivoPropiedades("esp.properties");
+			 * 
+			 * vf.aplicarInternacionalizacion(prop); mf.cargarProperties(prop);
+			 * vf.getsw().mostrarProductos(mf.mostrarPaginaPrincipal());
+			 * vf.getStartWin().repaint(); vf.getStartWin().revalidate();
+			 */
 			break;
-		
+
 		case "abrir_mapa":
 			vf.getSw().dispose();
 			vf.getMw().setVisible(true);
@@ -227,22 +229,31 @@ public class Controller implements ActionListener {
 			break;
 
 		// ---------- ACCIONES DEL REGISTRO ----------
+
 		case "boton_subir_foto":
-			JFileChooser chooser = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
-			chooser.setFileFilter(filter);
-			int result = chooser.showOpenDialog(null);
+			try {
+				JFileChooser chooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
+				chooser.setFileFilter(filter);
+				int result = chooser.showOpenDialog(null);
 
-			if (result == JFileChooser.APPROVE_OPTION) {
-				File selectedFile = chooser.getSelectedFile();
-				ImageIcon image = new ImageIcon(selectedFile.getAbsolutePath());
-				ImageIcon scaled = new ImageIcon(
-						image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH));
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = chooser.getSelectedFile();
 
-				// Mostrar imagen seleccionada
-				vf.getRw().getlFotoPreview().setIcon(scaled);
-				vf.getRw().setRutaImagenSeleccionada(selectedFile.getAbsolutePath());
+					ImageIcon image = new ImageIcon(selectedFile.getAbsolutePath());
+					ImageIcon scaled = new ImageIcon(
+							image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH));
 
+					vf.getRw().getlFotoPreview().setIcon(scaled);
+					vf.getRw().setRutaImagenSeleccionada(selectedFile.getAbsolutePath());
+
+					JOptionPane.showMessageDialog(null, "Imagen cargada correctamente.");
+				} else {
+					throw new ImageNotSelectedException();
+				}
+
+			} catch (ImageNotSelectedException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			break;
 
@@ -299,8 +310,10 @@ public class Controller implements ActionListener {
 						throw new NumberFormatException("Los ingresos no pueden ser negativos");
 					}
 
+					String rutaFoto = vf.getRw().getRutaImagenSeleccionada();
+
 					MenDTO hombre = new MenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
-							orientacion, "ruta_foto_predeterminada", pais, ingresos);
+							orientacion, rutaFoto, pais, password, ingresos, prop);
 					mf.getmDAO().create(hombre);
 
 				} else if (genero.equals("Femenino")) {
@@ -313,9 +326,10 @@ public class Controller implements ActionListener {
 					ExceptionLauncher.verifyComboBox(divorciosStr);
 
 					boolean tuvoDivorcios = divorciosStr.equals("Sí");
+					String rutaFoto = vf.getRw().getRutaImagenSeleccionada();
 
 					WomenDTO mujer = new WomenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
-							orientacion, "ruta_foto_predeterminada", pais, tuvoDivorcios);
+							orientacion, rutaFoto, pais, password, tuvoDivorcios, prop);
 					mf.getwDAO().create(mujer);
 
 				} else {
@@ -408,15 +422,14 @@ public class Controller implements ActionListener {
 		return String.valueOf(codigo);
 	}
 
-	
 	public boolean enviarCorreo(String destinatario, String codigo) {
-		
+
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.starttls.required", "true"); 
+		props.put("mail.smtp.starttls.required", "true");
 		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.ssl.protocols", "TLSv1.2"); 
+		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
 		String host;
 		if (REMITENTE.endsWith("@gmail.com")) {
@@ -433,7 +446,7 @@ public class Controller implements ActionListener {
 			return false;
 		}
 		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.ssl.trust", host); 
+		props.put("mail.smtp.ssl.trust", host);
 		Session session = Session.getInstance(props, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {

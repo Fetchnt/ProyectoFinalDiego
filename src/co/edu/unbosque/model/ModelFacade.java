@@ -50,10 +50,10 @@ public class ModelFacade {
 
 		return resultado;
 	}
-	
-	 public void cargarProperties(Properties prop) {
-	        mDAO.internacionalizacion(prop);
-	        wDAO.internacionalizacion(prop);
-	        
-	    }
+
+	public void cargarProperties(Properties prop) {
+		mDAO.internacionalizacion(prop);
+		wDAO.internacionalizacion(prop);
+
+	}
 }

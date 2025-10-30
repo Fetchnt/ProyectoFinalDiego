@@ -36,7 +36,7 @@ public class FileHandler {
 	public static FileOutputStream fos;
 
 	public static ObjectOutputStream oos;
-	
+
 	public static Properties prop;
 
 	// Es obligatorio que exista el archivo serializado antes de leer
@@ -103,6 +103,7 @@ public class FileHandler {
 			// serializacion, y todo se hace en el modelo
 		}
 	}
+
 	public static Object leerDesdeArchivoSerializado(String url) {
 		try {
 			archivo = new File(url);
@@ -112,11 +113,11 @@ public class FileHandler {
 			fis = new FileInputStream(archivo);
 			ois = new ObjectInputStream(fis);
 			Object contenido = ois.readObject();
-			
+
 			ois.close();
 			fis.close();
 			return contenido;
-			
+
 		} catch (IOException e) {
 			System.err.println("Error al leer el archivo serializado.");
 			e.printStackTrace();
@@ -126,8 +127,8 @@ public class FileHandler {
 		}
 		return null;
 	}
-	
-	public static Properties cargarArchivoPropiedades (String url) {
+
+	public static Properties cargarArchivoPropiedades(String url) {
 		try {
 			archivo = new File(url);
 			if (!archivo.exists()) {
@@ -136,7 +137,7 @@ public class FileHandler {
 			prop = new Properties();
 			prop.load(new FileInputStream(archivo));
 			return prop;
-			
+
 		} catch (IOException e) {
 			System.err.println("Error al cargar el archivo de propiedades.");
 			e.printStackTrace();

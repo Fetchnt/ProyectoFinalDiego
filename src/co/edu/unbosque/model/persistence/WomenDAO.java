@@ -3,7 +3,6 @@ package co.edu.unbosque.model.persistence;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import co.edu.unbosque.model.MenDTO;
 import co.edu.unbosque.model.Women;
 import co.edu.unbosque.model.WomenDTO;
 
@@ -94,7 +93,9 @@ public class WomenDAO implements DAO<WomenDTO> {
 			temp.setGender(columnas[6]);
 			temp.setSexualOrientation(columnas[7]);
 			temp.setCountry(columnas[8]);
-			temp.setHadDivorces(Boolean.parseBoolean(columnas[9]));
+			temp.setPassword(columnas[9]);
+			temp.setProfilePictureRoute(columnas[10]);
+			temp.setHadDivorces(Boolean.parseBoolean(columnas[11]));
 
 			listaWomenDTO.add(temp);
 		}
@@ -114,6 +115,8 @@ public class WomenDAO implements DAO<WomenDTO> {
 			sb.append(women.getGender() + ";");
 			sb.append(women.getSexualOrientation() + ";");
 			sb.append(women.getCountry() + ";");
+			sb.append(women.getPassword() + ";");
+			sb.append(women.getProfilePictureRoute() + ";");
 			sb.append(women.isHadDivorces() + "\n");
 		}
 

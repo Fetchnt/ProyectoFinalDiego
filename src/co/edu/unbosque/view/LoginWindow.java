@@ -50,19 +50,19 @@ public class LoginWindow extends JFrame {
 		lIcon = new JLabel(imageLogo);
 		lIcon.setBounds(0, 0, 980, 150);
 		add(lIcon);
-		
-		//--------- IMAGENES--------------
+
+		// --------- IMAGENES--------------
 		ImageIcon imageWoman = new ImageIcon(getClass().getResource("womanLogin.JPG"));
 		lWoman = new JLabel(imageWoman);
 		lWoman.setBounds(23, 220, 340, 375);
 		add(lWoman);
-		
+
 		ImageIcon imageMen = new ImageIcon(getClass().getResource("menLogin.JPG"));
 		lMen = new JLabel(imageMen);
 		lMen.setBounds(650, 220, 340, 375);
 		add(lMen);
-		
-		//-------TITULO----------
+
+		// -------TITULO----------
 		lTitle = new JLabel("¡Inicia sesión para continuar!");
 		lTitle.setFont(new Font("Cooper Black", Font.PLAIN, 18));
 		lTitle.setBounds(380, 225, 549, 58);
@@ -124,7 +124,7 @@ public class LoginWindow extends JFrame {
 		verificate.setFocusPainted(false);
 		verificate.setBorderPainted(false);
 		panelLogin.add(verificate);
-		
+
 	}
 	// ---------GETTERS Y SETTERS---------
 
@@ -223,6 +223,5 @@ public class LoginWindow extends JFrame {
 	public void setVerificate(JButton verificate) {
 		this.verificate = verificate;
 	}
-	
 
 }

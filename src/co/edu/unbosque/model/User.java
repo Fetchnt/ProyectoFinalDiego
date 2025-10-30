@@ -14,14 +14,15 @@ public abstract class User {
 	private String sexualOrientation;
 	private String profilePictureRoute;
 	private String country;
-	protected Properties prop;
-	
+	private String password;
+	private Properties prop;
+
 	public User() {
 		super();
 	}
 
-	public User(String name, String lastName, String alias, String bornDate, String stature, String email, String gender,
-			String sexualOrientation, String profilePictureRoute, String country) {
+	public User(String name, String lastName, String alias, String bornDate, String stature, String email,
+			String gender, String sexualOrientation, String profilePictureRoute, String country, String password) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
@@ -33,6 +34,7 @@ public abstract class User {
 		this.sexualOrientation = sexualOrientation;
 		this.profilePictureRoute = profilePictureRoute;
 		this.country = country;
+		this.password = password;
 	}
 
 	public String getName() {
@@ -123,10 +125,19 @@ public abstract class User {
 		this.prop = prop;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public String toString() {
-		return "==========================================\n - Name: " + name + "\n - last Name: " + lastName + "\n - Nickname" + alias + "\n -  Born Date: " + bornDate + "\n - Stature: "
-				+ stature + "\n - Email: " + email + "\n - Gender: " + gender + "\n - Sexual Orientation: " + sexualOrientation
-				+ " \n - Country: " + country ;
-	}	
+		return "==========================================\n - Name: " + name + "\n - last Name: " + lastName
+				+ "\n - Nickname" + alias + "\n -  Born Date: " + bornDate + "\n - Stature: " + stature + "\n - Email: "
+				+ email + "\n - Gender: " + gender + "\n - Sexual Orientation: " + sexualOrientation + " \n - Country: "
+				+ country + "\n - Password: " + password;
+	}
 }
