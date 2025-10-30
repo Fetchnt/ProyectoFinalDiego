@@ -176,14 +176,14 @@ public class Controller implements ActionListener {
 		case "verificar_correo":
 			try {
 				String correo = vf.getRw().getTxtCorreo().getText().trim();
-				ExceptionLauncher.verifyEmail(correo); 
+				ExceptionLauncher.verifyEmail(correo);
 
 				String codigo = generarCodigo();
 
 				boolean enviado = enviarCorreo(correo, codigo);
 
 				if (!enviado) {
-					
+
 					int opc = JOptionPane.showConfirmDialog(null,
 							"No fue posible enviar el correo.\n¿Deseas usar verificación simulada?", "SMTP falló",
 							JOptionPane.YES_NO_OPTION);
@@ -192,7 +192,6 @@ public class Controller implements ActionListener {
 						break;
 					}
 
-					
 					JOptionPane.showMessageDialog(null,
 							"Modo SIMULADO: tu código es: " + codigo + "\n(En modo real este mensaje no aparece).",
 							"Código simulado", JOptionPane.INFORMATION_MESSAGE);
@@ -207,7 +206,7 @@ public class Controller implements ActionListener {
 							"Introduce el código recibido por correo:", "Verificación de correo",
 							JOptionPane.QUESTION_MESSAGE);
 
-					if (codigoIngresado == null) { 
+					if (codigoIngresado == null) {
 						JOptionPane.showMessageDialog(null, "Verificación cancelada.");
 						correoVerificado = false;
 						break;
@@ -283,7 +282,6 @@ public class Controller implements ActionListener {
 				String genero = (String) vf.getRw().getCmbGenero().getSelectedItem();
 				String fechaNacimiento = vf.getRw().getTxtFechaNacimiento().getText();
 
-				
 				ExceptionLauncher.verifyName(nombres);
 				ExceptionLauncher.verifyLastName(apellidos);
 				ExceptionLauncher.verifyNickname(apodo);
@@ -293,7 +291,6 @@ public class Controller implements ActionListener {
 				ExceptionLauncher.verifyRegisterPassword(password);
 				ExceptionLauncher.verifyImageSelected(vf.getRw().getRutaImagenSeleccionada());
 
-				
 				if (genero.equals("Masculino")) {
 					String estatura = vf.getRw().getTxtEstatura().getText();
 					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
@@ -377,20 +374,36 @@ public class Controller implements ActionListener {
 
 	// -------------METODOS AUXILIARES-----------------
 	public void mostrarCamposPorGenero() {
-		String genero = (String) vf.getRw().getCmbGenero().getSelectedItem();
+		int indice = vf.getRw().getCmbGenero().getSelectedIndex();
 
-		boolean mostrarCampos = genero.equals("Masculino") || genero.equals("Femenino");
-
-		vf.getRw().getlEstatura().setVisible(mostrarCampos);
-		vf.getRw().getTxtEstatura().setVisible(mostrarCampos);
-		vf.getRw().getlOrientacion().setVisible(mostrarCampos);
-		vf.getRw().getCmbOrientacion().setVisible(mostrarCampos);
-
-		vf.getRw().getlIngresos().setVisible(genero.equals("Masculino"));
-		vf.getRw().getTxtIngresos().setVisible(genero.equals("Masculino"));
-
-		vf.getRw().getlDivorcios().setVisible(genero.equals("Femenino"));
-		vf.getRw().getCmbDivorcios().setVisible(genero.equals("Femenino"));
+		if (indice == 1) { // Masculino
+			vf.getRw().getlEstatura().setVisible(true);
+			vf.getRw().getTxtEstatura().setVisible(true);
+			vf.getRw().getlOrientacion().setVisible(true);
+			vf.getRw().getCmbOrientacion().setVisible(true);
+			vf.getRw().getlIngresos().setVisible(true);
+			vf.getRw().getTxtIngresos().setVisible(true);
+			vf.getRw().getlDivorcios().setVisible(false);
+			vf.getRw().getCmbDivorcios().setVisible(false);
+		} else if (indice == 2) { // Femenino
+			vf.getRw().getlEstatura().setVisible(true);
+			vf.getRw().getTxtEstatura().setVisible(true);
+			vf.getRw().getlOrientacion().setVisible(true);
+			vf.getRw().getCmbOrientacion().setVisible(true);
+			vf.getRw().getlIngresos().setVisible(false);
+			vf.getRw().getTxtIngresos().setVisible(false);
+			vf.getRw().getlDivorcios().setVisible(true);
+			vf.getRw().getCmbDivorcios().setVisible(true);
+		} else {
+			vf.getRw().getlEstatura().setVisible(false);
+			vf.getRw().getTxtEstatura().setVisible(false);
+			vf.getRw().getlOrientacion().setVisible(false);
+			vf.getRw().getCmbOrientacion().setVisible(false);
+			vf.getRw().getlIngresos().setVisible(false);
+			vf.getRw().getTxtIngresos().setVisible(false);
+			vf.getRw().getlDivorcios().setVisible(false);
+			vf.getRw().getCmbDivorcios().setVisible(false);
+		}
 	}
 
 	public void limpiarCamposRegistro() {

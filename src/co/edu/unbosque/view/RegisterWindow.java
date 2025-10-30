@@ -37,6 +37,7 @@ public class RegisterWindow extends JFrame {
 	private JLabel lFechaNacimiento;
 	private JLabel lPais;
 	private JLabel lPassword;
+	private JLabel lFoto;
 
 	private JTextField txtNombres;
 	private JTextField txtApellidos;
@@ -194,7 +195,7 @@ public class RegisterWindow extends JFrame {
 		panelForm.add(cmbOrientacion);
 
 		lIngresos = new JLabel("Ingresos mensuales:");
-		lIngresos.setBounds(250, 295, 150, 20);
+		lIngresos.setBounds(250, 295, 340, 20);
 		lIngresos.setVisible(false);
 		panelForm.add(lIngresos);
 
@@ -214,7 +215,7 @@ public class RegisterWindow extends JFrame {
 		panelForm.add(cmbDivorcios);
 
 		// ---------- SUBIR FOTO ----------
-		JLabel lFoto = new JLabel("Foto de perfil (.png):");
+		lFoto = new JLabel("Foto de perfil (.png):");
 		lFoto.setBounds(470, 20, 176, 20);
 		panelForm.add(lFoto);
 
@@ -269,6 +270,7 @@ public class RegisterWindow extends JFrame {
 	    lOrientacion.setText(prop.getProperty("bostinder.view.registerwindow.label.orientacion"));
 	    lIngresos.setText(prop.getProperty("bostinder.view.registerwindow.label.ingresos"));
 	    lDivorcios.setText(prop.getProperty("bostinder.view.registerwindow.label.divorcios"));
+	    lFoto.setText(prop.getProperty("bostinder.view.registerwindow.label.foto"));
 
 	    // 🔹 Botones
 	    btnSubirFoto.setText(prop.getProperty("bostinder.view.registerwindow.button.subirFoto"));
