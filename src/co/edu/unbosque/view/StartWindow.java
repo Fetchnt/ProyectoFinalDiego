@@ -2,6 +2,7 @@ package co.edu.unbosque.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -106,6 +107,18 @@ public class StartWindow extends JFrame {
 		lMail.setBounds(700, 170, 100, 100);
 		this.add(lMail);
 		
+	}
+	
+	public void aplicarInternacionalizacion(Properties prop) {
+	    // 🔹 Ventana
+	    setTitle(prop.getProperty("bostinder.view.startwindow.title"));
+
+	    // 🔹 Botones principales
+	    signIn.setText(prop.getProperty("bostinder.view.startwindow.button.signin"));
+	    login.setText(prop.getProperty("bostinder.view.startwindow.button.login"));
+	    exit.setText(prop.getProperty("bostinder.view.startwindow.button.exit"));
+	    back.setText(prop.getProperty("bostinder.view.startwindow.button.back"));
+	    mapButton.setText(prop.getProperty("bostinder.view.startwindow.button.map"));
 	}
 
 	//--------GETTERS Y SETTERS------

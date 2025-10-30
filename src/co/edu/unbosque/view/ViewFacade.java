@@ -25,14 +25,13 @@ public class ViewFacade {
 		mmw = new MainWindow();
 	}
 	
-	/*public void aplicarInternacionalizacion(Properties prop) {
+	public void aplicarInternacionalizacion(Properties prop) {
         sw.aplicarInternacionalizacion(prop);
         lw.aplicarInternacionalizacion(prop);
-        mw.aplicarInternacionalizacion(prop);
         pw.aplicarInternacionalizacion(prop);
         rw.aplicarInternacionalizacion(prop);
         mmw.aplicarInternacionalizacion(prop);
-    }*/
+    }
 
 	public ModelFacade getModel() {
 		return model;

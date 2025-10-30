@@ -22,6 +22,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.FileInputStream;
 
 import co.edu.unbosque.util.exception.*;
 import co.edu.unbosque.model.MenDTO;
@@ -112,6 +113,7 @@ public class Controller implements ActionListener {
 
 		vf.getLw().getLogin().addActionListener(this);
 		vf.getLw().getLogin().setActionCommand("boton_iniciosesion");
+
 	}
 
 	@Override
@@ -131,6 +133,23 @@ public class Controller implements ActionListener {
 			 * vf.getsw().mostrarProductos(mf.mostrarPaginaPrincipal());
 			 * vf.getStartWin().repaint(); vf.getStartWin().revalidate();
 			 */
+			aplicarInternacionalizacion("es");
+			break;
+
+		case "internacinalizacion_por":
+			aplicarInternacionalizacion("pt");
+			break;
+
+		case "internacinalizacion_chi":
+			aplicarInternacionalizacion("chi");
+			break;
+
+		case "internacionalizacion_heb":
+			aplicarInternacionalizacion("heb");
+			break;
+
+		case "internacinalizacion_rus":
+			aplicarInternacionalizacion("rus");
 			break;
 
 		case "abrir_mapa":
@@ -149,8 +168,11 @@ public class Controller implements ActionListener {
 			break;
 
 		case "boton_exit":
-			int confirm = JOptionPane.showConfirmDialog(vf.getSw(), "Confirmar salida", "¿Desea salir de BosTinder?",
+			int confirm = JOptionPane.showConfirmDialog(vf.getSw(),
+					prop.getProperty("bostinder.controller.dialog.confirm_exit.message", "¿Desea salir de BosTinder?"),
+					prop.getProperty("bostinder.controller.dialog.confirm_exit.title", "Confirmar salida"),
 					JOptionPane.YES_NO_OPTION);
+
 			if (confirm == JOptionPane.YES_OPTION) {
 				System.exit(0);
 			}
@@ -164,15 +186,14 @@ public class Controller implements ActionListener {
 		case "verificar_correo":
 			try {
 				String correo = vf.getRw().getTxtCorreo().getText().trim();
-				ExceptionLauncher.verifyEmail(correo); // tu validación personalizada
+				ExceptionLauncher.verifyEmail(correo);
 
 				String codigo = generarCodigo();
 
-				// Intentar enviar correo real
 				boolean enviado = enviarCorreo(correo, codigo);
 
 				if (!enviado) {
-					// Si falla el envío SMTP, ofrecer verificación simulada
+
 					int opc = JOptionPane.showConfirmDialog(null,
 							"No fue posible enviar el correo.\n¿Deseas usar verificación simulada?", "SMTP falló",
 							JOptionPane.YES_NO_OPTION);
@@ -181,7 +202,6 @@ public class Controller implements ActionListener {
 						break;
 					}
 
-					// Mostrar código en pantalla (modo prueba)
 					JOptionPane.showMessageDialog(null,
 							"Modo SIMULADO: tu código es: " + codigo + "\n(En modo real este mensaje no aparece).",
 							"Código simulado", JOptionPane.INFORMATION_MESSAGE);
@@ -191,12 +211,12 @@ public class Controller implements ActionListener {
 				long inicio = System.currentTimeMillis();
 				boolean verificado = false;
 
-				while (System.currentTimeMillis() - inicio < 5 * 60 * 1000) { // 5 minutos
+				while (System.currentTimeMillis() - inicio < 5 * 60 * 1000) {
 					String codigoIngresado = JOptionPane.showInputDialog(null,
 							"Introduce el código recibido por correo:", "Verificación de correo",
 							JOptionPane.QUESTION_MESSAGE);
 
-					if (codigoIngresado == null) { // Usuario canceló
+					if (codigoIngresado == null) {
 						JOptionPane.showMessageDialog(null, "Verificación cancelada.");
 						correoVerificado = false;
 						break;
@@ -273,7 +293,6 @@ public class Controller implements ActionListener {
 					return;
 				}
 
-				// Obtener datos básicos comunes
 				String nombres = vf.getRw().getTxtNombres().getText();
 				String apellidos = vf.getRw().getTxtApellidos().getText();
 				String apodo = vf.getRw().getTxtApodo().getText();
@@ -282,7 +301,6 @@ public class Controller implements ActionListener {
 				String genero = (String) vf.getRw().getCmbGenero().getSelectedItem();
 				String fechaNacimiento = vf.getRw().getTxtFechaNacimiento().getText();
 
-				// Validaciones
 				ExceptionLauncher.verifyName(nombres);
 				ExceptionLauncher.verifyLastName(apellidos);
 				ExceptionLauncher.verifyNickname(apodo);
@@ -292,7 +310,6 @@ public class Controller implements ActionListener {
 				ExceptionLauncher.verifyRegisterPassword(password);
 				ExceptionLauncher.verifyImageSelected(vf.getRw().getRutaImagenSeleccionada());
 
-				// Crear usuario según género
 				if (genero.equals("Masculino")) {
 					String estatura = vf.getRw().getTxtEstatura().getText();
 					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
@@ -355,14 +372,23 @@ public class Controller implements ActionListener {
 			break;
 		}
 
-		case "boton_volver_iniciosesion": {
-			vf.getLw().setVisible(false);
-			vf.getSw().setVisible(true);
-			break;
-		}
-
 		case "boton_iniciosesion": {
+			// Obtener los datos ingresados
+			String userAlias = vf.getLw().getUser().getText();
+			String email = vf.getLw().getEmail().getText();
+			String password = vf.getLw().getPassword().getText();
 
+			// Validar credenciales con el modelo
+			boolean valido = mf.validarInicioSesion(userAlias, email, password);
+
+			if (valido) {
+				JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso. ¡Bienvenido!");
+				vf.getLw().setVisible(false);
+				vf.getMmw().setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(null, "Datos incorrectos. Verifica tu alias, correo y contraseña.",
+						"Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+			}
 			break;
 		}
 
@@ -375,6 +401,7 @@ public class Controller implements ActionListener {
 			System.out.println("Acción no definida: " + alias);
 			break;
 		}
+
 	}
 
 	// -------------METODOS AUXILIARES-----------------
@@ -481,6 +508,51 @@ public class Controller implements ActionListener {
 			JOptionPane.showMessageDialog(null, "⚠️ Error inesperado al enviar correo: " + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
+		}
+	}
+
+	/**
+	 * Aplica internacionalización a TODO el programa (todas las ventanas y modelo).
+	 * 
+	 * @param idioma Código del idioma, ej: "es", "en", "pt", "chi", "heb", "rus"
+	 */
+	public void aplicarInternacionalizacion(String idioma) {
+		try {
+			String archivo = switch (idioma.toLowerCase()) {
+			case "es" -> "spa.properties";
+			case "pt" -> "por.properties";
+			case "chi" -> "chin.properties";
+			case "heb" -> "heb.properties";
+			case "rus" -> "rus.properties";
+			default -> "spa.properties";
+			};
+
+			prop = new Properties();
+			prop.load(new FileInputStream("Language_properties/" + archivo));
+
+			vf.getPw().aplicarInternacionalizacion(prop);
+			vf.getSw().aplicarInternacionalizacion(prop);
+			vf.getRw().aplicarInternacionalizacion(prop);
+			vf.getLw().aplicarInternacionalizacion(prop);
+			vf.getMmw().aplicarInternacionalizacion(prop);
+
+			mf.cargarProperties(prop);
+
+			vf.getPw().revalidate();
+			vf.getPw().repaint();
+			vf.getSw().revalidate();
+			vf.getSw().repaint();
+			vf.getRw().revalidate();
+			vf.getRw().repaint();
+			vf.getLw().revalidate();
+			vf.getLw().repaint();
+			vf.getMmw().revalidate();
+			vf.getMmw().repaint();
+
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, "Error al aplicar internacionalización: " + ex.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+			ex.printStackTrace();
 		}
 	}
 

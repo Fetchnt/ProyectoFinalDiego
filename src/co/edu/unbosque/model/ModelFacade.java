@@ -56,4 +56,32 @@ public class ModelFacade {
 		wDAO.internacionalizacion(prop);
 
 	}
+
+	public boolean validarInicioSesion(String userAlias, String email, String password) {
+		// 🔹 Leer siempre los CSV más recientes
+		mDAO.listaMenDTO.clear();
+		mDAO.readFromTextFile("Men.csv");
+
+		wDAO.listaWomenDTO.clear();
+		wDAO.readFromTextFile("Women.csv");
+
+		// 🔹 Buscar coincidencia en hombres
+		for (var m : mDAO.listaMenDTO) {
+			if (m.getAlias().equalsIgnoreCase(userAlias) && m.getEmail().equalsIgnoreCase(email)
+					&& m.getPassword().equals(password)) {
+				return true;
+			}
+		}
+
+		// 🔹 Buscar coincidencia en mujeres
+		for (var w : wDAO.listaWomenDTO) {
+			if (w.getAlias().equalsIgnoreCase(userAlias) && w.getEmail().equalsIgnoreCase(email)
+					&& w.getPassword().equals(password)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }

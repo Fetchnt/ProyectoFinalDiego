@@ -2,6 +2,7 @@ package co.edu.unbosque.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,13 +21,12 @@ public class LoginWindow extends JFrame {
 	private JLabel lMen;
 
 	// PARA EL PANEL
-	private JLabel lUser;
+	private JLabel luserAlias;
 	private JLabel lPassword;
 	private JLabel lEmail;
-	private JTextField user;
+	private JTextField userAlias;
 	private JTextField password;
 	private JTextField email;
-	private JButton verificate;
 	private JButton login;
 	private JButton back;
 
@@ -76,9 +76,9 @@ public class LoginWindow extends JFrame {
 		add(panelLogin);
 
 		// --------CAMPOS DE TEXTO--------
-		lUser = new JLabel("Usuario");
-		lUser.setBounds(128, 80, 150, 20);
-		panelLogin.add(lUser);
+		luserAlias = new JLabel("Usuario");
+		luserAlias.setBounds(128, 80, 150, 20);
+		panelLogin.add(luserAlias);
 
 		lPassword = new JLabel("Contraseña");
 		lPassword.setBounds(123, 135, 150, 20);
@@ -88,9 +88,9 @@ public class LoginWindow extends JFrame {
 		lEmail.setBounds(103, 190, 150, 20);
 		panelLogin.add(lEmail);
 
-		user = new JTextField();
-		user.setBounds(73, 105, 164, 20);
-		panelLogin.add(user);
+		userAlias = new JTextField();
+		userAlias.setBounds(73, 105, 164, 20);
+		panelLogin.add(userAlias);
 
 		password = new JTextField();
 		password.setBounds(73, 160, 164, 20);
@@ -117,15 +117,25 @@ public class LoginWindow extends JFrame {
 		back.setBorderPainted(false);
 		panelLogin.add(back);
 
-		verificate = new JButton("Verificar Correo");
-		verificate.setBounds(60, 260, 190, 40);
-		verificate.setFont(new Font("Arial", Font.BOLD, 14));
-		verificate.setBackground(Color.decode("#F9CFCE"));
-		verificate.setFocusPainted(false);
-		verificate.setBorderPainted(false);
-		panelLogin.add(verificate);
-
 	}
+
+	public void aplicarInternacionalizacion(Properties prop) {
+		// 🔹 Título de la ventana
+		setTitle(prop.getProperty("bostinder.view.loginwindow.title"));
+
+		// 🔹 Título principal
+		lTitle.setText(prop.getProperty("bostinder.view.loginwindow.label.title"));
+
+		// 🔹 Etiquetas de campos
+		luserAlias.setText(prop.getProperty("bostinder.view.loginwindow.label.user"));
+		lPassword.setText(prop.getProperty("bostinder.view.loginwindow.label.password"));
+		lEmail.setText(prop.getProperty("bostinder.view.loginwindow.label.email"));
+
+		// 🔹 Botones
+		login.setText(prop.getProperty("bostinder.view.loginwindow.button.login"));
+		back.setText(prop.getProperty("bostinder.view.loginwindow.button.back"));
+	}
+
 	// ---------GETTERS Y SETTERS---------
 
 	public JLabel getlIcon() {
@@ -145,11 +155,11 @@ public class LoginWindow extends JFrame {
 	}
 
 	public JLabel getlUser() {
-		return lUser;
+		return luserAlias;
 	}
 
 	public void setlUser(JLabel lUser) {
-		this.lUser = lUser;
+		this.luserAlias = lUser;
 	}
 
 	public JLabel getlPassword() {
@@ -169,11 +179,11 @@ public class LoginWindow extends JFrame {
 	}
 
 	public JTextField getUser() {
-		return user;
+		return userAlias;
 	}
 
 	public void setUser(JTextField user) {
-		this.user = user;
+		this.userAlias = user;
 	}
 
 	public JTextField getPassword() {
@@ -214,14 +224,6 @@ public class LoginWindow extends JFrame {
 
 	public void setlTitle(JLabel lTitle) {
 		this.lTitle = lTitle;
-	}
-
-	public JButton getVerificate() {
-		return verificate;
-	}
-
-	public void setVerificate(JButton verificate) {
-		this.verificate = verificate;
 	}
 
 }

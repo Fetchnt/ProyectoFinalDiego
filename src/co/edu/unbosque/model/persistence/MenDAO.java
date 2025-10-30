@@ -77,25 +77,41 @@ public class MenDAO implements DAO<MenDTO> {
 	public void readFromTextFile(String url) {
 		String content;
 		content = FileHandler.leerDesdeArchivoTexto("Men.csv");
-		if (content == "" || content.isBlank()) {
+		if (content == null || content.isBlank()) {
 			return;
 		}
+
 		String[] filas = content.split("\n");
 		for (int i = 0; i < filas.length; i++) {
-			String[] columnas = filas[i].split(";");
+			// Detectar automáticamente si usa ;
+			String separador = filas[i].contains(";") ? ";" : "\t";
+			String[] columnas = filas[i].split(separador);
+
+			// Validar cantidad de columnas esperada 12
+			if (columnas.length < 12) {
+				System.err.println("⚠️ Línea inválida en CSV (fila " + (i + 1) + "): " + filas[i]);
+				continue;
+			}
+
 			MenDTO temp = new MenDTO();
-			temp.setName(columnas[0]);
-			temp.setLastName(columnas[1]);
-			temp.setAlias(columnas[2]);
-			temp.setBornDate(columnas[3]);
-			temp.setStature(columnas[4]);
-			temp.setEmail(columnas[5]);
-			temp.setGender(columnas[6]);
-			temp.setSexualOrientation(columnas[7]);
-			temp.setCountry(columnas[8]);
-			temp.setPassword(columnas[9]);
-			temp.setProfilePictureRoute(columnas[10]);
-			temp.setMensualIncome(Long.parseLong(columnas[11]));
+			temp.setName(columnas[0].trim());
+			temp.setLastName(columnas[1].trim());
+			temp.setAlias(columnas[2].trim());
+			temp.setBornDate(columnas[3].trim());
+			temp.setStature(columnas[4].trim());
+			temp.setEmail(columnas[5].trim());
+			temp.setGender(columnas[6].trim());
+			temp.setSexualOrientation(columnas[7].trim());
+			temp.setCountry(columnas[8].trim());
+			temp.setPassword(columnas[9].trim());
+			temp.setProfilePictureRoute(columnas[10].trim());
+
+			try {
+				temp.setMensualIncome(Long.parseLong(columnas[11].trim()));
+			} catch (NumberFormatException e) {
+				System.err.println("⚠️ Error convirtiendo ingreso mensual en fila " + (i + 1));
+				temp.setMensualIncome(0);
+			}
 
 			listaMenDTO.add(temp);
 		}
@@ -148,4 +164,36 @@ public class MenDAO implements DAO<MenDTO> {
 			men.internacionalizacion(prop);
 		}
 	}
+
+	public boolean validarUsuario(String userAlias, String email, String password) {
+		String content = FileHandler.leerDesdeArchivoTexto(FILE_NAME);
+		if (content == null || content.isBlank()) {
+			return false;
+		}
+
+		String[] filas = content.split("\n");
+		for (String fila : filas) {
+			fila = fila.trim();
+			if (fila.isEmpty())
+				continue;
+
+			String[] columnas = fila.split("[;\t]");
+			if (columnas.length < 12)
+				continue;
+
+			// 0: nombre | 1: apellido | 2: alias | 3: fecha | 4: estatura |
+			// 5: email | 6: género | 7: orientación | 8: país | 9: contraseña |
+			// 10: foto | 11: ingresos
+			String alias = columnas[2].trim();
+			String mail = columnas[5].trim();
+			String pass = columnas[9].trim();
+
+			if (alias.equalsIgnoreCase(userAlias) && mail.equalsIgnoreCase(email) && pass.equals(password)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }
