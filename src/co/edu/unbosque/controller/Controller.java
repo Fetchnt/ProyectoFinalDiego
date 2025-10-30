@@ -406,20 +406,36 @@ public class Controller implements ActionListener {
 
 	// -------------METODOS AUXILIARES-----------------
 	public void mostrarCamposPorGenero() {
-		String genero = (String) vf.getRw().getCmbGenero().getSelectedItem();
+		int indice = vf.getRw().getCmbGenero().getSelectedIndex();
 
-		boolean mostrarCampos = genero.equals("Masculino") || genero.equals("Femenino");
-
-		vf.getRw().getlEstatura().setVisible(mostrarCampos);
-		vf.getRw().getTxtEstatura().setVisible(mostrarCampos);
-		vf.getRw().getlOrientacion().setVisible(mostrarCampos);
-		vf.getRw().getCmbOrientacion().setVisible(mostrarCampos);
-
-		vf.getRw().getlIngresos().setVisible(genero.equals("Masculino"));
-		vf.getRw().getTxtIngresos().setVisible(genero.equals("Masculino"));
-
-		vf.getRw().getlDivorcios().setVisible(genero.equals("Femenino"));
-		vf.getRw().getCmbDivorcios().setVisible(genero.equals("Femenino"));
+		if (indice == 1) { // Masculino
+			vf.getRw().getlEstatura().setVisible(true);
+			vf.getRw().getTxtEstatura().setVisible(true);
+			vf.getRw().getlOrientacion().setVisible(true);
+			vf.getRw().getCmbOrientacion().setVisible(true);
+			vf.getRw().getlIngresos().setVisible(true);
+			vf.getRw().getTxtIngresos().setVisible(true);
+			vf.getRw().getlDivorcios().setVisible(false);
+			vf.getRw().getCmbDivorcios().setVisible(false);
+		} else if (indice == 2) { // Femenino
+			vf.getRw().getlEstatura().setVisible(true);
+			vf.getRw().getTxtEstatura().setVisible(true);
+			vf.getRw().getlOrientacion().setVisible(true);
+			vf.getRw().getCmbOrientacion().setVisible(true);
+			vf.getRw().getlIngresos().setVisible(false);
+			vf.getRw().getTxtIngresos().setVisible(false);
+			vf.getRw().getlDivorcios().setVisible(true);
+			vf.getRw().getCmbDivorcios().setVisible(true);
+		} else {
+			vf.getRw().getlEstatura().setVisible(false);
+			vf.getRw().getTxtEstatura().setVisible(false);
+			vf.getRw().getlOrientacion().setVisible(false);
+			vf.getRw().getCmbOrientacion().setVisible(false);
+			vf.getRw().getlIngresos().setVisible(false);
+			vf.getRw().getTxtIngresos().setVisible(false);
+			vf.getRw().getlDivorcios().setVisible(false);
+			vf.getRw().getCmbDivorcios().setVisible(false);
+		}
 	}
 
 	public void limpiarCamposRegistro() {
