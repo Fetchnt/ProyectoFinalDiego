@@ -8,14 +8,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import co.edu.unbosque.controller.Controller;
 
 public class PrincipalWindow extends JFrame {
 
-	private JLabel icon;
 	private JLabel phrase;
 	private JButton start;
+	private JLabel icon;
 
 	// idiomas
 	private JLabel changeLanguage;

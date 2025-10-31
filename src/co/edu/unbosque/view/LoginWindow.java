@@ -46,6 +46,7 @@ public class LoginWindow extends JFrame {
 		this.getContentPane().setBackground(Color.decode("#F9CFCE"));
 
 		// ---------IMAGEN SUPERIOR----------
+
 		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
 		lIcon = new JLabel(imageLogo);
 		lIcon.setBounds(0, 0, 980, 150);
@@ -138,14 +139,10 @@ public class LoginWindow extends JFrame {
 
 	// ---------GETTERS Y SETTERS---------
 
-	public JLabel getlIcon() {
-		return lIcon;
-	}
-
-	public void setlIcon(JLabel lIcon) {
-		this.lIcon = lIcon;
-	}
-
+	  public JLabel getlIcon() { return lIcon; }
+	  
+	  public void setlIcon(JLabel lIcon) { this.lIcon = lIcon; }
+	 
 	public JLabel getlDeco() {
 		return lDeco;
 	}

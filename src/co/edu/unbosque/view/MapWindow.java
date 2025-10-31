@@ -152,19 +152,19 @@ public class MapWindow extends JFrame {
 
 	private void definirPuntosPaises() {
 		puntosPaises = new HashMap<>();
-		puntosPaises.put("España", new Point(454, 263));
-		puntosPaises.put("Portugal", new Point(433, 270));
-		puntosPaises.put("Israel", new Point(531, 292));
-		puntosPaises.put("Rusia", new Point(663, 166));
-		puntosPaises.put("Taiwan", new Point(729, 340));
-		puntosPaises.put("Singapur", new Point(629, 360));
-		puntosPaises.put("Brasil", new Point(325, 416));
-		puntosPaises.put("Macao", new Point(714, 326));
-		puntosPaises.put("Angola", new Point(480, 410));
-		puntosPaises.put("Kazajistan", new Point(595, 227));
-		puntosPaises.put("Mexico", new Point(213, 314));
-		puntosPaises.put("Argentina", new Point(295, 476));
-		puntosPaises.put("Colombia", new Point(281, 378));
+		puntosPaises.put("España", new Point(338, 220));
+		puntosPaises.put("Portugal", new Point(327, 220));
+		puntosPaises.put("Israel", new Point(425, 260));
+		puntosPaises.put("Rusia", new Point(529, 149));
+		puntosPaises.put("Taiwan", new Point(576, 263));
+		puntosPaises.put("Singapur", new Point(539, 311));
+		puntosPaises.put("Brasil", new Point(240, 348));
+		puntosPaises.put("Macao", new Point(568, 249));
+		puntosPaises.put("Angola", new Point(374, 353));
+		puntosPaises.put("Kazajistan", new Point(470, 195));
+		puntosPaises.put("Mexico", new Point(142, 264));
+		puntosPaises.put("Argentina", new Point(215, 406));
+		puntosPaises.put("Colombia", new Point(200, 318));
 	}
 
 	/**
