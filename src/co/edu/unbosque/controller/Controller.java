@@ -52,7 +52,7 @@ public class Controller implements ActionListener {
 	}
 
 	public void asignarOyentes() {
-		// BOTONES en PrincipalWindow
+		// ---------- BOTONES en PrincipalWindow ----------
 		vf.getPw().getStart().addActionListener(this);
 		vf.getPw().getStart().setActionCommand("boton_start");
 
@@ -71,7 +71,7 @@ public class Controller implements ActionListener {
 		vf.getPw().getbRussian().addActionListener(this);
 		vf.getPw().getbRussian().setActionCommand("internacinalizacion_rus");
 
-		// BOTONES en SignInWindow
+		// ---------- BOTONES en SignInWindow ----------
 		vf.getSw().getSignIn().addActionListener(this);
 		vf.getSw().getSignIn().setActionCommand("boton_signIn");
 
@@ -100,7 +100,7 @@ public class Controller implements ActionListener {
 		vf.getRw().getBtnVolver().addActionListener(this);
 		vf.getRw().getBtnVolver().setActionCommand("boton_volver_registro");
 
-		// Mapa
+		// ---------- BOTONES en Mapa ----------
 		vf.getSw().getMapButton().addActionListener(this);
 		vf.getSw().getMapButton().setActionCommand("abrir_mapa");
 
@@ -113,7 +113,13 @@ public class Controller implements ActionListener {
 
 		vf.getLw().getLogin().addActionListener(this);
 		vf.getLw().getLogin().setActionCommand("boton_iniciosesion");
+		
+		// ---------- BOTONES en MainWindow ----------
 
+		vf.getMmw().getBtnLogOff().addActionListener(this);
+		vf.getMmw().getBtnLogOff().setActionCommand("boton_cerrarsesion");
+		
+		
 	}
 
 	@Override
@@ -391,7 +397,17 @@ public class Controller implements ActionListener {
 			}
 			break;
 		}
+		case "boton_volver_iniciosesion": {
+			vf.getLw().dispose();
+			vf.getSw().setVisible(true);
+			break;
+		}
 
+		case "boton_cerrarsesion": {
+			vf.getMmw().dispose();
+			vf.getSw().setVisible(true);
+		}
+		
 		case "back_mapa":
 			vf.getMw().dispose();
 			vf.getSw().setVisible(true);

@@ -11,10 +11,10 @@ import java.awt.event.ActionEvent;
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel lblFotoPerfil;
-	private JLabel lblNombreEdad;
-	private JTextArea txtDescripcion;
-	private JButton btnLike, btnNope, btnFavorito, btnPerfil, btnCerrarSesion;
+	private JLabel lblProfilePicture;
+	private JLabel lblNameAge;
+	private JTextArea txtDescription;
+	private JButton btnLike, btnNope, btnFavorite, btnProfile, btnLogOff;
 
 	public MainWindow() {
 		this.setTitle("BosTinder - Inicio");
@@ -38,49 +38,49 @@ public class MainWindow extends JFrame {
 		getContentPane().add(lblTitulo);
 
 		// --- FOTO GRANDE DEL PERFIL ---
-		lblFotoPerfil = new JLabel();
-		lblFotoPerfil.setBounds(57, 222, 350, 350);
-		lblFotoPerfil.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-		getContentPane().add(lblFotoPerfil);
+		lblProfilePicture = new JLabel();
+		lblProfilePicture.setBounds(57, 222, 350, 350);
+		lblProfilePicture.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+		getContentPane().add(lblProfilePicture);
 
 		// --- NOMBRE Y EDAD DEBAJO DE LA FOTO ---
-		lblNombreEdad = new JLabel("", SwingConstants.CENTER);
-		lblNombreEdad.setFont(new Font("Cooper Black", Font.PLAIN, 18));
-		lblNombreEdad.setBounds(57, 571, 350, 25);
-		getContentPane().add(lblNombreEdad);
+		lblNameAge = new JLabel("", SwingConstants.CENTER);
+		lblNameAge.setFont(new Font("Cooper Black", Font.PLAIN, 18));
+		lblNameAge.setBounds(57, 571, 350, 25);
+		getContentPane().add(lblNameAge);
 
 		// --- DESCRIPCIÓN A LA DERECHA ---
-		txtDescripcion = new JTextArea();
-		txtDescripcion.setBounds(480, 250, 420, 280);
-		txtDescripcion.setLineWrap(true);
-		txtDescripcion.setWrapStyleWord(true);
-		txtDescripcion.setEditable(false);
-		txtDescripcion.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtDescripcion.setBackground(Color.WHITE);
-		txtDescripcion.setBorder(BorderFactory.createTitledBorder("Descripción"));
-		getContentPane().add(txtDescripcion);
+		txtDescription = new JTextArea();
+		txtDescription.setBounds(480, 250, 420, 280);
+		txtDescription.setLineWrap(true);
+		txtDescription.setWrapStyleWord(true);
+		txtDescription.setEditable(false);
+		txtDescription.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtDescription.setBackground(Color.WHITE);
+		txtDescription.setBorder(BorderFactory.createTitledBorder("Descripción"));
+		getContentPane().add(txtDescription);
 
 		// --- BOTONES DE ACCIÓN ---
 		btnNope = new JButton("✖️");
 		btnNope.setBounds(264, 603, 100, 40);
 		getContentPane().add(btnNope);
 
-		btnFavorito = new JButton("⭐ Favorito");
-		btnFavorito.setBounds(780, 565, 120, 40);
-		getContentPane().add(btnFavorito);
+		btnFavorite = new JButton("⭐ Favorito");
+		btnFavorite.setBounds(780, 565, 120, 40);
+		getContentPane().add(btnFavorite);
 
 		btnLike = new JButton("💖");
 		btnLike.setBounds(91, 603, 100, 40);
 		getContentPane().add(btnLike);
 
 		// --- BOTONES LATERALES ---
-		btnPerfil = new JButton("Mi Perfil");
-		btnPerfil.setBounds(801, 182, 100, 32);
-		getContentPane().add(btnPerfil);
+		btnProfile = new JButton("Mi Perfil");
+		btnProfile.setBounds(801, 182, 100, 32);
+		getContentPane().add(btnProfile);
 
-		btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.setBounds(458, 182, 100, 32);
-		getContentPane().add(btnCerrarSesion);
+		btnLogOff = new JButton("Cerrar sesión");
+		btnLogOff.setBounds(458, 182, 100, 32);
+		getContentPane().add(btnLogOff);
 
 		JButton btnVerMeGusta = new JButton("Ver me gusta");
 		btnVerMeGusta.setBounds(691, 182, 100, 32);
@@ -126,55 +126,54 @@ public class MainWindow extends JFrame {
 		 */
 
 	}
-	
+
 	public void aplicarInternacionalizacion(Properties prop) {
-	    // Título de la ventana
-	    setTitle(prop.getProperty("bostinder.view.mainwindow.title"));
+		// Título de la ventana
+		setTitle(prop.getProperty("bostinder.view.mainwindow.title"));
 
-	    // Texto del encabezado
-	    // Busca el JLabel que contiene "¡Bienvenido a BosTinder!"
-	    for (java.awt.Component comp : getContentPane().getComponents()) {
-	        if (comp instanceof JLabel lbl && "¡Bienvenido a BosTinder!".equals(lbl.getText())) {
-	            lbl.setText(prop.getProperty("bostinder.view.mainwindow.header"));
-	        }
-	    }
+		// Texto del encabezado
+		// Busca el JLabel que contiene "¡Bienvenido a BosTinder!"
+		for (java.awt.Component comp : getContentPane().getComponents()) {
+			if (comp instanceof JLabel lbl && "¡Bienvenido a BosTinder!".equals(lbl.getText())) {
+				lbl.setText(prop.getProperty("bostinder.view.mainwindow.header"));
+			}
+		}
 
-	    // 🔹 Bordes y título de descripción
-	    txtDescripcion.setBorder(BorderFactory.createTitledBorder(prop.getProperty("bostinder.view.mainwindow.label.description")));
+		// 🔹 Bordes y título de descripción
+		txtDescription.setBorder(
+				BorderFactory.createTitledBorder(prop.getProperty("bostinder.view.mainwindow.label.description")));
 
-	    // 🔹 Botones principales
-	    btnLike.setText(prop.getProperty("bostinder.view.mainwindow.button.like"));
-	    btnNope.setText(prop.getProperty("bostinder.view.mainwindow.button.nope"));
-	    btnFavorito.setText(prop.getProperty("bostinder.view.mainwindow.button.favorite"));
-	    btnPerfil.setText(prop.getProperty("bostinder.view.mainwindow.button.profile"));
-	    btnCerrarSesion.setText(prop.getProperty("bostinder.view.mainwindow.button.logout"));
+		// 🔹 Botones principales
+		btnLike.setText(prop.getProperty("bostinder.view.mainwindow.button.like"));
+		btnNope.setText(prop.getProperty("bostinder.view.mainwindow.button.nope"));
+		btnFavorite.setText(prop.getProperty("bostinder.view.mainwindow.button.favorite"));
+		btnProfile.setText(prop.getProperty("bostinder.view.mainwindow.button.profile"));
+		btnLogOff.setText(prop.getProperty("bostinder.view.mainwindow.button.logout"));
 
-	   
 	}
 
-
-	public JLabel getLblFotoPerfil() {
-		return lblFotoPerfil;
+	public JLabel getLblProfilePicture() {
+		return lblProfilePicture;
 	}
 
-	public void setLblFotoPerfil(JLabel lblFotoPerfil) {
-		this.lblFotoPerfil = lblFotoPerfil;
+	public void setLblProfilePicture(JLabel lblProfilePicture) {
+		this.lblProfilePicture = lblProfilePicture;
 	}
 
-	public JLabel getLblNombreEdad() {
-		return lblNombreEdad;
+	public JLabel getLblNameAge() {
+		return lblNameAge;
 	}
 
-	public void setLblNombreEdad(JLabel lblNombreEdad) {
-		this.lblNombreEdad = lblNombreEdad;
+	public void setLblNameAge(JLabel lblNameAge) {
+		this.lblNameAge = lblNameAge;
 	}
 
-	public JTextArea getTxtDescripcion() {
-		return txtDescripcion;
+	public JTextArea getTxtDescription() {
+		return txtDescription;
 	}
 
-	public void setTxtDescripcion(JTextArea txtDescripcion) {
-		this.txtDescripcion = txtDescripcion;
+	public void setTxtDescription(JTextArea txtDescription) {
+		this.txtDescription = txtDescription;
 	}
 
 	public JButton getBtnLike() {
@@ -193,27 +192,28 @@ public class MainWindow extends JFrame {
 		this.btnNope = btnNope;
 	}
 
-	public JButton getBtnFavorito() {
-		return btnFavorito;
+	public JButton getBtnFavorite() {
+		return btnFavorite;
 	}
 
-	public void setBtnFavorito(JButton btnFavorito) {
-		this.btnFavorito = btnFavorito;
+	public void setBtnFavorite(JButton btnFavorite) {
+		this.btnFavorite = btnFavorite;
 	}
 
-	public JButton getBtnPerfil() {
-		return btnPerfil;
+	public JButton getBtnProfile() {
+		return btnProfile;
 	}
 
-	public void setBtnPerfil(JButton btnPerfil) {
-		this.btnPerfil = btnPerfil;
+	public void setBtnProfile(JButton btnProfile) {
+		this.btnProfile = btnProfile;
 	}
 
-	public JButton getBtnCerrarSesion() {
-		return btnCerrarSesion;
+	public JButton getBtnLogOff() {
+		return btnLogOff;
 	}
 
-	public void setBtnCerrarSesion(JButton btnCerrarSesion) {
-		this.btnCerrarSesion = btnCerrarSesion;
+	public void setBtnLogOff(JButton btnLogOff) {
+		this.btnLogOff = btnLogOff;
 	}
+
 }
