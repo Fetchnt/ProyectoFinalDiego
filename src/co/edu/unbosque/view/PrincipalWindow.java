@@ -118,7 +118,7 @@ public class PrincipalWindow extends JFrame {
 		start = new JButton("INICIAR");
 		start.setBounds(390, 410, 180, 50);
 		start.setFont(new Font("Arial", Font.BOLD, 20));
-		start.setForeground(Color.decode("#000000"));// color letra
+		start.setForeground(Color.decode("#F9CFCE"));// color letra
 		start.setBackground(Color.decode("#EB5F5B"));
 		start.setFocusPainted(false);
 		start.setBorderPainted(false);

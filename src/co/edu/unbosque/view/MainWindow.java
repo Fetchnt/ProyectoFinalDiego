@@ -14,7 +14,13 @@ public class MainWindow extends JFrame {
 	private JLabel lblProfilePicture;
 	private JLabel lblNameAge;
 	private JTextArea txtDescription;
-	private JButton btnLike, btnNope, btnFavorite, btnProfile, btnLogOff;
+	private JButton btnLike;
+	private JButton btnNope;
+	private JButton btnFavorite; 
+	private JButton btnProfile; 
+	private JButton btnLogOff;
+	private JPanel panelMenu;
+	private JLabel imageHeart;
 
 	public MainWindow() {
 		this.setTitle("BosTinder - Inicio");
@@ -29,12 +35,12 @@ public class MainWindow extends JFrame {
 		lblIcon.setForeground(Color.decode("#F9CFCE"));
 		lblIcon.setBackground(Color.decode("#F9CFCE"));
 		lblIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/co/edu/unbosque/view/iconStart.JPG")));
-		lblIcon.setBounds(10, 11, 938, 144);
+		lblIcon.setBounds(0, 0, 980, 150);
 		getContentPane().add(lblIcon);
 
 		JLabel lblTitulo = new JLabel("¡Bienvenido a BosTinder!");
 		lblTitulo.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		lblTitulo.setBounds(20, 166, 361, 58);
+		lblTitulo.setBounds(110, 166, 361, 58);
 		getContentPane().add(lblTitulo);
 
 		// --- FOTO GRANDE DEL PERFIL ---
@@ -51,7 +57,7 @@ public class MainWindow extends JFrame {
 
 		// --- DESCRIPCIÓN A LA DERECHA ---
 		txtDescription = new JTextArea();
-		txtDescription.setBounds(480, 250, 420, 280);
+		txtDescription.setBounds(422, 290, 390, 280);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		txtDescription.setEditable(false);
@@ -61,35 +67,80 @@ public class MainWindow extends JFrame {
 		getContentPane().add(txtDescription);
 
 		// --- BOTONES DE ACCIÓN ---
-		btnNope = new JButton("✖️");
-		btnNope.setBounds(264, 603, 100, 40);
+		btnNope = new JButton("  ✖️");
+		btnNope.setBounds(344, 583, 60, 40);
+		btnNope.setBackground(Color.decode("#EB5F5B"));
+		btnNope.setForeground(Color.decode("#F9CFCE"));
+		btnNope.setFocusPainted(false);
+		btnNope.setBorderPainted(false);
 		getContentPane().add(btnNope);
 
 		btnFavorite = new JButton("⭐ Favorito");
-		btnFavorite.setBounds(780, 565, 120, 40);
+		btnFavorite.setBounds(568, 583, 97, 40);
+		btnFavorite.setForeground(Color.decode("#F9CFCE"));
+		btnFavorite.setBackground(Color.decode("#EB5F5B"));
+		btnFavorite.setFocusPainted(false);
+		btnFavorite.setBorderPainted(false);
 		getContentPane().add(btnFavorite);
 
 		btnLike = new JButton("💖");
-		btnLike.setBounds(91, 603, 100, 40);
+		btnLike.setBounds(57, 583, 60, 40);
+		btnLike.setBackground(Color.decode("#EB5F5B"));
+		btnLike.setForeground(Color.decode("#F9CFCE"));
+		btnLike.setFocusPainted(false);
+		btnLike.setBorderPainted(false);
 		getContentPane().add(btnLike);
 
 		// --- BOTONES LATERALES ---
-		btnProfile = new JButton("Mi Perfil");
-		btnProfile.setBounds(801, 182, 100, 32);
-		getContentPane().add(btnProfile);
-
-		btnLogOff = new JButton("Cerrar sesión");
-		btnLogOff.setBounds(458, 182, 100, 32);
-		getContentPane().add(btnLogOff);
-
+		panelMenu = new JPanel();
+		panelMenu.setBounds(422, 222, 485, 60);
+		panelMenu.setBackground(Color.WHITE);
+		panelMenu.setLayout(null);
+		add(panelMenu);
+		
 		JButton btnVerMeGusta = new JButton("Ver me gusta");
-		btnVerMeGusta.setBounds(691, 182, 100, 32);
-		getContentPane().add(btnVerMeGusta);
-
+		btnVerMeGusta.setBounds(10, 18, 110, 25);
+		btnVerMeGusta.setBackground(Color.decode("#F9CFCE"));
+		btnVerMeGusta.setForeground(Color.decode("#EB5F5B"));
+		btnVerMeGusta.setFocusPainted(false);
+		btnVerMeGusta.setBorderPainted(false);
+		//getContentPane().add(btnVerMeGusta);
+		panelMenu.add(btnVerMeGusta);
+		
 		JButton btnModoIncognito = new JButton("Modo Incognito");
-		btnModoIncognito.setBounds(568, 182, 113, 32);
-		getContentPane().add(btnModoIncognito);
-
+		btnModoIncognito.setBounds(126, 18, 122, 25);
+		btnModoIncognito.setBackground(Color.decode("#F9CFCE"));
+		btnModoIncognito.setForeground(Color.decode("#EB5F5B"));
+		btnModoIncognito.setFocusPainted(false);
+		btnModoIncognito.setBorderPainted(false);
+		//getContentPane().add(btnModoIncognito);
+		panelMenu.add(btnModoIncognito);
+		
+		btnProfile = new JButton("Mi Perfil");
+		btnProfile.setBounds(253, 18, 105, 25);
+		btnProfile.setBackground(Color.decode("#F9CFCE"));
+		btnProfile.setForeground(Color.decode("#EB5F5B"));
+		btnProfile.setFocusPainted(false);
+		btnProfile.setBorderPainted(false);
+		//getContentPane().add(btnProfile);
+		panelMenu.add(btnProfile);
+		
+		btnLogOff = new JButton("Cerrar sesión");
+		btnLogOff.setBounds(363, 18, 113, 25);
+		btnLogOff.setBackground(Color.decode("#F9CFCE"));
+		btnLogOff.setForeground(Color.decode("#EB5F5B"));
+		btnLogOff.setFocusPainted(false);
+		btnLogOff.setBorderPainted(false);
+		//getContentPane().add(btnLogOff);
+		panelMenu.add(btnLogOff);
+		
+		//------IMAGEN-------
+		ImageIcon imageHeartTwo = new ImageIcon(getClass().getResource("heartTwo.JPG"));
+		JLabel imageHeart = new JLabel(imageHeartTwo);
+		imageHeart.setBounds(790, 300, 160, 300);
+		this.add(imageHeart);
+		
+		
 		// --- CARGAR EL PRIMER PERFIL ---
 		/*
 		 * actualizarPerfil();
