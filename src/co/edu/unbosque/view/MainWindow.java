@@ -13,6 +13,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblProfilePicture;
 	private JLabel lblNameAge;
+	private JLabel lblTitulo;
 	private JTextArea txtDescription;
 	private JButton btnLike;
 	private JButton btnNope;
@@ -38,7 +39,7 @@ public class MainWindow extends JFrame {
 		lblIcon.setBounds(0, 0, 980, 150);
 		getContentPane().add(lblIcon);
 
-		JLabel lblTitulo = new JLabel("¡Bienvenido a BosTinder!");
+		lblTitulo = new JLabel("¡Bienvenido a BosTinder!");
 		lblTitulo.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		lblTitulo.setBounds(110, 166, 361, 58);
 		getContentPane().add(lblTitulo);
@@ -182,19 +183,13 @@ public class MainWindow extends JFrame {
 		// Título de la ventana
 		setTitle(prop.getProperty("bostinder.view.mainwindow.title"));
 
-		// Texto del encabezado
-		// Busca el JLabel que contiene "¡Bienvenido a BosTinder!"
-		for (java.awt.Component comp : getContentPane().getComponents()) {
-			if (comp instanceof JLabel lbl && "¡Bienvenido a BosTinder!".equals(lbl.getText())) {
-				lbl.setText(prop.getProperty("bostinder.view.mainwindow.header"));
-			}
-		}
+		lblTitulo.setText(prop.getProperty("bostinder.view.mainwindow.header"));
 
-		// 🔹 Bordes y título de descripción
+		// Bordes y título de descripción
 		txtDescription.setBorder(
 				BorderFactory.createTitledBorder(prop.getProperty("bostinder.view.mainwindow.label.description")));
 
-		// 🔹 Botones principales
+		// Botones principales
 		btnLike.setText(prop.getProperty("bostinder.view.mainwindow.button.like"));
 		btnNope.setText(prop.getProperty("bostinder.view.mainwindow.button.nope"));
 		btnFavorite.setText(prop.getProperty("bostinder.view.mainwindow.button.favorite"));

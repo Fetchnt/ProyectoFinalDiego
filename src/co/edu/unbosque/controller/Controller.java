@@ -114,8 +114,39 @@ public class Controller implements ActionListener {
 		vf.getLw().getLogin().addActionListener(this);
 		vf.getLw().getLogin().setActionCommand("boton_iniciosesion");
 		
-		// ---------- BOTONES en MainWindow ----------
+		
+		// ---------- BOTONES en AdminWindow ----------
+		vf.getAw().getBtnBuscar().addActionListener(this);
+		vf.getAw().getBtnBuscar().setActionCommand("boton_buscar_admin");
+		
+		vf.getAw().getBtnDarBaja().addActionListener(this);
+		vf.getAw().getBtnDarBaja().setActionCommand("boton_dar_baja_admin");
 
+		vf.getAw().getBtnFiltroGenero().addActionListener(this);
+		vf.getAw().getBtnFiltroGenero().setActionCommand("boton_filtro_genero_admin");
+		
+		vf.getAw().getBtnFiltroIngresos().addActionListener(this);
+		vf.getAw().getBtnFiltroIngresos().setActionCommand("boton_filtro_ingresos_admin");
+		
+		vf.getAw().getBtnFiltroTop10().addActionListener(this);
+		vf.getAw().getBtnFiltroTop10().setActionCommand("boton_filtro_top10_admin");
+		
+		vf.getAw().getBtnGenerarPDF().addActionListener(this);
+		vf.getAw().getBtnGenerarPDF().setActionCommand("boton_generarPDF_admin");
+		
+		vf.getAw().getBtnMostrarTodos().addActionListener(this);
+		vf.getAw().getBtnMostrarTodos().setActionCommand("boton_mostrar_todos_admin");
+		
+		vf.getAw().getBtnOrdenAsc().addActionListener(this);
+		vf.getAw().getBtnOrdenAsc().setActionCommand("boton_orden_ascendente_admin");
+		
+		vf.getAw().getBtnOrdenDesc().addActionListener(this);
+		vf.getAw().getBtnOrdenDesc().setActionCommand("boton_orden_descendente_admin");
+		
+		vf.getAw().getBtnSalirModoAdmin().addActionListener(this);
+		vf.getAw().getBtnSalirModoAdmin().setActionCommand("boton_salir_admin");
+		
+		// ---------- BOTONES en MainWindow ----------
 		vf.getMmw().getBtnLogOff().addActionListener(this);
 		vf.getMmw().getBtnLogOff().setActionCommand("boton_cerrarsesion");
 		

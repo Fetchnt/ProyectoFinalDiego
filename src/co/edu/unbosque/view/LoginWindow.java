@@ -121,18 +121,18 @@ public class LoginWindow extends JFrame {
 	}
 
 	public void aplicarInternacionalizacion(Properties prop) {
-		// 🔹 Título de la ventana
+		// Título de la ventana
 		setTitle(prop.getProperty("bostinder.view.loginwindow.title"));
 
-		// 🔹 Título principal
+		// Título principal
 		lTitle.setText(prop.getProperty("bostinder.view.loginwindow.label.title"));
 
-		// 🔹 Etiquetas de campos
+		// Etiquetas de campos
 		luserAlias.setText(prop.getProperty("bostinder.view.loginwindow.label.user"));
 		lPassword.setText(prop.getProperty("bostinder.view.loginwindow.label.password"));
 		lEmail.setText(prop.getProperty("bostinder.view.loginwindow.label.email"));
 
-		// 🔹 Botones
+		// Botones
 		login.setText(prop.getProperty("bostinder.view.loginwindow.button.login"));
 		back.setText(prop.getProperty("bostinder.view.loginwindow.button.back"));
 	}

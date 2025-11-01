@@ -251,13 +251,13 @@ public class RegisterWindow extends JFrame {
 	}
 	
 	public void aplicarInternacionalizacion(Properties prop) {
-	    // 🔹 Ventana
+	    // Ventana
 	    setTitle(prop.getProperty("bostinder.view.registerwindow.title"));
 
-	    // 🔹 Título principal
+	    // Título principal
 	    lAreaDeRegistro.setText(prop.getProperty("bostinder.view.registerwindow.label.areaRegistro"));
 
-	    // 🔹 Labels de texto
+	    // Labels de texto
 	    lNombres.setText(prop.getProperty("bostinder.view.registerwindow.label.nombres"));
 	    lApellidos.setText(prop.getProperty("bostinder.view.registerwindow.label.apellidos"));
 	    lApodo.setText(prop.getProperty("bostinder.view.registerwindow.label.apodo"));
@@ -272,31 +272,31 @@ public class RegisterWindow extends JFrame {
 	    lDivorcios.setText(prop.getProperty("bostinder.view.registerwindow.label.divorcios"));
 	    lFoto.setText(prop.getProperty("bostinder.view.registerwindow.label.foto"));
 
-	    // 🔹 Botones
+	    // Botones
 	    btnSubirFoto.setText(prop.getProperty("bostinder.view.registerwindow.button.subirFoto"));
 	    btnVerificarCorreo.setText(prop.getProperty("bostinder.view.registerwindow.button.verificarCorreo"));
 	    btnRegistrar.setText(prop.getProperty("bostinder.view.registerwindow.button.registrar"));
 	    btnVolver.setText(prop.getProperty("bostinder.view.registerwindow.button.volver"));
 
-	    // 🔹 ComboBox País
+	    // ComboBox País
 	    String paises = prop.getProperty("bostinder.view.registerwindow.combo.paises");
 	    if (paises != null) {
 	        cmbPais.setModel(new javax.swing.DefaultComboBoxModel<>(paises.split(",")));
 	    }
 
-	    // 🔹 ComboBox Género
+	    // ComboBox Género
 	    String generos = prop.getProperty("bostinder.view.registerwindow.combo.generos");
 	    if (generos != null) {
 	        cmbGenero.setModel(new javax.swing.DefaultComboBoxModel<>(generos.split(",")));
 	    }
 
-	    // 🔹 ComboBox Orientación
+	    // ComboBox Orientación
 	    String orientaciones = prop.getProperty("bostinder.view.registerwindow.combo.orientaciones");
 	    if (orientaciones != null) {
 	        cmbOrientacion.setModel(new javax.swing.DefaultComboBoxModel<>(orientaciones.split(",")));
 	    }
 
-	    // 🔹 ComboBox Divorcios
+	    // ComboBox Divorcios
 	    String divorcios = prop.getProperty("bostinder.view.registerwindow.combo.divorcios");
 	    if (divorcios != null) {
 	        cmbDivorcios.setModel(new javax.swing.DefaultComboBoxModel<>(divorcios.split(",")));

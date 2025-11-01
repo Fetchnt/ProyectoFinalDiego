@@ -110,10 +110,10 @@ public class StartWindow extends JFrame {
 	}
 	
 	public void aplicarInternacionalizacion(Properties prop) {
-	    // 🔹 Ventana
+	    // Ventana
 	    setTitle(prop.getProperty("bostinder.view.startwindow.title"));
 
-	    // 🔹 Botones principales
+	    // Botones principales
 	    signIn.setText(prop.getProperty("bostinder.view.startwindow.button.signin"));
 	    login.setText(prop.getProperty("bostinder.view.startwindow.button.login"));
 	    exit.setText(prop.getProperty("bostinder.view.startwindow.button.exit"));

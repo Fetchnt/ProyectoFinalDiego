@@ -143,19 +143,19 @@ public class PrincipalWindow extends JFrame {
 	}
 	
 	public void aplicarInternacionalizacion(Properties prop) {
-	    // 🔹 Ventana
+	    // Ventana
 	    setTitle(prop.getProperty("bostinder.view.principalwindow.title"));
 
-	    // 🔹 Frase principal
+	    // Frase principal
 	    phrase.setText(prop.getProperty("bostinder.view.principalwindow.label.phrase"));
 
-	    // 🔹 Botón principal
+	    // Botón principal
 	    start.setText(prop.getProperty("bostinder.view.principalwindow.button.start"));
 
-	    // 🔹 Cambio de idioma
+	    // Cambio de idioma
 	    changeLanguage.setText(prop.getProperty("bostinder.view.principalwindow.label.changeLanguage"));
 
-	    // 🔹 Etiquetas de idiomas (debajo de los botones con banderas)
+	    // Etiquetas de idiomas (debajo de los botones con banderas)
 	    if (lSpanish != null) lSpanish.setText(prop.getProperty("bostinder.view.principalwindow.label.spanish"));
 	    if (lPortuguese != null) lPortuguese.setText(prop.getProperty("bostinder.view.principalwindow.label.portuguese"));
 	    if (lRussian != null) lRussian.setText(prop.getProperty("bostinder.view.principalwindow.label.russian"));

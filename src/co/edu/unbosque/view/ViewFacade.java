@@ -12,6 +12,7 @@ public class ViewFacade {
 	private PrincipalWindow pw;
 	private RegisterWindow rw;
 	private MainWindow mmw;
+	private AdminWindow aw;
 	private ModelFacade model;
 
 	public ViewFacade(ModelFacade model) {
@@ -23,6 +24,7 @@ public class ViewFacade {
 		sw = new StartWindow();
 		rw = new RegisterWindow();
 		mmw = new MainWindow();
+		aw = new AdminWindow();
 	}
 	
 	public void aplicarInternacionalizacion(Properties prop) {
@@ -31,6 +33,7 @@ public class ViewFacade {
         pw.aplicarInternacionalizacion(prop);
         rw.aplicarInternacionalizacion(prop);
         mmw.aplicarInternacionalizacion(prop);
+        aw.aplicarInternacionalizacion(prop);
     }
 
 	public ModelFacade getModel() {
@@ -88,6 +91,15 @@ public class ViewFacade {
 	public void setMmw(MainWindow mmw) {
 		this.mmw = mmw;
 	}
+
+	public AdminWindow getAw() {
+		return aw;
+	}
+
+	public void setAw(AdminWindow aw) {
+		this.aw = aw;
+	}
+	
 	
 
 }
