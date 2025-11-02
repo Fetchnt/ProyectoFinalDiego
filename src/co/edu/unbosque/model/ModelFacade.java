@@ -33,18 +33,18 @@ public class ModelFacade {
 		this.mDAO = mDAO;
 	}
 
-	public List<String> getUsuariosPorPais(String pais) {
-		List<String> resultado = new ArrayList<>();
+	public List<User> getUsuariosPorPais(String pais) {
+		List<User> resultado = new ArrayList<>();
 
 		for (var m : mDAO.listaMenDTO) {
-			if (m.getCountry().equalsIgnoreCase(pais)) {
-				resultado.add(m.getAlias());
+			if (m.getCountry() != null && m.getCountry().equalsIgnoreCase(pais)) {
+				resultado.add(m);
 			}
 		}
 
 		for (var w : wDAO.listaWomenDTO) {
-			if (w.getCountry().equalsIgnoreCase(pais)) {
-				resultado.add(w.getAlias());
+			if (w.getCountry() != null && w.getCountry().equalsIgnoreCase(pais)) {
+				resultado.add(w);
 			}
 		}
 

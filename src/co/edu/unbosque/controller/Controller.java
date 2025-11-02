@@ -3,6 +3,7 @@ package co.edu.unbosque.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -21,7 +22,6 @@ import org.junit.rules.Verifier;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.FileInputStream;
 
 import co.edu.unbosque.util.exception.*;
@@ -30,6 +30,7 @@ import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.model.WomenDTO;
 import co.edu.unbosque.model.persistence.FileHandler;
 import co.edu.unbosque.view.ViewFacade;
+import co.edu.unbosque.model.User;
 
 public class Controller implements ActionListener {
 
@@ -107,50 +108,51 @@ public class Controller implements ActionListener {
 		vf.getMw().getBtnBackMap().addActionListener(this);
 		vf.getMw().getBtnBackMap().setActionCommand("back_mapa");
 
+		vf.getUw().getBtnVolver().addActionListener(this);
+		vf.getUw().getBtnVolver().setActionCommand("volver_usuarios");
+
 		// ---------- BOTONES en LoginWindow ----------
 		vf.getLw().getBack().addActionListener(this);
 		vf.getLw().getBack().setActionCommand("boton_volver_iniciosesion");
 
 		vf.getLw().getLogin().addActionListener(this);
 		vf.getLw().getLogin().setActionCommand("boton_iniciosesion");
-		
-		
+
 		// ---------- BOTONES en AdminWindow ----------
 		vf.getAw().getBtnBuscar().addActionListener(this);
 		vf.getAw().getBtnBuscar().setActionCommand("boton_buscar_admin");
-		
+
 		vf.getAw().getBtnDarBaja().addActionListener(this);
 		vf.getAw().getBtnDarBaja().setActionCommand("boton_dar_baja_admin");
 
 		vf.getAw().getBtnFiltroGenero().addActionListener(this);
 		vf.getAw().getBtnFiltroGenero().setActionCommand("boton_filtro_genero_admin");
-		
+
 		vf.getAw().getBtnFiltroIngresos().addActionListener(this);
 		vf.getAw().getBtnFiltroIngresos().setActionCommand("boton_filtro_ingresos_admin");
-		
+
 		vf.getAw().getBtnFiltroTop10().addActionListener(this);
 		vf.getAw().getBtnFiltroTop10().setActionCommand("boton_filtro_top10_admin");
-		
+
 		vf.getAw().getBtnGenerarPDF().addActionListener(this);
 		vf.getAw().getBtnGenerarPDF().setActionCommand("boton_generarPDF_admin");
-		
+
 		vf.getAw().getBtnMostrarTodos().addActionListener(this);
 		vf.getAw().getBtnMostrarTodos().setActionCommand("boton_mostrar_todos_admin");
-		
+
 		vf.getAw().getBtnOrdenAsc().addActionListener(this);
 		vf.getAw().getBtnOrdenAsc().setActionCommand("boton_orden_ascendente_admin");
-		
+
 		vf.getAw().getBtnOrdenDesc().addActionListener(this);
 		vf.getAw().getBtnOrdenDesc().setActionCommand("boton_orden_descendente_admin");
-		
+
 		vf.getAw().getBtnSalirModoAdmin().addActionListener(this);
 		vf.getAw().getBtnSalirModoAdmin().setActionCommand("boton_salir_admin");
-		
+
 		// ---------- BOTONES en MainWindow ----------
 		vf.getMmw().getBtnLogOff().addActionListener(this);
 		vf.getMmw().getBtnLogOff().setActionCommand("boton_cerrarsesion");
-		
-		
+
 	}
 
 	@Override
@@ -191,6 +193,26 @@ public class Controller implements ActionListener {
 
 		case "abrir_mapa":
 			vf.getSw().dispose();
+			vf.getMw().setVisible(true);
+
+			// Asignamos listener usando métodos auxiliares
+			co.edu.unbosque.view.MapWindow.MapaListener listener = new co.edu.unbosque.view.MapWindow.MapaListener() {
+				@Override
+				public void onPaisClick(String pais) {
+					manejarClickPais(pais);
+				}
+
+				@Override
+				public void onPaisHover(String pais) {
+					mostrarPaisHover(pais);
+				}
+			};
+
+			vf.getMw().setMapaListener(listener);
+			break;
+
+		case "volver_usuarios":
+			vf.getUw().setVisible(false);
 			vf.getMw().setVisible(true);
 			break;
 
@@ -438,7 +460,7 @@ public class Controller implements ActionListener {
 			vf.getMmw().dispose();
 			vf.getSw().setVisible(true);
 		}
-		
+
 		case "back_mapa":
 			vf.getMw().dispose();
 			vf.getSw().setVisible(true);
@@ -452,6 +474,33 @@ public class Controller implements ActionListener {
 	}
 
 	// -------------METODOS AUXILIARES-----------------
+
+	// Maneja click en un país
+	private void manejarClickPais(String pais) {
+		if (pais != null) {
+			// Actualiza el label con el país seleccionado en la ventana principal
+			vf.getMw().setPaisSeleccionado(pais);
+
+			// Obtener la lista de usuarios de ese país
+			List<User> usuarios = mf.getUsuariosPorPais(pais);
+
+			// Mostrar directamente las personas registradas en ese país con imagen
+			vf.getUw().mostrarUsuariosConImagen(usuarios);
+			vf.getUw().setVisible(true);
+
+			// Ocultar la ventana principal mientras se muestra la lista
+			vf.getMw().setVisible(false);
+		}
+	}
+
+	// Maneja mouse sobre pais
+	private void mostrarPaisHover(String pais) {
+		if (pais != null) {
+			// Actualiza un label temporal con el país
+			vf.getMw().setPaisSeleccionado(pais);
+		}
+	}
+
 	public void mostrarCamposPorGenero() {
 		int indice = vf.getRw().getCmbGenero().getSelectedIndex();
 

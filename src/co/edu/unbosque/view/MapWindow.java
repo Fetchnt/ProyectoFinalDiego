@@ -5,7 +5,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,14 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import co.edu.unbosque.model.ModelFacade;
 
 public class MapWindow extends JFrame {
 
@@ -31,7 +27,7 @@ public class MapWindow extends JFrame {
 	private BufferedImage mapaImg;
 	private JPanel panelMapa;
 	private JButton btnBackMap;
-	private JLabel icon, lImage, lText;
+	private JLabel icon, lImage, lText, lPaisSeleccionado;
 	private JPanel panelOption;
 
 	// puntos visuales del mapa (vista responsable de posicionarlos y dibujarlos)
@@ -46,7 +42,7 @@ public class MapWindow extends JFrame {
 
 	private MapaListener mapaListener;
 
-	public MapWindow(ModelFacade model) {
+	public MapWindow() {
 		initializeComponents();
 		definirPuntosPaises();
 	}
@@ -78,6 +74,11 @@ public class MapWindow extends JFrame {
 		lText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		add(lText);
 
+		lPaisSeleccionado = new JLabel("");
+		lPaisSeleccionado.setBounds(820, 150, 200, 30);
+		lPaisSeleccionado.setFont(new Font("Arial", Font.BOLD, 16));
+		add(lPaisSeleccionado);
+
 		panelOption = new JPanel();
 		panelOption.setBounds(750, 592, 190, 70);
 		panelOption.setLayout(null);
@@ -95,7 +96,6 @@ public class MapWindow extends JFrame {
 					// dibujar puntos
 					g.setColor(Color.RED);
 					for (Point p : puntosPaises.values()) {
-						// dibujamos en coordenadas de la imagen original asumidas (mantenemos tal cual)
 						g.fillOval(p.x - 5, p.y - 5, 10, 10);
 					}
 				}
@@ -105,8 +105,7 @@ public class MapWindow extends JFrame {
 		panelMapa.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		add(panelMapa);
 
-		// listeners de la vista: solo notifican al mapaListener, no ejecutan lógica del
-		// modelo
+		// listeners de la vista: solo notifican al mapaListener
 		panelMapa.addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
@@ -143,7 +142,6 @@ public class MapWindow extends JFrame {
 
 		try {
 			mapaImg = ImageIO.read(new java.io.File("src/co/edu/unbosque/view/mapWorld.jpg"));
-			// ajustar tamaño preferible del panelMapa (si quieres puedes calcular escala)
 			panelMapa.setPreferredSize(new Dimension(730, 520));
 		} catch (Exception e) {
 			System.out.println("Error al cargar el mapa: " + e.getMessage());
@@ -180,6 +178,11 @@ public class MapWindow extends JFrame {
 			}
 		}
 		return null;
+	}
+
+	// 🔹 Nuevo método para actualizar el label
+	public void setPaisSeleccionado(String pais) {
+		lPaisSeleccionado.setText(pais != null ? pais : "");
 	}
 
 	public JPanel getPanelMapa() {

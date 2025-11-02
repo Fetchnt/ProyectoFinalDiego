@@ -9,6 +9,7 @@ public class ViewFacade {
 	private StartWindow sw;
 	private LoginWindow lw;
 	private MapWindow mw;
+	private MapUserWindow uw;
 	private PrincipalWindow pw;
 	private RegisterWindow rw;
 	private MainWindow mmw;
@@ -20,21 +21,22 @@ public class ViewFacade {
 
 		lw = new LoginWindow();
 		pw = new PrincipalWindow();
-		mw = new MapWindow(model);
+		mw = new MapWindow();
+		uw = new MapUserWindow();
 		sw = new StartWindow();
 		rw = new RegisterWindow();
 		mmw = new MainWindow();
 		aw = new AdminWindow();
 	}
-	
+
 	public void aplicarInternacionalizacion(Properties prop) {
-        sw.aplicarInternacionalizacion(prop);
-        lw.aplicarInternacionalizacion(prop);
-        pw.aplicarInternacionalizacion(prop);
-        rw.aplicarInternacionalizacion(prop);
-        mmw.aplicarInternacionalizacion(prop);
-        aw.aplicarInternacionalizacion(prop);
-    }
+		sw.aplicarInternacionalizacion(prop);
+		lw.aplicarInternacionalizacion(prop);
+		pw.aplicarInternacionalizacion(prop);
+		rw.aplicarInternacionalizacion(prop);
+		mmw.aplicarInternacionalizacion(prop);
+		aw.aplicarInternacionalizacion(prop);
+	}
 
 	public ModelFacade getModel() {
 		return model;
@@ -68,6 +70,14 @@ public class ViewFacade {
 		this.mw = mw;
 	}
 
+	public MapUserWindow getUw() {
+		return uw;
+	}
+
+	public void setUw(MapUserWindow uw) {
+		this.uw = uw;
+	}
+
 	public PrincipalWindow getPw() {
 		return pw;
 	}
@@ -99,7 +109,5 @@ public class ViewFacade {
 	public void setAw(AdminWindow aw) {
 		this.aw = aw;
 	}
-	
-	
 
 }
