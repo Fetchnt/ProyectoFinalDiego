@@ -34,9 +34,9 @@ public class AdminWindow extends JFrame {
 		getContentPane().setBackground(Color.decode("#F5E6E8"));
 		getContentPane().setLayout(null);
 
-		JLabel lblHeader = new JLabel(new ImageIcon(getClass().getResource("/co/edu/unbosque/view/iconAdmin.JPG")));
+		/*JLabel lblHeader = new JLabel(new ImageIcon(getClass().getResource("/co/edu/unbosque/view/iconAdmin.JPG")));
 		lblHeader.setBounds(10, 10, 1060, 100);
-		getContentPane().add(lblHeader);
+		getContentPane().add(lblHeader);*/
 
 		JLabel lblBuscar = new JLabel("Buscar usuario (alias o correo):");
 		lblBuscar.setBounds(30, 120, 250, 25);

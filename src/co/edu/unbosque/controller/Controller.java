@@ -158,7 +158,7 @@ public class Controller implements ActionListener {
 		String alias = e.getActionCommand();
 		switch (alias) {
 		case "boton_start":
-			vf.getPw().dispose();
+			vf.getPw().setVisible(false);
 			vf.getSw().setVisible(true);
 			break;
 
