@@ -152,16 +152,16 @@ public class MapWindow extends JFrame {
 		puntosPaises = new HashMap<>();
 		puntosPaises.put("España", new Point(338, 220));
 		puntosPaises.put("Portugal", new Point(327, 220));
-		puntosPaises.put("Israel", new Point(425, 260));
+		puntosPaises.put("Israel", new Point(410, 235));
 		puntosPaises.put("Rusia", new Point(529, 149));
-		puntosPaises.put("Taiwan", new Point(576, 263));
+		puntosPaises.put("Taiwan", new Point(590, 263));
 		puntosPaises.put("Singapur", new Point(539, 311));
 		puntosPaises.put("Brasil", new Point(240, 348));
-		puntosPaises.put("Macao", new Point(568, 249));
+		puntosPaises.put("Macao", new Point(576, 263));
 		puntosPaises.put("Angola", new Point(374, 353));
 		puntosPaises.put("Kazajistan", new Point(470, 195));
 		puntosPaises.put("Mexico", new Point(142, 264));
-		puntosPaises.put("Argentina", new Point(215, 406));
+		puntosPaises.put("Argentina", new Point(210, 406));
 		puntosPaises.put("Colombia", new Point(200, 318));
 	}
 
