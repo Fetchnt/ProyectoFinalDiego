@@ -11,10 +11,15 @@ public class ModelFacade {
 
 	private WomenDAO wDAO;
 	private MenDAO mDAO;
+	private List<User> perfilesActuales;
+	private List<User> likes;
+	private int indiceActual = 0;
 
 	public ModelFacade() {
 		mDAO = new MenDAO();
 		wDAO = new WomenDAO();
+		perfilesActuales = new ArrayList<User>();
+		likes = new ArrayList<User>();
 	}
 
 	public WomenDAO getwDAO() {
@@ -82,6 +87,39 @@ public class ModelFacade {
 		}
 
 		return false;
+	}
+
+	public void cargarPerfiles() {
+		perfilesActuales.clear();
+		perfilesActuales.addAll(mDAO.listaMenDTO);
+		perfilesActuales.addAll(wDAO.listaWomenDTO);
+		indiceActual = 0;
+	}
+
+	public User getPerfilActual() {
+		if (indiceActual < perfilesActuales.size()) {
+			return perfilesActuales.get(indiceActual);
+		}
+		return null;
+	}
+
+	public void siguientePerfil() {
+		if (indiceActual < perfilesActuales.size() - 1) {
+			indiceActual++;
+		} else {
+			indiceActual = perfilesActuales.size(); // evita error de índice
+		}
+	}
+
+	public void agregarLike() {
+		User actual = getPerfilActual();
+		if (actual != null && !likes.contains(actual)) {
+			likes.add(actual);
+		}
+	}
+
+	public List<User> getLikes() {
+		return likes;
 	}
 
 }

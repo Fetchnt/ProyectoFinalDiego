@@ -23,6 +23,9 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.swing.*;
 import java.io.FileInputStream;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 import co.edu.unbosque.util.exception.*;
 import co.edu.unbosque.model.MenDTO;
@@ -49,7 +52,17 @@ public class Controller implements ActionListener {
 	public Controller() {
 		mf = new ModelFacade();
 		vf = new ViewFacade(mf);
+		prop = new Properties();
 		asignarOyentes();
+
+		mf.getmDAO().readFromTextFile("Men.csv");
+		mf.getwDAO().readFromTextFile("Women.csv");
+
+		// 🔹 Cargar lista combinada de perfiles
+		mf.cargarPerfiles();
+
+		// 🔹 Mostrar el primer perfil
+		mostrarPerfil();
 	}
 
 	public void asignarOyentes() {
@@ -153,6 +166,23 @@ public class Controller implements ActionListener {
 		vf.getMmw().getBtnLogOff().addActionListener(this);
 		vf.getMmw().getBtnLogOff().setActionCommand("boton_cerrarsesion");
 
+		vf.getMmw().getBtnLike().addActionListener(this);
+		vf.getMmw().getBtnLike().setActionCommand("boton_like");
+
+		vf.getMmw().getBtnNope().addActionListener(this);
+		vf.getMmw().getBtnNope().setActionCommand("boton_nope");
+
+		vf.getMmw().getBtnProfile().addActionListener(this);
+		vf.getMmw().getBtnProfile().setActionCommand("boton_profile");
+
+		vf.getMmw().getBtnVerMeGusta().addActionListener(this);
+		vf.getMmw().getBtnVerMeGusta().setActionCommand("boton_ver_megusta");
+
+		vf.getMmw().getBtnModoIncognito().addActionListener(this);
+		vf.getMmw().getBtnModoIncognito().setActionCommand("boton_modo_incognito");
+
+		vf.getMmw().getBtnFavorite().addActionListener(this);
+		vf.getMmw().getBtnFavorite().setActionCommand("boton_favorito");
 	}
 
 	@Override
@@ -459,12 +489,45 @@ public class Controller implements ActionListener {
 		case "boton_cerrarsesion": {
 			vf.getMmw().dispose();
 			vf.getSw().setVisible(true);
+			break;
 		}
 
 		case "back_mapa":
 			vf.getMw().dispose();
 			vf.getSw().setVisible(true);
 			break;
+
+		case "boton_like": {
+			mf.agregarLike();
+			mf.siguientePerfil();
+			mostrarPerfil();
+			break;
+		}
+
+		case "boton_nope": {
+			mf.siguientePerfil();
+			mostrarPerfil();
+			break;
+		}
+
+		case "boton_profile": {
+			mostrarLikes();
+			break;
+		}
+
+		case "boton_ver_megusta": {
+			mostrarLikes();
+			break;
+		}
+
+		case "boton_modo_incognito": {
+
+			break;
+		}
+
+		case "boton_favorito": {
+
+		}
 
 		default:
 			System.out.println("Acción no definida: " + alias);
@@ -476,7 +539,7 @@ public class Controller implements ActionListener {
 	// -------------METODOS AUXILIARES-----------------
 
 	// Maneja click en un país
-	private void manejarClickPais(String pais) {
+	public void manejarClickPais(String pais) {
 		if (pais != null) {
 			// Actualiza el label con el país seleccionado en la ventana principal
 			vf.getMw().setPaisSeleccionado(pais);
@@ -494,7 +557,7 @@ public class Controller implements ActionListener {
 	}
 
 	// Maneja mouse sobre pais
-	private void mostrarPaisHover(String pais) {
+	public void mostrarPaisHover(String pais) {
 		if (pais != null) {
 			// Actualiza un label temporal con el país
 			vf.getMw().setPaisSeleccionado(pais);
@@ -563,12 +626,11 @@ public class Controller implements ActionListener {
 
 	public boolean enviarCorreo(String destinatario, String codigo) {
 
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.starttls.required", "true");
-		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.starttls.enable", "true");
+		prop.put("mail.smtp.starttls.required", "true");
+		prop.put("mail.smtp.port", "587");
+		prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
 		String host;
 		if (REMITENTE.endsWith("@gmail.com")) {
@@ -584,9 +646,9 @@ public class Controller implements ActionListener {
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.ssl.trust", host);
-		Session session = Session.getInstance(props, new Authenticator() {
+		prop.put("mail.smtp.host", host);
+		prop.put("mail.smtp.ssl.trust", host);
+		Session session = Session.getInstance(prop, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(REMITENTE, CONTRASENA);
@@ -638,8 +700,6 @@ public class Controller implements ActionListener {
 			case "rus" -> "rus.properties";
 			default -> "spa.properties";
 			};
-
-			prop = new Properties();
 			prop.load(new FileInputStream("Language_properties/" + archivo));
 
 			vf.getPw().aplicarInternacionalizacion(prop);
@@ -665,6 +725,53 @@ public class Controller implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Error al aplicar internacionalización: " + ex.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
 			ex.printStackTrace();
+		}
+	}
+
+	public void mostrarPerfil() {
+		User actual = mf.getPerfilActual();
+		if (actual == null) {
+			JOptionPane.showMessageDialog(null, "No hay más perfiles por mostrar ");
+			return;
+		}
+
+		// --- Calcular edad a partir de la fecha de nacimiento ---
+		int edad = calcularEdad(actual.getBornDate());
+
+		// --- Mostrar texto básico ---
+		vf.getMmw().getLblNameAge().setText(actual.getName() + " " + actual.getLastName());
+
+		vf.getMmw().getTxtDescription()
+				.setText("Alias: " + actual.getAlias() + "\n" + "Género: " + actual.getGender() + "\n" + "Orientación: "
+						+ actual.getSexualOrientation() + "\n" + "País: " + actual.getCountry() + "\n" + "Edad: " + edad
+						+ " años");
+
+		// --- Mostrar imagen de perfil ---
+	}
+
+	public void mostrarLikes() {
+		List<User> likes = mf.getLikes();
+		if (likes.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Aún no has dado like a nadie 😅");
+			return;
+		}
+
+		StringBuilder sb = new StringBuilder("Usuarios que te gustaron:\n\n");
+		for (User u : likes) {
+			sb.append("- ").append(u.getName()).append(" ").append(u.getLastName()).append("\n");
+		}
+		JOptionPane.showMessageDialog(null, sb.toString());
+	}
+
+	public int calcularEdad(String fechaNacimiento) {
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDate fechaNac = LocalDate.parse(fechaNacimiento, formatter);
+			LocalDate hoy = LocalDate.now();
+			return Period.between(fechaNac, hoy).getYears();
+		} catch (Exception e) {
+			System.out.println("⚠️ Error al calcular edad para fecha: " + fechaNacimiento);
+			return 0; // Si hay error de formato, devuelve 0 para evitar fallos
 		}
 	}
 

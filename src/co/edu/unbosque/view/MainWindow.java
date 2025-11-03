@@ -21,7 +21,9 @@ public class MainWindow extends JFrame {
 	private JButton btnProfile; 
 	private JButton btnLogOff;
 	private JPanel panelMenu;
-	private JLabel imageHeart;
+	private JButton btnVerMeGusta;
+	private JButton btnModoIncognito;
+
 
 	public MainWindow() {
 		this.setTitle("BosTinder - Inicio");
@@ -99,7 +101,7 @@ public class MainWindow extends JFrame {
 		panelMenu.setLayout(null);
 		add(panelMenu);
 		
-		JButton btnVerMeGusta = new JButton("Ver me gusta");
+		btnVerMeGusta = new JButton("Ver me gusta");
 		btnVerMeGusta.setBounds(10, 18, 110, 25);
 		btnVerMeGusta.setBackground(Color.decode("#F9CFCE"));
 		btnVerMeGusta.setForeground(Color.decode("#EB5F5B"));
@@ -108,7 +110,7 @@ public class MainWindow extends JFrame {
 		//getContentPane().add(btnVerMeGusta);
 		panelMenu.add(btnVerMeGusta);
 		
-		JButton btnModoIncognito = new JButton("Modo Incognito");
+		btnModoIncognito = new JButton("Modo Incognito");
 		btnModoIncognito.setBounds(126, 18, 122, 25);
 		btnModoIncognito.setBackground(Color.decode("#F9CFCE"));
 		btnModoIncognito.setForeground(Color.decode("#EB5F5B"));
@@ -261,5 +263,23 @@ public class MainWindow extends JFrame {
 	public void setBtnLogOff(JButton btnLogOff) {
 		this.btnLogOff = btnLogOff;
 	}
+
+	public JButton getBtnVerMeGusta() {
+		return btnVerMeGusta;
+	}
+
+	public void setBtnVerMeGusta(JButton btnVerMeGusta) {
+		this.btnVerMeGusta = btnVerMeGusta;
+	}
+
+	public JButton getBtnModoIncognito() {
+		return btnModoIncognito;
+	}
+
+	public void setBtnModoIncognito(JButton btnModoIncognito) {
+		this.btnModoIncognito = btnModoIncognito;
+	}
+	
+	
 
 }
