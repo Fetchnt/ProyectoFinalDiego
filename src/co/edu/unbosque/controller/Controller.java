@@ -27,6 +27,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+import java.awt.*;
+
 import co.edu.unbosque.util.exception.*;
 import co.edu.unbosque.model.MenDTO;
 import co.edu.unbosque.model.ModelFacade;
@@ -41,28 +43,11 @@ public class Controller implements ActionListener {
 	private ViewFacade vf;
 	private Properties prop;
 
-	// --- Variables para verificación de correo ---
-	private boolean correoVerificado = false;
-	private String correoVerificadoActual = "";
-
-	// --- Credenciales para envío del correo (usa contraseña de aplicación) ---
-	private static final String REMITENTE = "BostinderPF@gmail.com";
-	private static final String CONTRASENA = "ixsx oohf ewsy lamq";
-
 	public Controller() {
 		mf = new ModelFacade();
 		vf = new ViewFacade(mf);
 		prop = new Properties();
 		asignarOyentes();
-
-		mf.getmDAO().readFromTextFile("Men.csv");
-		mf.getwDAO().readFromTextFile("Women.csv");
-
-		// 🔹 Cargar lista combinada de perfiles
-		mf.cargarPerfiles();
-
-		// 🔹 Mostrar el primer perfil
-		mostrarPerfil();
 	}
 
 	public void asignarOyentes() {
@@ -272,22 +257,20 @@ public class Controller implements ActionListener {
 			vf.getPw().setVisible(true);
 			break;
 
-		case "verificar_correo":
+		case "verificar_correo": {
 			try {
 				String correo = vf.getRw().getTxtCorreo().getText().trim();
 				ExceptionLauncher.verifyEmail(correo);
 
 				String codigo = generarCodigo();
-
 				boolean enviado = enviarCorreo(correo, codigo);
 
 				if (!enviado) {
-
 					int opc = JOptionPane.showConfirmDialog(null,
 							"No fue posible enviar el correo.\n¿Deseas usar verificación simulada?", "SMTP falló",
 							JOptionPane.YES_NO_OPTION);
 					if (opc != JOptionPane.YES_OPTION) {
-						correoVerificado = false;
+						vf.getRw().setCorreoVerificado(false);
 						break;
 					}
 
@@ -297,35 +280,29 @@ public class Controller implements ActionListener {
 				}
 
 				// --- Verificación con tiempo límite ---
-				long inicio = System.currentTimeMillis();
+				
 				boolean verificado = false;
 
-				while (System.currentTimeMillis() - inicio < 5 * 60 * 1000) {
 					String codigoIngresado = JOptionPane.showInputDialog(null,
 							"Introduce el código recibido por correo:", "Verificación de correo",
 							JOptionPane.QUESTION_MESSAGE);
 
 					if (codigoIngresado == null) {
 						JOptionPane.showMessageDialog(null, "Verificación cancelada.");
-						correoVerificado = false;
+						vf.getRw().setCorreoVerificado(false);
 						break;
 					}
 
 					if (codigoIngresado.trim().equals(codigo)) {
 						JOptionPane.showMessageDialog(null, "✅ Correo verificado correctamente.");
-						correoVerificado = true;
-						correoVerificadoActual = correo;
+						vf.getRw().setCorreoVerificado(true);
+						vf.getRw().setCorreoVerificadoActual(correo);
 						verificado = true;
 						break;
 					} else {
 						JOptionPane.showMessageDialog(null, "❌ Código incorrecto. Intenta nuevamente.");
 					}
-				}
-
-				if (!verificado && (System.currentTimeMillis() - inicio >= 5 * 60 * 1000)) {
-					JOptionPane.showMessageDialog(null, "⏰ Tiempo de verificación expirado. Intenta de nuevo.");
-					correoVerificado = false;
-				}
+				
 
 			} catch (EmailException ex) {
 				JOptionPane.showMessageDialog(null,
@@ -336,6 +313,7 @@ public class Controller implements ActionListener {
 						JOptionPane.ERROR_MESSAGE);
 			}
 			break;
+		}
 
 		// ---------- ACCIONES DEL REGISTRO ----------
 
@@ -351,7 +329,7 @@ public class Controller implements ActionListener {
 
 					ImageIcon image = new ImageIcon(selectedFile.getAbsolutePath());
 					ImageIcon scaled = new ImageIcon(
-							image.getImage().getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH));
+							image.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
 
 					vf.getRw().getlFotoPreview().setIcon(scaled);
 					vf.getRw().setRutaImagenSeleccionada(selectedFile.getAbsolutePath());
@@ -375,7 +353,7 @@ public class Controller implements ActionListener {
 				String correo = vf.getRw().getTxtCorreo().getText();
 
 				// Verificar si el correo ya fue validado antes
-				if (!correoVerificado || !correo.equals(correoVerificadoActual)) {
+				if (!vf.getRw().isCorreoVerificado() || !correo.equals(vf.getRw().getCorreoVerificadoActual())) {
 					JOptionPane.showMessageDialog(null,
 							"⚠️ Debes verificar tu correo electrónico antes de registrarte.", "Verificación requerida",
 							JOptionPane.WARNING_MESSAGE);
@@ -626,6 +604,10 @@ public class Controller implements ActionListener {
 
 	public boolean enviarCorreo(String destinatario, String codigo) {
 
+		// --- Credenciales para envío del correo
+		final String remintente = "BostinderPF@gmail.com";
+		final String contrasena = "ixsx oohf ewsy lamq";
+
 		prop.put("mail.smtp.auth", "true");
 		prop.put("mail.smtp.starttls.enable", "true");
 		prop.put("mail.smtp.starttls.required", "true");
@@ -633,13 +615,13 @@ public class Controller implements ActionListener {
 		prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
 		String host;
-		if (REMITENTE.endsWith("@gmail.com")) {
+		if (remintente.endsWith("@gmail.com")) {
 			host = "smtp.gmail.com";
-		} else if (REMITENTE.endsWith("@hotmail.com") || REMITENTE.endsWith("@outlook.com")
-				|| REMITENTE.endsWith("@live.com") || REMITENTE.endsWith("@outlook.es")
-				|| REMITENTE.endsWith("@unbosque.edu.co")) {
+		} else if (remintente.endsWith("@hotmail.com") || remintente.endsWith("@outlook.com")
+				|| remintente.endsWith("@live.com") || remintente.endsWith("@outlook.es")
+				|| remintente.endsWith("@unbosque.edu.co")) {
 			host = "smtp.office365.com";
-		} else if (REMITENTE.endsWith("@yahoo.com") || REMITENTE.endsWith("@yahoo.es")) {
+		} else if (remintente.endsWith("@yahoo.com") || remintente.endsWith("@yahoo.es")) {
 			host = "smtp.mail.yahoo.com";
 		} else {
 			JOptionPane.showMessageDialog(null, "❌ Dominio del remitente no soportado.", "Error",
@@ -651,23 +633,23 @@ public class Controller implements ActionListener {
 		Session session = Session.getInstance(prop, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(REMITENTE, CONTRASENA);
+				return new PasswordAuthentication(remintente, contrasena);
 			}
 		});
 		session.setDebug(false);
 
 		try {
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(REMITENTE));
+			message.setFrom(new InternetAddress(remintente));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
 			message.setSubject("Código de verificación - BosTinder 💌");
-			message.setText("Tu código de verificación es: " + codigo + "\n\nTienes 5 minutos para ingresarlo.");
+			message.setText("Tu código de verificación es: " + codigo);
 
 			Transport.send(message);
 			return true;
 		} catch (AuthenticationFailedException e) {
 			JOptionPane.showMessageDialog(null,
-					"❌ Error de autenticación: verifica usuario/contraseña (usa contraseña de aplicación si Gmail).",
+					"❌ Error de autenticación: verifica usuario/contraseña",
 					"Error de autenticación", JOptionPane.ERROR_MESSAGE);
 			return false;
 		} catch (SendFailedException e) {
@@ -752,7 +734,7 @@ public class Controller implements ActionListener {
 	public void mostrarLikes() {
 		List<User> likes = mf.getLikes();
 		if (likes.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Aún no has dado like a nadie 😅");
+			JOptionPane.showMessageDialog(null, "Aún no has dado like a nadie");
 			return;
 		}
 
@@ -771,11 +753,24 @@ public class Controller implements ActionListener {
 			return Period.between(fechaNac, hoy).getYears();
 		} catch (Exception e) {
 			System.out.println("⚠️ Error al calcular edad para fecha: " + fechaNacimiento);
-			return 0; // Si hay error de formato, devuelve 0 para evitar fallos
+			return 0;
 		}
 	}
 
-	public void runGUI() {
+	/**
+	 * Inicializa la lista de perfiles y muestra el primero. Se llama después de que
+	 * las ventanas estén listas.
+	 */
+	public void inicializarPerfiles() {
+		// Cargar lista combinada de perfiles
+		mf.cargarPerfiles();
+
+		// Mostrar el primer perfil
+		mostrarPerfil();
+	}
+
+	public void run() {
 		vf.getPw().setVisible(true);
+		inicializarPerfiles();
 	}
 }

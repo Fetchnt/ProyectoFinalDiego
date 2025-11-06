@@ -59,6 +59,8 @@ public class RegisterWindow extends JFrame {
 	private JButton btnVolver;
 
 	private String rutaImagenSeleccionada;
+	private boolean correoVerificado = false;
+	private String correoVerificadoActual = "";
 
 	public RegisterWindow() {
 		initializeComponents();
@@ -567,6 +569,22 @@ public class RegisterWindow extends JFrame {
 
 	public void setRutaImagenSeleccionada(String rutaImagenSeleccionada) {
 		this.rutaImagenSeleccionada = rutaImagenSeleccionada;
+	}
+	
+	public boolean isCorreoVerificado() {
+	    return correoVerificado;
+	}
+
+	public void setCorreoVerificado(boolean correoVerificado) {
+	    this.correoVerificado = correoVerificado;
+	}
+
+	public String getCorreoVerificadoActual() {
+	    return correoVerificadoActual;
+	}
+
+	public void setCorreoVerificadoActual(String correoVerificadoActual) {
+	    this.correoVerificadoActual = correoVerificadoActual;
 	}
 
 }
