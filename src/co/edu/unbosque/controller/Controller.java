@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 import org.junit.rules.Verifier;
 
@@ -146,6 +147,12 @@ public class Controller implements ActionListener {
 
 		vf.getAw().getBtnSalirModoAdmin().addActionListener(this);
 		vf.getAw().getBtnSalirModoAdmin().setActionCommand("boton_salir_admin");
+
+		vf.getAw().getTablaUsuarios().getSelectionModel().addListSelectionListener(e -> {
+			if (!e.getValueIsAdjusting()) {
+				mostrarDetalleUsuarioSeleccionado();
+			}
+		});
 
 		// ---------- BOTONES en MainWindow ----------
 		vf.getMmw().getBtnLogOff().addActionListener(this);
@@ -280,29 +287,27 @@ public class Controller implements ActionListener {
 				}
 
 				// --- Verificación con tiempo límite ---
-				
+
 				boolean verificado = false;
 
-					String codigoIngresado = JOptionPane.showInputDialog(null,
-							"Introduce el código recibido por correo:", "Verificación de correo",
-							JOptionPane.QUESTION_MESSAGE);
+				String codigoIngresado = JOptionPane.showInputDialog(null, "Introduce el código recibido por correo:",
+						"Verificación de correo", JOptionPane.QUESTION_MESSAGE);
 
-					if (codigoIngresado == null) {
-						JOptionPane.showMessageDialog(null, "Verificación cancelada.");
-						vf.getRw().setCorreoVerificado(false);
-						break;
-					}
+				if (codigoIngresado == null) {
+					JOptionPane.showMessageDialog(null, "Verificación cancelada.");
+					vf.getRw().setCorreoVerificado(false);
+					break;
+				}
 
-					if (codigoIngresado.trim().equals(codigo)) {
-						JOptionPane.showMessageDialog(null, "✅ Correo verificado correctamente.");
-						vf.getRw().setCorreoVerificado(true);
-						vf.getRw().setCorreoVerificadoActual(correo);
-						verificado = true;
-						break;
-					} else {
-						JOptionPane.showMessageDialog(null, "❌ Código incorrecto. Intenta nuevamente.");
-					}
-				
+				if (codigoIngresado.trim().equals(codigo)) {
+					JOptionPane.showMessageDialog(null, "✅ Correo verificado correctamente.");
+					vf.getRw().setCorreoVerificado(true);
+					vf.getRw().setCorreoVerificadoActual(correo);
+					verificado = true;
+					break;
+				} else {
+					JOptionPane.showMessageDialog(null, "❌ Código incorrecto. Intenta nuevamente.");
+				}
 
 			} catch (EmailException ex) {
 				JOptionPane.showMessageDialog(null,
@@ -328,8 +333,7 @@ public class Controller implements ActionListener {
 					File selectedFile = chooser.getSelectedFile();
 
 					ImageIcon image = new ImageIcon(selectedFile.getAbsolutePath());
-					ImageIcon scaled = new ImageIcon(
-							image.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+					ImageIcon scaled = new ImageIcon(image.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
 
 					vf.getRw().getlFotoPreview().setIcon(scaled);
 					vf.getRw().setRutaImagenSeleccionada(selectedFile.getAbsolutePath());
@@ -505,6 +509,18 @@ public class Controller implements ActionListener {
 
 		case "boton_favorito": {
 
+			break;
+		}
+
+		case "boton_dar_baja_admin": {
+		    darDeBajaUsuario();
+		    break;
+		}
+
+		case "boton_mostrar_todos_admin": {
+
+			mostrarTodosLosUsuarios();
+			break;
 		}
 
 		default:
@@ -648,8 +664,7 @@ public class Controller implements ActionListener {
 			Transport.send(message);
 			return true;
 		} catch (AuthenticationFailedException e) {
-			JOptionPane.showMessageDialog(null,
-					"❌ Error de autenticación: verifica usuario/contraseña",
+			JOptionPane.showMessageDialog(null, "❌ Error de autenticación: verifica usuario/contraseña",
 					"Error de autenticación", JOptionPane.ERROR_MESSAGE);
 			return false;
 		} catch (SendFailedException e) {
@@ -730,6 +745,121 @@ public class Controller implements ActionListener {
 
 		// --- Mostrar imagen de perfil ---
 	}
+	/**
+	 * Da de baja (elimina) al usuario seleccionado en la tabla
+	 */
+	public void darDeBajaUsuario() {
+	    int filaSeleccionada = vf.getAw().getTablaUsuarios().getSelectedRow();
+	    
+	    // Verificar si hay una fila seleccionada
+	    if (filaSeleccionada == -1) {
+	        JOptionPane.showMessageDialog(vf.getAw(),
+	            "Por favor, selecciona un usuario de la tabla para dar de baja.",
+	            "Sin selección",
+	            JOptionPane.WARNING_MESSAGE);
+	        return;
+	    }
+	    
+	    // Obtener el alias del usuario seleccionado
+	    DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
+	    String alias = (String) modelo.getValueAt(filaSeleccionada, 0);
+	    String nombre = (String) modelo.getValueAt(filaSeleccionada, 1);
+	    String apellido = (String) modelo.getValueAt(filaSeleccionada, 2);
+	    
+	    // Buscar información completa del usuario
+	    User usuario = mf.buscarUsuarioPorAlias(alias);
+	    
+	    if (usuario == null) {
+	        JOptionPane.showMessageDialog(vf.getAw(),
+	            "Error: No se encontró el usuario en el sistema.",
+	            "Error",
+	            JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+	    
+	    // Crear mensaje de confirmación con detalles del usuario
+	    String mensajeConfirmacion = String.format(
+	        "¿Estás seguro de que deseas dar de baja al siguiente usuario?\n\n" +
+	        "Alias: %s\n" +
+	        "Nombre: %s %s\n" +
+	        "Correo: %s\n" +
+	        "País: %s\n\n" +
+	        "⚠️ Esta acción NO se puede deshacer.",
+	        alias, nombre, apellido, usuario.getEmail(), usuario.getCountry()
+	    );
+	    
+	    // Mostrar diálogo de confirmación
+	    int confirmacion = JOptionPane.showConfirmDialog(
+	        vf.getAw(),
+	        mensajeConfirmacion,
+	        "Confirmar dar de baja",
+	        JOptionPane.YES_NO_OPTION,
+	        JOptionPane.WARNING_MESSAGE
+	    );
+	    
+	    // Si el usuario confirma la eliminación
+	    if (confirmacion == JOptionPane.YES_OPTION) {
+	        // Eliminar del sistema
+	        boolean eliminado = mf.eliminarUsuarioPorAlias(alias);
+	        
+	        if (eliminado) {
+	            // Eliminar de la tabla
+	            modelo.removeRow(filaSeleccionada);
+	            
+	            // Limpiar los campos de detalle
+	            limpiarCamposDetalleAdmin();
+	            
+	            // Mostrar mensaje de éxito
+	            JOptionPane.showMessageDialog(vf.getAw(),
+	                "✅ Usuario dado de baja exitosamente.\n\n" +
+	                "El usuario '" + alias + "' ha sido eliminado del sistema.",
+	                "Usuario eliminado",
+	                JOptionPane.INFORMATION_MESSAGE);
+	            
+	            // Actualizar estadísticas si las hay
+	            actualizarEstadisticasAdmin();
+	            
+	        } else {
+	            JOptionPane.showMessageDialog(vf.getAw(),
+	                "❌ Error al eliminar el usuario del sistema.",
+	                "Error",
+	                JOptionPane.ERROR_MESSAGE);
+	        }
+	    }
+	}
+
+	/**
+	 * Limpia los campos de detalle del usuario en AdminWindow
+	 */
+	private void limpiarCamposDetalleAdmin() {
+	    vf.getAw().getTxtNombre().setText("");
+	    vf.getAw().getTxtApellido().setText("");
+	    vf.getAw().getTxtAlias().setText("");
+	    vf.getAw().getTxtEdad().setText("");
+	    vf.getAw().getTxtCorreo().setText("");
+	    vf.getAw().getTxtLikes().setText("");
+	    vf.getAw().getTxtIngresos().setText("");
+	    vf.getAw().getLblFotoPreview().setIcon(null);
+	}
+
+	/**
+	 * Actualiza las estadísticas mostradas en AdminWindow
+	 */
+	private void actualizarEstadisticasAdmin() {
+	    int totalHombres = mf.getmDAO().listaMenDTO.size();
+	    int totalMujeres = mf.getwDAO().listaWomenDTO.size();
+	    int totalUsuarios = totalHombres + totalMujeres;
+	    
+	    String estadisticas = String.format(
+	        "📊 Estadísticas del sistema:\n" +
+	        "Total de usuarios: %d\n" +
+	        "Hombres: %d\n" +
+	        "Mujeres: %d",
+	        totalUsuarios, totalHombres, totalMujeres
+	    );
+	    
+	    vf.getAw().getTxtEstadisticas().setText(estadisticas);
+	}
 
 	public void mostrarLikes() {
 		List<User> likes = mf.getLikes();
@@ -767,6 +897,127 @@ public class Controller implements ActionListener {
 
 		// Mostrar el primer perfil
 		mostrarPerfil();
+	}
+
+	/*
+	 * Muestra todos los usuarios en la tabla del AdminWindow
+	 */
+		public void mostrarTodosLosUsuarios() {
+		    // Recargar datos desde los archivos CSV
+		    mf.getmDAO().listaMenDTO.clear();
+		    mf.getmDAO().readFromTextFile("Men.csv");
+		    
+		    mf.getwDAO().listaWomenDTO.clear();
+		    mf.getwDAO().readFromTextFile("Women.csv");
+		    
+		    // Obtener todos los usuarios
+		    List<User> todosLosUsuarios = mf.obtenerTodosLosUsuarios();
+		    
+		    // Limpiar la tabla
+		    DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
+		    modelo.setRowCount(0);
+		    
+		    // Llenar la tabla con todos los usuarios
+		    for (User usuario : todosLosUsuarios) {
+		        // Calcular edad
+		        int edad = calcularEdad(usuario.getBornDate());
+		        
+		        // Obtener ingresos (solo para hombres)
+		        String ingresos = "N/A";
+		        if (usuario instanceof MenDTO) {
+		            MenDTO hombre = (MenDTO) usuario;
+		            ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
+		        }
+		        
+		        // Obtener likes (por ahora será 0, puedes implementar un sistema de likes después)
+		        int likes = 0;
+		        
+		        // Agregar fila a la tabla
+		        Object[] fila = {
+		            usuario.getAlias(),
+		            usuario.getName(),
+		            usuario.getLastName(),
+		            edad,
+		            likes,
+		            ingresos,
+		            usuario.getGender()
+		        };
+		        modelo.addRow(fila);
+		    }
+		    
+		    // Limpiar los campos de detalle
+		    limpiarCamposDetalleAdmin();
+		    
+		    // Actualizar estadísticas
+		    actualizarEstadisticasAdmin();
+		    
+		    JOptionPane.showMessageDialog(vf.getAw(), 
+		        "Se encontraron " + todosLosUsuarios.size() + " usuarios registrados.",
+		        "Usuarios cargados", 
+		        JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+
+	public void mostrarDetalleUsuarioSeleccionado() {
+		int filaSeleccionada = vf.getAw().getTablaUsuarios().getSelectedRow();
+
+		if (filaSeleccionada == -1) {
+			return; // No hay fila seleccionada
+		}
+
+		// Obtener datos de la tabla
+		DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
+		String alias = (String) modelo.getValueAt(filaSeleccionada, 0);
+
+		// Buscar el usuario completo
+		User usuarioSeleccionado = null;
+
+		// Buscar en hombres
+		for (MenDTO hombre : mf.getmDAO().listaMenDTO) {
+			if (hombre.getAlias().equals(alias)) {
+				usuarioSeleccionado = hombre;
+				break;
+			}
+		}
+
+		// Buscar en mujeres si no se encontró
+		if (usuarioSeleccionado == null) {
+			for (WomenDTO mujer : mf.getwDAO().listaWomenDTO) {
+				if (mujer.getAlias().equals(alias)) {
+					usuarioSeleccionado = mujer;
+					break;
+				}
+			}
+		}
+
+		// Mostrar detalles si se encontró
+		if (usuarioSeleccionado != null) {
+			vf.getAw().getTxtNombre().setText(usuarioSeleccionado.getName());
+			vf.getAw().getTxtApellido().setText(usuarioSeleccionado.getLastName());
+			vf.getAw().getTxtAlias().setText(usuarioSeleccionado.getAlias());
+			vf.getAw().getTxtEdad().setText(String.valueOf(calcularEdad(usuarioSeleccionado.getBornDate())));
+			vf.getAw().getTxtCorreo().setText(usuarioSeleccionado.getEmail());
+			vf.getAw().getTxtLikes().setText("0"); // Implementar sistema de likes después
+
+			// Mostrar ingresos si es hombre
+			if (usuarioSeleccionado instanceof MenDTO) {
+				MenDTO hombre = (MenDTO) usuarioSeleccionado;
+				vf.getAw().getTxtIngresos().setText(String.format("%.2f", (double) hombre.getMensualIncome()));
+			} else {
+				vf.getAw().getTxtIngresos().setText("N/A");
+			}
+
+			// Cargar y mostrar foto
+			try {
+				ImageIcon imagen = new ImageIcon(usuarioSeleccionado.getProfilePictureRoute());
+				ImageIcon imagenEscalada = new ImageIcon(
+						imagen.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+				vf.getAw().getLblFotoPreview().setIcon(imagenEscalada);
+			} catch (Exception ex) {
+				vf.getAw().getLblFotoPreview().setIcon(null);
+				System.err.println("Error al cargar la imagen: " + ex.getMessage());
+			}
+		}
 	}
 
 	public void run() {

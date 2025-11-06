@@ -122,4 +122,60 @@ public class ModelFacade {
 		return likes;
 	}
 
+	public List<User> obtenerTodosLosUsuarios() {
+		List<User> todosLosUsuarios = new ArrayList<>();
+		
+		todosLosUsuarios.addAll(mDAO.listaMenDTO);
+		todosLosUsuarios.addAll(wDAO.listaWomenDTO);
+
+		return todosLosUsuarios;
+	}
+	/*
+	 * Elimina un usuario del sistema por su alias
+	 * @param alias El alias del usuario a eliminar
+	 * @return true si se eliminó correctamente, false si no se encontró
+	 */
+	public boolean eliminarUsuarioPorAlias(String alias) {
+	    // Buscar y eliminar en hombres
+	    for (int i = 0; i < mDAO.listaMenDTO.size(); i++) {
+	        if (mDAO.listaMenDTO.get(i).getAlias().equals(alias)) {
+	            mDAO.delete(i);
+	            return true;
+	        }
+	    }
+	    
+	    // Buscar y eliminar en mujeres
+	    for (int i = 0; i < wDAO.listaWomenDTO.size(); i++) {
+	        if (wDAO.listaWomenDTO.get(i).getAlias().equals(alias)) {
+	            wDAO.delete(i);
+	            return true;
+	        }
+	    }
+	    
+	    return false; // No se encontró el usuario
+	}
+
+	/*
+	 * Busca un usuario por su alias
+	 * @param alias El alias del usuario a buscar
+	 * @return El usuario encontrado o null si no existe
+	 */
+	public User buscarUsuarioPorAlias(String alias) {
+	    // Buscar en hombres
+	    for (MenDTO hombre : mDAO.listaMenDTO) {
+	        if (hombre.getAlias().equals(alias)) {
+	            return hombre;
+	        }
+	    }
+	    
+	    // Buscar en mujeres
+	    for (WomenDTO mujer : wDAO.listaWomenDTO) {
+	        if (mujer.getAlias().equals(alias)) {
+	            return mujer;
+	        }
+	    }
+	    
+	    return null;
+	}
+
 }
