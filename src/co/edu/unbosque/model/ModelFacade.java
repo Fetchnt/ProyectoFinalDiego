@@ -1,5 +1,8 @@
 package co.edu.unbosque.model;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -245,6 +248,198 @@ public class ModelFacade {
 	public User getPerfilActualParaMostrar() {
 		User perfilActual = getPerfilActual();
 		return getPerfilParaMostrar(perfilActual);
+	}
+	/**
+	 * Obtiene los usuarios ordenados por ingresos (solo hombres con ingresos >= umbral)
+	 * @param umbralIngresos El umbral mínimo de ingresos
+	 * @return Lista de hombres que cumplen con el criterio
+	 */
+	public List<User> obtenerUsuariosPorIngresos(double umbralIngresos) {
+	    List<User> usuariosFiltrados = new ArrayList<>();
+	    
+	    for (MenDTO hombre : mDAO.listaMenDTO) {
+	        if (hombre.getMensualIncome() >= umbralIngresos) {
+	            usuariosFiltrados.add(hombre);
+	        }
+	    }
+	    
+	    // Ordenar por ingresos de mayor a menor (bubble sort simple)
+	    for (int i = 0; i < usuariosFiltrados.size() - 1; i++) {
+	        for (int j = 0; j < usuariosFiltrados.size() - i - 1; j++) {
+	            long ing1 = ((MenDTO) usuariosFiltrados.get(j)).getMensualIncome();
+	            long ing2 = ((MenDTO) usuariosFiltrados.get(j + 1)).getMensualIncome();
+	            
+	            if (ing1 < ing2) {
+	                User temp = usuariosFiltrados.get(j);
+	                usuariosFiltrados.set(j, usuariosFiltrados.get(j + 1));
+	                usuariosFiltrados.set(j + 1, temp);
+	            }
+	        }
+	    }
+	    
+	    return usuariosFiltrados;
+	}
+
+	/**
+	 * Obtiene usuarios filtrados por género
+	 * @param genero El género a filtrar ("Masculino", "Femenino", o "Todos")
+	 * @return Lista de usuarios del género especificado
+	 */
+	public List<User> obtenerUsuariosPorGenero(String genero) {
+	    List<User> usuariosFiltrados = new ArrayList<>();
+	    
+	    if (genero == null || genero.equals("Todos")) {
+	        return obtenerTodosLosUsuarios();
+	    }
+	    
+	    if (genero.equals("Masculino")) {
+	        usuariosFiltrados.addAll(mDAO.listaMenDTO);
+	    } else if (genero.equals("Femenino")) {
+	        usuariosFiltrados.addAll(wDAO.listaWomenDTO);
+	    }
+	    
+	    return usuariosFiltrados;
+	}
+
+	/**
+	 * Calcula la edad promedio de una lista de usuarios
+	 */
+	public double calcularEdadPromedio(List<User> usuarios) {
+	    if (usuarios.isEmpty()) {
+	        return 0;
+	    }
+	    
+	    double sumaEdades = 0;
+	    int contadorValidos = 0;
+	    
+	    for (User usuario : usuarios) {
+	        try {
+	            int edad = calcularEdadDesdeString(usuario.getBornDate());
+	            if (edad > 0) {
+	                sumaEdades += edad;
+	                contadorValidos++;
+	            }
+	        } catch (Exception e) {
+	            // Ignorar errores
+	        }
+	    }
+	    
+	    return contadorValidos > 0 ? sumaEdades / contadorValidos : 0;
+	}
+
+	/**
+	 * Calcula el ingreso promedio de hombres en una lista
+	 */
+	public double calcularIngresoPromedio(List<User> usuarios) {
+	    double sumaIngresos = 0;
+	    int contador = 0;
+	    
+	    for (User usuario : usuarios) {
+	        if (usuario instanceof MenDTO) {
+	            MenDTO hombre = (MenDTO) usuario;
+	            sumaIngresos += hombre.getMensualIncome();
+	            contador++;
+	        }
+	    }
+	    
+	    return contador > 0 ? sumaIngresos / contador : 0;
+	}
+
+	/**
+	 * Cuenta cuántas mujeres tienen divorcios en una lista
+	 */
+	public int contarMujeresConDivorcios(List<User> usuarios) {
+	    int contador = 0;
+	    
+	    for (User usuario : usuarios) {
+	        if (usuario instanceof WomenDTO) {
+	            WomenDTO mujer = (WomenDTO) usuario;
+	            if (mujer.isHadDivorces()) {
+	                contador++;
+	            }
+	        }
+	    }
+	    
+	    return contador;
+	}
+
+	/**
+	 * Cuenta cuántos usuarios hay por género
+	 */
+	public int contarPorGenero(List<User> usuarios, String genero) {
+	    int contador = 0;
+	    
+	    for (User usuario : usuarios) {
+	        if (genero.equals("Masculino") && usuario instanceof MenDTO) {
+	            contador++;
+	        } else if (genero.equals("Femenino") && usuario instanceof WomenDTO) {
+	            contador++;
+	        }
+	    }
+	    
+	    return contador;
+	}
+
+	/**
+	 * Encuentra el país con más usuarios
+	 */
+	public String encontrarPaisMasUsuarios(List<User> usuarios) {
+	    if (usuarios.isEmpty()) {
+	        return "";
+	    }
+	    
+	    // Crear listas paralelas para países y contadores
+	    List<String> paises = new ArrayList<>();
+	    List<Integer> contadores = new ArrayList<>();
+	    
+	    for (User usuario : usuarios) {
+	        String pais = usuario.getCountry();
+	        
+	        // Buscar si el país ya está en la lista
+	        int indice = -1;
+	        for (int i = 0; i < paises.size(); i++) {
+	            if (paises.get(i).equals(pais)) {
+	                indice = i;
+	                break;
+	            }
+	        }
+	        
+	        if (indice == -1) {
+	            // País nuevo, agregarlo
+	            paises.add(pais);
+	            contadores.add(1);
+	        } else {
+	            // País existente, incrementar contador
+	            contadores.set(indice, contadores.get(indice) + 1);
+	        }
+	    }
+	    
+	    // Encontrar el país con mayor contador
+	    int maxUsuarios = 0;
+	    String paisMasUsuarios = "";
+	    
+	    for (int i = 0; i < paises.size(); i++) {
+	        if (contadores.get(i) > maxUsuarios) {
+	            maxUsuarios = contadores.get(i);
+	            paisMasUsuarios = paises.get(i);
+	        }
+	    }
+	    
+	    return paisMasUsuarios + " (" + maxUsuarios + ")";
+	}
+
+	/**
+	 * Calcula edad desde un string de fecha
+	 */
+	private int calcularEdadDesdeString(String fechaNacimiento) {
+	    try {
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	        LocalDate fechaNac = LocalDate.parse(fechaNacimiento, formatter);
+	        LocalDate hoy = LocalDate.now();
+	        return Period.between(fechaNac, hoy).getYears();
+	    } catch (Exception e) {
+	        return 0;
+	    }
 	}
 
 	/**
