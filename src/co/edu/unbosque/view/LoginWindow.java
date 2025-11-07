@@ -29,6 +29,7 @@ public class LoginWindow extends JFrame {
 	private JTextField email;
 	private JButton login;
 	private JButton back;
+	private JButton adminMode;
 
 	public LoginWindow() {
 		initializeComponents();
@@ -117,6 +118,14 @@ public class LoginWindow extends JFrame {
 		back.setFocusPainted(false);
 		back.setBorderPainted(false);
 		panelLogin.add(back);
+		
+		adminMode = new JButton("Modo Admin.");
+		adminMode.setBounds(80, 280, 100, 40);
+		adminMode.setFont(new Font("Arial", Font.BOLD, 16));
+		adminMode.setBackground(Color.decode("#F9CFCE"));
+		adminMode.setFocusPainted(false);
+		adminMode.setBorderPainted(false);
+		panelLogin.add(adminMode);
 
 	}
 
@@ -222,5 +231,47 @@ public class LoginWindow extends JFrame {
 	public void setlTitle(JLabel lTitle) {
 		this.lTitle = lTitle;
 	}
+
+	public JLabel getlWoman() {
+		return lWoman;
+	}
+
+	public void setlWoman(JLabel lWoman) {
+		this.lWoman = lWoman;
+	}
+
+	public JLabel getlMen() {
+		return lMen;
+	}
+
+	public void setlMen(JLabel lMen) {
+		this.lMen = lMen;
+	}
+
+	public JLabel getLuserAlias() {
+		return luserAlias;
+	}
+
+	public void setLuserAlias(JLabel luserAlias) {
+		this.luserAlias = luserAlias;
+	}
+
+	public JTextField getUserAlias() {
+		return userAlias;
+	}
+
+	public void setUserAlias(JTextField userAlias) {
+		this.userAlias = userAlias;
+	}
+
+	public JButton getAdminMode() {
+		return adminMode;
+	}
+
+	public void setAdminMode(JButton adminMode) {
+		this.adminMode = adminMode;
+	}
+	
+	
 
 }

@@ -14,6 +14,7 @@ public class ViewFacade {
 	private RegisterWindow rw;
 	private MainWindow mmw;
 	private AdminWindow aw;
+	private MyProfileWindow mpw;
 	private ModelFacade model;
 
 	public ViewFacade(ModelFacade model) {
@@ -26,6 +27,7 @@ public class ViewFacade {
 		sw = new StartWindow();
 		rw = new RegisterWindow();
 		mmw = new MainWindow();
+		mpw = new MyProfileWindow();
 		aw = new AdminWindow();
 	}
 
@@ -109,5 +111,15 @@ public class ViewFacade {
 	public void setAw(AdminWindow aw) {
 		this.aw = aw;
 	}
+
+	public MyProfileWindow getMpw() {
+		return mpw;
+	}
+
+	public void setMpw(MyProfileWindow mpw) {
+		this.mpw = mpw;
+	}
+	
+	
 
 }
