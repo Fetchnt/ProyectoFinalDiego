@@ -446,23 +446,26 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_iniciosesion": {
-			// Obtener los datos ingresados
-			String userAlias = vf.getLw().getUser().getText();
-			String email = vf.getLw().getEmail().getText();
-			String password = vf.getLw().getPassword().getText();
+		    // Obtener los datos ingresados
+		    String userAlias = vf.getLw().getUser().getText();
+		    String email = vf.getLw().getEmail().getText();
+		    String password = vf.getLw().getPassword().getText();
 
-			// Validar credenciales con el modelo
-			boolean valido = mf.validarInicioSesion(userAlias, email, password);
+		    // Validar credenciales con el modelo
+		    boolean valido = mf.validarInicioSesion(userAlias, email, password);
 
-			if (valido) {
-				JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso. ¡Bienvenido!");
-				vf.getLw().setVisible(false);
-				vf.getMmw().setVisible(true);
-			} else {
-				JOptionPane.showMessageDialog(null, "Datos incorrectos. Verifica tu alias, correo y contraseña.",
-						"Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-			}
-			break;
+		    if (valido) {
+		        JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso. Bienvenido!");
+		        vf.getLw().setVisible(false);
+		        vf.getMmw().setVisible(true);
+		        
+		        // Mostrar el primer perfil al entrar
+		        mostrarPerfil();
+		    } else {
+		        JOptionPane.showMessageDialog(null, "Datos incorrectos. Verifica tu alias, correo y contraseña.",
+		                "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+		    }
+		    break;
 		}
 		case "boton_volver_iniciosesion": {
 			vf.getLw().dispose();
@@ -774,7 +777,7 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	public void mostrarPerfil() {
+	public void mostrarPerfilMain() {
 		User actual = mf.getPerfilActual();
 		if (actual == null) {
 			JOptionPane.showMessageDialog(null, "No hay más perfiles por mostrar ");
@@ -796,23 +799,17 @@ public class Controller implements ActionListener {
 	}
 
 	public void mostrarLikes() {
-		List<User> likes = mf.getLikes();
-		if (likes.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Aún no has dado like a nadie\n\n"
-					+ "Da like a perfiles que te gusten\n" + "   para verlos aquí después", "Mis Likes",
-					JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
+	    List<User> likes = mf.getLikes();
+	    if (likes.isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Aún no has dado like a nadie");
+	        return;
+	    }
 
-		StringBuilder sb = new StringBuilder("❤️ Tus Likes:\n\n");
-		for (int i = 0; i < likes.size(); i++) {
-			User u = likes.get(i);
-			sb.append(i + 1).append(". ").append(u.getName()).append(" ").append(u.getLastName()).append(" (")
-					.append(u.getAlias()).append(")\n");
-		}
-
-		JOptionPane.showMessageDialog(null, sb.toString(), "Mis Likes (" + likes.size() + ")",
-				JOptionPane.INFORMATION_MESSAGE);
+	    StringBuilder sb = new StringBuilder("Usuarios que te gustaron:\n\n");
+	    for (User u : likes) {
+	        sb.append("- ").append(u.getName()).append(" ").append(u.getLastName()).append("\n");
+	    }
+	    JOptionPane.showMessageDialog(null, sb.toString());
 	}
 
 	public int calcularEdad(String fechaNacimiento) {
@@ -832,8 +829,17 @@ public class Controller implements ActionListener {
 	 * las ventanas estén listas.
 	 */
 	public void inicializarPerfiles() {
+		mf.getmDAO().listaMenDTO.clear();
+		mf.getmDAO().readFromTextFile("Men.csv");
+
+		mf.getwDAO().listaWomenDTO.clear();
+		mf.getwDAO().readFromTextFile("Women.csv");
+
+		// Cargar lista combinada de perfiles
 		mf.cargarPerfiles();
-		mostrarPerfil();
+
+		// El perfil se mostrará solo cuando el usuario entre a MainWindow
+		mostrarPerfilMain();
 	}
 
 	/**
@@ -1025,269 +1031,368 @@ public class Controller implements ActionListener {
 				: "🕵️ Modo incógnito ACTIVADO\n\n• Tu perfil aparecerá oculto para otros";
 
 		JOptionPane.showMessageDialog(null, mensaje, "Modo Incógnito", JOptionPane.INFORMATION_MESSAGE);
-		mostrarPerfil();
+		mostrarPerfilMain();
 	}
 
 	/**
 	 * Filtra usuarios por ingresos mínimos (244.85 USD)
 	 */
 	public void filtrarPorIngresos() {
-		// Recargar datos
-		mf.getmDAO().listaMenDTO.clear();
-		mf.getmDAO().readFromTextFile("Men.csv");
-
-		double umbralIngresos = 244.85;
-
-		// Obtener usuarios filtrados
-		List<User> usuariosFiltrados = mf.obtenerUsuariosPorIngresos(umbralIngresos);
-
-		if (usuariosFiltrados.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getAw(),
-					"No se encontraron usuarios con ingresos iguales o superiores a $" + umbralIngresos + " USD.",
-					"Sin resultados", JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
-
-		// Limpiar la tabla
-		DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
-		modelo.setRowCount(0);
-
-		// Llenar la tabla con usuarios filtrados
-		for (User usuario : usuariosFiltrados) {
-			int edad = calcularEdad(usuario.getBornDate());
-
-			MenDTO hombre = (MenDTO) usuario;
-			String ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
-
-			// Obtener likes REALES del perfil
-			int likesReales = usuario.getLikes();
-
-			Object[] fila = { usuario.getAlias(), usuario.getName(), usuario.getLastName(), edad, likesReales, // Usar
-																												// likes
-																												// reales
-					ingresos, usuario.getGender() };
-			modelo.addRow(fila);
-		}
-
-		// Limpiar campos de detalle
-		limpiarCamposDetalleAdmin();
-
-		// Mostrar mensaje de éxito
-		JOptionPane.showMessageDialog(vf.getAw(),
-				"✅ Filtro aplicado exitosamente.\n\n" + "Se encontraron " + usuariosFiltrados.size()
-						+ " usuario(s) con ingresos ≥ $" + umbralIngresos + " USD.",
-				"Filtro aplicado", JOptionPane.INFORMATION_MESSAGE);
-
-		// Actualizar estadísticas
-		actualizarEstadisticasFiltro(usuariosFiltrados, "Ingresos ≥ $" + umbralIngresos + " USD");
+	    // Recargar datos
+	    mf.getmDAO().listaMenDTO.clear();
+	    mf.getmDAO().readFromTextFile("Men.csv");
+	    
+	    double umbralIngresos = 244.85;
+	    
+	    // Obtener usuarios filtrados
+	    List<User> usuariosFiltrados = mf.obtenerUsuariosPorIngresos(umbralIngresos);
+	    
+	    if (usuariosFiltrados.isEmpty()) {
+	        JOptionPane.showMessageDialog(vf.getAw(),
+	            "No se encontraron usuarios con ingresos iguales o superiores a $" + umbralIngresos + " USD.",
+	            "Sin resultados",
+	            JOptionPane.INFORMATION_MESSAGE);
+	        return;
+	    }
+	    
+	    // Limpiar la tabla
+	    DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
+	    modelo.setRowCount(0);
+	    
+	    // Llenar la tabla con usuarios filtrados
+	    for (User usuario : usuariosFiltrados) {
+	        int edad = calcularEdad(usuario.getBornDate());
+	        
+	        MenDTO hombre = (MenDTO) usuario;
+	        String ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
+	        
+	        Object[] fila = {
+	            usuario.getAlias(),
+	            usuario.getName(),
+	            usuario.getLastName(),
+	            edad,
+	            0, // likes
+	            ingresos,
+	            usuario.getGender()
+	        };
+	        modelo.addRow(fila);
+	    }
+	    
+	    // Limpiar campos de detalle
+	    limpiarCamposDetalleAdmin();
+	    
+	    // Mostrar mensaje de éxito
+	    JOptionPane.showMessageDialog(vf.getAw(),
+	        "Filtro aplicado exitosamente.\n\n" +
+	        "Se encontraron " + usuariosFiltrados.size() + " usuario(s) con ingresos >= $" + umbralIngresos + " USD.",
+	        "Filtro aplicado",
+	        JOptionPane.INFORMATION_MESSAGE);
+	    
+	    // Actualizar estadísticas
+	    actualizarEstadisticasFiltro(usuariosFiltrados, "Ingresos >= $" + umbralIngresos + " USD");
 	}
 
 	/**
 	 * Filtra usuarios por género seleccionado
 	 */
 	public void filtrarPorGenero() {
-		// Recargar datos
-		mf.getmDAO().listaMenDTO.clear();
-		mf.getmDAO().readFromTextFile("Men.csv");
-
-		mf.getwDAO().listaWomenDTO.clear();
-		mf.getwDAO().readFromTextFile("Women.csv");
-
-		// Obtener género seleccionado del ComboBox
-		String generoSeleccionado = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
-
-		if (generoSeleccionado == null || generoSeleccionado.equals("Todos")) {
-			// Si es "Todos", mostrar todos los usuarios
-			mostrarTodosLosUsuarios();
-			return;
-		}
-
-		// Obtener usuarios filtrados
-		List<User> usuariosFiltrados = mf.obtenerUsuariosPorGenero(generoSeleccionado);
-
-		if (usuariosFiltrados.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getAw(), "No se encontraron usuarios del género: " + generoSeleccionado,
-					"Sin resultados", JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
-
-		// Limpiar la tabla
-		DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
-		modelo.setRowCount(0);
-
-		// Llenar la tabla con usuarios filtrados
-		for (User usuario : usuariosFiltrados) {
-			int edad = calcularEdad(usuario.getBornDate());
-
-			String ingresos = "N/A";
-			if (usuario instanceof MenDTO) {
-				MenDTO hombre = (MenDTO) usuario;
-				ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
-			}
-
-			// Obtener likes REALES del perfil
-			int likesReales = usuario.getLikes();
-
-			Object[] fila = { usuario.getAlias(), usuario.getName(), usuario.getLastName(), edad, likesReales, // Usar
-																												// likes
-																												// reales
-					ingresos, usuario.getGender() };
-			modelo.addRow(fila);
-		}
-
-		// Limpiar campos de detalle
-		limpiarCamposDetalleAdmin();
-
-		// Mostrar mensaje de éxito
-		JOptionPane.showMessageDialog(vf.getAw(),
-				"✅ Filtro aplicado exitosamente.\n\n" + "Se encontraron " + usuariosFiltrados.size()
-						+ " usuario(s) del género: " + generoSeleccionado,
-				"Filtro aplicado", JOptionPane.INFORMATION_MESSAGE);
-
-		// Actualizar estadísticas
-		actualizarEstadisticasFiltro(usuariosFiltrados, "Género: " + generoSeleccionado);
+	    // Recargar datos
+	    mf.getmDAO().listaMenDTO.clear();
+	    mf.getmDAO().readFromTextFile("Men.csv");
+	    
+	    mf.getwDAO().listaWomenDTO.clear();
+	    mf.getwDAO().readFromTextFile("Women.csv");
+	    
+	    // Obtener género seleccionado del ComboBox
+	    String generoSeleccionado = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
+	    
+	    if (generoSeleccionado == null || generoSeleccionado.equals("Todos")) {
+	        // Si es "Todos", mostrar todos los usuarios
+	        mostrarTodosLosUsuarios();
+	        return;
+	    }
+	    
+	    // Obtener usuarios filtrados
+	    List<User> usuariosFiltrados = mf.obtenerUsuariosPorGenero(generoSeleccionado);
+	    
+	    if (usuariosFiltrados.isEmpty()) {
+	        JOptionPane.showMessageDialog(vf.getAw(),
+	            "No se encontraron usuarios del género: " + generoSeleccionado,
+	            "Sin resultados",
+	            JOptionPane.INFORMATION_MESSAGE);
+	        return;
+	    }
+	    
+	    // Limpiar la tabla
+	    DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
+	    modelo.setRowCount(0);
+	    
+	    // Llenar la tabla con usuarios filtrados
+	    for (User usuario : usuariosFiltrados) {
+	        int edad = calcularEdad(usuario.getBornDate());
+	        
+	        String ingresos = "N/A";
+	        if (usuario instanceof MenDTO) {
+	            MenDTO hombre = (MenDTO) usuario;
+	            ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
+	        }
+	        
+	        Object[] fila = {
+	            usuario.getAlias(),
+	            usuario.getName(),
+	            usuario.getLastName(),
+	            edad,
+	            0, // likes
+	            ingresos,
+	            usuario.getGender()
+	        };
+	        modelo.addRow(fila);
+	    }
+	    
+	    // Limpiar campos de detalle
+	    limpiarCamposDetalleAdmin();
+	    
+	    // Mostrar mensaje de éxito
+	    JOptionPane.showMessageDialog(vf.getAw(),
+	        "Filtro aplicado exitosamente.\n\n" +
+	        "Se encontraron " + usuariosFiltrados.size() + " usuario(s) del género: " + generoSeleccionado,
+	        "Filtro aplicado",
+	        JOptionPane.INFORMATION_MESSAGE);
+	    
+	    // Actualizar estadísticas
+	    actualizarEstadisticasFiltro(usuariosFiltrados, "Género: " + generoSeleccionado);
 	}
 
 	/**
 	 * Busca usuarios por alias o correo
 	 */
 	public void buscarUsuarioAdmin() {
-		String textoBusqueda = vf.getAw().getTxtBuscar().getText().trim();
-
-		if (textoBusqueda.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getAw(), "Por favor, ingresa un alias o correo para buscar.",
-					"Campo vacío", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		// Recargar datos
-		mf.getmDAO().listaMenDTO.clear();
-		mf.getmDAO().readFromTextFile("Men.csv");
-
-		mf.getwDAO().listaWomenDTO.clear();
-		mf.getwDAO().readFromTextFile("Women.csv");
-
-		// Buscar en todos los usuarios
-		List<User> todosLosUsuarios = mf.obtenerTodosLosUsuarios();
-		List<User> usuariosEncontrados = new ArrayList<>();
-
-		for (User usuario : todosLosUsuarios) {
-			if (usuario.getAlias().toLowerCase().contains(textoBusqueda.toLowerCase())
-					|| usuario.getEmail().toLowerCase().contains(textoBusqueda.toLowerCase())) {
-				usuariosEncontrados.add(usuario);
-			}
-		}
-
-		if (usuariosEncontrados.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getAw(),
-					"❌ No se encontraron usuarios que coincidan con: \"" + textoBusqueda + "\"", "Sin resultados",
-					JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
-
-		// Limpiar la tabla
-		DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
-		modelo.setRowCount(0);
-
-		// Llenar la tabla con usuarios encontrados
-		for (User usuario : usuariosEncontrados) {
-			int edad = calcularEdad(usuario.getBornDate());
-
-			String ingresos = "N/A";
-			if (usuario instanceof MenDTO) {
-				MenDTO hombre = (MenDTO) usuario;
-				ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
-			}
-
-			// Obtener likes REALES del perfil
-			int likesReales = usuario.getLikes();
-
-			Object[] fila = { usuario.getAlias(), usuario.getName(), usuario.getLastName(), edad, likesReales, // Usar
-																												// likes
-																												// reales
-					ingresos, usuario.getGender() };
-			modelo.addRow(fila);
-		}
-
-		// Limpiar campos de detalle
-		limpiarCamposDetalleAdmin();
-
-		// Mostrar mensaje de éxito
-		JOptionPane.showMessageDialog(vf.getAw(),
-				"✅ Búsqueda completada.\n\n" + "Se encontraron " + usuariosEncontrados.size() + " usuario(s).",
-				"Resultados de búsqueda", JOptionPane.INFORMATION_MESSAGE);
-
-		// Actualizar estadísticas
-		actualizarEstadisticasFiltro(usuariosEncontrados, "Búsqueda: \"" + textoBusqueda + "\"");
+	    String textoBusqueda = vf.getAw().getTxtBuscar().getText().trim();
+	    
+	    if (textoBusqueda.isEmpty()) {
+	        JOptionPane.showMessageDialog(vf.getAw(),
+	            "Por favor, ingresa un alias o correo para buscar.",
+	            "Campo vacío",
+	            JOptionPane.WARNING_MESSAGE);
+	        return;
+	    }
+	    
+	    // Recargar datos
+	    mf.getmDAO().listaMenDTO.clear();
+	    mf.getmDAO().readFromTextFile("Men.csv");
+	    
+	    mf.getwDAO().listaWomenDTO.clear();
+	    mf.getwDAO().readFromTextFile("Women.csv");
+	    
+	    // Buscar en todos los usuarios
+	    List<User> todosLosUsuarios = mf.obtenerTodosLosUsuarios();
+	    List<User> usuariosEncontrados = new ArrayList<>();
+	    
+	    for (User usuario : todosLosUsuarios) {
+	        if (usuario.getAlias().toLowerCase().contains(textoBusqueda.toLowerCase()) ||
+	            usuario.getEmail().toLowerCase().contains(textoBusqueda.toLowerCase())) {
+	            usuariosEncontrados.add(usuario);
+	        }
+	    }
+	    
+	    if (usuariosEncontrados.isEmpty()) {
+	        JOptionPane.showMessageDialog(vf.getAw(),
+	            "No se encontraron usuarios que coincidan con: \"" + textoBusqueda + "\"",
+	            "Sin resultados",
+	            JOptionPane.INFORMATION_MESSAGE);
+	        return;
+	    }
+	    
+	    // Limpiar la tabla
+	    DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
+	    modelo.setRowCount(0);
+	    
+	    // Llenar la tabla con usuarios encontrados
+	    for (User usuario : usuariosEncontrados) {
+	        int edad = calcularEdad(usuario.getBornDate());
+	        
+	        String ingresos = "N/A";
+	        if (usuario instanceof MenDTO) {
+	            MenDTO hombre = (MenDTO) usuario;
+	            ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
+	        }
+	        
+	        Object[] fila = {
+	            usuario.getAlias(),
+	            usuario.getName(),
+	            usuario.getLastName(),
+	            edad,
+	            0, // likes
+	            ingresos,
+	            usuario.getGender()
+	        };
+	        modelo.addRow(fila);
+	    }
+	    
+	    // Limpiar campos de detalle
+	    limpiarCamposDetalleAdmin();
+	    
+	    // Mostrar mensaje de éxito
+	    JOptionPane.showMessageDialog(vf.getAw(),
+	        "Búsqueda completada.\n\n" +
+	        "Se encontraron " + usuariosEncontrados.size() + " usuario(s).",
+	        "Resultados de búsqueda",
+	        JOptionPane.INFORMATION_MESSAGE);
+	    
+	    // Actualizar estadísticas
+	    actualizarEstadisticasFiltro(usuariosEncontrados, "Búsqueda: \"" + textoBusqueda + "\"");
 	}
 
 	/**
 	 * Actualiza las estadísticas para mostrar información del filtro aplicado
 	 */
-	public void actualizarEstadisticasFiltro(List<User> usuariosFiltrados, String criterioFiltro) {
-		if (usuariosFiltrados.isEmpty()) {
-			vf.getAw().getTxtEstadisticas().setText("No hay usuarios que cumplan con el filtro aplicado.");
-			return;
-		}
-
-		int totalHombres = mf.contarPorGenero(usuariosFiltrados, "Masculino");
-		int totalMujeres = mf.contarPorGenero(usuariosFiltrados, "Femenino");
-		double edadPromedio = mf.calcularEdadPromedio(usuariosFiltrados);
-		double ingresoPromedio = mf.calcularIngresoPromedio(usuariosFiltrados);
-
-		StringBuilder estadisticas = new StringBuilder();
-		estadisticas.append("📊 Estadísticas del filtro aplicado\n");
-		estadisticas.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-		estadisticas.append("Filtro: ").append(criterioFiltro).append("\n\n");
-		estadisticas.append("👥 Total de usuarios: ").append(usuariosFiltrados.size()).append("\n");
-		estadisticas.append("♂️  Hombres: ").append(totalHombres).append("\n");
-		estadisticas.append("♀️  Mujeres: ").append(totalMujeres).append("\n");
-		estadisticas.append("📅 Edad promedio: ").append(String.format("%.1f", edadPromedio)).append(" años\n");
-
-		if (totalHombres > 0) {
-			estadisticas.append("💰 Ingreso promedio: $").append(String.format("%.2f", ingresoPromedio)).append(" USD");
-		}
-
-		vf.getAw().getTxtEstadisticas().setText(estadisticas.toString());
+	private void actualizarEstadisticasFiltro(List<User> usuariosFiltrados, String criterioFiltro) {
+	    if (usuariosFiltrados.isEmpty()) {
+	        vf.getAw().getTxtEstadisticas().setText("No hay usuarios que cumplan con el filtro aplicado.");
+	        return;
+	    }
+	    
+	    int totalHombres = mf.contarPorGenero(usuariosFiltrados, "Masculino");
+	    int totalMujeres = mf.contarPorGenero(usuariosFiltrados, "Femenino");
+	    double edadPromedio = mf.calcularEdadPromedio(usuariosFiltrados);
+	    double ingresoPromedio = mf.calcularIngresoPromedio(usuariosFiltrados);
+	    
+	    StringBuilder estadisticas = new StringBuilder();
+	    estadisticas.append("Estadísticas del filtro aplicado\n");
+	    estadisticas.append("=========================================\n");
+	    estadisticas.append("Filtro: ").append(criterioFiltro).append("\n\n");
+	    estadisticas.append("Total de usuarios: ").append(usuariosFiltrados.size()).append("\n");
+	    estadisticas.append("Hombres: ").append(totalHombres).append("\n");
+	    estadisticas.append("Mujeres: ").append(totalMujeres).append("\n");
+	    estadisticas.append("Edad promedio: ").append(String.format("%.1f", edadPromedio)).append(" años\n");
+	    
+	    if (totalHombres > 0) {
+	        estadisticas.append("Ingreso promedio: $").append(String.format("%.2f", ingresoPromedio)).append(" USD");
+	    }
+	    
+	    vf.getAw().getTxtEstadisticas().setText(estadisticas.toString());
 	}
 
 	/**
-	 * Actualiza las estadísticas mostradas en AdminWindow (versión simplificada)
+	 * Actualiza las estadísticas mostradas en AdminWindow
 	 */
-	public void actualizarEstadisticasAdmin() {
-		List<User> todosLosUsuarios = mf.obtenerTodosLosUsuarios();
+	private void actualizarEstadisticasAdmin() {
+	    List<User> todosLosUsuarios = mf.obtenerTodosLosUsuarios();
+	    
+	    int totalUsuarios = todosLosUsuarios.size();
+	    int totalHombres = mf.contarPorGenero(todosLosUsuarios, "Masculino");
+	    int totalMujeres = mf.contarPorGenero(todosLosUsuarios, "Femenino");
+	    double edadPromedio = mf.calcularEdadPromedio(todosLosUsuarios);
+	    double ingresoPromedio = mf.calcularIngresoPromedio(todosLosUsuarios);
+	    int mujeresConDivorcios = mf.contarMujeresConDivorcios(todosLosUsuarios);
+	    String paisMasUsuarios = mf.encontrarPaisMasUsuarios(todosLosUsuarios);
+	    
+	    double porcentajeHombres = totalUsuarios > 0 ? (totalHombres * 100.0 / totalUsuarios) : 0;
+	    double porcentajeMujeres = totalUsuarios > 0 ? (totalMujeres * 100.0 / totalUsuarios) : 0;
+	    double porcentajeDivorcios = totalMujeres > 0 ? (mujeresConDivorcios * 100.0 / totalMujeres) : 0;
+	    
+	    StringBuilder estadisticas = new StringBuilder();
+	    estadisticas.append("Estadísticas generales del sistema\n");
+	    estadisticas.append("=========================================\n");
+	    estadisticas.append("Total de usuarios: ").append(totalUsuarios).append("\n");
+	    estadisticas.append("Hombres: ").append(totalHombres);
+	    estadisticas.append(" (").append(String.format("%.1f%%", porcentajeHombres)).append(")\n");
+	    estadisticas.append("Mujeres: ").append(totalMujeres);
+	    estadisticas.append(" (").append(String.format("%.1f%%", porcentajeMujeres)).append(")\n");
+	    estadisticas.append("Edad promedio: ").append(String.format("%.1f", edadPromedio)).append(" años\n");
+	    estadisticas.append("Ingreso promedio (Hombres): $").append(String.format("%.2f", ingresoPromedio)).append(" USD\n");
+	    estadisticas.append("Mujeres con divorcios: ").append(mujeresConDivorcios);
+	    estadisticas.append(" (").append(String.format("%.1f%%", porcentajeDivorcios)).append(")\n");
+	    
+	    if (!paisMasUsuarios.isEmpty()) {
+	        estadisticas.append("País con más usuarios: ").append(paisMasUsuarios);
+	    }
+	    
+	    vf.getAw().getTxtEstadisticas().setText(estadisticas.toString());
+	}
 
-		int totalUsuarios = todosLosUsuarios.size();
-		int totalHombres = mf.contarPorGenero(todosLosUsuarios, "Masculino");
-		int totalMujeres = mf.contarPorGenero(todosLosUsuarios, "Femenino");
-		double edadPromedio = mf.calcularEdadPromedio(todosLosUsuarios);
-		double ingresoPromedio = mf.calcularIngresoPromedio(todosLosUsuarios);
-		int mujeresConDivorcios = mf.contarMujeresConDivorcios(todosLosUsuarios);
-		String paisMasUsuarios = mf.encontrarPaisMasUsuarios(todosLosUsuarios);
+	/**
+	 * Muestra el perfil actual en la ventana principal
+	 */
+	public void mostrarPerfil() {
+		User actual = mf.getPerfilActual();
 
-		double porcentajeHombres = totalUsuarios > 0 ? (totalHombres * 100.0 / totalUsuarios) : 0;
-		double porcentajeMujeres = totalUsuarios > 0 ? (totalMujeres * 100.0 / totalUsuarios) : 0;
-		double porcentajeDivorcios = totalMujeres > 0 ? (mujeresConDivorcios * 100.0 / totalMujeres) : 0;
+		if (actual == null) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					"No hay más perfiles por mostrar.\nHas visto todos los perfiles disponibles!", "Fin de perfiles",
+					JOptionPane.INFORMATION_MESSAGE);
 
-		StringBuilder estadisticas = new StringBuilder();
-		estadisticas.append("📊 Estadísticas generales del sistema\n");
-		estadisticas.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-		estadisticas.append("👥 Total de usuarios: ").append(totalUsuarios).append("\n");
-		estadisticas.append("♂️  Hombres: ").append(totalHombres);
-		estadisticas.append(" (").append(String.format("%.1f%%", porcentajeHombres)).append(")\n");
-		estadisticas.append("♀️  Mujeres: ").append(totalMujeres);
-		estadisticas.append(" (").append(String.format("%.1f%%", porcentajeMujeres)).append(")\n");
-		estadisticas.append("📅 Edad promedio: ").append(String.format("%.1f", edadPromedio)).append(" años\n");
-		estadisticas.append("💰 Ingreso promedio (♂️): $").append(String.format("%.2f", ingresoPromedio))
-				.append(" USD\n");
-		estadisticas.append("💔 Mujeres con divorcios: ").append(mujeresConDivorcios);
-		estadisticas.append(" (").append(String.format("%.1f%%", porcentajeDivorcios)).append(")\n");
-
-		if (!paisMasUsuarios.isEmpty()) {
-			estadisticas.append("🌍 País con más usuarios: ").append(paisMasUsuarios);
+			// Limpiar la ventana
+			vf.getMmw().getLblNameAge().setText("No hay más perfiles");
+			vf.getMmw().getTxtDescription().setText("Has visto todos los perfiles disponibles.");
+			vf.getMmw().getLblProfilePicture().setIcon(null);
+			return;
 		}
 
-		vf.getAw().getTxtEstadisticas().setText(estadisticas.toString());
+		// --- Calcular edad a partir de la fecha de nacimiento ---
+		int edad = calcularEdad(actual.getBornDate());
+
+		// --- Mostrar nombre y apellido ---
+		vf.getMmw().getLblNameAge().setText(actual.getName() + " " + actual.getLastName() + ", " + edad);
+
+		// --- Construir descripción según el tipo de usuario ---
+		StringBuilder descripcion = new StringBuilder();
+		descripcion.append("Alias: ").append(actual.getAlias()).append("\n\n");
+
+		if (actual instanceof MenDTO) {
+			MenDTO hombre = (MenDTO) actual;
+			descripcion.append("Género: ").append(actual.getGender()).append("\n");
+			descripcion.append("Orientación: ").append(actual.getSexualOrientation()).append("\n");
+			descripcion.append("Estatura: ").append(actual.getStature()).append(" m\n");
+			descripcion.append("País: ").append(actual.getCountry()).append("\n");
+			descripcion.append("Edad: ").append(edad).append(" años\n");
+			descripcion.append("Ingresos: $").append(String.format("%.2f", (double) hombre.getMensualIncome()))
+					.append(" USD\n");
+		} else if (actual instanceof WomenDTO) {
+			WomenDTO mujer = (WomenDTO) actual;
+			descripcion.append("Género: ").append(actual.getGender()).append("\n");
+			descripcion.append("Orientación: ").append(actual.getSexualOrientation()).append("\n");
+			descripcion.append("Estatura: ").append(actual.getStature()).append(" m\n");
+			descripcion.append("País: ").append(actual.getCountry()).append("\n");
+			descripcion.append("Edad: ").append(edad).append(" años\n");
+			descripcion.append("Divorcios: ").append(mujer.isHadDivorces() ? "Sí" : "No").append("\n");
+		}
+
+		vf.getMmw().getTxtDescription().setText(descripcion.toString());
+
+		// --- Mostrar imagen de perfil ---
+		try {
+			String rutaImagen = actual.getProfilePictureRoute();
+
+			if (rutaImagen != null && !rutaImagen.isEmpty()) {
+				ImageIcon imagenOriginal = new ImageIcon(rutaImagen);
+
+				// Verificar si la imagen se cargó correctamente
+				if (imagenOriginal.getIconWidth() > 0) {
+					// Escalar la imagen al tamaño del JLabel (350x350)
+					Image imagenEscalada = imagenOriginal.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
+					ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
+					vf.getMmw().getLblProfilePicture().setIcon(iconoEscalado);
+				} else {
+					// Si no se pudo cargar, mostrar icono por defecto
+					mostrarImagenPorDefecto();
+				}
+			} else {
+				mostrarImagenPorDefecto();
+			}
+		} catch (Exception e) {
+			System.err.println("Error al cargar imagen de perfil: " + e.getMessage());
+			mostrarImagenPorDefecto();
+		}
+	}
+
+	/**
+	 * Muestra una imagen por defecto cuando no hay foto de perfil
+	 */
+	private void mostrarImagenPorDefecto() {
+		vf.getMmw().getLblProfilePicture().setIcon(null);
+		vf.getMmw().getLblProfilePicture().setText("Sin foto disponible");
+		vf.getMmw().getLblProfilePicture().setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 	public void run() {
