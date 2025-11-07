@@ -14,7 +14,8 @@ public interface DAO<A> {
 		public void writeTextFile();
 		public void loadFromSerializedFile();
 		public void writeSerializedFile();
-		public void internacionalizacion(Properties prop); 
+		public boolean actualizarLikes(String alias, int nuevosLikes);
+		public void internacionalizacion(Properties prop);
 		
 	}
 

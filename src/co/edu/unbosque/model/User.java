@@ -15,10 +15,12 @@ public abstract class User {
 	private String profilePictureRoute;
 	private String country;
 	private String password;
+	private int likes;
 	private Properties prop;
 
 	public User() {
 		super();
+		this.likes = 0;
 	}
 
 	public User(String name, String lastName, String alias, String bornDate, String stature, String email,
@@ -35,7 +37,10 @@ public abstract class User {
 		this.profilePictureRoute = profilePictureRoute;
 		this.country = country;
 		this.password = password;
+		this.likes = 0;
 	}
+
+
 
 	public String getName() {
 		return name;
@@ -117,14 +122,6 @@ public abstract class User {
 		this.country = country;
 	}
 
-	public Properties getProp() {
-		return prop;
-	}
-
-	public void setProp(Properties prop) {
-		this.prop = prop;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -132,12 +129,31 @@ public abstract class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public int getLikes() {
+        return likes;
+    }
 
-	@Override
-	public String toString() {
-		return "==========================================\n - Name: " + name + "\n - last Name: " + lastName
-				+ "\n - Nickname" + alias + "\n -  Born Date: " + bornDate + "\n - Stature: " + stature + "\n - Email: "
-				+ email + "\n - Gender: " + gender + "\n - Sexual Orientation: " + sexualOrientation + " \n - Country: "
-				+ country + "\n - Password: " + password;
-	}
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public void incrementarLikes() {
+        this.likes++;
+    }
+
+    public Properties getProp() {
+        return prop;
+    }
+
+    public void setProp(Properties prop) {
+        this.prop = prop;
+    }
+
+    @Override
+    public String toString() {
+        return "==========================================\n - Name: " + name + "\n - last Name: " + lastName
+                + "\n - Nickname" + alias + "\n -  Born Date: " + bornDate + "\n - Stature: " + stature + "\n - Email: "
+                + email + "\n - Gender: " + gender + "\n - Sexual Orientation: " + sexualOrientation + " \n - Country: "
+                + country + "\n - Password: " + password + "\n - Likes: " + likes; 
+    }
 }

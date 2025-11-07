@@ -83,11 +83,9 @@ public class MenDAO implements DAO<MenDTO> {
 
 		String[] filas = content.split("\n");
 		for (int i = 0; i < filas.length; i++) {
-			// Detectar automáticamente si usa ;
 			String separador = filas[i].contains(";") ? ";" : "\t";
 			String[] columnas = filas[i].split(separador);
 
-			// Validar cantidad de columnas esperada 12
 			if (columnas.length < 12) {
 				System.err.println("⚠️ Línea inválida en CSV (fila " + (i + 1) + "): " + filas[i]);
 				continue;
@@ -113,12 +111,18 @@ public class MenDAO implements DAO<MenDTO> {
 				temp.setMensualIncome(0);
 			}
 
+			if (columnas.length >= 13) {
+				try {
+					temp.setLikes(Integer.parseInt(columnas[12].trim()));
+				} catch (NumberFormatException e) {
+					temp.setLikes(0);
+				}
+			}
+
 			listaMenDTO.add(temp);
 		}
-
 	}
 
-	@Override
 	public void writeTextFile() {
 		StringBuilder sb = new StringBuilder();
 		for (MenDTO men : listaMenDTO) {
@@ -133,12 +137,11 @@ public class MenDAO implements DAO<MenDTO> {
 			sb.append(men.getCountry() + ";");
 			sb.append(men.getPassword() + ";");
 			sb.append(men.getProfilePictureRoute() + ";");
-			sb.append(men.getMensualIncome() + "\n");
+			sb.append(men.getMensualIncome() + ";");
+			sb.append(men.getLikes() + "\n");
 		}
 
-		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString()); // hay que actualizar o sobreescribir el archivo
-																		// cada vez que usted agregue, elimine y
-																		// actualice//
+		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString());
 	}
 
 	@Override
@@ -193,6 +196,19 @@ public class MenDAO implements DAO<MenDTO> {
 			}
 		}
 
+		return false;
+	}
+
+	@Override
+	public boolean actualizarLikes(String alias, int nuevosLikes) {
+		for (MenDTO usuario : listaMenDTO) {
+			if (usuario.getAlias().equals(alias)) {
+				usuario.setLikes(nuevosLikes);
+				writeSerializedFile();
+				writeTextFile();
+				return true;
+			}
+		}
 		return false;
 	}
 

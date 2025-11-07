@@ -83,7 +83,6 @@ public class WomenDAO implements DAO<WomenDTO> {
 
 		String[] filas = content.split("\n");
 		for (int i = 0; i < filas.length; i++) {
-
 			String separador = filas[i].contains(";") ? ";" : "\t";
 			String[] columnas = filas[i].split(separador);
 
@@ -109,9 +108,17 @@ public class WomenDAO implements DAO<WomenDTO> {
 			boolean divorcios = divorcioStr.equals("true") || divorcioStr.equals("1") || divorcioStr.equals("sí");
 			temp.setHadDivorces(divorcios);
 
+			// Leer likes si existe la columna 12
+			if (columnas.length >= 13) {
+				try {
+					temp.setLikes(Integer.parseInt(columnas[12].trim()));
+				} catch (NumberFormatException e) {
+					temp.setLikes(0);
+				}
+			}
+
 			listaWomenDTO.add(temp);
 		}
-
 	}
 
 	@Override
@@ -129,12 +136,11 @@ public class WomenDAO implements DAO<WomenDTO> {
 			sb.append(women.getCountry() + ";");
 			sb.append(women.getPassword() + ";");
 			sb.append(women.getProfilePictureRoute() + ";");
-			sb.append(women.isHadDivorces() + "\n");
+			sb.append(women.isHadDivorces() + ";");
+			sb.append(women.getLikes() + "\n");
 		}
 
-		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString()); // hay que actualizar o sobreescribir el archivo
-																		// cada vez que usted agregue, elimine y
-																		// actualice//
+		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString());
 	}
 
 	@Override
@@ -189,6 +195,19 @@ public class WomenDAO implements DAO<WomenDTO> {
 			}
 		}
 
+		return false;
+	}
+
+	@Override
+	public boolean actualizarLikes(String alias, int nuevosLikes) {
+		for (WomenDTO usuario : listaWomenDTO) {
+			if (usuario.getAlias().equals(alias)) {
+				usuario.setLikes(nuevosLikes);
+				writeSerializedFile();
+				writeTextFile();
+				return true;
+			}
+		}
 		return false;
 	}
 
