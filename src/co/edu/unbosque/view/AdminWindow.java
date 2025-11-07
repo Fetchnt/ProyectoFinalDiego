@@ -24,7 +24,7 @@ public class AdminWindow extends JFrame {
 
 	public AdminWindow() {
 		initializeComponents();
-		setVisible(false);
+		setVisible(true);
 	}
 	public void initializeComponents() {
 		setTitle("Panel de Administración - BosTinder");
