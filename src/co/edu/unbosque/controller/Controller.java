@@ -176,6 +176,9 @@ public class Controller implements ActionListener {
 
 		vf.getMmw().getBtnFavorite().addActionListener(this);
 		vf.getMmw().getBtnFavorite().setActionCommand("boton_favorito");
+		
+		vf.getMmw().getBtnProfile().addActionListener(this);
+		vf.getMmw().getBtnProfile().setActionCommand("boton_ver_perfil");
 
 	}
 
@@ -574,6 +577,19 @@ public class Controller implements ActionListener {
 			buscarUsuarioAdmin();
 			break;
 		}
+		
+		case "boton_salir_admin" : {
+			vf.getAw().dispose();
+			vf.getSw().setVisible(true);
+		}
+		
+		case "boton_ver_perfil": {
+			vf.getMmw().dispose();
+			vf.getMpw().setVisible(true);
+		}
+		
+		
+		
 
 		default:
 			System.out.println("Acción no definida: " + alias);
