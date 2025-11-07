@@ -16,16 +16,19 @@ public class AdminWindow extends JFrame {
 	private JTextField txtNombre, txtApellido, txtEdad, txtCorreo, txtAlias, txtLikes, txtIngresos;
 	private JLabel lblFotoPreview;
 
-	private JButton btnBuscar, btnMostrarTodos, btnOrdenAsc, btnOrdenDesc, btnDarBaja, 
-			btnGenerarPDF, btnSalirModoAdmin, 
+	private JButton btnBuscar, btnMostrarTodos, btnOrdenAsc, btnOrdenDesc, btnDarBaja, btnGenerarPDF, btnSalirModoAdmin,
 			btnFiltroTop10, btnFiltroIngresos, btnFiltroGenero;
 	private JComboBox<String> cmbOrden, cmbGeneroFiltro;
 	private JTextArea txtEstadisticas;
+
+	private JPanel panelLogo;
+	private JLabel icon;
 
 	public AdminWindow() {
 		initializeComponents();
 		setVisible(true);
 	}
+
 	public void initializeComponents() {
 		setTitle("Panel de Administración - BosTinder");
 		setBounds(230, 5, 1100, 720);
@@ -34,9 +37,23 @@ public class AdminWindow extends JFrame {
 		getContentPane().setBackground(Color.decode("#F5E6E8"));
 		getContentPane().setLayout(null);
 
-		/*JLabel lblHeader = new JLabel(new ImageIcon(getClass().getResource("/co/edu/unbosque/view/iconAdmin.JPG")));
-		lblHeader.setBounds(10, 10, 1060, 100);
-		getContentPane().add(lblHeader);*/
+		// --- Encabezado ---
+		panelLogo = new JPanel();
+		panelLogo.setBounds(0, 0, 1100, 103);
+		panelLogo.setBackground(Color.decode("#FFFFFF"));
+		panelLogo.setLayout(null);
+		add(panelLogo);
+
+		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
+		icon = new JLabel(imageLogo);
+		icon.setBounds(10, 0, 1100, 103);
+		panelLogo.add(icon);
+
+		/*
+		 * JLabel lblHeader = new JLabel(new
+		 * ImageIcon(getClass().getResource("/co/edu/unbosque/view/iconAdmin.JPG")));
+		 * lblHeader.setBounds(10, 10, 1060, 100); getContentPane().add(lblHeader);
+		 */
 
 		JLabel lblBuscar = new JLabel("Buscar usuario (alias o correo):");
 		lblBuscar.setBounds(30, 120, 250, 25);
@@ -47,19 +64,28 @@ public class AdminWindow extends JFrame {
 		txtBuscar.setBounds(250, 120, 200, 25);
 		getContentPane().add(txtBuscar);
 
-		btnBuscar = new JButton("Buscar");
+		btnBuscar = new JButton("BUSCAR");
 		btnBuscar.setBounds(470, 120, 100, 25);
+		btnBuscar.setForeground(Color.decode("#F9CFCE"));
+		btnBuscar.setBackground(Color.decode("#EB5F5B"));
+		btnBuscar.setFocusPainted(false);
+		btnBuscar.setBorderPainted(false);
 		getContentPane().add(btnBuscar);
 
-		btnMostrarTodos = new JButton("Mostrar todos");
+		btnMostrarTodos = new JButton("MOSTRAR TODOS");
 		btnMostrarTodos.setBounds(580, 120, 140, 25);
+		btnMostrarTodos.setForeground(Color.decode("#F9CFCE"));
+		btnMostrarTodos.setBackground(Color.decode("#EB5F5B"));
+		btnMostrarTodos.setFocusPainted(false);
+		btnMostrarTodos.setBorderPainted(false);
 		getContentPane().add(btnMostrarTodos);
 
-		String[] columnas = { "Alias", "Nombre", "Apellido", "Edad", "Likes", "Ingresos (USD)", "Género" };
+		String[] columnas = { "Username", "Nombre", "Apellido", "Edad", "Likes", "Ingresos (USD)", "Género" };
 		DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 		tablaUsuarios = new JTable(modelo);
 		JScrollPane scroll = new JScrollPane(tablaUsuarios);
 		scroll.setBounds(30, 160, 690, 300);
+		scroll.setBackground(Color.WHITE);
 		getContentPane().add(scroll);
 
 		JPanel pnlDetalles = new JPanel();
@@ -88,7 +114,7 @@ public class AdminWindow extends JFrame {
 		txtApellido.setEditable(false);
 		pnlDetalles.add(txtApellido);
 
-		JLabel lblAlias = new JLabel("Alias:");
+		JLabel lblAlias = new JLabel("Username:");
 		lblAlias.setBounds(20, 90, 100, 20);
 		pnlDetalles.add(lblAlias);
 
@@ -133,7 +159,7 @@ public class AdminWindow extends JFrame {
 		txtIngresos.setEditable(false);
 		pnlDetalles.add(txtIngresos);
 
-		JLabel lblFoto = new JLabel("Foto:");
+		JLabel lblFoto = new JLabel("Foto de perfil:");
 		lblFoto.setBounds(20, 240, 100, 20);
 		pnlDetalles.add(lblFoto);
 
@@ -150,24 +176,39 @@ public class AdminWindow extends JFrame {
 		String[] criterios = { "Likes", "Apellido", "Nombre", "Edad", "Alias" };
 		cmbOrden = new JComboBox<>(criterios);
 		cmbOrden.setBounds(130, 480, 120, 25);
+		cmbOrden.setBackground(Color.WHITE);
 		getContentPane().add(cmbOrden);
 
-		btnOrdenAsc = new JButton("Ascendente ↑");
+		btnOrdenAsc = new JButton("ASCENDENTE ↑");
 		btnOrdenAsc.setBounds(270, 480, 140, 25);
+		btnOrdenAsc.setForeground(Color.decode("#F9CFCE"));
+		btnOrdenAsc.setBackground(Color.decode("#EB5F5B"));
+		btnOrdenAsc.setFocusPainted(false);
+		btnOrdenAsc.setBorderPainted(false);
 		getContentPane().add(btnOrdenAsc);
 
-		btnOrdenDesc = new JButton("Descendente ↓");
+		btnOrdenDesc = new JButton("DESCENDENTE ↓");
 		btnOrdenDesc.setBounds(420, 480, 150, 25);
+		btnOrdenDesc.setForeground(Color.decode("#F9CFCE"));
+		btnOrdenDesc.setBackground(Color.decode("#EB5F5B"));
+		btnOrdenDesc.setFocusPainted(false);
+		btnOrdenDesc.setBorderPainted(false);
 		getContentPane().add(btnOrdenDesc);
 
-		btnDarBaja = new JButton("Dar de baja");
+		btnDarBaja = new JButton("DAR DE BAJA");
 		btnDarBaja.setBounds(600, 480, 120, 25);
-		btnDarBaja.setForeground(Color.RED);
+		btnDarBaja.setForeground(Color.WHITE);
+		btnDarBaja.setBackground(Color.RED);
+		btnDarBaja.setFocusPainted(false);
+		btnDarBaja.setBorderPainted(false);
 		getContentPane().add(btnDarBaja);
 
-		btnGenerarPDF = new JButton("Generar Informe PDF");
-		btnGenerarPDF.setBounds(740, 480, 200, 25);
-		btnGenerarPDF.setBackground(Color.decode("#D5E8D4"));
+		btnGenerarPDF = new JButton("GENERAR INFORME PDF");
+		btnGenerarPDF.setBounds(807, 490, 200, 35);
+		btnGenerarPDF.setForeground(Color.decode("#033800"));
+		btnGenerarPDF.setBackground(Color.decode("#59D46E"));
+		btnGenerarPDF.setFocusPainted(false);
+		btnGenerarPDF.setBorderPainted(false);
 		getContentPane().add(btnGenerarPDF);
 
 		JLabel lblFiltros = new JLabel("Filtros rápidos:");
@@ -175,101 +216,117 @@ public class AdminWindow extends JFrame {
 		lblFiltros.setFont(new Font("Arial", Font.BOLD, 13));
 		getContentPane().add(lblFiltros);
 
-		btnFiltroTop10 = new JButton("Top 10 Likes");
+		btnFiltroTop10 = new JButton("TOP 10 LIKES");
 		btnFiltroTop10.setBounds(130, 520, 130, 25);
+		btnFiltroTop10.setForeground(Color.decode("#F9CFCE"));
+		btnFiltroTop10.setBackground(Color.decode("#EB5F5B"));
+		btnFiltroTop10.setFocusPainted(false);
+		btnFiltroTop10.setBorderPainted(false);
 		getContentPane().add(btnFiltroTop10);
 
-		btnFiltroIngresos = new JButton("Ingresos ≥ 244.85 USD");
+		btnFiltroIngresos = new JButton("INGRESOS ≥ 244.85 USD");
 		btnFiltroIngresos.setBounds(270, 520, 200, 25);
+		btnFiltroIngresos.setForeground(Color.decode("#F9CFCE"));
+		btnFiltroIngresos.setBackground(Color.decode("#EB5F5B"));
+		btnFiltroIngresos.setFocusPainted(false);
+		btnFiltroIngresos.setBorderPainted(false);
 		getContentPane().add(btnFiltroIngresos);
 
-		btnFiltroGenero = new JButton("Filtrar por género");
-		btnFiltroGenero.setBounds(480, 520, 150, 25);
+		btnFiltroGenero = new JButton("FILTRAR POR GÉNERO");
+		btnFiltroGenero.setBounds(480, 520, 160, 25);
+		btnFiltroGenero.setForeground(Color.decode("#F9CFCE"));
+		btnFiltroGenero.setBackground(Color.decode("#EB5F5B"));
+		btnFiltroGenero.setFocusPainted(false);
+		btnFiltroGenero.setBorderPainted(false);
 		getContentPane().add(btnFiltroGenero);
 
-		cmbGeneroFiltro = new JComboBox<>(new String[] {"Todos", "Masculino", "Femenino", "Otro"});
-		cmbGeneroFiltro.setBounds(640, 520, 120, 25);
+		cmbGeneroFiltro = new JComboBox<>(new String[] { "Todos", "Masculino", "Femenino", "Otro" });
+		cmbGeneroFiltro.setBounds(650, 520, 120, 25);
+		cmbGeneroFiltro.setBackground(Color.WHITE);
 		getContentPane().add(cmbGeneroFiltro);
 
-		txtEstadisticas = new JTextArea("Al generar el PDF, se calcularán las estadísticas de los usuarios actuales.");
+		txtEstadisticas = new JTextArea("¡! Al generar el PDF, se calcularán las estadísticas de los usuarios actuales.");
 		txtEstadisticas.setBounds(30, 560, 1010, 60);
 		txtEstadisticas.setEditable(false);
 		txtEstadisticas.setBackground(Color.WHITE);
 		txtEstadisticas.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		getContentPane().add(txtEstadisticas);
 
-		btnSalirModoAdmin = new JButton("Salir de modo administrador");
-		btnSalirModoAdmin.setBounds(890, 640, 180, 35);
-		btnSalirModoAdmin.setBackground(Color.decode("#F9CFCE"));
+		btnSalirModoAdmin = new JButton("SALIR DE MODO ADMIN.");
+		btnSalirModoAdmin.setBounds(870, 640, 180, 35);
+		btnSalirModoAdmin.setForeground(Color.decode("#F9CFCE"));
+		btnSalirModoAdmin.setBackground(Color.decode("#EB5F5B"));
+		btnSalirModoAdmin.setFocusPainted(false);
+		btnSalirModoAdmin.setBorderPainted(false);
 		getContentPane().add(btnSalirModoAdmin);
 	}
-	
-	
-	public void aplicarInternacionalizacion (Properties prop) {
+
+	public void aplicarInternacionalizacion(Properties prop) {
 		// 🔹 Título de la ventana
-	    setTitle(prop.getProperty("bostinder.view.adminwindow.title"));
+		setTitle(prop.getProperty("bostinder.view.adminwindow.title"));
 
-	    // 🔹 Labels principales
-	    // Se asume que en el archivo .properties están definidas las claves correspondientes.
-	    ((TitledBorder)((JPanel)getContentPane().getComponent(4)).getBorder())
-	        .setTitle(prop.getProperty("bostinder.view.adminwindow.panel.detalleusuario"));
+		// 🔹 Labels principales
+		// Se asume que en el archivo .properties están definidas las claves
+		// correspondientes.
+		((TitledBorder) ((JPanel) getContentPane().getComponent(4)).getBorder())
+				.setTitle(prop.getProperty("bostinder.view.adminwindow.panel.detalleusuario"));
 
-	    // 🔹 Etiquetas del panel de detalles
-	    ((JLabel)((JPanel)getContentPane().getComponent(4)).getComponent(0))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.nombre"));
-	    ((JLabel)((JPanel)getContentPane().getComponent(4)).getComponent(2))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.apellido"));
-	    ((JLabel)((JPanel)getContentPane().getComponent(4)).getComponent(4))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.alias"));
-	    ((JLabel)((JPanel)getContentPane().getComponent(4)).getComponent(6))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.edad"));
-	    ((JLabel)((JPanel)getContentPane().getComponent(4)).getComponent(8))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.correo"));
-	    ((JLabel)((JPanel)getContentPane().getComponent(4)).getComponent(10))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.likes"));
-	    ((JLabel)((JPanel)getContentPane().getComponent(4)).getComponent(12))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.ingresos"));
-	    ((JLabel)((JPanel)getContentPane().getComponent(4)).getComponent(14))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.foto"));
+		// 🔹 Etiquetas del panel de detalles
+		((JLabel) ((JPanel) getContentPane().getComponent(4)).getComponent(0))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.nombre"));
+		((JLabel) ((JPanel) getContentPane().getComponent(4)).getComponent(2))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.apellido"));
+		((JLabel) ((JPanel) getContentPane().getComponent(4)).getComponent(4))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.alias"));
+		((JLabel) ((JPanel) getContentPane().getComponent(4)).getComponent(6))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.edad"));
+		((JLabel) ((JPanel) getContentPane().getComponent(4)).getComponent(8))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.correo"));
+		((JLabel) ((JPanel) getContentPane().getComponent(4)).getComponent(10))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.likes"));
+		((JLabel) ((JPanel) getContentPane().getComponent(4)).getComponent(12))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.ingresos"));
+		((JLabel) ((JPanel) getContentPane().getComponent(4)).getComponent(14))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.foto"));
 
-	    // 🔹 Botones principales
-	    btnBuscar.setText(prop.getProperty("bostinder.view.adminwindow.button.buscar"));
-	    btnMostrarTodos.setText(prop.getProperty("bostinder.view.adminwindow.button.mostrartodos"));
-	    btnOrdenAsc.setText(prop.getProperty("bostinder.view.adminwindow.button.ascendente"));
-	    btnOrdenDesc.setText(prop.getProperty("bostinder.view.adminwindow.button.descendente"));
-	    btnDarBaja.setText(prop.getProperty("bostinder.view.adminwindow.button.darbaja"));
-	    btnGenerarPDF.setText(prop.getProperty("bostinder.view.adminwindow.button.generarpdf"));
-	    btnSalirModoAdmin.setText(prop.getProperty("bostinder.view.adminwindow.button.salirmodoadmin"));
-	    btnFiltroTop10.setText(prop.getProperty("bostinder.view.adminwindow.button.filtrotop10"));
-	    btnFiltroIngresos.setText(prop.getProperty("bostinder.view.adminwindow.button.filtroingresos"));
-	    btnFiltroGenero.setText(prop.getProperty("bostinder.view.adminwindow.button.filtrogenero"));
+		// 🔹 Botones principales
+		btnBuscar.setText(prop.getProperty("bostinder.view.adminwindow.button.buscar"));
+		btnMostrarTodos.setText(prop.getProperty("bostinder.view.adminwindow.button.mostrartodos"));
+		btnOrdenAsc.setText(prop.getProperty("bostinder.view.adminwindow.button.ascendente"));
+		btnOrdenDesc.setText(prop.getProperty("bostinder.view.adminwindow.button.descendente"));
+		btnDarBaja.setText(prop.getProperty("bostinder.view.adminwindow.button.darbaja"));
+		btnGenerarPDF.setText(prop.getProperty("bostinder.view.adminwindow.button.generarpdf"));
+		btnSalirModoAdmin.setText(prop.getProperty("bostinder.view.adminwindow.button.salirmodoadmin"));
+		btnFiltroTop10.setText(prop.getProperty("bostinder.view.adminwindow.button.filtrotop10"));
+		btnFiltroIngresos.setText(prop.getProperty("bostinder.view.adminwindow.button.filtroingresos"));
+		btnFiltroGenero.setText(prop.getProperty("bostinder.view.adminwindow.button.filtrogenero"));
 
-	    // 🔹 Labels externos
-	    ((JLabel)getContentPane().getComponent(2))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.buscar"));
-	    ((JLabel)getContentPane().getComponent(15))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.ordenar"));
-	    ((JLabel)getContentPane().getComponent(21))
-	        .setText(prop.getProperty("bostinder.view.adminwindow.label.filtros"));
+		// 🔹 Labels externos
+		((JLabel) getContentPane().getComponent(2))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.buscar"));
+		((JLabel) getContentPane().getComponent(15))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.ordenar"));
+		((JLabel) getContentPane().getComponent(21))
+				.setText(prop.getProperty("bostinder.view.adminwindow.label.filtros"));
 
-	    // 🔹 ComboBoxes
-	    cmbOrden.removeAllItems();
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.likes"));
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.apellido"));
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.nombre"));
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.edad"));
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.alias"));
+		// 🔹 ComboBoxes
+		cmbOrden.removeAllItems();
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.likes"));
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.apellido"));
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.nombre"));
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.edad"));
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.alias"));
 
-	    cmbGeneroFiltro.removeAllItems();
-	    cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.todos"));
-	    cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.masculino"));
-	    cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.femenino"));
-	    cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.otro"));
+		cmbGeneroFiltro.removeAllItems();
+		cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.todos"));
+		cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.masculino"));
+		cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.femenino"));
+		cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.otro"));
 
-	    // 🔹 Texto de estadísticas
-	    txtEstadisticas.setText(prop.getProperty("bostinder.view.adminwindow.text.estadisticas"));
+		// 🔹 Texto de estadísticas
+		txtEstadisticas.setText(prop.getProperty("bostinder.view.adminwindow.text.estadisticas"));
 	}
-	
+
 	public JTable getTablaUsuarios() {
 		return tablaUsuarios;
 	}
@@ -453,6 +510,5 @@ public class AdminWindow extends JFrame {
 	public void setTxtEstadisticas(JTextArea txtEstadisticas) {
 		this.txtEstadisticas = txtEstadisticas;
 	}
-	
-	
+
 }
