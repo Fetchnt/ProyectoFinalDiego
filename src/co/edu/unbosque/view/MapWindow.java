@@ -70,13 +70,13 @@ public class MapWindow extends JFrame {
 		add(lImage);
 
 		lText = new JLabel("-MAPA USUARIOS-");
-		lText.setBounds(755, 190, 200, 100);
+		lText.setBounds(755, 140, 200, 100);
 		lText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		add(lText);
 
 		lPaisSeleccionado = new JLabel("");
-		lPaisSeleccionado.setBounds(820, 150, 200, 30);
-		lPaisSeleccionado.setFont(new Font("Arial", Font.BOLD, 16));
+		lPaisSeleccionado.setBounds(820, 210, 200, 30);
+		lPaisSeleccionado.setFont(new Font("Cooper Black", Font.PLAIN, 20));
 		add(lPaisSeleccionado);
 
 		panelOption = new JPanel();
