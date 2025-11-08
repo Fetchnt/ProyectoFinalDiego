@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 
 public class MyProfileWindow extends JFrame {
 
+	// D:
 	private JLabel icon;
 	private JPanel panelOpcion;
 	private JPanel panelLike;
