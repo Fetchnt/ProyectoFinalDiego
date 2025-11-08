@@ -176,9 +176,12 @@ public class Controller implements ActionListener {
 
 		vf.getMmw().getBtnFavorite().addActionListener(this);
 		vf.getMmw().getBtnFavorite().setActionCommand("boton_favorito");
-		
+
 		vf.getMmw().getBtnProfile().addActionListener(this);
 		vf.getMmw().getBtnProfile().setActionCommand("boton_ver_perfil");
+
+		vf.getAw().getBtnGenerarPDF().addActionListener(this);
+		vf.getAw().getBtnGenerarPDF().setActionCommand("boton_generar_pdf");
 
 	}
 
@@ -577,27 +580,31 @@ public class Controller implements ActionListener {
 			buscarUsuarioAdmin();
 			break;
 		}
-		
-		case "boton_salir_admin" : {
+
+		case "boton_salir_admin": {
 			vf.getAw().dispose();
 			vf.getSw().setVisible(true);
 		}
-		
+
 		case "boton_ver_perfil": {
 			vf.getMmw().dispose();
 			vf.getMpw().setVisible(true);
 		}
-		
-		
-		
 
-		case "boton_orden_ascendente_admin":
+		case "boton_orden_ascendente_admin": {
 			manejarOrdenAscendente();
 			break;
+		}
 
-		case "boton_orden_descendente_admin":
+		case "boton_orden_descendente_admin": {
 			manejarOrdenDescendente();
 			break;
+		}
+
+		case "boton_generar_pdf": {
+			generarPDFUsuarioSeleccionado();
+			break;
+		}
 
 		default:
 			System.out.println("Acción no definida: " + alias);
@@ -1457,6 +1464,35 @@ public class Controller implements ActionListener {
 						w.getGender() });
 			}
 		}
+	}
+
+	public void generarPDFUsuarioSeleccionado() {
+		String aliasSeleccionado = vf.getAw().getTxtBuscar().getText().trim(); // o el campo donde se muestra el alias
+
+		if (aliasSeleccionado.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getAw(), "Por favor ingresa o selecciona un alias válido.", "Alias vacío",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		MenDTO men = mf.getmDAO().listaMenDTO.stream().filter(m -> m.getAlias().equalsIgnoreCase(aliasSeleccionado))
+				.findFirst().orElse(null);
+
+		if (men != null) {
+			mf.getmDAO().generarInformePDF(aliasSeleccionado);
+			return;
+		}
+
+		WomenDTO woman = mf.getwDAO().listaWomenDTO.stream()
+				.filter(w -> w.getAlias().equalsIgnoreCase(aliasSeleccionado)).findFirst().orElse(null);
+
+		if (woman != null) {
+			mf.getwDAO().generarInformePDF(aliasSeleccionado);
+			return;
+		}
+
+		JOptionPane.showMessageDialog(vf.getAw(), "No se encontró ningún usuario con ese alias.",
+				"Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void run() {
