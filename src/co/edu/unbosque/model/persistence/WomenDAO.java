@@ -211,4 +211,40 @@ public class WomenDAO implements DAO<WomenDTO> {
 		return false;
 	}
 
+	@Override
+	public void selectionSortAsc() {
+		for (int i = 0; i < listaWomenDTO.size() - 1; i++) {
+			int minIndex = i;
+			for (int j = i + 1; j < listaWomenDTO.size(); j++) {
+				if (listaWomenDTO.get(j).getName().compareToIgnoreCase(listaWomenDTO.get(minIndex).getName()) < 0) {
+					minIndex = j;
+				}
+			}
+			if (minIndex != i) {
+				WomenDTO temp = listaWomenDTO.get(i);
+				listaWomenDTO.set(i, listaWomenDTO.get(minIndex));
+				listaWomenDTO.set(minIndex, temp);
+			}
+		}
+		writeSerializedFile();
+		writeTextFile();
+
+	}
+
+	@Override
+	public void insertionSortDes() {
+		for (int i = 1; i < listaWomenDTO.size(); i++) {
+			WomenDTO actual = listaWomenDTO.get(i);
+			int j = i - 1;
+			while (j >= 0 && listaWomenDTO.get(j).getName().compareToIgnoreCase(actual.getName()) < 0) {
+				listaWomenDTO.set(j + 1, listaWomenDTO.get(j));
+				j--;
+			}
+			listaWomenDTO.set(j + 1, actual);
+		}
+		writeSerializedFile();
+		writeTextFile();
+
+	}
+
 }

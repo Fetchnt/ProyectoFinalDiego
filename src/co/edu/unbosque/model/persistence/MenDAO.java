@@ -212,4 +212,39 @@ public class MenDAO implements DAO<MenDTO> {
 		return false;
 	}
 
+	@Override
+	public void selectionSortAsc() {
+		for (int i = 0; i < listaMenDTO.size() - 1; i++) {
+			int minIndex = i;
+			for (int j = i + 1; j < listaMenDTO.size(); j++) {
+				if (listaMenDTO.get(j).getName().compareToIgnoreCase(listaMenDTO.get(minIndex).getName()) < 0) {
+					minIndex = j;
+				}
+			}
+			if (minIndex != i) {
+				MenDTO temp = listaMenDTO.get(i);
+				listaMenDTO.set(i, listaMenDTO.get(minIndex));
+				listaMenDTO.set(minIndex, temp);
+			}
+		}
+		writeSerializedFile();
+		writeTextFile();
+	}
+
+	@Override
+	public void insertionSortDes() {
+		for (int i = 1; i < listaMenDTO.size(); i++) {
+			MenDTO actual = listaMenDTO.get(i);
+			int j = i - 1;
+			while (j >= 0 && listaMenDTO.get(j).getName().compareToIgnoreCase(actual.getName()) < 0) {
+				listaMenDTO.set(j + 1, listaMenDTO.get(j));
+				j--;
+			}
+			listaMenDTO.set(j + 1, actual);
+		}
+		writeSerializedFile();
+		writeTextFile();
+
+	}
+
 }
