@@ -13,11 +13,26 @@ public class AdminWindow extends JFrame {
 
 	private JTable tablaUsuarios;
 	private JTextField txtBuscar;
-	private JTextField txtNombre, txtApellido, txtEdad, txtCorreo, txtAlias, txtLikes, txtIngresos;
+	private JTextField txtNombre;
+	private JTextField txtApellido;
+	private JTextField txtEdad;
+	private JTextField txtCorreo;
+	private JTextField txtAlias;
+	private JTextField txtLikes;
+	private JTextField txtIngresos;
 	private JLabel lblFotoPreview;
 
-	private JButton btnBuscar, btnMostrarTodos, btnOrdenAsc, btnOrdenDesc, btnDarBaja, btnGenerarPDF, btnSalirModoAdmin,
-			btnFiltroTop10, btnFiltroIngresos, btnFiltroGenero;
+	private JButton btnBuscar;
+	private JButton btnMostrarTodos;
+	private JButton btnOrdenAsc;
+	private JButton btnOrdenDesc;
+	private JButton btnDarBaja;
+	private JButton btnGenerarPDF;
+	private JButton btnSalirModoAdmin;
+	private JButton btnFiltroTop10;
+	private JButton btnFiltroIngresos;
+	private JButton btnFiltroGenero;
+
 	private JComboBox<String> cmbOrden, cmbGeneroFiltro;
 	private JTextArea txtEstadisticas;
 
@@ -245,7 +260,8 @@ public class AdminWindow extends JFrame {
 		cmbGeneroFiltro.setBackground(Color.WHITE);
 		getContentPane().add(cmbGeneroFiltro);
 
-		txtEstadisticas = new JTextArea("¡! Al generar el PDF, se calcularán las estadísticas de los usuarios actuales.");
+		txtEstadisticas = new JTextArea(
+				"¡! Al generar el PDF, se calcularán las estadísticas de los usuarios actuales.");
 		txtEstadisticas.setBounds(30, 560, 1010, 60);
 		txtEstadisticas.setEditable(false);
 		txtEstadisticas.setBackground(Color.WHITE);
