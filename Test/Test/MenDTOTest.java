@@ -33,7 +33,7 @@ public class MenDTOTest {
 	
 	@Test
 	
-	public void pruebaSetYGetIngresos() {
+	public void pruebaSetYGetIngreso() {
 		long ingresos = 2500000L;
 		hombre.setMensualIncome(ingresos);
 		assertEquals(ingresos, hombre.getMensualIncome());
