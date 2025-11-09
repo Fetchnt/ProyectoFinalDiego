@@ -9,8 +9,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class AdminWindow extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-
+	/**
+		 * 
+		 */
+	private static final long serialVersionUID = -2832789673331679513L;
 	private JTable tablaUsuarios;
 	private JTextField txtBuscar;
 	private JTextField txtNombre;
@@ -57,7 +59,7 @@ public class AdminWindow extends JFrame {
 	}
 
 	public void initializeComponents() {
-		//CONFIGURACION DE LA VENTANA
+		// CONFIGURACION DE LA VENTANA
 		setTitle("Panel de Administración - BosTinder");
 		setBounds(230, 5, 1100, 720);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -291,62 +293,59 @@ public class AdminWindow extends JFrame {
 	}
 
 	public void aplicarInternacionalizacion(Properties prop) {
-	    // 🔹 Título de la ventana
-	    setTitle(prop.getProperty("bostinder.view.adminwindow.title"));
+		// 🔹 Título de la ventana
+		setTitle(prop.getProperty("bostinder.view.adminwindow.title"));
 
-	    // 🔹 Panel de detalles
-	    TitledBorder border = (TitledBorder) pnlDetalles.getBorder();
-	    border.setTitle(prop.getProperty("bostinder.view.adminwindow.panel.detalleusuario"));
-	    pnlDetalles.repaint();
+		// 🔹 Panel de detalles
+		TitledBorder border = (TitledBorder) pnlDetalles.getBorder();
+		border.setTitle(prop.getProperty("bostinder.view.adminwindow.panel.detalleusuario"));
+		pnlDetalles.repaint();
 
-	    // 🔹 Labels dentro del panel de detalles
-	    lblNombre.setText(prop.getProperty("bostinder.view.adminwindow.label.nombre"));
-	    lblApellido.setText(prop.getProperty("bostinder.view.adminwindow.label.apellido"));
-	    lblAlias.setText(prop.getProperty("bostinder.view.adminwindow.label.alias"));
-	    lblEdad.setText(prop.getProperty("bostinder.view.adminwindow.label.edad"));
-	    lblCorreo.setText(prop.getProperty("bostinder.view.adminwindow.label.correo"));
-	    lblLikes.setText(prop.getProperty("bostinder.view.adminwindow.label.likes"));
-	    lblIngresos.setText(prop.getProperty("bostinder.view.adminwindow.label.ingresos"));
-	    lblFoto.setText(prop.getProperty("bostinder.view.adminwindow.label.foto"));
+		// 🔹 Labels dentro del panel de detalles
+		lblNombre.setText(prop.getProperty("bostinder.view.adminwindow.label.nombre"));
+		lblApellido.setText(prop.getProperty("bostinder.view.adminwindow.label.apellido"));
+		lblAlias.setText(prop.getProperty("bostinder.view.adminwindow.label.alias"));
+		lblEdad.setText(prop.getProperty("bostinder.view.adminwindow.label.edad"));
+		lblCorreo.setText(prop.getProperty("bostinder.view.adminwindow.label.correo"));
+		lblLikes.setText(prop.getProperty("bostinder.view.adminwindow.label.likes"));
+		lblIngresos.setText(prop.getProperty("bostinder.view.adminwindow.label.ingresos"));
+		lblFoto.setText(prop.getProperty("bostinder.view.adminwindow.label.foto"));
 
-	    // 🔹 Labels externos
-	    lblBuscar.setText(prop.getProperty("bostinder.view.adminwindow.label.buscar"));
-	    lblOrdenar.setText(prop.getProperty("bostinder.view.adminwindow.label.ordenar"));
-	    lblFiltros.setText(prop.getProperty("bostinder.view.adminwindow.label.filtros"));
+		// 🔹 Labels externos
+		lblBuscar.setText(prop.getProperty("bostinder.view.adminwindow.label.buscar"));
+		lblOrdenar.setText(prop.getProperty("bostinder.view.adminwindow.label.ordenar"));
+		lblFiltros.setText(prop.getProperty("bostinder.view.adminwindow.label.filtros"));
 
-	    // 🔹 Botones
-	    btnBuscar.setText(prop.getProperty("bostinder.view.adminwindow.button.buscar"));
-	    btnMostrarTodos.setText(prop.getProperty("bostinder.view.adminwindow.button.mostrartodos"));
-	    btnOrdenAsc.setText(prop.getProperty("bostinder.view.adminwindow.button.ascendente"));
-	    btnOrdenDesc.setText(prop.getProperty("bostinder.view.adminwindow.button.descendente"));
-	    btnDarBaja.setText(prop.getProperty("bostinder.view.adminwindow.button.darbaja"));
-	    btnGenerarPDF.setText(prop.getProperty("bostinder.view.adminwindow.button.generarpdf"));
-	    btnSalirModoAdmin.setText(prop.getProperty("bostinder.view.adminwindow.button.salirmodoadmin"));
-	    btnFiltroTop10.setText(prop.getProperty("bostinder.view.adminwindow.button.filtrotop10"));
-	    btnFiltroIngresos.setText(prop.getProperty("bostinder.view.adminwindow.button.filtroingresos"));
-	    btnFiltroGenero.setText(prop.getProperty("bostinder.view.adminwindow.button.filtrogenero"));
+		// 🔹 Botones
+		btnBuscar.setText(prop.getProperty("bostinder.view.adminwindow.button.buscar"));
+		btnMostrarTodos.setText(prop.getProperty("bostinder.view.adminwindow.button.mostrartodos"));
+		btnOrdenAsc.setText(prop.getProperty("bostinder.view.adminwindow.button.ascendente"));
+		btnOrdenDesc.setText(prop.getProperty("bostinder.view.adminwindow.button.descendente"));
+		btnDarBaja.setText(prop.getProperty("bostinder.view.adminwindow.button.darbaja"));
+		btnGenerarPDF.setText(prop.getProperty("bostinder.view.adminwindow.button.generarpdf"));
+		btnSalirModoAdmin.setText(prop.getProperty("bostinder.view.adminwindow.button.salirmodoadmin"));
+		btnFiltroTop10.setText(prop.getProperty("bostinder.view.adminwindow.button.filtrotop10"));
+		btnFiltroIngresos.setText(prop.getProperty("bostinder.view.adminwindow.button.filtroingresos"));
+		btnFiltroGenero.setText(prop.getProperty("bostinder.view.adminwindow.button.filtrogenero"));
 
-	    // 🔹 ComboBoxes
-	    cmbOrden.removeAllItems();
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.likes", "Likes"));
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.apellido", "Apellido"));
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.nombre", "Nombre"));
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.edad", "Edad"));
-	    cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.alias", "Alias"));
+		// 🔹 ComboBoxes
+		cmbOrden.removeAllItems();
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.likes", "Likes"));
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.apellido", "Apellido"));
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.nombre", "Nombre"));
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.edad", "Edad"));
+		cmbOrden.addItem(prop.getProperty("bostinder.view.adminwindow.combo.alias", "Alias"));
 
-	    cmbGeneroFiltro.removeAllItems();
-	    cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.todos", "Todos"));
-	    cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.masculino", "Masculino"));
-	    cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.femenino", "Femenino"));
-	    cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.otro", "Otro"));
+		cmbGeneroFiltro.removeAllItems();
+		cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.todos", "Todos"));
+		cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.masculino", "Masculino"));
+		cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.femenino", "Femenino"));
+		cmbGeneroFiltro.addItem(prop.getProperty("bostinder.view.adminwindow.combo.otro", "Otro"));
 
-	    // 🔹 Texto informativo
-	    txtEstadisticas.setText(prop.getProperty(
-	        "bostinder.view.adminwindow.text.estadisticas",
-	        "¡Al generar el PDF, se calcularán las estadísticas de los usuarios actuales!"
-	    ));
+		// 🔹 Texto informativo
+		txtEstadisticas.setText(prop.getProperty("bostinder.view.adminwindow.text.estadisticas",
+				"¡Al generar el PDF, se calcularán las estadísticas de los usuarios actuales!"));
 	}
-
 
 	public JTable getTablaUsuarios() {
 		return tablaUsuarios;

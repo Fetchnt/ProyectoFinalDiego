@@ -12,6 +12,10 @@ import javax.swing.JPanel;
 
 public class StartWindow extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4030797315944790873L;
 	private JLabel lIcon;
 	private JLabel lPartnerThree;
 	private JLabel lMail;

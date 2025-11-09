@@ -1,17 +1,19 @@
 package co.edu.unbosque.view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
+
 import java.awt.Font;
 import javax.swing.*;
-import java.awt.event.ActionListener;
+
 import java.util.Properties;
-import java.awt.event.ActionEvent;
+
 
 public class MainWindow extends JFrame {
-
-	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5700920981964266645L;
 	private JLabel lblProfilePicture;
 	private JLabel lblNameAge;
 	private JLabel lblTitulo;

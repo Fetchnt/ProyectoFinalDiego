@@ -14,6 +14,10 @@ import javax.swing.JTextField;
 public class LoginWindow extends JFrame {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6607094145774420518L;
 	private JLabel lIcon;
 	private JLabel lDeco;
 	private JLabel lTitle;

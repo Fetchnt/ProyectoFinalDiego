@@ -8,12 +8,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import co.edu.unbosque.controller.Controller;
 
 public class PrincipalWindow extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5369661132715804611L;
 	private JLabel phrase;
 	private JLabel icon;
 	private JLabel changeLanguage;

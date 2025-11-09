@@ -15,6 +15,10 @@ import javax.swing.border.TitledBorder;
 
 public class MyProfileWindow extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6565373921781216469L;
 	private JPanel panelOpcion;
 	private JPanel panelLike;
 	private JPanel panelInformacion;

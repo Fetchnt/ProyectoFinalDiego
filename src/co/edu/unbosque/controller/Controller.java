@@ -118,6 +118,9 @@ public class Controller implements ActionListener {
 		vf.getLw().getLogin().addActionListener(this);
 		vf.getLw().getLogin().setActionCommand("boton_iniciosesion");
 
+		vf.getLw().getAdminMode().addActionListener(this);
+		vf.getLw().getAdminMode().setActionCommand("boton_entrar_modo_admin");
+
 		// ---------- BOTONES en AdminWindow ----------
 		vf.getAw().getBtnBuscar().addActionListener(this);
 		vf.getAw().getBtnBuscar().setActionCommand("boton_buscar_admin");
@@ -450,6 +453,10 @@ public class Controller implements ActionListener {
 			vf.getSw().setVisible(true);
 			break;
 		}
+		
+		case "boton_entrar_modo_admin": {
+			
+		}
 
 		case "boton_iniciosesion": {
 			// Obtener los datos ingresados
@@ -528,7 +535,7 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_favorito": {
-
+			
 		}
 
 		case "boton_filtro_top10_admin": {
@@ -556,8 +563,7 @@ public class Controller implements ActionListener {
 				}
 
 				Object[] fila = { usuario.getAlias(), usuario.getName(), usuario.getLastName(), edad,
-						usuario.getLikes(), // Likes reales
-						ingresos, usuario.getGender() };
+						usuario.getLikes(), ingresos, usuario.getGender() };
 				modelo.addRow(fila);
 			}
 
