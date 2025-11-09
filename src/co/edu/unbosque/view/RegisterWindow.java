@@ -70,7 +70,7 @@ public class RegisterWindow extends JFrame {
 	public void initializeComponents() {
 
 		// CONFIGURACIÓN GENERAL DE LA VENTANA
-		this.setTitle("Registro de usuario");
+		this.setTitle("Registro de usuario - BosTinder");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);

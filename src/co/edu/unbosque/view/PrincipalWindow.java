@@ -15,28 +15,24 @@ import co.edu.unbosque.controller.Controller;
 public class PrincipalWindow extends JFrame {
 
 	private JLabel phrase;
-	private JButton start;
 	private JLabel icon;
-
-	// idiomas
 	private JLabel changeLanguage;
-
+	private JLabel lSpanish;
+	private JLabel lPortuguese;
+	private JLabel lRussian;
+	private JLabel lChinnesse;
+	private JLabel lHebrew;
+	private JLabel lPartnerOne;
+	private JLabel lPartnerTwo;
+	private JLabel lHeart;
+	
+	private JButton start;
 	private JButton bSpanish;
 	private JButton bPortuguese;
 	private JButton bRussian;
 	private JButton bChinnesse;
 	private JButton bHebrew;
 
-	private JLabel lSpanish;
-	private JLabel lPortuguese;
-	private JLabel lRussian;
-	private JLabel lChinnesse;
-	private JLabel lHebrew;
-
-	// recursos adicionales
-	private JLabel lPartnerOne;
-	private JLabel lPartnerTwo;
-	private JLabel lHeart;
 
 	public PrincipalWindow() {
 		initializeComponents();
@@ -44,28 +40,27 @@ public class PrincipalWindow extends JFrame {
 	}
 
 	public void initializeComponents() {
-		// configuracion de la ventana -> aplica para todas en modo claro
-		this.setTitle("BosTinder");
+		// CONFIGURACIN DE LA VENTANA
+		this.setTitle("Ventana Inicial - BosTinder");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setLayout(null);
 		this.getContentPane().setBackground(Color.decode("#FFFFFF")); // -> falta agregarle color
 
-		// logo y título -> lo voy a cambiar después :)
+		//----- LOGO Y TITULO -------
 		ImageIcon imageLogo = new ImageIcon(getClass().getResource("icon.JPG"));
 		JLabel icon = new JLabel(imageLogo);
 		icon.setBounds(0, 10, 960, 200);
 		this.add(icon);
 
-		// label frase
 		phrase = new JLabel("¡Tu amor ideal te está esperando!");
 		phrase.setBounds(360, 170, 480, 30);
 		phrase.setForeground(Color.decode("#03080D"));
 		phrase.setFont(new Font("Arial", Font.BOLD, 18));
 		this.add(phrase);
 
-		// para idiomas
+		// ----- IDIOMAS -----
 		changeLanguage = new JLabel("-> Cambiar Idioma");
 		changeLanguage.setBounds(415, 440, 250, 150);
 		changeLanguage.setForeground(Color.decode("#03080D"));
@@ -114,7 +109,7 @@ public class PrincipalWindow extends JFrame {
 		bPortuguese.setBorderPainted(true);
 		this.add(bPortuguese);
 
-		// boton iniciar
+		//----- BOTON ------
 		start = new JButton("INICIAR");
 		start.setBounds(390, 410, 180, 50);
 		start.setFont(new Font("Arial", Font.BOLD, 20));
@@ -124,7 +119,7 @@ public class PrincipalWindow extends JFrame {
 		start.setBorderPainted(false);
 		this.add(start);
 
-		// imagenes recursos adicionales
+		// ------ IMAGENES ------
 		ImageIcon imageHeart = new ImageIcon(getClass().getResource("heart.JPG"));
 		JLabel lheart = new JLabel(imageHeart);
 		lheart.setBounds(250, 260, 500, 90);

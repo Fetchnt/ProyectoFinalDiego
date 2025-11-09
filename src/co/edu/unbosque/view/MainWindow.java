@@ -11,29 +11,33 @@ import java.awt.event.ActionEvent;
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
 	private JLabel lblProfilePicture;
 	private JLabel lblNameAge;
 	private JLabel lblTitulo;
+	
 	private JTextArea txtDescription;
+	
 	private JButton btnLike;
 	private JButton btnNope;
 	private JButton btnFavorite; 
 	private JButton btnProfile; 
 	private JButton btnLogOff;
-	private JPanel panelMenu;
 	private JButton btnVerMeGusta;
 	private JButton btnModoIncognito;
 
+	private JPanel panelMenu;
 
 	public MainWindow() {
-		this.setTitle("BosTinder - Inicio");
+		//CONFIGURACION DE LA VENTANA
+		this.setTitle("Inicio - BosTinder");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.getContentPane().setBackground(Color.decode("#F9CFCE"));
 		getContentPane().setLayout(null);
 
-		// --- Encabezado ---
+		// --- ENCABEZADO ---
 		JLabel lblIcon = new JLabel("");
 		lblIcon.setForeground(Color.decode("#F9CFCE"));
 		lblIcon.setBackground(Color.decode("#F9CFCE"));
@@ -278,6 +282,22 @@ public class MainWindow extends JFrame {
 
 	public void setBtnModoIncognito(JButton btnModoIncognito) {
 		this.btnModoIncognito = btnModoIncognito;
+	}
+
+	public JLabel getLblTitulo() {
+		return lblTitulo;
+	}
+
+	public void setLblTitulo(JLabel lblTitulo) {
+		this.lblTitulo = lblTitulo;
+	}
+
+	public JPanel getPanelMenu() {
+		return panelMenu;
+	}
+
+	public void setPanelMenu(JPanel panelMenu) {
+		this.panelMenu = panelMenu;
 	}
 	
 	

@@ -25,10 +25,13 @@ public class MapWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private BufferedImage mapaImg;
+	
 	private JPanel panelMapa;
-	private JButton btnBackMap;
-	private JLabel icon, lImage, lText, lPaisSeleccionado;
 	private JPanel panelOption;
+
+	private JButton btnBackMap;
+	
+	private JLabel icon, lImage, lText, lPaisSeleccionado;
 
 	// puntos visuales del mapa (vista responsable de posicionarlos y dibujarlos)
 	private Map<String, Point> puntosPaises;
@@ -52,7 +55,8 @@ public class MapWindow extends JFrame {
 	}
 
 	public void initializeComponents() {
-		setTitle("BosTinder - Mapa de usuarios");
+		//CONFIGURACION DE LA VENTANA
+		setTitle("Mapa de usuarios - BosTinder");
 		setBounds(230, 5, 980, 720);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);

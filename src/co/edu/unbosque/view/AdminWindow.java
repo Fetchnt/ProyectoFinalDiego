@@ -45,6 +45,7 @@ public class AdminWindow extends JFrame {
 	}
 
 	public void initializeComponents() {
+		//CONFIGURACION DE LA VENTANA
 		setTitle("Panel de Administración - BosTinder");
 		setBounds(230, 5, 1100, 720);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -52,7 +53,7 @@ public class AdminWindow extends JFrame {
 		getContentPane().setBackground(Color.decode("#F5E6E8"));
 		getContentPane().setLayout(null);
 
-		// --- Encabezado ---
+		// --- ENCABEZADO ---
 		panelLogo = new JPanel();
 		panelLogo.setBounds(0, 0, 1100, 103);
 		panelLogo.setBackground(Color.decode("#FFFFFF"));

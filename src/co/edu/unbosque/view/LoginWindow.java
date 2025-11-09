@@ -13,20 +13,20 @@ import javax.swing.JTextField;
 
 public class LoginWindow extends JFrame {
 
-	// PARA DECORACION
+	
 	private JLabel lIcon;
 	private JLabel lDeco;
 	private JLabel lTitle;
 	private JLabel lWoman;
 	private JLabel lMen;
-
-	// PARA EL PANEL
 	private JLabel luserAlias;
 	private JLabel lPassword;
 	private JLabel lEmail;
+	
 	private JTextField userAlias;
 	private JTextField password;
 	private JTextField email;
+	
 	private JButton login;
 	private JButton back;
 
@@ -37,8 +37,8 @@ public class LoginWindow extends JFrame {
 
 	public void initializeComponents() {
 
-		// -----------CONFIGURACION DE LA VENTANA--------
-		this.setTitle("Registrarse");
+		//CONFIGURACION DE LA VENTANA
+		this.setTitle("Iniciar Sesión- BosTinder");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);

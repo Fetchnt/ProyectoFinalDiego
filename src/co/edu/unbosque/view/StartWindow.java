@@ -14,13 +14,15 @@ public class StartWindow extends JFrame {
 
 	private JLabel lIcon;
 	private JLabel lPartnerThree;
+	private JLabel lMail;
+	private JLabel lImage;
+	
 	private JButton signIn;
 	private JButton login;
 	private JButton exit;
 	private JButton back;
-	private JLabel lMail;
-	private JLabel lImage;
 	private JButton mapButton;
+	
 
 	public StartWindow() {
 		initializeComponents();
@@ -29,7 +31,7 @@ public class StartWindow extends JFrame {
 
 	public void initializeComponents() {
 		// CONFIGURACIÓN GENERAL DE LA VENTANA 
-		this.setTitle("Menú principal");
+		this.setTitle("Menú principal - BosTinder");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);

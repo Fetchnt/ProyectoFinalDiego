@@ -10,11 +10,14 @@ public class MapUserWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JLabel lTitulo;
+
 	private JPanel panelUsuarios;
+
 	private JButton btnVolver;
 
 	public MapUserWindow() {
-		setTitle("Usuarios por país");
+		// CONFIGURACION DE LA PANTALLA
+		setTitle("Usuarios por país - BosTinder");
 		setBounds(300, 100, 600, 400);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(null);
