@@ -29,6 +29,7 @@ public class LoginWindow extends JFrame {
 	
 	private JButton login;
 	private JButton back;
+	private JButton adminMode;
 
 	public LoginWindow() {
 		initializeComponents();
@@ -117,6 +118,14 @@ public class LoginWindow extends JFrame {
 		back.setFocusPainted(false);
 		back.setBorderPainted(false);
 		panelLogin.add(back);
+		
+		adminMode = new JButton("Modo Admin");
+		adminMode.setBounds(60, 270, 190, 40);
+		adminMode.setFont(new Font("Arial", Font.BOLD, 16));
+		adminMode.setBackground(Color.decode("#F9CFCE"));
+		adminMode.setFocusPainted(false);
+		adminMode.setBorderPainted(false);
+		panelLogin.add(adminMode);
 		
 		}
 
@@ -253,6 +262,14 @@ public class LoginWindow extends JFrame {
 
 	public void setUserAlias(JTextField userAlias) {
 		this.userAlias = userAlias;
+	}
+
+	public JButton getAdminMode() {
+		return adminMode;
+	}
+
+	public void setAdminMode(JButton adminMode) {
+		this.adminMode = adminMode;
 	}
 
 
