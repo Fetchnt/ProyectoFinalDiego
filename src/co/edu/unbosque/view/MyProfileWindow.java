@@ -2,6 +2,7 @@ package co.edu.unbosque.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -16,6 +17,7 @@ public class MyProfileWindow extends JFrame {
 
 	private JPanel panelOpcion;
 	private JPanel panelLike;
+	private JPanel panelInformacion;
 
 	private JButton back;
 	private JButton close;
@@ -26,6 +28,12 @@ public class MyProfileWindow extends JFrame {
 	private JLabel lblHeart;
 	private JLabel partner;
 	private JLabel lblFotoPreview;
+	private JLabel lblAlias;
+	private JLabel lblNombre;
+	private JLabel lblApellido;
+	private JLabel lblEdad;
+	private JLabel lblCorreo;
+	private JLabel lblIngresos;
 
 	private JTextField txtNombre;
 	private JTextField txtApellido;
@@ -57,7 +65,7 @@ public class MyProfileWindow extends JFrame {
 		add(partner);
 
 		// --INFORMACION DEL USUARIO---
-		JPanel panelInformacion = new JPanel();
+		panelInformacion = new JPanel();
 		panelInformacion.setLayout(null);
 		panelInformacion.setBounds(330, 190, 330, 460);
 		panelInformacion.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY),
@@ -70,7 +78,7 @@ public class MyProfileWindow extends JFrame {
 		lblFotoPreview.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		panelInformacion.add(lblFotoPreview);
 
-		JLabel lblAlias = new JLabel("Username:");
+		lblAlias = new JLabel("Username:");
 		lblAlias.setBounds(20, 240, 100, 20);
 		panelInformacion.add(lblAlias);
 
@@ -79,7 +87,7 @@ public class MyProfileWindow extends JFrame {
 		txtAlias.setEditable(false);
 		panelInformacion.add(txtAlias);
 
-		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(20, 270, 100, 20);
 		panelInformacion.add(lblNombre);
 
@@ -88,7 +96,7 @@ public class MyProfileWindow extends JFrame {
 		txtNombre.setEditable(false);
 		panelInformacion.add(txtNombre);
 
-		JLabel lblApellido = new JLabel("Apellido:");
+		lblApellido = new JLabel("Apellido:");
 		lblApellido.setBounds(20, 300, 100, 20);
 		panelInformacion.add(lblApellido);
 
@@ -97,7 +105,7 @@ public class MyProfileWindow extends JFrame {
 		txtApellido.setEditable(false);
 		panelInformacion.add(txtApellido);
 
-		JLabel lblEdad = new JLabel("Edad:");
+		lblEdad = new JLabel("Edad:");
 		lblEdad.setBounds(20, 330, 100, 20);
 		panelInformacion.add(lblEdad);
 
@@ -106,7 +114,7 @@ public class MyProfileWindow extends JFrame {
 		txtEdad.setEditable(false);
 		panelInformacion.add(txtEdad);
 
-		JLabel lblCorreo = new JLabel("Correo:");
+		lblCorreo = new JLabel("Correo:");
 		lblCorreo.setBounds(20, 360, 100, 20);
 		panelInformacion.add(lblCorreo);
 
@@ -115,7 +123,7 @@ public class MyProfileWindow extends JFrame {
 		txtCorreo.setEditable(false);
 		panelInformacion.add(txtCorreo);
 
-		JLabel lblIngresos = new JLabel("Ingresos (USD):");
+		lblIngresos = new JLabel("Ingresos (USD):");
 		lblIngresos.setBounds(20, 390, 100, 20);
 		panelInformacion.add(lblIngresos);
 
@@ -125,7 +133,7 @@ public class MyProfileWindow extends JFrame {
 		panelInformacion.add(txtIngresos);
 
 		// ----- panel para las opciones -----
-		JPanel panelOpcion = new JPanel();
+		panelOpcion = new JPanel();
 		panelOpcion.setLayout(null);
 		panelOpcion.setBounds(695, 440, 250, 170);
 		panelOpcion.setBackground(Color.WHITE);
@@ -154,7 +162,7 @@ public class MyProfileWindow extends JFrame {
 		panelOpcion.add(back);
 
 		// ------ panel para los likes ---
-		JPanel panelLike = new JPanel();
+		panelLike = new JPanel();
 		panelLike.setLayout(null);
 		panelLike.setBounds(695, 200, 250, 200);
 		panelLike.setBackground(Color.WHITE);
@@ -177,6 +185,30 @@ public class MyProfileWindow extends JFrame {
 		txtLikes.setBorder(null);
 		txtLikes.setEditable(false);
 		panelLike.add(txtLikes);
+	}
+
+	public void aplicarInternacionalizacion(Properties prop) {
+		// Título de la ventana
+		setTitle(prop.getProperty("bostinder.view.myprofilewindow.title"));
+
+		((TitledBorder) panelInformacion.getBorder())
+				.setTitle(prop.getProperty("bostinder.view.myprofilewindow.panel.perfil"));
+
+		// Labels dentro del panel de información
+		lblAlias.setText(prop.getProperty("bostinder.view.myprofilewindow.label.alias"));
+		lblNombre.setText(prop.getProperty("bostinder.view.myprofilewindow.label.nombre"));
+		lblApellido.setText(prop.getProperty("bostinder.view.myprofilewindow.label.apellido"));
+		lblEdad.setText(prop.getProperty("bostinder.view.myprofilewindow.label.edad"));
+		lblCorreo.setText(prop.getProperty("bostinder.view.myprofilewindow.label.correo"));
+		lblIngresos.setText(prop.getProperty("bostinder.view.myprofilewindow.label.ingresos"));
+
+		// Panel de opciones
+		option.setText(prop.getProperty("bostinder.view.myprofilewindow.label.opciones"));
+		back.setText(prop.getProperty("bostinder.view.myprofilewindow.button.volver"));
+		//close.setText(prop.getProperty("bostinder.view.myprofilewindow.button.cerrarsesion"));
+
+		// Panel de likes
+		lblLike.setText(prop.getProperty("bostinder.view.myprofilewindow.label.likesperfil"));
 	}
 
 	public JPanel getPanelOpcion() {

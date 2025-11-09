@@ -47,7 +47,7 @@ public class Controller implements ActionListener {
 
 	public Controller() {
 		mf = new ModelFacade();
-		vf = new ViewFacade(mf);
+		vf = new ViewFacade();
 		prop = new Properties();
 		asignarOyentes();
 	}
@@ -782,12 +782,7 @@ public class Controller implements ActionListener {
 			};
 			prop.load(new FileInputStream("Language_properties/" + archivo));
 
-			vf.getPw().aplicarInternacionalizacion(prop);
-			vf.getSw().aplicarInternacionalizacion(prop);
-			vf.getRw().aplicarInternacionalizacion(prop);
-			vf.getLw().aplicarInternacionalizacion(prop);
-			vf.getMmw().aplicarInternacionalizacion(prop);
-
+			vf.aplicarInternacionalizacion(prop);
 			mf.cargarProperties(prop);
 
 			vf.getPw().revalidate();
