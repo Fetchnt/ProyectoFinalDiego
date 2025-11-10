@@ -190,7 +190,20 @@ public class Controller implements ActionListener {
 			break;
 			
 		case "boton_modo_oscuro":
-			vf.getPw().getDarkMode().addActionListener(this);
+			vf.aplicarModoOscuro();
+			
+			vf.getPw().revalidate();
+			vf.getPw().repaint();
+			vf.getSw().revalidate();
+			vf.getSw().repaint();
+			vf.getRw().revalidate();
+			vf.getRw().repaint();
+			vf.getLw().revalidate();
+			vf.getLw().repaint();
+			vf.getMmw().revalidate();
+			vf.getMmw().repaint();
+			vf.getMpw().revalidate();
+			vf.getMpw().repaint();
 			break;
 
 		case "internacionalizacion_esp":

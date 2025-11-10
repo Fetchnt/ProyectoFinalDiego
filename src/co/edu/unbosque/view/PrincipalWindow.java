@@ -134,7 +134,7 @@ public class PrincipalWindow extends JFrame {
 		darkMode.setBackground(Color.decode("#EB5F5B"));
 		darkMode.setFocusPainted(false);
 		darkMode.setBorderPainted(false);
-		darkMode.addActionListener(e -> cambiarAModoOscuro());
+		darkMode.addActionListener(e -> cambiarAModoOscuroPW());
 		this.add(darkMode);
 
 		// ------ IMAGENES ------
@@ -153,7 +153,7 @@ public class PrincipalWindow extends JFrame {
 	}
 
 	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
-	public void cambiarAModoOscuro() {
+	public void cambiarAModoOscuroPW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
 			this.getContentPane().setBackground(Color.decode("#FFFFFF"));

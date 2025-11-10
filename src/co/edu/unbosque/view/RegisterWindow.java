@@ -271,12 +271,12 @@ public class RegisterWindow extends JFrame {
 
 		darkMode = new JButton("MODO OSCURO");
 		darkMode.setBounds(800, 10, 150, 30);
-		darkMode.addActionListener(e -> cambiarAModoOscuro());
+		darkMode.addActionListener(e -> cambiarAModoOscuroRW());
 		this.add(darkMode);
 	}
 
 	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
-	public void cambiarAModoOscuro() {
+	public void cambiarAModoOscuroRW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
 			this.getContentPane().setBackground(Color.decode("#F9CFCE"));

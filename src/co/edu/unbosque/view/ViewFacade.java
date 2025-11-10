@@ -37,6 +37,16 @@ public class ViewFacade {
 		aw.aplicarInternacionalizacion(prop);
 		mpw.aplicarInternacionalizacion(prop);
 	}
+	
+	public void aplicarModoOscuro() {
+		sw.cambiarAModoOscuroSW();
+		lw.cambiarAModoOscuroLW();
+		rw.cambiarAModoOscuroRW();
+		pw.cambiarAModoOscuroPW();
+		mw.cambiarAModoOscuroMW();
+		mmw.cambiarAModoOscuroMW();
+		mpw.cambiarAModoOscuroMPW();
+	}
 
 	
 

@@ -186,7 +186,7 @@ public class MyProfileWindow extends JFrame {
 
 		darkMode = new JButton("MODO OSCURO");
 		darkMode.setBounds(800, 10, 150, 30);
-		darkMode.addActionListener(e -> cambiarAModoOscuro());
+		darkMode.addActionListener(e -> cambiarAModoOscuroMPW());
 		getContentPane().add(darkMode);
 		// ------ panel para los likes ---
 		panelLike = new JPanel();
@@ -215,7 +215,7 @@ public class MyProfileWindow extends JFrame {
 	}
 	
 	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
-	public void cambiarAModoOscuro() {
+	public void cambiarAModoOscuroMPW() {
 	    if (isDarkMode) {
 	        // Mantiene el modo claro
 	    	this.getContentPane().setBackground(Color.decode("#F9CFCE"));
