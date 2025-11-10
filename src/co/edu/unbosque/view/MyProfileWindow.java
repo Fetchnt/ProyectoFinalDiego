@@ -22,10 +22,14 @@ public class MyProfileWindow extends JFrame {
 	private JPanel panelOpcion;
 	private JPanel panelLike;
 	private JPanel panelInformacion;
+	private JPanel panelLogo;
 
 	private JButton back;
 	private JButton close;
+	private JButton darkMode;
+	private boolean isDarkMode = false;
 
+	private JLabel lBosTinder;
 	private JLabel icon;
 	private JLabel lblLike;
 	private JLabel option;
@@ -56,12 +60,27 @@ public class MyProfileWindow extends JFrame {
 		this.setLayout(null);
 		this.getContentPane().setBackground(Color.decode("#F9CFCE")); // -> falta agregarle color
 
-		JLabel icon = new JLabel("");
-		icon.setForeground(Color.decode("#F9CFCE"));
-		icon.setBackground(Color.decode("#F9CFCE"));
-		icon.setIcon(new ImageIcon(MainWindow.class.getResource("/co/edu/unbosque/view/iconStart.JPG")));
-		icon.setBounds(0, 0, 980, 150);
-		getContentPane().add(icon);
+		// ---------IMAGEN SUPERIOR----------
+
+				panelLogo = new JPanel();
+				panelLogo.setBounds(0, 0, 980, 150);
+				panelLogo.setBackground(Color.decode("#FFFFFF"));
+				panelLogo.setLayout(null);
+				this.add(panelLogo);
+
+				ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconBosTinder.png"));
+				JLabel lIcon = new JLabel(imageLogo);
+				lIcon.setBounds(250, 10, 120, 120);
+				panelLogo.add(lIcon);
+				// add(lIcon);
+
+				lBosTinder = new JLabel("BosTinder");
+				lBosTinder.setBounds(380, 35, 400, 72);
+				lBosTinder.setForeground(Color.decode("#303080D"));
+				lBosTinder.setFont(new Font("Georgia", Font.BOLD, 70));
+				panelLogo.add(lBosTinder);
+				// add(lBosTinder);
+
 
 		ImageIcon image = new ImageIcon(getClass().getResource("partnerFive.JPG"));
 		partner = new JLabel(image);
@@ -165,6 +184,10 @@ public class MyProfileWindow extends JFrame {
 		back.setBorderPainted(false);
 		panelOpcion.add(back);
 
+		darkMode = new JButton("MODO OSCURO");
+		darkMode.setBounds(800, 10, 150, 30);
+		darkMode.addActionListener(e -> cambiarAModoOscuro());
+		getContentPane().add(darkMode);
 		// ------ panel para los likes ---
 		panelLike = new JPanel();
 		panelLike.setLayout(null);
@@ -189,6 +212,115 @@ public class MyProfileWindow extends JFrame {
 		txtLikes.setBorder(null);
 		txtLikes.setEditable(false);
 		panelLike.add(txtLikes);
+	}
+	
+	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
+	public void cambiarAModoOscuro() {
+	    if (isDarkMode) {
+	        // Mantiene el modo claro
+	    	this.getContentPane().setBackground(Color.decode("#F9CFCE"));
+	        panelLogo.setBackground(Color.decode("#FFFFFF"));
+	        panelInformacion.setBackground(Color.decode("#FFFFFF"));
+	        panelOpcion.setBackground(Color.decode("#FFFFFF"));
+	        panelLike.setBackground(Color.decode("#FFFFFF"));
+	        
+	        lBosTinder.setForeground(Color.decode("#303080D"));
+	        option.setForeground(Color.decode("#000000"));
+	        lblLike.setForeground(Color.decode("#000000"));
+
+	        // Labels del panelInformacion
+	        lblAlias.setForeground(Color.decode("#000000"));
+	        lblNombre.setForeground(Color.decode("#000000"));
+	        lblApellido.setForeground(Color.decode("#000000"));
+	        lblEdad.setForeground(Color.decode("#000000"));
+	        lblCorreo.setForeground(Color.decode("#000000"));
+	        lblIngresos.setForeground(Color.decode("#000000"));
+
+	        // Campos de texto
+	        txtAlias.setBackground(Color.decode("#FFFFFF"));
+	        txtAlias.setForeground(Color.decode("#000000"));
+	        txtNombre.setBackground(Color.decode("#FFFFFF"));
+	        txtNombre.setForeground(Color.decode("#000000"));
+	        txtApellido.setBackground(Color.decode("#FFFFFF"));
+	        txtApellido.setForeground(Color.decode("#000000"));
+	        txtEdad.setBackground(Color.decode("#FFFFFF"));
+	        txtEdad.setForeground(Color.decode("#000000"));
+	        txtCorreo.setBackground(Color.decode("#FFFFFF"));
+	        txtCorreo.setForeground(Color.decode("#000000"));
+	        txtIngresos.setBackground(Color.decode("#FFFFFF"));
+	        txtIngresos.setForeground(Color.decode("#000000"));
+	        txtLikes.setBackground(Color.decode("#FFFFFF"));
+	        txtLikes.setForeground(Color.decode("#000000"));
+
+	        // Bordes
+	        panelInformacion.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY),
+	                "MI PERFIL", TitledBorder.CENTER, TitledBorder.TOP, new Font("Cooper Black", Font.ITALIC, 15)));
+	        lblFotoPreview.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+	        // Botones
+	        back.setForeground(Color.decode("#EB5F5B"));
+	        back.setBackground(Color.decode("#F9CFCE"));
+	        close.setForeground(Color.decode("#EB5F5B"));
+	        close.setBackground(Color.decode("#F9CFCE"));
+
+	        // Botón darkMode
+	        darkMode.setBackground(Color.decode("#EB5F5B"));
+	        darkMode.setForeground(Color.decode("#F9CFCE"));
+	        darkMode.setText("MODO OSCURO");
+	        isDarkMode = false;
+
+	    } else {
+	        // Cambia a modo oscuro
+	    	 panelLogo.setBackground(Color.decode("#2D2D2D"));
+	         panelInformacion.setBackground(Color.decode("#2D2D2D"));
+	         panelOpcion.setBackground(Color.decode("#2D2D2D"));
+	         panelLike.setBackground(Color.decode("#2D2D2D"));
+	         
+	         lBosTinder.setForeground(Color.decode("#F9CFCE"));
+	         option.setForeground(Color.decode("#F9CFCE"));
+	         lblLike.setForeground(Color.decode("#F9CFCE"));
+
+	         // Labels del panelInformacion
+	         lblAlias.setForeground(Color.decode("#F9CFCE"));
+	         lblNombre.setForeground(Color.decode("#F9CFCE"));
+	         lblApellido.setForeground(Color.decode("#F9CFCE"));
+	         lblEdad.setForeground(Color.decode("#F9CFCE"));
+	         lblCorreo.setForeground(Color.decode("#F9CFCE"));
+	         lblIngresos.setForeground(Color.decode("#F9CFCE"));
+
+	         // Campos de texto
+	         txtAlias.setBackground(Color.decode("#1E1E1E"));
+	         txtAlias.setForeground(Color.decode("#FFFFFF"));
+	         txtNombre.setBackground(Color.decode("#1E1E1E"));
+	         txtNombre.setForeground(Color.decode("#FFFFFF"));
+	         txtApellido.setBackground(Color.decode("#1E1E1E"));
+	         txtApellido.setForeground(Color.decode("#FFFFFF"));
+	         txtEdad.setBackground(Color.decode("#1E1E1E"));
+	         txtEdad.setForeground(Color.decode("#FFFFFF"));
+	         txtCorreo.setBackground(Color.decode("#1E1E1E"));
+	         txtCorreo.setForeground(Color.decode("#FFFFFF"));
+	         txtIngresos.setBackground(Color.decode("#1E1E1E"));
+	         txtIngresos.setForeground(Color.decode("#FFFFFF"));
+	         txtLikes.setBackground(Color.decode("#1E1E1E"));
+	         txtLikes.setForeground(Color.decode("#FFFFFF"));
+
+	         // Bordes
+	         panelInformacion.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.WHITE),
+	                 "MI PERFIL", TitledBorder.CENTER, TitledBorder.TOP, new Font("Cooper Black", Font.ITALIC, 15)));
+	         lblFotoPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+
+	         // Botones
+	         back.setForeground(Color.decode("#F9CFCE"));
+	         back.setBackground(Color.decode("#BA1750"));
+	         close.setForeground(Color.decode("#F9CFCE"));
+	         close.setBackground(Color.decode("#BA1750"));
+
+	         // Botón darkMode
+	         darkMode.setBackground(Color.decode("#BA1750"));
+	         darkMode.setForeground(Color.decode("#FFFFFF"));
+	         darkMode.setText("MODO CLARO");
+	         isDarkMode = true;
+	    }
 	}
 
 	public void aplicarInternacionalizacion(Properties prop) {
@@ -351,4 +483,93 @@ public class MyProfileWindow extends JFrame {
 		this.txtIngresos = txtIngresos;
 	}
 
+	public JPanel getPanelInformacion() {
+		return panelInformacion;
+	}
+
+	public void setPanelInformacion(JPanel panelInformacion) {
+		this.panelInformacion = panelInformacion;
+	}
+
+	public JPanel getPanelLogo() {
+		return panelLogo;
+	}
+
+	public void setPanelLogo(JPanel panelLogo) {
+		this.panelLogo = panelLogo;
+	}
+
+	public JButton getDarkMode() {
+		return darkMode;
+	}
+
+	public void setDarkMode(JButton darkMode) {
+		this.darkMode = darkMode;
+	}
+
+	public boolean isDarkMode() {
+		return isDarkMode;
+	}
+
+	public void setDarkMode(boolean isDarkMode) {
+		this.isDarkMode = isDarkMode;
+	}
+
+	public JLabel getlBosTinder() {
+		return lBosTinder;
+	}
+
+	public void setlBosTinder(JLabel lBosTinder) {
+		this.lBosTinder = lBosTinder;
+	}
+
+	public JLabel getLblAlias() {
+		return lblAlias;
+	}
+
+	public void setLblAlias(JLabel lblAlias) {
+		this.lblAlias = lblAlias;
+	}
+
+	public JLabel getLblNombre() {
+		return lblNombre;
+	}
+
+	public void setLblNombre(JLabel lblNombre) {
+		this.lblNombre = lblNombre;
+	}
+
+	public JLabel getLblApellido() {
+		return lblApellido;
+	}
+
+	public void setLblApellido(JLabel lblApellido) {
+		this.lblApellido = lblApellido;
+	}
+
+	public JLabel getLblEdad() {
+		return lblEdad;
+	}
+
+	public void setLblEdad(JLabel lblEdad) {
+		this.lblEdad = lblEdad;
+	}
+
+	public JLabel getLblCorreo() {
+		return lblCorreo;
+	}
+
+	public void setLblCorreo(JLabel lblCorreo) {
+		this.lblCorreo = lblCorreo;
+	}
+
+	public JLabel getLblIngresos() {
+		return lblIngresos;
+	}
+
+	public void setLblIngresos(JLabel lblIngresos) {
+		this.lblIngresos = lblIngresos;
+	}
+
+	
 }

@@ -7,9 +7,8 @@ import javax.swing.*;
 
 import java.util.Properties;
 
-
 public class MainWindow extends JFrame {
-	
+
 	/**
 	 * 
 	 */
@@ -17,21 +16,25 @@ public class MainWindow extends JFrame {
 	private JLabel lblProfilePicture;
 	private JLabel lblNameAge;
 	private JLabel lblTitulo;
-	
+	private JLabel lBosTinder;
+
 	private JTextArea txtDescription;
-	
+
 	private JButton btnLike;
 	private JButton btnNope;
-	private JButton btnFavorite; 
-	private JButton btnProfile; 
+	private JButton btnFavorite;
+	private JButton btnProfile;
 	private JButton btnLogOff;
 	private JButton btnVerMeGusta;
 	private JButton btnModoIncognito;
+	private JButton darkMode;
+	private boolean isDarkMode = false;
 
 	private JPanel panelMenu;
+	private JPanel panelLogo;
 
 	public MainWindow() {
-		//CONFIGURACION DE LA VENTANA
+		// CONFIGURACION DE LA VENTANA
 		this.setTitle("Inicio - BosTinder");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -39,13 +42,26 @@ public class MainWindow extends JFrame {
 		this.getContentPane().setBackground(Color.decode("#F9CFCE"));
 		getContentPane().setLayout(null);
 
-		// --- ENCABEZADO ---
-		JLabel lblIcon = new JLabel("");
-		lblIcon.setForeground(Color.decode("#F9CFCE"));
-		lblIcon.setBackground(Color.decode("#F9CFCE"));
-		lblIcon.setIcon(new ImageIcon(MainWindow.class.getResource("/co/edu/unbosque/view/iconStart.JPG")));
-		lblIcon.setBounds(0, 0, 980, 150);
-		getContentPane().add(lblIcon);
+		// ---------IMAGEN SUPERIOR----------
+
+		panelLogo = new JPanel();
+		panelLogo.setBounds(0, 0, 980, 150);
+		panelLogo.setBackground(Color.decode("#FFFFFF"));
+		panelLogo.setLayout(null);
+		this.add(panelLogo);
+
+		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconBosTinder.png"));
+		JLabel lIcon = new JLabel(imageLogo);
+		lIcon.setBounds(250, 10, 120, 120);
+		panelLogo.add(lIcon);
+		// add(lIcon);
+
+		lBosTinder = new JLabel("BosTinder");
+		lBosTinder.setBounds(380, 35, 400, 72);
+		lBosTinder.setForeground(Color.decode("#303080D"));
+		lBosTinder.setFont(new Font("Georgia", Font.BOLD, 70));
+		panelLogo.add(lBosTinder);
+		// add(lBosTinder);
 
 		lblTitulo = new JLabel("¡Bienvenido a BosTinder!");
 		lblTitulo.setFont(new Font("Cooper Black", Font.PLAIN, 20));
@@ -106,50 +122,54 @@ public class MainWindow extends JFrame {
 		panelMenu.setBackground(Color.WHITE);
 		panelMenu.setLayout(null);
 		add(panelMenu);
-		
+
 		btnVerMeGusta = new JButton("Ver me gusta");
 		btnVerMeGusta.setBounds(10, 18, 110, 25);
 		btnVerMeGusta.setBackground(Color.decode("#F9CFCE"));
 		btnVerMeGusta.setForeground(Color.decode("#EB5F5B"));
 		btnVerMeGusta.setFocusPainted(false);
 		btnVerMeGusta.setBorderPainted(false);
-		//getContentPane().add(btnVerMeGusta);
+		// getContentPane().add(btnVerMeGusta);
 		panelMenu.add(btnVerMeGusta);
-		
+
 		btnModoIncognito = new JButton("Modo Incognito");
 		btnModoIncognito.setBounds(126, 18, 122, 25);
 		btnModoIncognito.setBackground(Color.decode("#F9CFCE"));
 		btnModoIncognito.setForeground(Color.decode("#EB5F5B"));
 		btnModoIncognito.setFocusPainted(false);
 		btnModoIncognito.setBorderPainted(false);
-		//getContentPane().add(btnModoIncognito);
+		// getContentPane().add(btnModoIncognito);
 		panelMenu.add(btnModoIncognito);
-		
+
 		btnProfile = new JButton("Mi Perfil");
 		btnProfile.setBounds(253, 18, 105, 25);
 		btnProfile.setBackground(Color.decode("#F9CFCE"));
 		btnProfile.setForeground(Color.decode("#EB5F5B"));
 		btnProfile.setFocusPainted(false);
 		btnProfile.setBorderPainted(false);
-		//getContentPane().add(btnProfile);
+		// getContentPane().add(btnProfile);
 		panelMenu.add(btnProfile);
-		
+
 		btnLogOff = new JButton("Cerrar sesión");
 		btnLogOff.setBounds(363, 18, 113, 25);
 		btnLogOff.setBackground(Color.decode("#F9CFCE"));
 		btnLogOff.setForeground(Color.decode("#EB5F5B"));
 		btnLogOff.setFocusPainted(false);
 		btnLogOff.setBorderPainted(false);
-		//getContentPane().add(btnLogOff);
+		// getContentPane().add(btnLogOff);
 		panelMenu.add(btnLogOff);
 		
-		//------IMAGEN-------
+		darkMode = new JButton("MODO OSCURO");
+		darkMode.setBounds(800, 10, 150, 30);
+		darkMode.addActionListener(e -> cambiarAModoOscuro());
+		add(darkMode);
+
+		// ------IMAGEN-------
 		ImageIcon imageHeartTwo = new ImageIcon(getClass().getResource("heartTwo.JPG"));
 		JLabel imageHeart = new JLabel(imageHeartTwo);
 		imageHeart.setBounds(790, 300, 160, 300);
 		this.add(imageHeart);
-		
-		
+
 		// --- CARGAR EL PRIMER PERFIL ---
 		/*
 		 * actualizarPerfil();
@@ -186,6 +206,91 @@ public class MainWindow extends JFrame {
 		 */
 
 	}
+	
+	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
+		public void cambiarAModoOscuro() {
+			if (isDarkMode) {
+				// Mantiene el modo claro
+				this.getContentPane().setBackground(Color.decode("#F9CFCE"));
+		        panelMenu.setBackground(Color.decode("#FFFFFF"));
+		        panelLogo.setBackground(Color.decode("#FFFFFF"));
+		        lBosTinder.setForeground(Color.decode("#303080D"));
+		        lblTitulo.setForeground(Color.decode("#000000"));
+		        lblNameAge.setForeground(Color.decode("#000000"));
+
+		        // Área de texto
+		        txtDescription.setBackground(Color.decode("#FFFFFF"));
+		        txtDescription.setForeground(Color.decode("#000000"));
+
+		        // Botones principales
+		        btnLike.setForeground(Color.decode("#F9CFCE"));
+		        btnLike.setBackground(Color.decode("#EB5F5B"));
+		        btnNope.setForeground(Color.decode("#F9CFCE"));
+		        btnNope.setBackground(Color.decode("#EB5F5B"));
+		        btnFavorite.setForeground(Color.decode("#F9CFCE"));
+		        btnFavorite.setBackground(Color.decode("#EB5F5B"));
+
+		        // Botones del panelMenu
+		        btnVerMeGusta.setForeground(Color.decode("#EB5F5B"));
+		        btnVerMeGusta.setBackground(Color.decode("#F9CFCE"));
+		        btnModoIncognito.setForeground(Color.decode("#EB5F5B"));
+		        btnModoIncognito.setBackground(Color.decode("#F9CFCE"));
+		        btnProfile.setForeground(Color.decode("#EB5F5B"));
+		        btnProfile.setBackground(Color.decode("#F9CFCE"));
+		        btnLogOff.setForeground(Color.decode("#EB5F5B"));
+		        btnLogOff.setBackground(Color.decode("#F9CFCE"));
+
+		        // Borde de la foto de perfil
+		        lblProfilePicture.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+
+		        // Botón darkMode
+		        darkMode.setBackground(Color.decode("#EB5F5B"));
+		        darkMode.setForeground(Color.decode("#F9CFCE"));
+		        darkMode.setText("MODO OSCURO");
+		        isDarkMode = false;
+
+			} else {
+				// Cambia a modo oscuro
+				this.getContentPane().setBackground(Color.decode("#161615"));
+		        panelMenu.setBackground(Color.decode("#2D2D2D"));
+		        panelLogo.setBackground(Color.decode("#2D2D2D"));
+		        lBosTinder.setForeground(Color.decode("#F9CFCE"));
+		        lblTitulo.setForeground(Color.decode("#E3225C"));
+		        lblNameAge.setForeground(Color.decode("#F9CFCE"));
+
+		        // Área de texto
+		        txtDescription.setBackground(Color.decode("#1E1E1E"));
+		        txtDescription.setForeground(Color.decode("#FFFFFF"));
+
+		        // Botones principales
+		        btnLike.setForeground(Color.decode("#FFFFFF"));
+		        btnLike.setBackground(Color.decode("#BA1750"));
+		        btnNope.setForeground(Color.decode("#FFFFFF"));
+		        btnNope.setBackground(Color.decode("#BA1750"));
+		        btnFavorite.setForeground(Color.decode("#FFFFFF"));
+		        btnFavorite.setBackground(Color.decode("#BA1750"));
+
+		        // Botones del panelMenu
+		        btnVerMeGusta.setForeground(Color.decode("#F9CFCE"));
+		        btnVerMeGusta.setBackground(Color.decode("#BA1750"));
+		        btnModoIncognito.setForeground(Color.decode("#F9CFCE"));
+		        btnModoIncognito.setBackground(Color.decode("#BA1750"));
+		        btnProfile.setForeground(Color.decode("#F9CFCE"));
+		        btnProfile.setBackground(Color.decode("#BA1750"));
+		        btnLogOff.setForeground(Color.decode("#F9CFCE"));
+		        btnLogOff.setBackground(Color.decode("#BA1750"));
+
+		        // Borde de la foto de perfil
+		        lblProfilePicture.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+
+		        // Botón darkMode
+		        darkMode.setBackground(Color.decode("#BA1750"));
+		        darkMode.setForeground(Color.decode("#FFFFFF"));
+		        darkMode.setText("MODO CLARO");
+		        isDarkMode = true;
+			}
+
+		}
 
 	public void aplicarInternacionalizacion(Properties prop) {
 		// Título de la ventana
@@ -301,7 +406,38 @@ public class MainWindow extends JFrame {
 	public void setPanelMenu(JPanel panelMenu) {
 		this.panelMenu = panelMenu;
 	}
-	
-	
 
+	public JLabel getlBosTinder() {
+		return lBosTinder;
+	}
+
+	public void setlBosTinder(JLabel lBosTinder) {
+		this.lBosTinder = lBosTinder;
+	}
+
+	public JButton getDarkMode() {
+		return darkMode;
+	}
+
+	public void setDarkMode(JButton darkMode) {
+		this.darkMode = darkMode;
+	}
+
+	public boolean isDarkMode() {
+		return isDarkMode;
+	}
+
+	public void setDarkMode(boolean isDarkMode) {
+		this.isDarkMode = isDarkMode;
+	}
+
+	public JPanel getPanelLogo() {
+		return panelLogo;
+	}
+
+	public void setPanelLogo(JPanel panelLogo) {
+		this.panelLogo = panelLogo;
+	}
+
+	
 }

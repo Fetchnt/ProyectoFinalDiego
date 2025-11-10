@@ -25,13 +25,21 @@ public class MapWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private BufferedImage mapaImg;
-	
+
 	private JPanel panelMapa;
 	private JPanel panelOption;
+	private JPanel panelLogo;
 
 	private JButton btnBackMap;
-	
-	private JLabel icon, lImage, lText, lPaisSeleccionado;
+
+	private JLabel icon;
+	private JLabel lImage;
+	private JLabel lText;
+	private JLabel lPaisSeleccionado;
+	private JLabel lBosTinder;
+
+	private JButton darkMode;
+	private boolean isDarkMode = false;
 
 	// puntos visuales del mapa (vista responsable de posicionarlos y dibujarlos)
 	private Map<String, Point> puntosPaises;
@@ -55,7 +63,7 @@ public class MapWindow extends JFrame {
 	}
 
 	public void initializeComponents() {
-		//CONFIGURACION DE LA VENTANA
+		// CONFIGURACION DE LA VENTANA
 		setTitle("Mapa de usuarios - BosTinder");
 		setBounds(230, 5, 980, 720);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,10 +71,27 @@ public class MapWindow extends JFrame {
 		setLayout(null);
 		getContentPane().setBackground(Color.decode("#F9CFCE"));
 
-		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
-		icon = new JLabel(imageLogo);
-		icon.setBounds(0, 0, 980, 150);
-		add(icon);
+		//------IMAGEN SUPERIOR----
+		panelLogo = new JPanel();
+		panelLogo.setBounds(0, 0, 980, 150);
+		panelLogo.setBackground(Color.decode("#FFFFFF"));
+		panelLogo.setLayout(null);
+		this.add(panelLogo);
+
+		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconBosTinder.png"));
+		JLabel lIcon = new JLabel(imageLogo);
+		lIcon.setBounds(250, 10, 120, 120);
+		panelLogo.add(lIcon);
+		// add(lIcon);
+
+		lBosTinder = new JLabel("BosTinder");
+		lBosTinder.setBounds(380, 35, 400, 72);
+		lBosTinder.setForeground(Color.decode("#303080D"));
+		lBosTinder.setFont(new Font("Georgia", Font.BOLD, 70));
+		panelLogo.add(lBosTinder);
+		// add(lBosTinder);
+		
+		//-----IMAGEN ADICIONAL-------
 
 		ImageIcon imagePartnerFour = new ImageIcon(getClass().getResource("partnerFour.JPG"));
 		lImage = new JLabel(imagePartnerFour);
@@ -143,6 +168,11 @@ public class MapWindow extends JFrame {
 		btnBackMap.setFocusPainted(false);
 		btnBackMap.setBorderPainted(false);
 		panelOption.add(btnBackMap);
+		
+		darkMode = new JButton("MODO OSCURO");
+		darkMode.setBounds(800, 10, 150, 30);
+		darkMode.addActionListener(e -> cambiarAModoOscuro());
+		this.add(darkMode);
 
 		try {
 			mapaImg = ImageIO.read(new java.io.File("src/co/edu/unbosque/view/mapWorld.jpg"));
@@ -173,6 +203,7 @@ public class MapWindow extends JFrame {
 	 * Devuelve el nombre del país si el punto está cerca (<10 px) de alguno de los
 	 * puntos definidos; si no, devuelve null.
 	 */
+	
 	public String getPaisEnPunto(Point p) {
 		for (Map.Entry<String, Point> entry : puntosPaises.entrySet()) {
 			Point paisPoint = entry.getValue();
@@ -183,6 +214,50 @@ public class MapWindow extends JFrame {
 		}
 		return null;
 	}
+	public void cambiarAModoOscuro() {
+		if (isDarkMode) {
+			// Mantiene el modo claro
+			 this.getContentPane().setBackground(Color.decode("#F9CFCE"));
+		        panelLogo.setBackground(Color.decode("#FFFFFF"));
+		        panelOption.setBackground(Color.decode("#FFFFFF"));
+		        panelMapa.setBackground(Color.decode("#FFFFFF"));
+		        lBosTinder.setForeground(Color.decode("#303080D"));
+		        lText.setForeground(Color.decode("#000000"));
+		        lPaisSeleccionado.setForeground(Color.decode("#000000"));
+
+		        // Botón del panelOption
+		        btnBackMap.setForeground(Color.decode("#FFFFFF"));
+		        btnBackMap.setBackground(Color.decode("#F4716D"));
+
+		        // Botón darkMode
+		        darkMode.setBackground(Color.decode("#EB5F5B"));
+		        darkMode.setForeground(Color.decode("#F9CFCE"));
+		        darkMode.setText("MODO OSCURO");
+		        isDarkMode = false;
+
+		} else {
+			// Cambia a modo oscuro
+			this.getContentPane().setBackground(Color.decode("#161615"));
+	        panelLogo.setBackground(Color.decode("#2D2D2D"));
+	        panelOption.setBackground(Color.decode("#2D2D2D"));
+	        panelMapa.setBackground(Color.decode("#1E1E1E"));
+	        lBosTinder.setForeground(Color.decode("#F9CFCE"));
+	        lText.setForeground(Color.decode("#E3225C"));
+	        lPaisSeleccionado.setForeground(Color.decode("#F9CFCE"));
+
+	        // Botón del panelOption
+	        btnBackMap.setForeground(Color.decode("#FFFFFF"));
+	        btnBackMap.setBackground(Color.decode("#BA1750"));
+
+	        // Botón darkMode
+	        darkMode.setBackground(Color.decode("#BA1750"));
+	        darkMode.setForeground(Color.decode("#FFFFFF"));
+	        darkMode.setText("MODO CLARO");
+	        isDarkMode = true;
+		}
+
+	}
+
 
 	// 🔹 Nuevo método para actualizar el label
 	public void setPaisSeleccionado(String pais) {

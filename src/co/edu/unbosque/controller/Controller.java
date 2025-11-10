@@ -48,6 +48,9 @@ public class Controller implements ActionListener {
 		// ---------- BOTONES en PrincipalWindow ----------
 		vf.getPw().getStart().addActionListener(this);
 		vf.getPw().getStart().setActionCommand("boton_start");
+		
+		vf.getPw().getDarkMode().addActionListener(this);
+		vf.getPw().getDarkMode().setActionCommand("boton_modo_oscuro");
 
 		vf.getPw().getbSpanish().addActionListener(this);
 		vf.getPw().getbSpanish().setActionCommand("internacionalizacion_esp");
@@ -184,6 +187,10 @@ public class Controller implements ActionListener {
 		case "boton_start":
 			vf.getPw().setVisible(false);
 			vf.getSw().setVisible(true);
+			break;
+			
+		case "boton_modo_oscuro":
+			vf.getPw().getDarkMode().addActionListener(this);
 			break;
 
 		case "internacionalizacion_esp":

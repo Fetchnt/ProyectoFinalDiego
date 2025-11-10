@@ -16,17 +16,22 @@ public class StartWindow extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 4030797315944790873L;
+	private JPanel panelLogo;
+	private JPanel panelOption;
+
 	private JLabel lIcon;
 	private JLabel lPartnerThree;
 	private JLabel lMail;
 	private JLabel lImage;
-	
+	private JLabel lBosTinder;
+
 	private JButton signIn;
 	private JButton login;
 	private JButton exit;
 	private JButton back;
 	private JButton mapButton;
-	
+	private JButton darkMode;
+	private boolean isDarkMode = false;
 
 	public StartWindow() {
 		initializeComponents();
@@ -34,7 +39,7 @@ public class StartWindow extends JFrame {
 	}
 
 	public void initializeComponents() {
-		// CONFIGURACIÓN GENERAL DE LA VENTANA 
+		// CONFIGURACIÓN GENERAL DE LA VENTANA
 		this.setTitle("Menú principal - BosTinder");
 		this.setBounds(230, 5, 980, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -42,22 +47,41 @@ public class StartWindow extends JFrame {
 		this.setLayout(null);
 		this.getContentPane().setBackground(Color.decode("#F9CFCE"));
 
-		// ---------IMAGEN SUPERIOR--------------
-		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
+		// ---------LOGO Y TITULO--------------
+		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconBosTinder.png"));
 		JLabel lIcon = new JLabel(imageLogo);
-		lIcon.setBounds(0, 0, 980, 150);
+		lIcon.setBounds(250, 10, 120, 120);
+		// panelLogo.add(lIcon);
 		add(lIcon);
 
+		lBosTinder = new JLabel("BosTinder");
+		lBosTinder.setBounds(380, 35, 400, 72);
+		lBosTinder.setForeground(Color.decode("#303080D"));
+		lBosTinder.setFont(new Font("Georgia", Font.BOLD, 70));
+		// panelLogo.add(lBosTinder);
+		add(lBosTinder);
 		// -------PANEL------------
-		JPanel panelOption = new JPanel();
-		panelOption.setBounds(600, 270, 300, 300);
+		panelLogo = new JPanel();
+		panelLogo.setBounds(0, 0, 980, 150);
+		panelLogo.setBackground(Color.decode("#FFFFFF"));
+		panelLogo.setLayout(null);
+		this.add(panelLogo);
+
+		panelOption = new JPanel();
+		panelOption.setBounds(560, 310, 300, 330);
 		panelOption.setBackground(Color.decode("#FFFFFF"));
 		panelOption.setLayout(null);
-		add(panelOption);
+		this.add(panelOption);
+		
+		JLabel lText = new JLabel("¡Bienvenido!");
+		lText.setBounds(70, 15, 250, 25);
+		lText.setFont(new Font("Georgia", Font.BOLD, 25));
+		lText.setForeground(Color.decode("#E3225C"));
+		panelOption.add(lText);
 
 		// ---------BOTONES-------------
 		signIn = new JButton("Registrarse");
-		signIn.setBounds(60, 40, 180, 50);
+		signIn.setBounds(60, 60, 180, 50);
 		signIn.setFont(new Font("Arial", Font.BOLD, 20));
 		signIn.setForeground(Color.decode("#EB5F5B"));// color letra
 		signIn.setBackground(Color.decode("#F9CFCE"));
@@ -66,7 +90,7 @@ public class StartWindow extends JFrame {
 		panelOption.add(signIn);
 
 		login = new JButton("Iniciar Sesion");
-		login.setBounds(60, 100, 180, 50);
+		login.setBounds(60, 120, 180, 50);
 		login.setFont(new Font("Arial", Font.BOLD, 20));
 		login.setForeground(Color.decode("#EB5F5B"));
 		login.setBackground(Color.decode("#F9CFCE"));
@@ -75,7 +99,7 @@ public class StartWindow extends JFrame {
 		panelOption.add(login);
 
 		exit = new JButton("Salir");
-		exit.setBounds(155, 220, 85, 50);
+		exit.setBounds(155, 240, 85, 50);
 		exit.setFont(new Font("Arial", Font.BOLD, 15));
 		exit.setForeground(Color.decode("#EB5F5B"));
 		exit.setBackground(Color.decode("#F9CFCE"));
@@ -84,7 +108,7 @@ public class StartWindow extends JFrame {
 		panelOption.add(exit);
 
 		back = new JButton("Volver");
-		back.setBounds(60, 220, 85, 50);
+		back.setBounds(60, 240, 85, 50);
 		back.setFont(new Font("Arial", Font.BOLD, 15));
 		back.setForeground(Color.decode("#EB5F5B"));
 		back.setBackground(Color.decode("#F9CFCE"));
@@ -93,7 +117,7 @@ public class StartWindow extends JFrame {
 		panelOption.add(back);
 
 		mapButton = new JButton("Ver mapa");
-		mapButton.setBounds(60, 160, 180, 50);
+		mapButton.setBounds(60, 180, 180, 50);
 		mapButton.setFont(new Font("Arial", Font.BOLD, 20));
 		mapButton.setForeground(Color.decode("#EB5F5B"));
 		mapButton.setBackground(Color.decode("#F9CFCE"));
@@ -101,33 +125,94 @@ public class StartWindow extends JFrame {
 		mapButton.setBorderPainted(false);
 		panelOption.add(mapButton);
 
+		darkMode = new JButton("MODO OSCURO");
+		darkMode.setBounds(800, 10, 150, 30);
+		darkMode.addActionListener(e -> cambiarAModoOscuro());
+		this.add(darkMode);
+
 		// -----------IMAGES-----------------
 
-		ImageIcon imagePartnerThree = new ImageIcon(getClass().getResource("partnerThree.JPG"));
+		ImageIcon imagePartnerThree = new ImageIcon(getClass().getResource("partnerThree.png"));
 		JLabel lPartnerThree = new JLabel(imagePartnerThree);
-		lPartnerThree.setBounds(100, 200, 450, 420);
+		lPartnerThree.setBounds(0, 205, 500, 480);
 		this.add(lPartnerThree);
-		
-		ImageIcon imageMail = new ImageIcon(getClass().getResource("mail.JPG"));
+
+		ImageIcon imageMail = new ImageIcon(getClass().getResource("mail.png"));
 		JLabel lMail = new JLabel(imageMail);
-		lMail.setBounds(700, 170, 100, 100);
+		lMail.setBounds(605, 155, 240, 170);
 		this.add(lMail);
-		
+
 	}
-	
+
+	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
+	public void cambiarAModoOscuro() {
+		if (isDarkMode) {
+			// Mantiene el modo claro
+			this.getContentPane().setBackground(Color.decode("#F9CFCE"));
+			panelOption.setBackground(Color.decode("#FFFFFF"));
+			panelLogo.setBackground(Color.decode("#FFFFFF"));
+			lBosTinder.setForeground(Color.decode("#303080D"));
+
+			// Botones del panelOption
+			signIn.setForeground(Color.decode("#EB5F5B"));
+			signIn.setBackground(Color.decode("#F9CFCE"));
+			login.setForeground(Color.decode("#EB5F5B"));
+			login.setBackground(Color.decode("#F9CFCE"));
+			exit.setForeground(Color.decode("#EB5F5B"));
+			exit.setBackground(Color.decode("#F9CFCE"));
+			back.setForeground(Color.decode("#EB5F5B"));
+			back.setBackground(Color.decode("#F9CFCE"));
+			mapButton.setForeground(Color.decode("#EB5F5B"));
+			mapButton.setBackground(Color.decode("#F9CFCE"));
+
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#EB5F5B"));
+			darkMode.setForeground(Color.decode("#F9CFCE"));
+			darkMode.setText("MODO OSCURO");
+			isDarkMode = false;
+
+		} else {
+			// Cambia a modo oscuro
+			this.getContentPane().setBackground(Color.decode("#161615"));
+			panelOption.setBackground(Color.decode("#2D2D2D"));
+			panelLogo.setBackground(Color.decode("#2D2D2D"));
+			lBosTinder.setForeground(Color.decode("#F9CFCE"));
+			signIn.setForeground(Color.decode("#F9CFCE"));
+			signIn.setBackground(Color.decode("#BA1750"));
+			login.setForeground(Color.decode("#F9CFCE"));
+			login.setBackground(Color.decode("#BA1750"));
+			exit.setForeground(Color.decode("#F9CFCE"));
+			exit.setBackground(Color.decode("#BA1750"));
+			back.setForeground(Color.decode("#F9CFCE"));
+			back.setBackground(Color.decode("#BA1750"));
+			mapButton.setForeground(Color.decode("#F9CFCE"));
+			mapButton.setBackground(Color.decode("#BA1750"));
+
+			// Panel option
+			//JPanel panelOption = (JPanel) this.getContentPane().getComponent(2); // Obtener referencia al panel
+			//panelOption.setBackground(Color.decode("#2D2D2D"));
+
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#BA1750"));
+			darkMode.setForeground(Color.decode("#FFFFFF"));
+			darkMode.setText("MODO CLARO");
+			isDarkMode = true;
+		}
+	}
+
 	public void aplicarInternacionalizacion(Properties prop) {
-	    // Ventana
-	    setTitle(prop.getProperty("bostinder.view.startwindow.title"));
+		// Ventana
+		setTitle(prop.getProperty("bostinder.view.startwindow.title"));
 
-	    // Botones principales
-	    signIn.setText(prop.getProperty("bostinder.view.startwindow.button.signin"));
-	    login.setText(prop.getProperty("bostinder.view.startwindow.button.login"));
-	    exit.setText(prop.getProperty("bostinder.view.startwindow.button.exit"));
-	    back.setText(prop.getProperty("bostinder.view.startwindow.button.back"));
-	    mapButton.setText(prop.getProperty("bostinder.view.startwindow.button.map"));
+		// Botones principales
+		signIn.setText(prop.getProperty("bostinder.view.startwindow.button.signin"));
+		login.setText(prop.getProperty("bostinder.view.startwindow.button.login"));
+		exit.setText(prop.getProperty("bostinder.view.startwindow.button.exit"));
+		back.setText(prop.getProperty("bostinder.view.startwindow.button.back"));
+		mapButton.setText(prop.getProperty("bostinder.view.startwindow.button.map"));
 	}
 
-	//--------GETTERS Y SETTERS------
+	// --------GETTERS Y SETTERS------
 	public JLabel getlIcon() {
 		return lIcon;
 	}
@@ -198,6 +283,38 @@ public class StartWindow extends JFrame {
 
 	public void setMapButton(JButton mapButton) {
 		this.mapButton = mapButton;
+	}
+
+	public JButton getDarkMode() {
+		return darkMode;
+	}
+
+	public void setDarkMode(JButton darkMode) {
+		this.darkMode = darkMode;
+	}
+
+	public boolean isDarkMode() {
+		return isDarkMode;
+	}
+
+	public void setDarkMode(boolean isDarkMode) {
+		this.isDarkMode = isDarkMode;
+	}
+
+	public JPanel getPanelLogo() {
+		return panelLogo;
+	}
+
+	public void setPanelLogo(JPanel panelLogo) {
+		this.panelLogo = panelLogo;
+	}
+
+	public JLabel getlBosTinder() {
+		return lBosTinder;
+	}
+
+	public void setlBosTinder(JLabel lBosTinder) {
+		this.lBosTinder = lBosTinder;
 	}
 
 }
