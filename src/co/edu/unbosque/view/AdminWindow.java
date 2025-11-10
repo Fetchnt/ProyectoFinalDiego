@@ -55,7 +55,7 @@ public class AdminWindow extends JFrame {
 
 	public AdminWindow() {
 		initializeComponents();
-		setVisible(true);
+		setVisible(false);
 	}
 
 	public void initializeComponents() {

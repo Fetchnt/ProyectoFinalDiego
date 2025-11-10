@@ -56,7 +56,7 @@ public class MenDTOTest {
 		assertEquals("Carlos", h.getName());
 		assertEquals("Cobaleda", h.getLastName());
 		assertEquals("totes", h.getAlias());
-		assertEquals("12/02/2007", h.getBornDate());
+		assertEquals("14/02/2007", h.getBornDate());
 		assertEquals("175", h.getStature());
 		assertEquals("carlosecob@gmail.com", h.getEmail());
 		assertEquals("Masculino", h.getGender());

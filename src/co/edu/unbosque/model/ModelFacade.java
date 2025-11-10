@@ -18,7 +18,7 @@ public class ModelFacade {
 	private List<User> likes;
 	private List<User> favoritos;
 	private int indiceActual = 0;
-	private boolean modoIncognito = false;
+	private boolean modoIncognito;
 	private User usuarioActual;
 
 	public ModelFacade() {
@@ -27,6 +27,7 @@ public class ModelFacade {
 		perfilesActuales = new ArrayList<User>();
 		likes = new ArrayList<User>();
 		favoritos = new ArrayList<User>();
+		modoIncognito = false;
 	}
 
 	// === GETTERS Y SETTERS ===

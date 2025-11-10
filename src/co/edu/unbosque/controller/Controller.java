@@ -7,19 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-
-import org.junit.rules.Verifier;
 
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -35,7 +28,6 @@ import co.edu.unbosque.util.exception.*;
 import co.edu.unbosque.model.MenDTO;
 import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.model.WomenDTO;
-import co.edu.unbosque.model.persistence.FileHandler;
 import co.edu.unbosque.view.ViewFacade;
 import co.edu.unbosque.model.User;
 
@@ -61,16 +53,16 @@ public class Controller implements ActionListener {
 		vf.getPw().getbSpanish().setActionCommand("internacionalizacion_esp");
 
 		vf.getPw().getbChinnesse().addActionListener(this);
-		vf.getPw().getbChinnesse().setActionCommand("internacinalizacion_chi");
+		vf.getPw().getbChinnesse().setActionCommand("internacionalizacion_chi");
 
 		vf.getPw().getbHebrew().addActionListener(this);
 		vf.getPw().getbHebrew().setActionCommand("internacionalizacion_heb");
 
 		vf.getPw().getbPortuguese().addActionListener(this);
-		vf.getPw().getbPortuguese().setActionCommand("internacinalizacion_por");
+		vf.getPw().getbPortuguese().setActionCommand("internacionalizacionn_por");
 
 		vf.getPw().getbRussian().addActionListener(this);
-		vf.getPw().getbRussian().setActionCommand("internacinalizacion_rus");
+		vf.getPw().getbRussian().setActionCommand("internacionalizacion_rus");
 
 		// ---------- BOTONES en SignInWindow ----------
 		vf.getSw().getSignIn().addActionListener(this);
@@ -180,9 +172,6 @@ public class Controller implements ActionListener {
 		vf.getMmw().getBtnFavorite().addActionListener(this);
 		vf.getMmw().getBtnFavorite().setActionCommand("boton_favorito");
 
-		vf.getMmw().getBtnProfile().addActionListener(this);
-		vf.getMmw().getBtnProfile().setActionCommand("boton_ver_perfil");
-
 		vf.getAw().getBtnGenerarPDF().addActionListener(this);
 		vf.getAw().getBtnGenerarPDF().setActionCommand("boton_generar_pdf");
 
@@ -208,11 +197,11 @@ public class Controller implements ActionListener {
 			aplicarInternacionalizacion("es");
 			break;
 
-		case "internacinalizacion_por":
+		case "internacionalizacion_por":
 			aplicarInternacionalizacion("pt");
 			break;
 
-		case "internacinalizacion_chi":
+		case "internacionalizacion_chi":
 			aplicarInternacionalizacion("chi");
 			break;
 
@@ -220,7 +209,7 @@ public class Controller implements ActionListener {
 			aplicarInternacionalizacion("heb");
 			break;
 
-		case "internacinalizacion_rus":
+		case "internacionalizacion_rus":
 			aplicarInternacionalizacion("rus");
 			break;
 
@@ -255,7 +244,7 @@ public class Controller implements ActionListener {
 			break;
 
 		case "boton_login":
-			vf.getSw().dispose();
+			vf.getSw().setVisible(false);
 			vf.getLw().setVisible(true);
 			break;
 
@@ -271,7 +260,7 @@ public class Controller implements ActionListener {
 			break;
 
 		case "boton_back":
-			vf.getSw().dispose();
+			vf.getSw().setVisible(false);
 			vf.getPw().setVisible(true);
 			break;
 
@@ -297,7 +286,7 @@ public class Controller implements ActionListener {
 							"Código simulado", JOptionPane.INFORMATION_MESSAGE);
 				}
 
-				// --- Verificación con tiempo límite ---
+				// --- Verificación
 
 				boolean verificado = false;
 
@@ -453,9 +442,35 @@ public class Controller implements ActionListener {
 			vf.getSw().setVisible(true);
 			break;
 		}
-		
+
 		case "boton_entrar_modo_admin": {
-			
+
+			String ADMIN_PASSWORD = "CarlosLlegueYa";
+			String passwordIngresada = JOptionPane.showInputDialog(vf.getLw(),
+					"Ingrese la contraseña de administrador:", "Acceso Restringido", JOptionPane.WARNING_MESSAGE);
+
+			if (passwordIngresada == null) {
+				JOptionPane.showMessageDialog(vf.getLw(), "Acceso al modo administrador cancelado.", "Cancelado",
+						JOptionPane.INFORMATION_MESSAGE);
+				break;
+			}
+
+			if (ADMIN_PASSWORD.equals(passwordIngresada.trim())) {
+				
+				JOptionPane.showMessageDialog(vf.getLw(), "Contraseña correcta. Accediendo al modo administrador...",
+						"Acceso Permitido", JOptionPane.INFORMATION_MESSAGE);
+
+				vf.getLw().setVisible(false);
+				vf.getAw().setVisible(true);
+
+				mostrarTodosLosUsuarios();
+
+			} else {
+
+				JOptionPane.showMessageDialog(vf.getLw(), "Contraseña incorrecta. Acceso denegado.",
+						"Error de Autenticación", JOptionPane.ERROR_MESSAGE);
+			}
+			break;
 		}
 
 		case "boton_iniciosesion": {
@@ -535,7 +550,7 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_favorito": {
-			
+
 		}
 
 		case "boton_filtro_top10_admin": {
@@ -590,11 +605,13 @@ public class Controller implements ActionListener {
 		case "boton_salir_admin": {
 			vf.getAw().dispose();
 			vf.getSw().setVisible(true);
+			break;
 		}
 
 		case "boton_ver_perfil": {
 			vf.getMmw().dispose();
 			vf.getMpw().setVisible(true);
+			break;
 		}
 
 		case "boton_orden_ascendente_admin": {
@@ -878,47 +895,34 @@ public class Controller implements ActionListener {
 	 * Muestra todos los usuarios en la tabla del AdminWindow
 	 */
 	public void mostrarTodosLosUsuarios() {
-		// Recargar datos desde los archivos CSV
+
+		// --- Recargar datos desde los archivos CSV ---
 		mf.getmDAO().listaMenDTO.clear();
 		mf.getmDAO().readFromTextFile("Men.csv");
 
 		mf.getwDAO().listaWomenDTO.clear();
 		mf.getwDAO().readFromTextFile("Women.csv");
 
-		// Obtener todos los usuarios
 		List<User> todosLosUsuarios = mf.obtenerTodosLosUsuarios();
 
-		// Limpiar la tabla
+		// --- Resto del código igual ---
 		DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
 		modelo.setRowCount(0);
 
-		// Llenar la tabla con todos los usuarios
 		for (User usuario : todosLosUsuarios) {
-			// Calcular edad
 			int edad = calcularEdad(usuario.getBornDate());
-
-			// Obtener ingresos (solo para hombres)
 			String ingresos = "N/A";
 			if (usuario instanceof MenDTO) {
 				MenDTO hombre = (MenDTO) usuario;
 				ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
 			}
-
-			// Obtener likes REALES del perfil (desde la clase User)
 			int likesReales = usuario.getLikes();
-
-			// Agregar fila a la tabla
-			Object[] fila = { usuario.getAlias(), usuario.getName(), usuario.getLastName(), edad, likesReales, // Usar
-																												// likes
-																												// reales
-					ingresos, usuario.getGender() };
+			Object[] fila = { usuario.getAlias(), usuario.getName(), usuario.getLastName(), edad, likesReales, ingresos,
+					usuario.getGender() };
 			modelo.addRow(fila);
 		}
 
-		// Limpiar los campos de detalle
 		limpiarCamposDetalleAdmin();
-
-		// Actualizar estadísticas
 		actualizarEstadisticasAdmin();
 
 		JOptionPane.showMessageDialog(vf.getAw(),
@@ -1041,7 +1045,7 @@ public class Controller implements ActionListener {
 	/**
 	 * Limpia los campos de detalle del usuario en AdminWindow
 	 */
-	private void limpiarCamposDetalleAdmin() {
+	public void limpiarCamposDetalleAdmin() {
 		vf.getAw().getTxtNombre().setText("");
 		vf.getAw().getTxtApellido().setText("");
 		vf.getAw().getTxtAlias().setText("");
@@ -1056,11 +1060,14 @@ public class Controller implements ActionListener {
 	 * Activa/desactiva el modo incógnito
 	 */
 	public void toggleModoIncognito() {
+		if (!vf.getMmw().isVisible())
+			return;
+
 		boolean modoActual = mf.isModoIncognito();
 		mf.setModoIncognito(!modoActual);
 
-		String mensaje = modoActual ? "👀 Modo incógnito DESACTIVADO\n\n• Tu perfil es visible completamente"
-				: "🕵️ Modo incógnito ACTIVADO\n\n• Tu perfil aparecerá oculto para otros";
+		String mensaje = modoActual ? "Modo incógnito DESACTIVADO\n\n• Tu perfil es visible completamente"
+				: "Modo incógnito ACTIVADO\n\n• Tu perfil aparecerá oculto para otros";
 
 		JOptionPane.showMessageDialog(null, mensaje, "Modo Incógnito", JOptionPane.INFORMATION_MESSAGE);
 		mostrarPerfilMain();
@@ -1247,7 +1254,7 @@ public class Controller implements ActionListener {
 	/**
 	 * Actualiza las estadísticas para mostrar información del filtro aplicado
 	 */
-	private void actualizarEstadisticasFiltro(List<User> usuariosFiltrados, String criterioFiltro) {
+	public void actualizarEstadisticasFiltro(List<User> usuariosFiltrados, String criterioFiltro) {
 		if (usuariosFiltrados.isEmpty()) {
 			vf.getAw().getTxtEstadisticas().setText("No hay usuarios que cumplan con el filtro aplicado.");
 			return;
@@ -1277,7 +1284,7 @@ public class Controller implements ActionListener {
 	/**
 	 * Actualiza las estadísticas mostradas en AdminWindow
 	 */
-	private void actualizarEstadisticasAdmin() {
+	public void actualizarEstadisticasAdmin() {
 		List<User> todosLosUsuarios = mf.obtenerTodosLosUsuarios();
 
 		int totalUsuarios = todosLosUsuarios.size();
@@ -1391,13 +1398,13 @@ public class Controller implements ActionListener {
 	/**
 	 * Muestra una imagen por defecto cuando no hay foto de perfil
 	 */
-	private void mostrarImagenPorDefecto() {
+	public void mostrarImagenPorDefecto() {
 		vf.getMmw().getLblProfilePicture().setIcon(null);
 		vf.getMmw().getLblProfilePicture().setText("Sin foto disponible");
 		vf.getMmw().getLblProfilePicture().setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
-	private void manejarOrdenAscendente() {
+	public void manejarOrdenAscendente() {
 		String genero = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
 		if (genero == null || genero.equalsIgnoreCase("Todos")) {
 			JOptionPane.showMessageDialog(vf.getAw(),
@@ -1433,7 +1440,7 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	private void manejarOrdenDescendente() {
+	public void manejarOrdenDescendente() {
 		String genero = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
 		if (genero == null || genero.equalsIgnoreCase("Todos")) {
 			JOptionPane.showMessageDialog(vf.getAw(),
