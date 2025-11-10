@@ -74,7 +74,7 @@ public class AdminWindow extends JFrame {
 		panelLogo.setLayout(null);
 		add(panelLogo);
 
-		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconStart.JPG"));
+		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconBosTinder.png"));
 		icon = new JLabel(imageLogo);
 		icon.setBounds(10, 0, 1100, 103);
 		panelLogo.add(icon);
