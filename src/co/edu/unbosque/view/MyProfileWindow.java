@@ -176,13 +176,13 @@ public class MyProfileWindow extends JFrame {
 		btnback.setBorderPainted(false);
 		panelOpcion.add(btnback);
 
-		btnback = new JButton("CERRAR SESIÓN");
-		btnback.setBounds(64, 95, 130, 40);
-		btnback.setFont(new Font("Arial", Font.BOLD, 12));
-		btnback.setBackground(Color.decode("#F9CFCE"));
-		btnback.setFocusPainted(false);
-		btnback.setBorderPainted(false);
-		panelOpcion.add(btnback);
+		btnclose = new JButton("CERRAR SESIÓN");
+		btnclose.setBounds(64, 95, 130, 40);
+		btnclose.setFont(new Font("Arial", Font.BOLD, 12));
+		btnclose.setBackground(Color.decode("#F9CFCE"));
+		btnclose.setFocusPainted(false);
+		btnclose.setBorderPainted(false);
+		panelOpcion.add(btnclose);
 
 		darkMode = new JButton("MODO OSCURO");
 		darkMode.setBounds(800, 10, 150, 30);
