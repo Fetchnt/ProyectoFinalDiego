@@ -664,6 +664,8 @@ public class Controller implements ActionListener {
 		case "boton_cerrarsesion_myprofile": {
 			break;
 		}
+		
+		//perro hp
 
 		default:
 			System.out.println("Acción no definida: " + alias);
