@@ -32,4 +32,6 @@ public interface DAO<A> {
 
 	public void insertionSortDes();
 
+	void generarInformePDF(String alias);
+
 }

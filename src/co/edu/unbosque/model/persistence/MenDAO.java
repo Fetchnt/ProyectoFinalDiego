@@ -271,184 +271,179 @@ public class MenDAO implements DAO<MenDTO> {
 
 	}
 
-	/**
-	 * Genera un informe PDF general con estadísticas de todos los usuarios masculinos
-	 */
-	public void generarInformeGeneralPDF() {
+	@Override
+	public void generarInformePDF(String alias) {
+		MenDTO usuario = null;
+		for (MenDTO m : listaMenDTO) {
+			if (m.getAlias().equalsIgnoreCase(alias)) {
+				usuario = m;
+				break;
+			}
+		}
+
+		if (usuario == null) {
+			JOptionPane.showMessageDialog(null, "Usuario no encontrado: " + alias);
+			return;
+		}
+
+		try {
+			int totalUsuarios = listaMenDTO.size();
+			int sumaLikes = 0;
+			Map<Integer, Integer> freq = new HashMap<>();
+			List<Integer> likesOrdenados = new ArrayList<Integer>();
+
+			for (MenDTO u : listaMenDTO) {
+				int likes = u.getLikes();
+				sumaLikes += likes;
+				freq.put(likes, freq.getOrDefault(likes, 0) + 1);
+				likesOrdenados.add(likes);
+			}
+
+			// Media
+			double media = (double) sumaLikes / totalUsuarios;
+
+			// Mediana
+			Collections.sort(likesOrdenados);
+			double mediana;
+			if (totalUsuarios % 2 == 0) {
+				mediana = (likesOrdenados.get(totalUsuarios / 2 - 1) + likesOrdenados.get(totalUsuarios / 2)) / 2.0;
+			} else {
+				mediana = likesOrdenados.get(totalUsuarios / 2);
+			}
+
+			// Moda
+			int moda = likesOrdenados.get(0);
+			int maxFreq = 0;
+			for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+				if (entry.getValue() > maxFreq) {
+					maxFreq = entry.getValue();
+					moda = entry.getKey();
+				}
+			}
+
+			// Varianza
+			double varianza = 0;
+			for (int l : likesOrdenados) {
+				varianza += Math.pow(l - media, 2);
+			}
+			varianza /= totalUsuarios;
+
+			double desviacion = Math.sqrt(varianza);
+
+			Document document = new Document();
+			PdfWriter.getInstance(document, new FileOutputStream("Informe_" + usuario.getAlias() + ".pdf"));
+			document.open();
+
+			Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+			Font textFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+
+			Paragraph titulo = new Paragraph("Informe de Usuario BosTinder", titleFont);
+			titulo.setAlignment(Element.ALIGN_CENTER);
+			document.add(titulo);
+
+			document.add(new Paragraph("\nAlias: " + usuario.getAlias(), textFont));
+			document.add(new Paragraph("Nombre: " + usuario.getName() + " " + usuario.getLastName(), textFont));
+			document.add(new Paragraph("Email: " + usuario.getEmail(), textFont));
+			document.add(new Paragraph("País: " + usuario.getCountry(), textFont));
+			document.add(new Paragraph("Género: " + usuario.getGender(), textFont));
+			document.add(new Paragraph("Orientación: " + usuario.getSexualOrientation(), textFont));
+			document.add(new Paragraph("Fecha de nacimiento: " + usuario.getBornDate(), textFont));
+			document.add(new Paragraph("Estatura: " + usuario.getStature(), textFont));
+			document.add(new Paragraph("Ingreso mensual: $" + usuario.getMensualIncome(), textFont));
+			document.add(new Paragraph("Likes: " + usuario.getLikes(), textFont));
+
+			if (usuario.getProfilePictureRoute() != null && !usuario.getProfilePictureRoute().isBlank()) {
+				try {
+					Image foto = Image.getInstance(usuario.getProfilePictureRoute());
+					foto.scaleToFit(150, 150);
+					foto.setAlignment(Element.ALIGN_CENTER);
+					document.add(new Paragraph("\n"));
+					document.add(foto);
+				} catch (Exception e) {
+					document.add(new Paragraph("\n(Foto no encontrada o ruta inválida)", textFont));
+				}
+			}
+
+			document.add(new Paragraph("\nEstadísticas de Likes", textFont));
+			document.add(new Paragraph(String.format("Media: %.2f", media), textFont));
+			document.add(new Paragraph(String.format("Mediana: %.2f", mediana), textFont));
+			document.add(new Paragraph(String.format("Moda: %d", moda), textFont));
+			document.add(new Paragraph(String.format("Varianza: %.2f", varianza), textFont));
+			document.add(new Paragraph(String.format("Desviación estándar: %.2f", desviacion), textFont));
+
+			DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
+			for (MenDTO u : listaMenDTO) {
+				dataset1.addValue(u.getLikes(), "Likes", u.getAlias());
+			}
+			JFreeChart chart1 = ChartFactory.createBarChart("Distribución de Likes", "Usuario", "Likes", dataset1);
+			BarRenderer renderer1 = (BarRenderer) chart1.getCategoryPlot().getRenderer();
+			renderer1.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+			renderer1.setDefaultItemLabelsVisible(true);
+			NumberAxis yAxis1 = (NumberAxis) chart1.getCategoryPlot().getRangeAxis();
+			yAxis1.setNumberFormatOverride(new java.text.DecimalFormat("#0"));
+			File grafica1 = new File("GraficaLikes_" + usuario.getAlias() + ".png");
+			ChartUtils.saveChartAsPNG(grafica1, chart1, 500, 300);
+			Image imgChart1 = Image.getInstance(grafica1.getAbsolutePath());
+			imgChart1.scaleToFit(450, 300);
+			imgChart1.setAlignment(Element.ALIGN_CENTER);
+			document.add(imgChart1);
+
+			DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
+			dataset2.addValue(media, "Media", "Likes");
+			dataset2.addValue(mediana, "Mediana", "Likes");
+			dataset2.addValue(moda, "Moda", "Likes");
+			JFreeChart chart2 = ChartFactory.createBarChart("Media, Mediana y Moda", "Estadística", "Valor", dataset2);
+			BarRenderer renderer2 = (BarRenderer) chart2.getCategoryPlot().getRenderer();
+			renderer2.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+			renderer2.setDefaultItemLabelsVisible(true);
+			NumberAxis yAxis2 = (NumberAxis) chart2.getCategoryPlot().getRangeAxis();
+			yAxis2.setNumberFormatOverride(new java.text.DecimalFormat("#0.00"));
+			File grafica2 = new File("GraficaMediaModa_" + usuario.getAlias() + ".png");
+			ChartUtils.saveChartAsPNG(grafica2, chart2, 500, 300);
+			Image imgChart2 = Image.getInstance(grafica2.getAbsolutePath());
+			imgChart2.scaleToFit(450, 300);
+			imgChart2.setAlignment(Element.ALIGN_CENTER);
+			document.add(imgChart2);
+
+			DefaultCategoryDataset dataset3 = new DefaultCategoryDataset();
+			dataset3.addValue(varianza, "Varianza", "Likes");
+			dataset3.addValue(desviacion, "Desviación", "Likes");
+			JFreeChart chart3 = ChartFactory.createBarChart("Varianza y Desviación", "Estadística", "Valor", dataset3);
+			BarRenderer renderer3 = (BarRenderer) chart3.getCategoryPlot().getRenderer();
+			renderer3.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+			renderer3.setDefaultItemLabelsVisible(true);
+			NumberAxis yAxis3 = (NumberAxis) chart3.getCategoryPlot().getRangeAxis();
+			yAxis3.setNumberFormatOverride(new java.text.DecimalFormat("#0.00"));
+			File grafica3 = new File("GraficaVarDesv_" + usuario.getAlias() + ".png");
+			ChartUtils.saveChartAsPNG(grafica3, chart3, 500, 300);
+			Image imgChart3 = Image.getInstance(grafica3.getAbsolutePath());
+			imgChart3.scaleToFit(450, 300);
+			imgChart3.setAlignment(Element.ALIGN_CENTER);
+			document.add(imgChart3);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			document.add(new Paragraph("\nGenerado el: " + sdf.format(new java.util.Date()), textFont));
+
+			document.close();
+
+			JOptionPane.showMessageDialog(null, "PDF generado correctamente: Informe_" + usuario.getAlias() + ".pdf");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al generar el PDF: " + e.getMessage());
+		}
+	}
+
+
+	private int calcularEdadMen(String fechaNacimiento) {
 	    try {
-	        int totalUsuarios = listaMenDTO.size();
-	        
-	        if (totalUsuarios == 0) {
-	            JOptionPane.showMessageDialog(null, "No hay usuarios masculinos para generar el reporte.");
-	            return;
-	        }
-	        
-	        int sumaLikes = 0;
-	        Map<Integer, Integer> freq = new HashMap<>();
-	        List<Integer> likesOrdenados = new ArrayList<>();
-	        long sumaIngresos = 0;
-
-	        for (MenDTO u : listaMenDTO) {
-	            int likes = u.getLikes();
-	            sumaLikes += likes;
-	            freq.put(likes, freq.getOrDefault(likes, 0) + 1);
-	            likesOrdenados.add(likes);
-	            sumaIngresos += u.getMensualIncome();
-	        }
-
-	        // Media de likes
-	        double mediaLikes = (double) sumaLikes / totalUsuarios;
-	        
-	        // Ingreso promedio
-	        double ingresoPromedio = (double) sumaIngresos / totalUsuarios;
-
-	        // Mediana
-	        Collections.sort(likesOrdenados);
-	        double mediana;
-	        if (totalUsuarios % 2 == 0) {
-	            mediana = (likesOrdenados.get(totalUsuarios / 2 - 1) + likesOrdenados.get(totalUsuarios / 2)) / 2.0;
-	        } else {
-	            mediana = likesOrdenados.get(totalUsuarios / 2);
-	        }
-
-	        // Moda
-	        int moda = likesOrdenados.get(0);
-	        int maxFreq = 0;
-	        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
-	            if (entry.getValue() > maxFreq) {
-	                maxFreq = entry.getValue();
-	                moda = entry.getKey();
-	            }
-	        }
-
-	        // Varianza y desviación
-	        double varianza = 0;
-	        for (int l : likesOrdenados) {
-	            varianza += Math.pow(l - mediaLikes, 2);
-	        }
-	        varianza /= totalUsuarios;
-	        double desviacion = Math.sqrt(varianza);
-
-	        // Crear documento PDF
-	        Document document = new Document();
-	        String nombreArchivo = "Informe_General_Hombres_" + System.currentTimeMillis() + ".pdf";
-	        PdfWriter.getInstance(document, new FileOutputStream(nombreArchivo));
-	        document.open();
-
-	        Font titleFont = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD);
-	        Font subtitleFont = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
-	        Font textFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
-
-	        Paragraph titulo = new Paragraph("Informe General - Usuarios Masculinos", titleFont);
-	        titulo.setAlignment(Element.ALIGN_CENTER);
-	        document.add(titulo);
-	        
-	        document.add(new Paragraph("\n"));
-
-	        Paragraph subtitulo = new Paragraph("Resumen Estadistico", subtitleFont);
-	        subtitulo.setAlignment(Element.ALIGN_CENTER);
-	        document.add(subtitulo);
-	        
-	        document.add(new Paragraph("\n"));
-
-	        document.add(new Paragraph("Total de usuarios masculinos: " + totalUsuarios, textFont));
-	        document.add(new Paragraph("Ingreso promedio: $" + String.format("%.2f", ingresoPromedio) + " USD", textFont));
-	        
-	        document.add(new Paragraph("\nEstadisticas de Likes:", subtitleFont));
-	        document.add(new Paragraph(String.format("Media: %.2f", mediaLikes), textFont));
-	        document.add(new Paragraph(String.format("Mediana: %.2f", mediana), textFont));
-	        document.add(new Paragraph(String.format("Moda: %d", moda), textFont));
-	        document.add(new Paragraph(String.format("Varianza: %.2f", varianza), textFont));
-	        document.add(new Paragraph(String.format("Desviacion estandar: %.2f", desviacion), textFont));
-
-	        // Gráfica 1: Distribución de Likes
-	        DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
-	        for (MenDTO u : listaMenDTO) {
-	            dataset1.addValue(u.getLikes(), "Likes", u.getAlias());
-	        }
-	        JFreeChart chart1 = ChartFactory.createBarChart(
-	            "Distribucion de Likes por Usuario", 
-	            "Usuario", 
-	            "Likes", 
-	            dataset1
-	        );
-	        BarRenderer renderer1 = (BarRenderer) chart1.getCategoryPlot().getRenderer();
-	        renderer1.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-	        renderer1.setDefaultItemLabelsVisible(true);
-	        NumberAxis yAxis1 = (NumberAxis) chart1.getCategoryPlot().getRangeAxis();
-	        yAxis1.setNumberFormatOverride(new java.text.DecimalFormat("#0"));
-	        
-	        File grafica1 = new File("GraficaLikes_General_Hombres.png");
-	        ChartUtils.saveChartAsPNG(grafica1, chart1, 600, 400);
-	        Image imgChart1 = Image.getInstance(grafica1.getAbsolutePath());
-	        imgChart1.scaleToFit(500, 350);
-	        imgChart1.setAlignment(Element.ALIGN_CENTER);
-	        document.add(new Paragraph("\n"));
-	        document.add(imgChart1);
-
-	        // Gráfica 2: Estadísticas centrales
-	        DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
-	        dataset2.addValue(mediaLikes, "Media", "Likes");
-	        dataset2.addValue(mediana, "Mediana", "Likes");
-	        dataset2.addValue(moda, "Moda", "Likes");
-	        
-	        JFreeChart chart2 = ChartFactory.createBarChart(
-	            "Tendencias Centrales", 
-	            "Estadistica", 
-	            "Valor", 
-	            dataset2
-	        );
-	        BarRenderer renderer2 = (BarRenderer) chart2.getCategoryPlot().getRenderer();
-	        renderer2.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-	        renderer2.setDefaultItemLabelsVisible(true);
-	        NumberAxis yAxis2 = (NumberAxis) chart2.getCategoryPlot().getRangeAxis();
-	        yAxis2.setNumberFormatOverride(new java.text.DecimalFormat("#0.00"));
-	        
-	        File grafica2 = new File("GraficaTendencias_General_Hombres.png");
-	        ChartUtils.saveChartAsPNG(grafica2, chart2, 600, 400);
-	        Image imgChart2 = Image.getInstance(grafica2.getAbsolutePath());
-	        imgChart2.scaleToFit(500, 350);
-	        imgChart2.setAlignment(Element.ALIGN_CENTER);
-	        document.add(new Paragraph("\n"));
-	        document.add(imgChart2);
-
-	        // Gráfica 3: Dispersión
-	        DefaultCategoryDataset dataset3 = new DefaultCategoryDataset();
-	        dataset3.addValue(varianza, "Varianza", "Likes");
-	        dataset3.addValue(desviacion, "Desviacion", "Likes");
-	        
-	        JFreeChart chart3 = ChartFactory.createBarChart(
-	            "Medidas de Dispersion", 
-	            "Estadistica", 
-	            "Valor", 
-	            dataset3
-	        );
-	        BarRenderer renderer3 = (BarRenderer) chart3.getCategoryPlot().getRenderer();
-	        renderer3.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
-	        renderer3.setDefaultItemLabelsVisible(true);
-	        NumberAxis yAxis3 = (NumberAxis) chart3.getCategoryPlot().getRangeAxis();
-	        yAxis3.setNumberFormatOverride(new java.text.DecimalFormat("#0.00"));
-	        
-	        File grafica3 = new File("GraficaDispersion_General_Hombres.png");
-	        ChartUtils.saveChartAsPNG(grafica3, chart3, 600, 400);
-	        Image imgChart3 = Image.getInstance(grafica3.getAbsolutePath());
-	        imgChart3.scaleToFit(500, 350);
-	        imgChart3.setAlignment(Element.ALIGN_CENTER);
-	        document.add(new Paragraph("\n"));
-	        document.add(imgChart3);
-
-	        // Fecha de generación
-	        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	        document.add(new Paragraph("\nGenerado el: " + sdf.format(new java.util.Date()), textFont));
-
-	        document.close();
-
-	        JOptionPane.showMessageDialog(null, 
-	            "PDF general generado correctamente:\n" + nombreArchivo);
-
+	        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	        java.time.LocalDate fechaNac = java.time.LocalDate.parse(fechaNacimiento, formatter);
+	        java.time.LocalDate hoy = java.time.LocalDate.now();
+	        return java.time.Period.between(fechaNac, hoy).getYears();
 	    } catch (Exception e) {
-	        e.printStackTrace();
-	        JOptionPane.showMessageDialog(null, "Error al generar el PDF: " + e.getMessage());
+	        System.out.println("⚠️ Error al calcular edad para fecha: " + fechaNacimiento);
+	        return 0;
 	    }
 	}
 }

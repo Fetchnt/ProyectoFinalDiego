@@ -1662,114 +1662,36 @@ public class Controller implements ActionListener {
 		vf.getMpw().setVisible(true);
 	}
 
-	/**
-	 * Genera PDF según selección de usuario o género
-	 */
 	public void generarPDFUsuarioSeleccionado() {
-		int filaSeleccionada = vf.getAw().getTablaUsuarios().getSelectedRow();
+		String aliasSeleccionado = vf.getAw().getTxtBuscar().getText().trim(); // o el campo donde se muestra el alias
 
-		// Si hay una fila seleccionada en la tabla, generar PDF de ese usuario
-		// específico
-		if (filaSeleccionada != -1) {
-			DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
-			String aliasSeleccionado = (String) modelo.getValueAt(filaSeleccionada, 0);
-			String genero = (String) modelo.getValueAt(filaSeleccionada, 6);
-
-			int confirmacion = JOptionPane.showConfirmDialog(vf.getAw(),
-					"Generar informe PDF para el usuario:\n\n" + "Alias: " + aliasSeleccionado + "\n" + "Género: "
-							+ genero + "\n\n" + "¿Deseas continuar?",
-					"Confirmar generación de PDF", JOptionPane.YES_NO_OPTION);
-
-			if (confirmacion == JOptionPane.YES_OPTION) {
-				generarPDFPorAliasYGenero(aliasSeleccionado, genero);
-			}
+		if (aliasSeleccionado.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getAw(), "Por favor ingresa o selecciona un alias válido.", "Alias vacío",
+					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
-		// Si no hay fila seleccionada, preguntar por género para generar reporte
-		// general
-		String[] opciones = { "Masculino", "Femenino", "Cancelar" };
-		int seleccion = JOptionPane.showOptionDialog(vf.getAw(),
-				"No hay ningún usuario seleccionado.\n\n" + "¿Para qué género deseas generar el reporte estadístico?",
-				"Seleccionar género", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones,
-				opciones[0]);
+		MenDTO men = mf.getmDAO().listaMenDTO.stream().filter(m -> m.getAlias().equalsIgnoreCase(aliasSeleccionado))
+				.findFirst().orElse(null);
 
-		if (seleccion == 0) {
-			// Generar PDF para todos los hombres
-			generarPDFPorGenero("Masculino");
-		} else if (seleccion == 1) {
-			// Generar PDF para todas las mujeres
-			generarPDFPorGenero("Femenino");
+		if (men != null) {
+			mf.getmDAO().generarInformePDF(aliasSeleccionado);
+			return;
 		}
+
+		WomenDTO woman = mf.getwDAO().listaWomenDTO.stream()
+				.filter(w -> w.getAlias().equalsIgnoreCase(aliasSeleccionado)).findFirst().orElse(null);
+
+		if (woman != null) {
+			mf.getwDAO().generarInformePDF(aliasSeleccionado);
+			return;
+		}
+
+		JOptionPane.showMessageDialog(vf.getAw(), "No se encontró ningún usuario con ese alias.",
+				"Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
 	}
 
-	/**
-	 * Genera un PDF para un usuario específico según su alias y género
-	 */
-	private void generarPDFPorAliasYGenero(String alias, String genero) {
-		if (genero.equals("Masculino")) {
-			// Buscar en hombres
-			boolean encontrado = false;
-			for (MenDTO m : mf.getmDAO().listaMenDTO) {
-				if (m.getAlias().equalsIgnoreCase(alias)) {
-					encontrado = true;
-					break;
-				}
-			}
-
-			if (encontrado) {
-				mf.getmDAO().generarInformeGeneralPDF();
-			} else {
-				JOptionPane.showMessageDialog(vf.getAw(), "No se encontró el usuario masculino con alias: " + alias,
-						"Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
-			}
-		} else if (genero.equals("Femenino")) {
-			// Buscar en mujeres
-			boolean encontrado = false;
-			for (WomenDTO w : mf.getwDAO().listaWomenDTO) {
-				if (w.getAlias().equalsIgnoreCase(alias)) {
-					encontrado = true;
-					break;
-				}
-			}
-
-			if (encontrado) {
-				mf.getwDAO().generarInformeGeneralPDF();
-			} else {
-				JOptionPane.showMessageDialog(vf.getAw(), "No se encontró la usuario femenina con alias: " + alias,
-						"Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
-			}
-		} else {
-			JOptionPane.showMessageDialog(vf.getAw(), "Género no reconocido: " + genero, "Error",
-					JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	private void generarPDFPorGenero(String genero) {
-		if (genero.equals("Masculino")) {
-			if (mf.getmDAO().listaMenDTO.isEmpty()) {
-				JOptionPane.showMessageDialog(vf.getAw(),
-						"No hay usuarios masculinos registrados para generar el reporte.", "Sin datos",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-
-			// Generar PDF general de todos los hombres
-			mf.getmDAO().generarInformeGeneralPDF();
-
-		} else if (genero.equals("Femenino")) {
-			if (mf.getwDAO().listaWomenDTO.isEmpty()) {
-				JOptionPane.showMessageDialog(vf.getAw(),
-						"No hay usuarios femeninos registrados para generar el reporte.", "Sin datos",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-
-			// Generar PDF general de todas las mujeres
-			mf.getwDAO().generarInformeGeneralPDF();
-		}
-	}
-
+	
 	/**
 	 * Verifica si un correo electrónico ya está registrado en el sistema
 	 * 
