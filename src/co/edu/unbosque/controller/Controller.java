@@ -665,7 +665,7 @@ public class Controller implements ActionListener {
 			break;
 		}
 		
-		//perro hp
+		//perro hp :v
 
 		default:
 			System.out.println("Acción no definida: " + alias);
