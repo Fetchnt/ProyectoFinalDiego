@@ -295,6 +295,16 @@ public class Controller implements ActionListener {
 		case "verificar_correo": {
 			try {
 				String correo = vf.getRw().getTxtCorreo().getText().trim();
+
+				if (correoYaRegistrado(correo)) {
+					JOptionPane.showMessageDialog(null,
+							"Este correo electrónico ya está registrado en el sistema.\n\n"
+									+ "Por favor, utiliza otro correo o inicia sesión con tu cuenta existente.",
+							"Correo Ya Registrado", JOptionPane.ERROR_MESSAGE);
+					vf.getRw().setCorreoVerificado(false);
+					break;
+				}
+
 				ExceptionLauncher.verifyEmail(correo);
 
 				String codigo = generarCodigo();
@@ -391,6 +401,16 @@ public class Controller implements ActionListener {
 							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
+				
+				 if (correoYaRegistrado(correo)) {
+			            JOptionPane.showMessageDialog(null, 
+			                "Este correo electrónico ya fue registrado recientemente.\n\n" +
+			                "Por favor, verifica con otro correo", 
+			                "Correo Ya Registrado", 
+			                JOptionPane.ERROR_MESSAGE);
+			            vf.getRw().setCorreoVerificado(false);
+			            return;
+			        }
 
 				String nombres = vf.getRw().getTxtNombres().getText();
 				String apellidos = vf.getRw().getTxtApellidos().getText();
@@ -554,8 +574,8 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_profile": {
-		    mostrarMiPerfil();
-		    break;
+			mostrarMiPerfil();
+			break;
 		}
 
 		case "boton_ver_megusta": {
@@ -655,34 +675,32 @@ public class Controller implements ActionListener {
 			generarPDFUsuarioSeleccionado();
 			break;
 		}
-		
+
 		case "boton_volver_perfil": {
-		    vf.getMpw().setVisible(false);
-		    vf.getMmw().setVisible(true);
-		    break;
+			vf.getMpw().setVisible(false);
+			vf.getMmw().setVisible(true);
+			break;
 		}
 
 		case "boton_cerrar_sesion_perfil": {
-		    int confirmacion = JOptionPane.showConfirmDialog(vf.getMpw(),
-		        "¿Estás seguro de que deseas cerrar sesión?",
-		        "Confirmar cierre de sesión",
-		        JOptionPane.YES_NO_OPTION);
-		    
-		    if (confirmacion == JOptionPane.YES_OPTION) {
-		        vf.getMpw().dispose();
-		        vf.getSw().setVisible(true);
-		        
-		        // Limpiar usuario actual
-		        mf.setUsuarioActual(null);
-		    }
-		    break;
+			int confirmacion = JOptionPane.showConfirmDialog(vf.getMpw(), "¿Estás seguro de que deseas cerrar sesión?",
+					"Confirmar cierre de sesión", JOptionPane.YES_NO_OPTION);
+
+			if (confirmacion == JOptionPane.YES_OPTION) {
+				vf.getMpw().dispose();
+				vf.getSw().setVisible(true);
+
+				// Limpiar usuario actual
+				mf.setUsuarioActual(null);
+			}
+			break;
 		}
 		case "boton_volver_myprofile": {
 			vf.getMpw().dispose();
 			vf.getMmw().setVisible(true);
 			break;
 		}
-		
+
 		case "boton_cerrarsesion_myprofile": {
 			vf.getMmw().dispose();
 			vf.getPw().setVisible(true);
@@ -1539,211 +1557,231 @@ public class Controller implements ActionListener {
 	 * Muestra el perfil del usuario actual en MyProfileWindow
 	 */
 	public void mostrarMiPerfil() {
-	    User usuarioActual = mf.getUsuarioActual();
-	    
-	    if (usuarioActual == null) {
-	        JOptionPane.showMessageDialog(vf.getMmw(),
-	            "No se pudo cargar la información del perfil.\nPor favor, inicia sesión nuevamente.",
-	            "Error",
-	            JOptionPane.ERROR_MESSAGE);
-	        return;
-	    }
-	    
-	    // Calcular edad
-	    int edad = calcularEdad(usuarioActual.getBornDate());
-	    
-	    // Llenar los campos de texto con la información del usuario
-	    vf.getMpw().getTxtNombre().setText(usuarioActual.getName());
-	    vf.getMpw().getTxtApellido().setText(usuarioActual.getLastName());
-	    vf.getMpw().getTxtAlias().setText(usuarioActual.getAlias());
-	    vf.getMpw().getTxtEdad().setText(String.valueOf(edad));
-	    vf.getMpw().getTxtCorreo().setText(usuarioActual.getEmail());
-	    vf.getMpw().getTxtLikes().setText(String.valueOf(usuarioActual.getLikes()));
-	    
-	    // Mostrar información específica según el género
-	    if (usuarioActual instanceof MenDTO) {
-	        MenDTO hombre = (MenDTO) usuarioActual;
-	        vf.getMpw().getTxtIngresos().setText("$" + String.format("%.2f", (double) hombre.getMensualIncome()) + " USD");
-	    } else if (usuarioActual instanceof WomenDTO) {
-	        WomenDTO mujer = (WomenDTO) usuarioActual;
-	        vf.getMpw().getTxtIngresos().setText(mujer.isHadDivorces() ? "Ha tenido divorcios" : "Sin divorcios");
-	    } else {
-	        vf.getMpw().getTxtIngresos().setText("N/A");
-	    }
-	    
-	    // Cargar y mostrar foto de perfil
-	    try {
-	        String rutaImagen = usuarioActual.getProfilePictureRoute();
-	        
-	        if (rutaImagen != null && !rutaImagen.isEmpty()) {
-	            ImageIcon imagenOriginal = new ImageIcon(rutaImagen);
-	            
-	            if (imagenOriginal.getIconWidth() > 0) {
-	                // Escalar la imagen para el preview (100x100)
-	                Image imagenEscalada = imagenOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-	                ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
-	                vf.getMpw().getLblFotoPreview().setIcon(iconoEscalado);
-	                vf.getMpw().getLblFotoPreview().setText("");
-	            } else {
-	                vf.getMpw().getLblFotoPreview().setIcon(null);
-	                vf.getMpw().getLblFotoPreview().setText("Sin foto");
-	            }
-	        } else {
-	            vf.getMpw().getLblFotoPreview().setIcon(null);
-	            vf.getMpw().getLblFotoPreview().setText("Sin foto");
-	        }
-	    } catch (Exception e) {
-	        System.err.println("Error al cargar imagen de perfil: " + e.getMessage());
-	        vf.getMpw().getLblFotoPreview().setIcon(null);
-	        vf.getMpw().getLblFotoPreview().setText("Error al cargar");
-	    }
-	    
-	    // Actualizar el número grande de likes en el panel lateral
-	    try {
-	        Component[] components = vf.getMpw().getContentPane().getComponents();
-	        for (Component comp : components) {
-	            if (comp instanceof JPanel) {
-	                JPanel panel = (JPanel) comp;
-	                Component[] panelComps = panel.getComponents();
-	                for (Component panelComp : panelComps) {
-	                    if (panelComp instanceof JLabel) {
-	                        JLabel label = (JLabel) panelComp;
-	                        // Buscar el label que muestra el número de likes (fuente grande)
-	                        if (label.getFont() != null && label.getFont().getSize() == 48) {
-	                            label.setText(String.valueOf(usuarioActual.getLikes()));
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	    } catch (Exception e) {
-	        System.err.println("Error al actualizar likes visuales: " + e.getMessage());
-	    }
-	    
-	    // Mostrar la ventana de perfil
-	    vf.getMmw().setVisible(false);
-	    vf.getMpw().setVisible(true);
+		User usuarioActual = mf.getUsuarioActual();
+
+		if (usuarioActual == null) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					"No se pudo cargar la información del perfil.\nPor favor, inicia sesión nuevamente.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		// Calcular edad
+		int edad = calcularEdad(usuarioActual.getBornDate());
+
+		// Llenar los campos de texto con la información del usuario
+		vf.getMpw().getTxtNombre().setText(usuarioActual.getName());
+		vf.getMpw().getTxtApellido().setText(usuarioActual.getLastName());
+		vf.getMpw().getTxtAlias().setText(usuarioActual.getAlias());
+		vf.getMpw().getTxtEdad().setText(String.valueOf(edad));
+		vf.getMpw().getTxtCorreo().setText(usuarioActual.getEmail());
+		vf.getMpw().getTxtLikes().setText(String.valueOf(usuarioActual.getLikes()));
+
+		// Mostrar información específica según el género
+		if (usuarioActual instanceof MenDTO) {
+			MenDTO hombre = (MenDTO) usuarioActual;
+			vf.getMpw().getTxtIngresos()
+					.setText("$" + String.format("%.2f", (double) hombre.getMensualIncome()) + " USD");
+		} else if (usuarioActual instanceof WomenDTO) {
+			WomenDTO mujer = (WomenDTO) usuarioActual;
+			vf.getMpw().getTxtIngresos().setText(mujer.isHadDivorces() ? "Ha tenido divorcios" : "Sin divorcios");
+		} else {
+			vf.getMpw().getTxtIngresos().setText("N/A");
+		}
+
+		// Cargar y mostrar foto de perfil
+		try {
+			String rutaImagen = usuarioActual.getProfilePictureRoute();
+
+			if (rutaImagen != null && !rutaImagen.isEmpty()) {
+				ImageIcon imagenOriginal = new ImageIcon(rutaImagen);
+
+				if (imagenOriginal.getIconWidth() > 0) {
+					// Escalar la imagen para el preview (100x100)
+					Image imagenEscalada = imagenOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+					ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
+					vf.getMpw().getLblFotoPreview().setIcon(iconoEscalado);
+					vf.getMpw().getLblFotoPreview().setText("");
+				} else {
+					vf.getMpw().getLblFotoPreview().setIcon(null);
+					vf.getMpw().getLblFotoPreview().setText("Sin foto");
+				}
+			} else {
+				vf.getMpw().getLblFotoPreview().setIcon(null);
+				vf.getMpw().getLblFotoPreview().setText("Sin foto");
+			}
+		} catch (Exception e) {
+			System.err.println("Error al cargar imagen de perfil: " + e.getMessage());
+			vf.getMpw().getLblFotoPreview().setIcon(null);
+			vf.getMpw().getLblFotoPreview().setText("Error al cargar");
+		}
+
+		// Actualizar el número grande de likes en el panel lateral
+		try {
+			Component[] components = vf.getMpw().getContentPane().getComponents();
+			for (Component comp : components) {
+				if (comp instanceof JPanel) {
+					JPanel panel = (JPanel) comp;
+					Component[] panelComps = panel.getComponents();
+					for (Component panelComp : panelComps) {
+						if (panelComp instanceof JLabel) {
+							JLabel label = (JLabel) panelComp;
+							// Buscar el label que muestra el número de likes (fuente grande)
+							if (label.getFont() != null && label.getFont().getSize() == 48) {
+								label.setText(String.valueOf(usuarioActual.getLikes()));
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.err.println("Error al actualizar likes visuales: " + e.getMessage());
+		}
+
+		// Mostrar la ventana de perfil
+		vf.getMmw().setVisible(false);
+		vf.getMpw().setVisible(true);
 	}
 
 	/**
 	 * Genera PDF según selección de usuario o género
 	 */
 	public void generarPDFUsuarioSeleccionado() {
-	    int filaSeleccionada = vf.getAw().getTablaUsuarios().getSelectedRow();
-	    
-	    // Si hay una fila seleccionada en la tabla, generar PDF de ese usuario específico
-	    if (filaSeleccionada != -1) {
-	        DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
-	        String aliasSeleccionado = (String) modelo.getValueAt(filaSeleccionada, 0);
-	        String genero = (String) modelo.getValueAt(filaSeleccionada, 6);
-	        
-	        int confirmacion = JOptionPane.showConfirmDialog(vf.getAw(),
-	            "Generar informe PDF para el usuario:\n\n" +
-	            "Alias: " + aliasSeleccionado + "\n" +
-	            "Género: " + genero + "\n\n" +
-	            "¿Deseas continuar?",
-	            "Confirmar generación de PDF",
-	            JOptionPane.YES_NO_OPTION);
-	        
-	        if (confirmacion == JOptionPane.YES_OPTION) {
-	            generarPDFPorAliasYGenero(aliasSeleccionado, genero);
-	        }
-	        return;
-	    }
-	    
-	    // Si no hay fila seleccionada, preguntar por género para generar reporte general
-	    String[] opciones = {"Masculino", "Femenino", "Cancelar"};
-	    int seleccion = JOptionPane.showOptionDialog(vf.getAw(),
-	        "No hay ningún usuario seleccionado.\n\n" +
-	        "¿Para qué género deseas generar el reporte estadístico?",
-	        "Seleccionar género",
-	        JOptionPane.DEFAULT_OPTION,
-	        JOptionPane.QUESTION_MESSAGE,
-	        null,
-	        opciones,
-	        opciones[0]);
-	    
-	    if (seleccion == 0) {
-	        // Generar PDF para todos los hombres
-	        generarPDFPorGenero("Masculino");
-	    } else if (seleccion == 1) {
-	        // Generar PDF para todas las mujeres
-	        generarPDFPorGenero("Femenino");
-	    }
+		int filaSeleccionada = vf.getAw().getTablaUsuarios().getSelectedRow();
+
+		// Si hay una fila seleccionada en la tabla, generar PDF de ese usuario
+		// específico
+		if (filaSeleccionada != -1) {
+			DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
+			String aliasSeleccionado = (String) modelo.getValueAt(filaSeleccionada, 0);
+			String genero = (String) modelo.getValueAt(filaSeleccionada, 6);
+
+			int confirmacion = JOptionPane.showConfirmDialog(vf.getAw(),
+					"Generar informe PDF para el usuario:\n\n" + "Alias: " + aliasSeleccionado + "\n" + "Género: "
+							+ genero + "\n\n" + "¿Deseas continuar?",
+					"Confirmar generación de PDF", JOptionPane.YES_NO_OPTION);
+
+			if (confirmacion == JOptionPane.YES_OPTION) {
+				generarPDFPorAliasYGenero(aliasSeleccionado, genero);
+			}
+			return;
+		}
+
+		// Si no hay fila seleccionada, preguntar por género para generar reporte
+		// general
+		String[] opciones = { "Masculino", "Femenino", "Cancelar" };
+		int seleccion = JOptionPane.showOptionDialog(vf.getAw(),
+				"No hay ningún usuario seleccionado.\n\n" + "¿Para qué género deseas generar el reporte estadístico?",
+				"Seleccionar género", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones,
+				opciones[0]);
+
+		if (seleccion == 0) {
+			// Generar PDF para todos los hombres
+			generarPDFPorGenero("Masculino");
+		} else if (seleccion == 1) {
+			// Generar PDF para todas las mujeres
+			generarPDFPorGenero("Femenino");
+		}
 	}
 
 	/**
 	 * Genera un PDF para un usuario específico según su alias y género
 	 */
 	private void generarPDFPorAliasYGenero(String alias, String genero) {
-	    if (genero.equals("Masculino")) {
-	        // Buscar en hombres
-	        boolean encontrado = false;
-	        for (MenDTO m : mf.getmDAO().listaMenDTO) {
-	            if (m.getAlias().equalsIgnoreCase(alias)) {
-	                encontrado = true;
-	                break;
-	            }
-	        }
-	        
-	        if (encontrado) {
-	            mf.getmDAO().generarInformeGeneralPDF();
-	        } else {
-	            JOptionPane.showMessageDialog(vf.getAw(),
-	                "No se encontró el usuario masculino con alias: " + alias,
-	                "Usuario no encontrado",
-	                JOptionPane.ERROR_MESSAGE);
-	        }
-	    } else if (genero.equals("Femenino")) {
-	        // Buscar en mujeres
-	        boolean encontrado = false;
-	        for (WomenDTO w : mf.getwDAO().listaWomenDTO) {
-	            if (w.getAlias().equalsIgnoreCase(alias)) {
-	                encontrado = true;
-	                break;
-	            }
-	        }
-	        
-	        if (encontrado) {
-	            mf.getwDAO().generarInformeGeneralPDF();
-	        } else {
-	            JOptionPane.showMessageDialog(vf.getAw(),
-	                "No se encontró la usuario femenina con alias: " + alias,
-	                "Usuario no encontrado",
-	                JOptionPane.ERROR_MESSAGE);
-	        }
-	    } else {
-	        JOptionPane.showMessageDialog(vf.getAw(),
-	            "Género no reconocido: " + genero,
-	            "Error",
-	            JOptionPane.ERROR_MESSAGE);
-	    }
+		if (genero.equals("Masculino")) {
+			// Buscar en hombres
+			boolean encontrado = false;
+			for (MenDTO m : mf.getmDAO().listaMenDTO) {
+				if (m.getAlias().equalsIgnoreCase(alias)) {
+					encontrado = true;
+					break;
+				}
+			}
+
+			if (encontrado) {
+				mf.getmDAO().generarInformeGeneralPDF();
+			} else {
+				JOptionPane.showMessageDialog(vf.getAw(), "No se encontró el usuario masculino con alias: " + alias,
+						"Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+			}
+		} else if (genero.equals("Femenino")) {
+			// Buscar en mujeres
+			boolean encontrado = false;
+			for (WomenDTO w : mf.getwDAO().listaWomenDTO) {
+				if (w.getAlias().equalsIgnoreCase(alias)) {
+					encontrado = true;
+					break;
+				}
+			}
+
+			if (encontrado) {
+				mf.getwDAO().generarInformeGeneralPDF();
+			} else {
+				JOptionPane.showMessageDialog(vf.getAw(), "No se encontró la usuario femenina con alias: " + alias,
+						"Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(vf.getAw(), "Género no reconocido: " + genero, "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
+
 	private void generarPDFPorGenero(String genero) {
-	    if (genero.equals("Masculino")) {
-	        if (mf.getmDAO().listaMenDTO.isEmpty()) {
-	            JOptionPane.showMessageDialog(vf.getAw(),
-	                "No hay usuarios masculinos registrados para generar el reporte.",
-	                "Sin datos",
-	                JOptionPane.WARNING_MESSAGE);
-	            return;
-	        }
-	        
-	        // Generar PDF general de todos los hombres
-	        mf.getmDAO().generarInformeGeneralPDF();
-	        
-	    } else if (genero.equals("Femenino")) {
-	        if (mf.getwDAO().listaWomenDTO.isEmpty()) {
-	            JOptionPane.showMessageDialog(vf.getAw(),
-	                "No hay usuarios femeninos registrados para generar el reporte.",
-	                "Sin datos",
-	                JOptionPane.WARNING_MESSAGE);
-	            return;
-	        }
-	        
-	        // Generar PDF general de todas las mujeres
-	        mf.getwDAO().generarInformeGeneralPDF();
-	    }
+		if (genero.equals("Masculino")) {
+			if (mf.getmDAO().listaMenDTO.isEmpty()) {
+				JOptionPane.showMessageDialog(vf.getAw(),
+						"No hay usuarios masculinos registrados para generar el reporte.", "Sin datos",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+
+			// Generar PDF general de todos los hombres
+			mf.getmDAO().generarInformeGeneralPDF();
+
+		} else if (genero.equals("Femenino")) {
+			if (mf.getwDAO().listaWomenDTO.isEmpty()) {
+				JOptionPane.showMessageDialog(vf.getAw(),
+						"No hay usuarios femeninos registrados para generar el reporte.", "Sin datos",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+
+			// Generar PDF general de todas las mujeres
+			mf.getwDAO().generarInformeGeneralPDF();
+		}
+	}
+
+	/**
+	 * Verifica si un correo electrónico ya está registrado en el sistema
+	 * 
+	 * @param correo El correo a verificar
+	 * @return true si el correo ya está registrado, false si está disponible
+	 */
+	public boolean correoYaRegistrado(String correo) {
+		
+		mf.getmDAO().listaMenDTO.clear();
+		mf.getmDAO().readFromTextFile("Men.csv");
+
+		mf.getwDAO().listaWomenDTO.clear();
+		mf.getwDAO().readFromTextFile("Women.csv");
+
+		String correoLower = correo.toLowerCase().trim();
+
+		// Buscar en hombres
+		for (MenDTO hombre : mf.getmDAO().listaMenDTO) {
+			if (hombre.getEmail() != null && hombre.getEmail().toLowerCase().trim().equals(correoLower)) {
+				return true;
+			}
+		}
+
+		// Buscar en mujeres
+		for (WomenDTO mujer : mf.getwDAO().listaWomenDTO) {
+			if (mujer.getEmail() != null && mujer.getEmail().toLowerCase().trim().equals(correoLower)) {
+				return true;
+			}
+		}
+
+		return false; 
 	}
 
 	public void run() {
