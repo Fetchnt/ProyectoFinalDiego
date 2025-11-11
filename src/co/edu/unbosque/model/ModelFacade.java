@@ -136,9 +136,26 @@ public class ModelFacade {
 
 	// === MÉTODOS DE PERFILES Y LIKES ===
 	public void cargarPerfiles() {
+		cargarPerfiles(null);
+	}
+
+	public void cargarPerfiles(User usuarioExcluir) {
 		perfilesActuales.clear();
-		perfilesActuales.addAll(mDAO.listaMenDTO);
-		perfilesActuales.addAll(wDAO.listaWomenDTO);
+
+		// Agregar hombres (excluyendo al usuario actual si se especifica)
+		for (MenDTO hombre : mDAO.listaMenDTO) {
+			if (usuarioExcluir == null || !hombre.getAlias().equals(usuarioExcluir.getAlias())) {
+				perfilesActuales.add(hombre);
+			}
+		}
+
+		// Agregar mujeres (excluyendo al usuario actual si se especifica)
+		for (WomenDTO mujer : wDAO.listaWomenDTO) {
+			if (usuarioExcluir == null || !mujer.getAlias().equals(usuarioExcluir.getAlias())) {
+				perfilesActuales.add(mujer);
+			}
+		}
+
 		indiceActual = 0;
 	}
 
@@ -150,10 +167,21 @@ public class ModelFacade {
 	}
 
 	public void siguientePerfil() {
+		if (perfilesActuales.isEmpty()) {
+			indiceActual = 0;
+			return;
+		}
+
 		if (indiceActual < perfilesActuales.size() - 1) {
 			indiceActual++;
+
+			
+			User siguiente = perfilesActuales.get(indiceActual);
+			if (usuarioActual != null && siguiente.getAlias().equals(usuarioActual.getAlias())) {
+				siguientePerfil(); 
+			}
 		} else {
-			indiceActual = perfilesActuales.size(); // evita error de índice
+			indiceActual = perfilesActuales.size(); 
 		}
 	}
 
@@ -173,6 +201,8 @@ public class ModelFacade {
 			}
 		}
 	}
+	
+	
 
 	public int obtenerLikesUsuario(String alias) {
 		User usuario = buscarUsuarioPorAlias(alias);
@@ -520,7 +550,6 @@ public class ModelFacade {
 		};
 	}
 
-	// En ModelFacade.java
 	public List<User> obtenerUsuariosMasPopulares(int cantidad) {
 		List<User> todosLosUsuarios = obtenerTodosLosUsuarios();
 
@@ -541,4 +570,5 @@ public class ModelFacade {
 		// Devolver solo la cantidad solicitada
 		return todosLosUsuarios.subList(0, Math.min(cantidad, todosLosUsuarios.size()));
 	}
+
 }

@@ -24,8 +24,8 @@ public class MyProfileWindow extends JFrame {
 	private JPanel panelInformacion;
 	private JPanel panelLogo;
 
-	private JButton back;
-	private JButton close;
+	private JButton btnback;
+	private JButton btnclose;
 	private JButton darkMode;
 	private boolean isDarkMode = false;
 
@@ -168,21 +168,21 @@ public class MyProfileWindow extends JFrame {
 		option.setBackground(Color.WHITE);
 		panelOpcion.add(option);
 
-		back = new JButton("VOLVER");
-		back.setBounds(80, 45, 94, 40);
-		back.setFont(new Font("Arial", Font.BOLD, 12));
-		back.setBackground(Color.decode("#F9CFCE"));
-		back.setFocusPainted(false);
-		back.setBorderPainted(false);
-		panelOpcion.add(back);
+		btnback = new JButton("VOLVER");
+		btnback.setBounds(80, 45, 94, 40);
+		btnback.setFont(new Font("Arial", Font.BOLD, 12));
+		btnback.setBackground(Color.decode("#F9CFCE"));
+		btnback.setFocusPainted(false);
+		btnback.setBorderPainted(false);
+		panelOpcion.add(btnback);
 
-		back = new JButton("CERRAR SESIÓN");
-		back.setBounds(64, 95, 130, 40);
-		back.setFont(new Font("Arial", Font.BOLD, 12));
-		back.setBackground(Color.decode("#F9CFCE"));
-		back.setFocusPainted(false);
-		back.setBorderPainted(false);
-		panelOpcion.add(back);
+		btnback = new JButton("CERRAR SESIÓN");
+		btnback.setBounds(64, 95, 130, 40);
+		btnback.setFont(new Font("Arial", Font.BOLD, 12));
+		btnback.setBackground(Color.decode("#F9CFCE"));
+		btnback.setFocusPainted(false);
+		btnback.setBorderPainted(false);
+		panelOpcion.add(btnback);
 
 		darkMode = new JButton("MODO OSCURO");
 		darkMode.setBounds(800, 10, 150, 30);
@@ -258,10 +258,10 @@ public class MyProfileWindow extends JFrame {
 	        lblFotoPreview.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
 	        // Botones
-	        back.setForeground(Color.decode("#EB5F5B"));
-	        back.setBackground(Color.decode("#F9CFCE"));
-	        close.setForeground(Color.decode("#EB5F5B"));
-	        close.setBackground(Color.decode("#F9CFCE"));
+	        btnback.setForeground(Color.decode("#EB5F5B"));
+	        btnback.setBackground(Color.decode("#F9CFCE"));
+	        btnclose.setForeground(Color.decode("#EB5F5B"));
+	        btnclose.setBackground(Color.decode("#F9CFCE"));
 
 	        // Botón darkMode
 	        darkMode.setBackground(Color.decode("#EB5F5B"));
@@ -310,10 +310,10 @@ public class MyProfileWindow extends JFrame {
 	         lblFotoPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
 	         // Botones
-	         back.setForeground(Color.decode("#F9CFCE"));
-	         back.setBackground(Color.decode("#BA1750"));
-	         close.setForeground(Color.decode("#F9CFCE"));
-	         close.setBackground(Color.decode("#BA1750"));
+	         btnback.setForeground(Color.decode("#F9CFCE"));
+	         btnback.setBackground(Color.decode("#BA1750"));
+	         btnclose.setForeground(Color.decode("#F9CFCE"));
+	         btnclose.setBackground(Color.decode("#BA1750"));
 
 	         // Botón darkMode
 	         darkMode.setBackground(Color.decode("#BA1750"));
@@ -340,8 +340,8 @@ public class MyProfileWindow extends JFrame {
 
 		// Panel de opciones
 		option.setText(prop.getProperty("bostinder.view.myprofilewindow.label.opciones"));
-		back.setText(prop.getProperty("bostinder.view.myprofilewindow.button.volver"));
-		//close.setText(prop.getProperty("bostinder.view.myprofilewindow.button.cerrarsesion"));
+		btnback.setText(prop.getProperty("bostinder.view.myprofilewindow.button.volver"));
+		//btnlose.setText(prop.getProperty("bostinder.view.myprofilewindow.button.cerrarsesion"));
 
 		// Panel de likes
 		lblLike.setText(prop.getProperty("bostinder.view.myprofilewindow.label.likesperfil"));
@@ -363,21 +363,6 @@ public class MyProfileWindow extends JFrame {
 		this.panelLike = panelLike;
 	}
 
-	public JButton getBack() {
-		return back;
-	}
-
-	public void setBack(JButton back) {
-		this.back = back;
-	}
-
-	public JButton getClose() {
-		return close;
-	}
-
-	public void setClose(JButton close) {
-		this.close = close;
-	}
 
 	public JLabel getIcon() {
 		return icon;
@@ -570,6 +555,24 @@ public class MyProfileWindow extends JFrame {
 	public void setLblIngresos(JLabel lblIngresos) {
 		this.lblIngresos = lblIngresos;
 	}
+
+	public JButton getBtnback() {
+		return btnback;
+	}
+
+	public void setBtnback(JButton btnback) {
+		this.btnback = btnback;
+	}
+
+	public JButton getBtnclose() {
+		return btnclose;
+	}
+
+	public void setBtnclose(JButton btnclose) {
+		this.btnclose = btnclose;
+	}
+	
+	
 
 	
 }

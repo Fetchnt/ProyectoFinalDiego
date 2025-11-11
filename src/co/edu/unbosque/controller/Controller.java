@@ -62,7 +62,7 @@ public class Controller implements ActionListener {
 		vf.getPw().getbHebrew().setActionCommand("internacionalizacion_heb");
 
 		vf.getPw().getbPortuguese().addActionListener(this);
-		vf.getPw().getbPortuguese().setActionCommand("internacionalizacionn_por");
+		vf.getPw().getbPortuguese().setActionCommand("internacionalizacion_por");
 
 		vf.getPw().getbRussian().addActionListener(this);
 		vf.getPw().getbRussian().setActionCommand("internacionalizacion_rus");
@@ -115,6 +115,14 @@ public class Controller implements ActionListener {
 
 		vf.getLw().getAdminMode().addActionListener(this);
 		vf.getLw().getAdminMode().setActionCommand("boton_entrar_modo_admin");
+		
+		// ---------- BOTONES en MyProfileWindow ----------
+		
+		vf.getMpw().getBtnback().addActionListener(this);
+		vf.getMpw().getBtnback().setActionCommand("boton_volver_myprofile");
+		
+		vf.getMpw().getBtnclose().addActionListener(this);
+		vf.getMpw().getBtnclose().setActionCommand("boton_cerrarsesion_myprofile");
 
 		// ---------- BOTONES en AdminWindow ----------
 		vf.getAw().getBtnBuscar().addActionListener(this);
@@ -648,6 +656,14 @@ public class Controller implements ActionListener {
 			generarPDFUsuarioSeleccionado();
 			break;
 		}
+		
+		case "boton_volver_myprofile": {
+			break;
+		}
+		
+		case "boton_cerrarsesion_myprofile": {
+			break;
+		}
 
 		default:
 			System.out.println("Acción no definida: " + alias);
@@ -838,6 +854,8 @@ public class Controller implements ActionListener {
 			vf.getLw().repaint();
 			vf.getMmw().revalidate();
 			vf.getMmw().repaint();
+			vf.getMpw().revalidate();
+			vf.getMpw().repaint();
 
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Error al aplicar internacionalización: " + ex.getMessage(), "Error",
