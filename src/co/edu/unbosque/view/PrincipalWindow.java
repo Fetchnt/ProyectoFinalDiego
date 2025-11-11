@@ -168,14 +168,14 @@ public class PrincipalWindow extends JFrame {
 			isDarkMode = false;
 		} else {
 			// Cambia a modo oscuro
-			this.getContentPane().setBackground(Color.decode("#161615"));
-			lBosTinder.setForeground(Color.decode("#F9CFCE"));
-			phrase.setForeground(Color.decode("#E8457E"));
-			changeLanguage.setForeground(Color.decode("#FCE8EF"));
-			start.setBackground(Color.decode("#BA1750"));
-			start.setForeground(Color.decode("#FFFFFF"));
-			darkMode.setBackground(Color.decode("#BA1750"));
-			darkMode.setForeground(Color.decode("#FFFFFF"));
+			this.getContentPane().setBackground(Color.decode("#11021E"));
+			lBosTinder.setForeground(Color.decode("#FF2B91"));
+			phrase.setForeground(Color.decode("#FF7171"));
+			changeLanguage.setForeground(Color.decode("#FF7171"));
+			start.setBackground(Color.decode("#52247C"));
+			start.setForeground(Color.decode("#DCC8EF"));
+			darkMode.setBackground(Color.decode("#52247C"));
+			darkMode.setForeground(Color.decode("#DCC8EF"));
 			darkMode.setText("MODO CLARO");
 			isDarkMode = true;
 		}

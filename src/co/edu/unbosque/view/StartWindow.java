@@ -24,7 +24,8 @@ public class StartWindow extends JFrame {
 	private JLabel lMail;
 	private JLabel lImage;
 	private JLabel lBosTinder;
-
+	private JLabel lText;
+	
 	private JButton signIn;
 	private JButton login;
 	private JButton exit;
@@ -73,7 +74,7 @@ public class StartWindow extends JFrame {
 		panelOption.setLayout(null);
 		this.add(panelOption);
 		
-		JLabel lText = new JLabel("¡Bienvenido!");
+		lText = new JLabel("¡Bienvenido!");
 		lText.setBounds(70, 15, 250, 25);
 		lText.setFont(new Font("Georgia", Font.BOLD, 25));
 		lText.setForeground(Color.decode("#E3225C"));
@@ -173,28 +174,24 @@ public class StartWindow extends JFrame {
 
 		} else {
 			// Cambia a modo oscuro
-			this.getContentPane().setBackground(Color.decode("#161615"));
-			panelOption.setBackground(Color.decode("#2D2D2D"));
-			panelLogo.setBackground(Color.decode("#2D2D2D"));
-			lBosTinder.setForeground(Color.decode("#F9CFCE"));
-			signIn.setForeground(Color.decode("#F9CFCE"));
-			signIn.setBackground(Color.decode("#BA1750"));
-			login.setForeground(Color.decode("#F9CFCE"));
-			login.setBackground(Color.decode("#BA1750"));
-			exit.setForeground(Color.decode("#F9CFCE"));
-			exit.setBackground(Color.decode("#BA1750"));
-			back.setForeground(Color.decode("#F9CFCE"));
-			back.setBackground(Color.decode("#BA1750"));
-			mapButton.setForeground(Color.decode("#F9CFCE"));
-			mapButton.setBackground(Color.decode("#BA1750"));
+			this.getContentPane().setBackground(Color.decode("#11021E"));
+			panelLogo.setBackground(Color.decode("#1E1724"));
+			lBosTinder.setForeground(Color.decode("#FF2B91"));
+			panelOption.setBackground(Color.decode("#1E1724"));
+			lText.setForeground(Color.decode("#FF7171"));
+			signIn.setForeground(Color.decode("#DCC8EF"));
+			signIn.setBackground(Color.decode("#52247C"));
+			login.setForeground(Color.decode("#DCC8EF"));
+			login.setBackground(Color.decode("#52247C"));
+			exit.setForeground(Color.decode("#DCC8EF"));
+			exit.setBackground(Color.decode("#52247C"));
+			back.setForeground(Color.decode("#DCC8EF"));
+			back.setBackground(Color.decode("#52247C"));
+			mapButton.setForeground(Color.decode("#DCC8EF"));
+			mapButton.setBackground(Color.decode("#52247C"));
 
-			// Panel option
-			//JPanel panelOption = (JPanel) this.getContentPane().getComponent(2); // Obtener referencia al panel
-			//panelOption.setBackground(Color.decode("#2D2D2D"));
-
-			// Botón darkMode
-			darkMode.setBackground(Color.decode("#BA1750"));
-			darkMode.setForeground(Color.decode("#FFFFFF"));
+			darkMode.setBackground(Color.decode("#52247C"));
+			darkMode.setForeground(Color.decode("#DCC8EF"));
 			darkMode.setText("MODO CLARO");
 			isDarkMode = true;
 		}
