@@ -14,10 +14,10 @@ public class ModelFacade {
 
 	private WomenDAO wDAO;
 	private MenDAO mDAO;
-	private List<User> perfilesActuales;
+	public List<User> perfilesActuales;
+	public int indiceActual = 0;
 	private List<User> likes;
 	private List<User> favoritos;
-	private int indiceActual = 0;
 	private boolean modoIncognito;
 	private User usuarioActual;
 
