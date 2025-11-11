@@ -13,6 +13,7 @@ public class ViewFacade {
 	private MainWindow mmw;
 	private AdminWindow aw;
 	private MyProfileWindow mpw;
+	private PreferencesWindow prefw;
 
 
 	
@@ -26,6 +27,8 @@ public class ViewFacade {
 		mmw = new MainWindow();
 		mpw = new MyProfileWindow();
 		aw = new AdminWindow();
+		prefw = new PreferencesWindow();
+		
 	}
 
 	public void aplicarInternacionalizacion(Properties prop) {
@@ -36,6 +39,7 @@ public class ViewFacade {
 		mmw.aplicarInternacionalizacion(prop);
 		aw.aplicarInternacionalizacion(prop);
 		mpw.aplicarInternacionalizacion(prop);
+		prefw.aplicarInternacionalizacion(prop);
 	}
 	
 	public void aplicarModoOscuro() {
@@ -120,6 +124,14 @@ public class ViewFacade {
 
 	public void setMpw(MyProfileWindow mpw) {
 		this.mpw = mpw;
+	}
+
+	public PreferencesWindow getPrefw() {
+		return prefw;
+	}
+
+	public void setPrefw(PreferencesWindow prefw) {
+		this.prefw = prefw;
 	}
 	
 	

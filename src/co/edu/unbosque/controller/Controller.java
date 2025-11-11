@@ -186,6 +186,13 @@ public class Controller implements ActionListener {
 		vf.getAw().getBtnGenerarPDF().addActionListener(this);
 		vf.getAw().getBtnGenerarPDF().setActionCommand("boton_generar_pdf");
 
+		// ---------- BOTONES en PreferencesWindow ----------
+		vf.getPrefw().getBtnAceptar().addActionListener(this);
+		vf.getPrefw().getBtnAceptar().setActionCommand("boton_aceptar_preferencias");
+
+		vf.getPrefw().getBtnCancelar().addActionListener(this);
+		vf.getPrefw().getBtnCancelar().setActionCommand("boton_cancelar_preferencias");
+		
 	}
 
 	@Override
@@ -704,6 +711,21 @@ public class Controller implements ActionListener {
 		case "boton_cerrarsesion_myprofile": {
 			vf.getMmw().dispose();
 			vf.getPw().setVisible(true);
+			break;
+		}
+		
+		case "boton_aceptar_preferencias": {
+		    aplicarPreferencias();
+		    break;
+		}
+
+		case "boton_cancelar_preferencias": {
+		    vf.getPrefw().setAceptado(false);
+		    vf.getPrefw().setVisible(false);
+		    mf.cargarPerfiles(mf.getUsuarioActual());
+		    vf.getMmw().setVisible(true);
+		    mostrarPerfil();
+		    break;
 		}
 
 		default:
@@ -1783,6 +1805,225 @@ public class Controller implements ActionListener {
 
 		return false; 
 	}
+	/**
+	 * Solicita las preferencias del usuario según su género
+	 * y filtra los perfiles disponibles
+	 */
+	public void solicitarPreferenciasUsuario() {
+	    User usuarioActual = mf.getUsuarioActual();
+	    
+	    if (usuarioActual == null) {
+	        return;
+	    }
+	    
+	    // Limpiar campos anteriores
+	    vf.getPrefw().limpiarCampos();
+	    
+	    // Configurar ventana según género
+	    if (usuarioActual instanceof MenDTO) {
+	        vf.getPrefw().configurarParaHombres();
+	    } else if (usuarioActual instanceof WomenDTO) {
+	        vf.getPrefw().configurarParaMujeres();
+	    }
+	    
+	    // Mostrar ventana de preferencias
+	    vf.getPrefw().setVisible(true);
+	}
+	/**
+	 * Aplica las preferencias seleccionadas por el usuario
+	 */
+	private void aplicarPreferencias() {
+	    User usuarioActual = mf.getUsuarioActual();
+	    
+	    if (usuarioActual == null) {
+	        return;
+	    }
+	    
+	    try {
+	        if (usuarioActual instanceof MenDTO) {
+	            // Obtener valores para hombres
+	            int edadMin = Integer.parseInt(vf.getPrefw().getTxtEdadMin().getText().trim());
+	            int edadMax = Integer.parseInt(vf.getPrefw().getTxtEdadMax().getText().trim());
+	            String preferenciaDiv = (String) vf.getPrefw().getCmbDivorcios().getSelectedItem();
+	            
+	            // Validar rango de edad
+	            if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
+	                JOptionPane.showMessageDialog(vf.getPrefw(),
+	                    "Rango de edad inválido. La edad mínima debe ser 18 o más, y la edad máxima debe ser mayor que la mínima.",
+	                    "Error de validación",
+	                    JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            
+	            // Filtrar perfiles
+	            vf.getPrefw().setAceptado(true);
+	            vf.getPrefw().setVisible(false);
+	            filtrarPerfilesPorPreferenciasHombres(edadMin, edadMax, preferenciaDiv);
+	            vf.getMmw().setVisible(true);
+	            mostrarPerfil();
+	            
+	        } else if (usuarioActual instanceof WomenDTO) {
+	            // Obtener valores para mujeres
+	            int edadMin = Integer.parseInt(vf.getPrefw().getTxtEdadMin().getText().trim());
+	            int edadMax = Integer.parseInt(vf.getPrefw().getTxtEdadMax().getText().trim());
+	            double estaturaMin = Double.parseDouble(vf.getPrefw().getTxtEstatura().getText().trim());
+	            long ingresosMin = Long.parseLong(vf.getPrefw().getTxtIngresos().getText().trim());
+	            
+	            // Validar valores
+	            if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
+	                JOptionPane.showMessageDialog(vf.getPrefw(),
+	                    "Rango de edad inválido. La edad mínima debe ser 18 o más, y la edad máxima debe ser mayor que la mínima.",
+	                    "Error de validación",
+	                    JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            
+	            if (estaturaMin < 0.60 || estaturaMin > 2.50) {
+	                JOptionPane.showMessageDialog(vf.getPrefw(),
+	                    "Estatura inválida. Debe estar entre 0.60 y 2.50 metros.",
+	                    "Error de validación",
+	                    JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            
+	            if (ingresosMin < 0) {
+	                JOptionPane.showMessageDialog(vf.getPrefw(),
+	                    "Los ingresos mínimos no pueden ser negativos.",
+	                    "Error de validación",
+	                    JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            
+	            // Filtrar perfiles
+	            vf.getPrefw().setAceptado(true);
+	            vf.getPrefw().setVisible(false);
+	            filtrarPerfilesPorPreferenciasMujeres(edadMin, edadMax, estaturaMin, ingresosMin);
+	            vf.getMmw().setVisible(true);
+	            mostrarPerfil();
+	        }
+	        
+	    } catch (NumberFormatException ex) {
+	        JOptionPane.showMessageDialog(vf.getPrefw(),
+	            "Por favor, ingresa valores numéricos válidos en todos los campos.",
+	            "Error de validación",
+	            JOptionPane.ERROR_MESSAGE);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(vf.getPrefw(),
+	            "Error al aplicar preferencias: " + e.getMessage(),
+	            "Error",
+	            JOptionPane.ERROR_MESSAGE);
+	    }
+	}
+	private void filtrarPerfilesPorPreferenciasHombres(int edadMin, int edadMax, String preferenciaDiv) {
+	    User usuarioActual = mf.getUsuarioActual();
+	    mf.cargarPerfiles(usuarioActual);
+	    
+	    List<User> perfilesFiltrados = new ArrayList<>();
+	    
+	    for (int i = 0; i < mf.perfilesActuales.size(); i++) {
+	        User perfil = mf.perfilesActuales.get(i);
+	        
+	        // Solo filtrar mujeres
+	        if (perfil instanceof WomenDTO) {
+	            WomenDTO mujer = (WomenDTO) perfil;
+	            
+	            int edad = calcularEdad(mujer.getBornDate());
+	            
+	            // Verificar rango de edad
+	            if (edad < edadMin || edad > edadMax) {
+	                continue;
+	            }
+	            
+	            // Verificar preferencia de divorcios
+	            if (preferenciaDiv.equals("Sí") && !mujer.isHadDivorces()) {
+	                continue;
+	            } else if (preferenciaDiv.equals("No") && mujer.isHadDivorces()) {
+	                continue;
+	            }
+	            // Si es "No importa", no filtra
+	            
+	            perfilesFiltrados.add(perfil);
+	        }
+	    }
+	    
+	    mf.perfilesActuales.clear();
+	    mf.perfilesActuales.addAll(perfilesFiltrados);
+	    mf.indiceActual = 0;
+	    
+	    if (perfilesFiltrados.isEmpty()) {
+	        JOptionPane.showMessageDialog(vf.getMmw(),
+	            "No se encontraron perfiles que coincidan con tus preferencias.\nMostrando todos los perfiles disponibles.",
+	            "Sin resultados",
+	            JOptionPane.INFORMATION_MESSAGE);
+	        mf.cargarPerfiles(usuarioActual);
+	    } else {
+	        JOptionPane.showMessageDialog(vf.getMmw(),
+	            "✅ Se encontraron " + perfilesFiltrados.size() + " perfil(es) que coinciden con tus preferencias.",
+	            "Preferencias aplicadas",
+	            JOptionPane.INFORMATION_MESSAGE);
+	    }
+	}
+	/**
+	 * Filtra los perfiles para mujeres según sus preferencias
+	 */
+	private void filtrarPerfilesPorPreferenciasMujeres(int edadMin, int edadMax, double estaturaMin, long ingresosMin) {
+	    User usuarioActual = mf.getUsuarioActual();
+	    mf.cargarPerfiles(usuarioActual);
+	    
+	    List<User> perfilesFiltrados = new ArrayList<>();
+	    
+	    for (int i = 0; i < mf.perfilesActuales.size(); i++) {
+	        User perfil = mf.perfilesActuales.get(i);
+	        
+	        // Solo filtrar hombres
+	        if (perfil instanceof MenDTO) {
+	            MenDTO hombre = (MenDTO) perfil;
+	            
+	            int edad = calcularEdad(hombre.getBornDate());
+	            
+	            // Verificar rango de edad
+	            if (edad < edadMin || edad > edadMax) {
+	                continue;
+	            }
+	            
+	            // Verificar estatura
+	            try {
+	                double estatura = Double.parseDouble(hombre.getStature());
+	                if (estatura < estaturaMin) {
+	                    continue;
+	                }
+	            } catch (NumberFormatException e) {
+	                // Si no se puede parsear la estatura, omitir este filtro
+	            }
+	            
+	            // Verificar ingresos
+	            if (hombre.getMensualIncome() < ingresosMin) {
+	                continue;
+	            }
+	            
+	            perfilesFiltrados.add(perfil);
+	        }
+	    }
+	    
+	    mf.perfilesActuales.clear();
+	    mf.perfilesActuales.addAll(perfilesFiltrados);
+	    mf.indiceActual = 0;
+	    
+	    if (perfilesFiltrados.isEmpty()) {
+	        JOptionPane.showMessageDialog(vf.getMmw(),
+	            "No se encontraron perfiles que coincidan con tus preferencias.\nMostrando todos los perfiles disponibles.",
+	            "Sin resultados",
+	            JOptionPane.INFORMATION_MESSAGE);
+	        mf.cargarPerfiles(usuarioActual);
+	    } else {
+	        JOptionPane.showMessageDialog(vf.getMmw(),
+	            "✅ Se encontraron " + perfilesFiltrados.size() + " perfil(es) que coinciden con tus preferencias.",
+	            "Preferencias aplicadas",
+	            JOptionPane.INFORMATION_MESSAGE);
+	    }
+	}
+
 
 	public void run() {
 		vf.getPw().setVisible(true);
