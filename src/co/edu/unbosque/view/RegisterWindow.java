@@ -195,8 +195,8 @@ public class RegisterWindow extends JFrame {
 		cmbGenero.setBounds(250, 155, 150, 22);
 		panelForm.add(cmbGenero);
 
-		lEstatura = new JLabel("Estatura (cm):");
-		lEstatura.setBounds(250, 185, 150, 20);
+		lEstatura = new JLabel("Estatura (cm):" + " (Mujer Opcional)");
+		lEstatura.setBounds(250, 185, 200, 20);
 		lEstatura.setVisible(false);
 		panelForm.add(lEstatura);
 
@@ -280,142 +280,142 @@ public class RegisterWindow extends JFrame {
 		if (isDarkMode) {
 			// Mantiene el modo claro
 			this.getContentPane().setBackground(Color.decode("#F9CFCE"));
-	        panelLogo.setBackground(Color.decode("#FFFFFF"));
-	        panelForm.setBackground(Color.decode("#FFFFFF"));
-	        lBosTinder.setForeground(Color.decode("#303080D"));
-	        lAreaDeRegistro.setForeground(Color.decode("#000000"));
+			panelLogo.setBackground(Color.decode("#FFFFFF"));
+			panelForm.setBackground(Color.decode("#FFFFFF"));
+			lBosTinder.setForeground(Color.decode("#303080D"));
+			lAreaDeRegistro.setForeground(Color.decode("#000000"));
 
-	        // Labels del formulario
-	        lNombres.setForeground(Color.decode("#000000"));
-	        lApellidos.setForeground(Color.decode("#000000"));
-	        lApodo.setForeground(Color.decode("#000000"));
-	        lFechaNacimiento.setForeground(Color.decode("#000000"));
-	        lCorreo.setForeground(Color.decode("#000000"));
-	        lPassword.setForeground(Color.decode("#000000"));
-	        lPais.setForeground(Color.decode("#000000"));
-	        lGenero.setForeground(Color.decode("#000000"));
-	        lEstatura.setForeground(Color.decode("#000000"));
-	        lOrientacion.setForeground(Color.decode("#000000"));
-	        lIngresos.setForeground(Color.decode("#000000"));
-	        lDivorcios.setForeground(Color.decode("#000000"));
-	        lFoto.setForeground(Color.decode("#000000"));
+			// Labels del formulario
+			lNombres.setForeground(Color.decode("#000000"));
+			lApellidos.setForeground(Color.decode("#000000"));
+			lApodo.setForeground(Color.decode("#000000"));
+			lFechaNacimiento.setForeground(Color.decode("#000000"));
+			lCorreo.setForeground(Color.decode("#000000"));
+			lPassword.setForeground(Color.decode("#000000"));
+			lPais.setForeground(Color.decode("#000000"));
+			lGenero.setForeground(Color.decode("#000000"));
+			lEstatura.setForeground(Color.decode("#000000"));
+			lOrientacion.setForeground(Color.decode("#000000"));
+			lIngresos.setForeground(Color.decode("#000000"));
+			lDivorcios.setForeground(Color.decode("#000000"));
+			lFoto.setForeground(Color.decode("#000000"));
 
-	        // Botones del formulario
-	        btnSubirFoto.setForeground(Color.decode("#EB5F5B"));
-	        btnSubirFoto.setBackground(Color.decode("#F9CFCE"));
-	        btnVerificarCorreo.setForeground(Color.decode("#EB5F5B"));
-	        btnVerificarCorreo.setBackground(Color.decode("#F9CFCE"));
-	        btnRegistrar.setForeground(Color.decode("#EB5F5B"));
-	        btnRegistrar.setBackground(Color.decode("#F9CFCE"));
-	        btnVolver.setForeground(Color.decode("#EB5F5B"));
-	        btnVolver.setBackground(Color.decode("#F9CFCE"));
+			// Botones del formulario
+			btnSubirFoto.setForeground(Color.decode("#EB5F5B"));
+			btnSubirFoto.setBackground(Color.decode("#F9CFCE"));
+			btnVerificarCorreo.setForeground(Color.decode("#EB5F5B"));
+			btnVerificarCorreo.setBackground(Color.decode("#F9CFCE"));
+			btnRegistrar.setForeground(Color.decode("#EB5F5B"));
+			btnRegistrar.setBackground(Color.decode("#F9CFCE"));
+			btnVolver.setForeground(Color.decode("#EB5F5B"));
+			btnVolver.setBackground(Color.decode("#F9CFCE"));
 
-	        // Campos de texto
-	        txtNombres.setBackground(Color.decode("#FFFFFF"));
-	        txtNombres.setForeground(Color.decode("#000000"));
-	        txtApellidos.setBackground(Color.decode("#FFFFFF"));
-	        txtApellidos.setForeground(Color.decode("#000000"));
-	        txtApodo.setBackground(Color.decode("#FFFFFF"));
-	        txtApodo.setForeground(Color.decode("#000000"));
-	        txtFechaNacimiento.setBackground(Color.decode("#FFFFFF"));
-	        txtFechaNacimiento.setForeground(Color.decode("#000000"));
-	        txtCorreo.setBackground(Color.decode("#FFFFFF"));
-	        txtCorreo.setForeground(Color.decode("#000000"));
-	        txtPassword.setBackground(Color.decode("#FFFFFF"));
-	        txtPassword.setForeground(Color.decode("#000000"));
-	        txtEstatura.setBackground(Color.decode("#FFFFFF"));
-	        txtEstatura.setForeground(Color.decode("#000000"));
-	        txtIngresos.setBackground(Color.decode("#FFFFFF"));
-	        txtIngresos.setForeground(Color.decode("#000000"));
+			// Campos de texto
+			txtNombres.setBackground(Color.decode("#FFFFFF"));
+			txtNombres.setForeground(Color.decode("#000000"));
+			txtApellidos.setBackground(Color.decode("#FFFFFF"));
+			txtApellidos.setForeground(Color.decode("#000000"));
+			txtApodo.setBackground(Color.decode("#FFFFFF"));
+			txtApodo.setForeground(Color.decode("#000000"));
+			txtFechaNacimiento.setBackground(Color.decode("#FFFFFF"));
+			txtFechaNacimiento.setForeground(Color.decode("#000000"));
+			txtCorreo.setBackground(Color.decode("#FFFFFF"));
+			txtCorreo.setForeground(Color.decode("#000000"));
+			txtPassword.setBackground(Color.decode("#FFFFFF"));
+			txtPassword.setForeground(Color.decode("#000000"));
+			txtEstatura.setBackground(Color.decode("#FFFFFF"));
+			txtEstatura.setForeground(Color.decode("#000000"));
+			txtIngresos.setBackground(Color.decode("#FFFFFF"));
+			txtIngresos.setForeground(Color.decode("#000000"));
 
-	        // ComboBox
-	        cmbPais.setBackground(Color.decode("#FFFFFF"));
-	        cmbPais.setForeground(Color.decode("#000000"));
-	        cmbGenero.setBackground(Color.decode("#FFFFFF"));
-	        cmbGenero.setForeground(Color.decode("#000000"));
-	        cmbOrientacion.setBackground(Color.decode("#FFFFFF"));
-	        cmbOrientacion.setForeground(Color.decode("#000000"));
-	        cmbDivorcios.setBackground(Color.decode("#FFFFFF"));
-	        cmbDivorcios.setForeground(Color.decode("#000000"));
+			// ComboBox
+			cmbPais.setBackground(Color.decode("#FFFFFF"));
+			cmbPais.setForeground(Color.decode("#000000"));
+			cmbGenero.setBackground(Color.decode("#FFFFFF"));
+			cmbGenero.setForeground(Color.decode("#000000"));
+			cmbOrientacion.setBackground(Color.decode("#FFFFFF"));
+			cmbOrientacion.setForeground(Color.decode("#000000"));
+			cmbDivorcios.setBackground(Color.decode("#FFFFFF"));
+			cmbDivorcios.setForeground(Color.decode("#000000"));
 
-	        // Foto preview
-	        lFotoPreview.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+			// Foto preview
+			lFotoPreview.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-	        // Botón darkMode
-	        darkMode.setBackground(Color.decode("#EB5F5B"));
-	        darkMode.setForeground(Color.decode("#F9CFCE"));
-	        darkMode.setText("MODO OSCURO");
-	        isDarkMode = false;
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#EB5F5B"));
+			darkMode.setForeground(Color.decode("#F9CFCE"));
+			darkMode.setText("MODO OSCURO");
+			isDarkMode = false;
 
 		} else {
 			// Cambia a modo oscuro
 			this.getContentPane().setBackground(Color.decode("#161615"));
-	        panelLogo.setBackground(Color.decode("#2D2D2D"));
-	        panelForm.setBackground(Color.decode("#2D2D2D"));
-	        lBosTinder.setForeground(Color.decode("#F9CFCE"));
-	        lAreaDeRegistro.setForeground(Color.decode("#E3225C"));
+			panelLogo.setBackground(Color.decode("#2D2D2D"));
+			panelForm.setBackground(Color.decode("#2D2D2D"));
+			lBosTinder.setForeground(Color.decode("#F9CFCE"));
+			lAreaDeRegistro.setForeground(Color.decode("#E3225C"));
 
-	        // Labels del formulario
-	        lNombres.setForeground(Color.decode("#F9CFCE"));
-	        lApellidos.setForeground(Color.decode("#F9CFCE"));
-	        lApodo.setForeground(Color.decode("#F9CFCE"));
-	        lFechaNacimiento.setForeground(Color.decode("#F9CFCE"));
-	        lCorreo.setForeground(Color.decode("#F9CFCE"));
-	        lPassword.setForeground(Color.decode("#F9CFCE"));
-	        lPais.setForeground(Color.decode("#F9CFCE"));
-	        lGenero.setForeground(Color.decode("#F9CFCE"));
-	        lEstatura.setForeground(Color.decode("#F9CFCE"));
-	        lOrientacion.setForeground(Color.decode("#F9CFCE"));
-	        lIngresos.setForeground(Color.decode("#F9CFCE"));
-	        lDivorcios.setForeground(Color.decode("#F9CFCE"));
-	        lFoto.setForeground(Color.decode("#F9CFCE"));
+			// Labels del formulario
+			lNombres.setForeground(Color.decode("#F9CFCE"));
+			lApellidos.setForeground(Color.decode("#F9CFCE"));
+			lApodo.setForeground(Color.decode("#F9CFCE"));
+			lFechaNacimiento.setForeground(Color.decode("#F9CFCE"));
+			lCorreo.setForeground(Color.decode("#F9CFCE"));
+			lPassword.setForeground(Color.decode("#F9CFCE"));
+			lPais.setForeground(Color.decode("#F9CFCE"));
+			lGenero.setForeground(Color.decode("#F9CFCE"));
+			lEstatura.setForeground(Color.decode("#F9CFCE"));
+			lOrientacion.setForeground(Color.decode("#F9CFCE"));
+			lIngresos.setForeground(Color.decode("#F9CFCE"));
+			lDivorcios.setForeground(Color.decode("#F9CFCE"));
+			lFoto.setForeground(Color.decode("#F9CFCE"));
 
-	        // Botones del formulario
-	        btnSubirFoto.setForeground(Color.decode("#F9CFCE"));
-	        btnSubirFoto.setBackground(Color.decode("#BA1750"));
-	        btnVerificarCorreo.setForeground(Color.decode("#F9CFCE"));
-	        btnVerificarCorreo.setBackground(Color.decode("#BA1750"));
-	        btnRegistrar.setForeground(Color.decode("#F9CFCE"));
-	        btnRegistrar.setBackground(Color.decode("#BA1750"));
-	        btnVolver.setForeground(Color.decode("#F9CFCE"));
-	        btnVolver.setBackground(Color.decode("#BA1750"));
+			// Botones del formulario
+			btnSubirFoto.setForeground(Color.decode("#F9CFCE"));
+			btnSubirFoto.setBackground(Color.decode("#BA1750"));
+			btnVerificarCorreo.setForeground(Color.decode("#F9CFCE"));
+			btnVerificarCorreo.setBackground(Color.decode("#BA1750"));
+			btnRegistrar.setForeground(Color.decode("#F9CFCE"));
+			btnRegistrar.setBackground(Color.decode("#BA1750"));
+			btnVolver.setForeground(Color.decode("#F9CFCE"));
+			btnVolver.setBackground(Color.decode("#BA1750"));
 
-	        // Campos de texto
-	        txtNombres.setBackground(Color.decode("#1E1E1E"));
-	        txtNombres.setForeground(Color.decode("#FFFFFF"));
-	        txtApellidos.setBackground(Color.decode("#1E1E1E"));
-	        txtApellidos.setForeground(Color.decode("#FFFFFF"));
-	        txtApodo.setBackground(Color.decode("#1E1E1E"));
-	        txtApodo.setForeground(Color.decode("#FFFFFF"));
-	        txtFechaNacimiento.setBackground(Color.decode("#1E1E1E"));
-	        txtFechaNacimiento.setForeground(Color.decode("#FFFFFF"));
-	        txtCorreo.setBackground(Color.decode("#1E1E1E"));
-	        txtCorreo.setForeground(Color.decode("#FFFFFF"));
-	        txtPassword.setBackground(Color.decode("#1E1E1E"));
-	        txtPassword.setForeground(Color.decode("#FFFFFF"));
-	        txtEstatura.setBackground(Color.decode("#1E1E1E"));
-	        txtEstatura.setForeground(Color.decode("#FFFFFF"));
-	        txtIngresos.setBackground(Color.decode("#1E1E1E"));
-	        txtIngresos.setForeground(Color.decode("#FFFFFF"));
+			// Campos de texto
+			txtNombres.setBackground(Color.decode("#1E1E1E"));
+			txtNombres.setForeground(Color.decode("#FFFFFF"));
+			txtApellidos.setBackground(Color.decode("#1E1E1E"));
+			txtApellidos.setForeground(Color.decode("#FFFFFF"));
+			txtApodo.setBackground(Color.decode("#1E1E1E"));
+			txtApodo.setForeground(Color.decode("#FFFFFF"));
+			txtFechaNacimiento.setBackground(Color.decode("#1E1E1E"));
+			txtFechaNacimiento.setForeground(Color.decode("#FFFFFF"));
+			txtCorreo.setBackground(Color.decode("#1E1E1E"));
+			txtCorreo.setForeground(Color.decode("#FFFFFF"));
+			txtPassword.setBackground(Color.decode("#1E1E1E"));
+			txtPassword.setForeground(Color.decode("#FFFFFF"));
+			txtEstatura.setBackground(Color.decode("#1E1E1E"));
+			txtEstatura.setForeground(Color.decode("#FFFFFF"));
+			txtIngresos.setBackground(Color.decode("#1E1E1E"));
+			txtIngresos.setForeground(Color.decode("#FFFFFF"));
 
-	        // ComboBox
-	        cmbPais.setBackground(Color.decode("#1E1E1E"));
-	        cmbPais.setForeground(Color.decode("#FFFFFF"));
-	        cmbGenero.setBackground(Color.decode("#1E1E1E"));
-	        cmbGenero.setForeground(Color.decode("#FFFFFF"));
-	        cmbOrientacion.setBackground(Color.decode("#1E1E1E"));
-	        cmbOrientacion.setForeground(Color.decode("#FFFFFF"));
-	        cmbDivorcios.setBackground(Color.decode("#1E1E1E"));
-	        cmbDivorcios.setForeground(Color.decode("#FFFFFF"));
+			// ComboBox
+			cmbPais.setBackground(Color.decode("#1E1E1E"));
+			cmbPais.setForeground(Color.decode("#FFFFFF"));
+			cmbGenero.setBackground(Color.decode("#1E1E1E"));
+			cmbGenero.setForeground(Color.decode("#FFFFFF"));
+			cmbOrientacion.setBackground(Color.decode("#1E1E1E"));
+			cmbOrientacion.setForeground(Color.decode("#FFFFFF"));
+			cmbDivorcios.setBackground(Color.decode("#1E1E1E"));
+			cmbDivorcios.setForeground(Color.decode("#FFFFFF"));
 
-	        // Foto preview
-	        lFotoPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+			// Foto preview
+			lFotoPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
-	        // Botón darkMode
-	        darkMode.setBackground(Color.decode("#BA1750"));
-	        darkMode.setForeground(Color.decode("#FFFFFF"));
-	        darkMode.setText("MODO CLARO");
-	        isDarkMode = true;
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#BA1750"));
+			darkMode.setForeground(Color.decode("#FFFFFF"));
+			darkMode.setText("MODO CLARO");
+			isDarkMode = true;
 		}
 	}
 

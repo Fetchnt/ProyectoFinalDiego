@@ -401,16 +401,15 @@ public class Controller implements ActionListener {
 							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				
-				 if (correoYaRegistrado(correo)) {
-			            JOptionPane.showMessageDialog(null, 
-			                "Este correo electrónico ya fue registrado recientemente.\n\n" +
-			                "Por favor, verifica con otro correo", 
-			                "Correo Ya Registrado", 
-			                JOptionPane.ERROR_MESSAGE);
-			            vf.getRw().setCorreoVerificado(false);
-			            return;
-			        }
+
+				if (correoYaRegistrado(correo)) {
+					JOptionPane.showMessageDialog(null,
+							"Este correo electrónico ya fue registrado recientemente.\n\n"
+									+ "Por favor, verifica con otro correo",
+							"Correo Ya Registrado", JOptionPane.ERROR_MESSAGE);
+					vf.getRw().setCorreoVerificado(false);
+					return;
+				}
 
 				String nombres = vf.getRw().getTxtNombres().getText();
 				String apellidos = vf.getRw().getTxtApellidos().getText();
@@ -457,7 +456,9 @@ public class Controller implements ActionListener {
 					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
 					String divorciosStr = (String) vf.getRw().getCmbDivorcios().getSelectedItem();
 
-					ExceptionLauncher.verifyStature(estatura);
+					if (!estatura.isEmpty()) {
+						ExceptionLauncher.verifyStature(estatura);
+					}
 					ExceptionLauncher.verifyComboBox(orientacion);
 					ExceptionLauncher.verifyComboBox(divorciosStr);
 
@@ -1758,7 +1759,7 @@ public class Controller implements ActionListener {
 	 * @return true si el correo ya está registrado, false si está disponible
 	 */
 	public boolean correoYaRegistrado(String correo) {
-		
+
 		mf.getmDAO().listaMenDTO.clear();
 		mf.getmDAO().readFromTextFile("Men.csv");
 
@@ -1781,7 +1782,7 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		return false; 
+		return false;
 	}
 
 	public void run() {
