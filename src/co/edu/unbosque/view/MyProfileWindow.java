@@ -270,56 +270,57 @@ public class MyProfileWindow extends JFrame {
 	        isDarkMode = false;
 
 	    } else {
-	        // Cambia a modo oscuro
-	    	 panelLogo.setBackground(Color.decode("#2D2D2D"));
-	         panelInformacion.setBackground(Color.decode("#2D2D2D"));
-	         panelOpcion.setBackground(Color.decode("#2D2D2D"));
-	         panelLike.setBackground(Color.decode("#2D2D2D"));
-	         
-	         lBosTinder.setForeground(Color.decode("#F9CFCE"));
-	         option.setForeground(Color.decode("#F9CFCE"));
-	         lblLike.setForeground(Color.decode("#F9CFCE"));
+	    	// Cambia a modo oscuro
+	    	this.getContentPane().setBackground(Color.decode("#11021E"));
+	    	panelLogo.setBackground(Color.decode("#1E1724"));
+	    	panelInformacion.setBackground(Color.decode("#1E1724"));
+	    	panelOpcion.setBackground(Color.decode("#1E1724"));
+	    	panelLike.setBackground(Color.decode("#1E1724"));
 
-	         // Labels del panelInformacion
-	         lblAlias.setForeground(Color.decode("#F9CFCE"));
-	         lblNombre.setForeground(Color.decode("#F9CFCE"));
-	         lblApellido.setForeground(Color.decode("#F9CFCE"));
-	         lblEdad.setForeground(Color.decode("#F9CFCE"));
-	         lblCorreo.setForeground(Color.decode("#F9CFCE"));
-	         lblIngresos.setForeground(Color.decode("#F9CFCE"));
+	    	lBosTinder.setForeground(Color.decode("#FF2B91"));
+	    	option.setForeground(Color.decode("#FF7171"));
+	    	lblLike.setForeground(Color.decode("#FF7171"));
 
-	         // Campos de texto
-	         txtAlias.setBackground(Color.decode("#1E1E1E"));
-	         txtAlias.setForeground(Color.decode("#FFFFFF"));
-	         txtNombre.setBackground(Color.decode("#1E1E1E"));
-	         txtNombre.setForeground(Color.decode("#FFFFFF"));
-	         txtApellido.setBackground(Color.decode("#1E1E1E"));
-	         txtApellido.setForeground(Color.decode("#FFFFFF"));
-	         txtEdad.setBackground(Color.decode("#1E1E1E"));
-	         txtEdad.setForeground(Color.decode("#FFFFFF"));
-	         txtCorreo.setBackground(Color.decode("#1E1E1E"));
-	         txtCorreo.setForeground(Color.decode("#FFFFFF"));
-	         txtIngresos.setBackground(Color.decode("#1E1E1E"));
-	         txtIngresos.setForeground(Color.decode("#FFFFFF"));
-	         txtLikes.setBackground(Color.decode("#1E1E1E"));
-	         txtLikes.setForeground(Color.decode("#FFFFFF"));
+	    	// Labels del panelInformacion
+	    	lblAlias.setForeground(Color.decode("#DCC8EF"));
+	    	lblNombre.setForeground(Color.decode("#DCC8EF"));
+	    	lblApellido.setForeground(Color.decode("#DCC8EF"));
+	    	lblEdad.setForeground(Color.decode("#DCC8EF"));
+	    	lblCorreo.setForeground(Color.decode("#DCC8EF"));
+	    	lblIngresos.setForeground(Color.decode("#DCC8EF"));
 
-	         // Bordes
-	         panelInformacion.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.WHITE),
-	                 "MI PERFIL", TitledBorder.CENTER, TitledBorder.TOP, new Font("Cooper Black", Font.ITALIC, 15)));
-	         lblFotoPreview.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+	    	// Campos de texto
+	    	txtAlias.setBackground(Color.decode("#2A1F3A"));
+	    	txtAlias.setForeground(Color.decode("#DCC8EF"));
+	    	txtNombre.setBackground(Color.decode("#2A1F3A"));
+	    	txtNombre.setForeground(Color.decode("#DCC8EF"));
+	    	txtApellido.setBackground(Color.decode("#2A1F3A"));
+	    	txtApellido.setForeground(Color.decode("#DCC8EF"));
+	    	txtEdad.setBackground(Color.decode("#2A1F3A"));
+	    	txtEdad.setForeground(Color.decode("#DCC8EF"));
+	    	txtCorreo.setBackground(Color.decode("#2A1F3A"));
+	    	txtCorreo.setForeground(Color.decode("#DCC8EF"));
+	    	txtIngresos.setBackground(Color.decode("#2A1F3A"));
+	    	txtIngresos.setForeground(Color.decode("#DCC8EF"));
+	    	txtLikes.setBackground(Color.decode("#2A1F3A"));
+	    	txtLikes.setForeground(Color.decode("#DCC8EF"));
 
-	         // Botones
-	         btnback.setForeground(Color.decode("#F9CFCE"));
-	         btnback.setBackground(Color.decode("#BA1750"));
-	         btnclose.setForeground(Color.decode("#F9CFCE"));
-	         btnclose.setBackground(Color.decode("#BA1750"));
+	    	// Bordes
+	    	panelInformacion.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#DCC8EF")),
+	    	        "MI PERFIL", TitledBorder.CENTER, TitledBorder.TOP, new Font("Cooper Black", Font.ITALIC, 15)));
+	    	lblFotoPreview.setBorder(BorderFactory.createLineBorder(Color.decode("#DCC8EF")));
 
-	         // Botón darkMode
-	         darkMode.setBackground(Color.decode("#BA1750"));
-	         darkMode.setForeground(Color.decode("#FFFFFF"));
-	         darkMode.setText("MODO CLARO");
-	         isDarkMode = true;
+	    	// Botones
+	    	btnback.setForeground(Color.decode("#DCC8EF"));
+	    	btnback.setBackground(Color.decode("#52247C"));
+	    	btnclose.setForeground(Color.decode("#DCC8EF"));
+	    	btnclose.setBackground(Color.decode("#52247C"));
+
+	    	// Botón darkMode
+	    	darkMode.setBackground(Color.decode("#52247C"));
+	    	darkMode.setForeground(Color.decode("#DCC8EF"));
+	    	darkMode.setText("MODO CLARO");
+	    	isDarkMode = true;
 	    }
 	}
 

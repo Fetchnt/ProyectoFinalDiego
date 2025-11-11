@@ -22,12 +22,11 @@ public class LoginWindow extends JFrame {
 	private JLabel lIcon;
 	private JLabel lDeco;
 	private JLabel lTitle;
-	private JLabel lWoman;
-	private JLabel lMen;
 	private JLabel luserAlias;
 	private JLabel lPassword;
 	private JLabel lEmail;
 	private JLabel lBosTinder;
+	private JLabel background;
 
 	private JTextField userAlias;
 	private JTextField password;
@@ -44,7 +43,6 @@ public class LoginWindow extends JFrame {
 		setVisible(false);
 	}
 
-	
 	public void initializeComponents() {
 
 		// CONFIGURACION DE LA VENTANA
@@ -55,13 +53,20 @@ public class LoginWindow extends JFrame {
 		this.setLayout(null);
 		this.getContentPane().setBackground(Color.decode("#F9CFCE"));
 
+		  // --------- IMAGEN DE FONDO ---------
+        ImageIcon backgroundImage = new ImageIcon(getClass().getResource("partnerFour.JPG"));
+        background = new JLabel(backgroundImage);
+        background.setBounds(0, 0, 980, 730);
+        background.setLayout(null);
+        this.getContentPane().add(background);
+        
 		// ---------IMAGEN SUPERIOR----------
 
 		panelLogo = new JPanel();
 		panelLogo.setBounds(0, 0, 980, 150);
 		panelLogo.setBackground(Color.decode("#FFFFFF"));
 		panelLogo.setLayout(null);
-		this.add(panelLogo);
+		background.add(panelLogo);
 
 		ImageIcon imageLogo = new ImageIcon(getClass().getResource("iconBosTinder.png"));
 		JLabel lIcon = new JLabel(imageLogo);
@@ -76,29 +81,18 @@ public class LoginWindow extends JFrame {
 		panelLogo.add(lBosTinder);
 		// add(lBosTinder);
 
-		// --------- IMAGENES--------------
-		ImageIcon imageWoman = new ImageIcon(getClass().getResource("womanLogin.JPG"));
-		lWoman = new JLabel(imageWoman);
-		lWoman.setBounds(23, 220, 340, 375);
-		add(lWoman);
-
-		ImageIcon imageMen = new ImageIcon(getClass().getResource("menLogin.JPG"));
-		lMen = new JLabel(imageMen);
-		lMen.setBounds(650, 220, 340, 375);
-		add(lMen);
-
 		// -------TITULO----------
 		lTitle = new JLabel("¡Inicia sesión para continuar!");
 		lTitle.setFont(new Font("Cooper Black", Font.PLAIN, 18));
 		lTitle.setBounds(380, 225, 549, 58);
-		add(lTitle);
+		background.add(lTitle);
 
 		// -------PANEL----------
 		panelLogin = new JPanel();
 		panelLogin.setLayout(null);
 		panelLogin.setBounds(360, 210, 300, 400);
 		panelLogin.setBackground(Color.WHITE);
-		add(panelLogin);
+		background.add(panelLogin);
 
 		// --------CAMPOS DE TEXTO--------
 		luserAlias = new JLabel("Usuario");
@@ -149,11 +143,11 @@ public class LoginWindow extends JFrame {
 		adminMode.setFocusPainted(false);
 		adminMode.setBorderPainted(false);
 		panelLogin.add(adminMode);
-		
+
 		darkMode = new JButton("MODO OSCURO");
 		darkMode.setBounds(800, 10, 150, 30);
 		darkMode.addActionListener(e -> cambiarAModoOscuroLW());
-		add(darkMode);
+		background.add(darkMode);
 
 	}
 
@@ -162,72 +156,72 @@ public class LoginWindow extends JFrame {
 		if (isDarkMode) {
 			// Mantiene el modo claro
 			this.getContentPane().setBackground(Color.decode("#F9CFCE"));
-	        panelLogo.setBackground(Color.decode("#FFFFFF"));
-	        panelLogin.setBackground(Color.decode("#FFFFFF"));
-	        lBosTinder.setForeground(Color.decode("#303080D"));
-	        lTitle.setForeground(Color.decode("#000000"));
+			panelLogo.setBackground(Color.decode("#FFFFFF"));
+			panelLogin.setBackground(Color.decode("#FFFFFF"));
+			lBosTinder.setForeground(Color.decode("#303080D"));
+			lTitle.setForeground(Color.decode("#000000"));
 
-	        // Labels del panelLogin
-	        luserAlias.setForeground(Color.decode("#000000"));
-	        lPassword.setForeground(Color.decode("#000000"));
-	        lEmail.setForeground(Color.decode("#000000"));
+			// Labels del panelLogin
+			luserAlias.setForeground(Color.decode("#000000"));
+			lPassword.setForeground(Color.decode("#000000"));
+			lEmail.setForeground(Color.decode("#000000"));
 
-	        // Botones del panelLogin
-	        login.setForeground(Color.decode("#EB5F5B"));
-	        login.setBackground(Color.decode("#F9CFCE"));
-	        back.setForeground(Color.decode("#EB5F5B"));
-	        back.setBackground(Color.decode("#F9CFCE"));
-	        adminMode.setForeground(Color.decode("#EB5F5B"));
-	        adminMode.setBackground(Color.decode("#F9CFCE"));
+			// Botones del panelLogin
+			login.setForeground(Color.decode("#EB5F5B"));
+			login.setBackground(Color.decode("#F9CFCE"));
+			back.setForeground(Color.decode("#EB5F5B"));
+			back.setBackground(Color.decode("#F9CFCE"));
+			adminMode.setForeground(Color.decode("#EB5F5B"));
+			adminMode.setBackground(Color.decode("#F9CFCE"));
 
-	        // Campos de texto
-	        userAlias.setBackground(Color.decode("#FFFFFF"));
-	        userAlias.setForeground(Color.decode("#000000"));
-	        password.setBackground(Color.decode("#FFFFFF"));
-	        password.setForeground(Color.decode("#000000"));
-	        email.setBackground(Color.decode("#FFFFFF"));
-	        email.setForeground(Color.decode("#000000"));
+			// Campos de texto
+			userAlias.setBackground(Color.decode("#FFFFFF"));
+			userAlias.setForeground(Color.decode("#000000"));
+			password.setBackground(Color.decode("#FFFFFF"));
+			password.setForeground(Color.decode("#000000"));
+			email.setBackground(Color.decode("#FFFFFF"));
+			email.setForeground(Color.decode("#000000"));
 
-	        // Botón darkMode
-	        darkMode.setBackground(Color.decode("#EB5F5B"));
-	        darkMode.setForeground(Color.decode("#F9CFCE"));
-	        darkMode.setText("MODO OSCURO");
-	        isDarkMode = false;
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#EB5F5B"));
+			darkMode.setForeground(Color.decode("#F9CFCE"));
+			darkMode.setText("MODO OSCURO");
+			isDarkMode = false;
 
 		} else {
 			// Cambia a modo oscuro
-			this.getContentPane().setBackground(Color.decode("#161615"));
-	        panelLogo.setBackground(Color.decode("#2D2D2D"));
-	        panelLogin.setBackground(Color.decode("#2D2D2D"));
-	        lBosTinder.setForeground(Color.decode("#F9CFCE"));
-	        lTitle.setForeground(Color.decode("#E3225C"));
+			this.getContentPane().setBackground(Color.decode("#11021E"));
+			panelLogo.setBackground(Color.decode("#1E1724"));
+			panelLogin.setBackground(Color.decode("#1E1724"));
+			lBosTinder.setForeground(Color.decode("#FF2B91"));
+			lTitle.setForeground(Color.decode("#FF7171"));
 
-	        // Labels del panelLogin
-	        luserAlias.setForeground(Color.decode("#F9CFCE"));
-	        lPassword.setForeground(Color.decode("#F9CFCE"));
-	        lEmail.setForeground(Color.decode("#F9CFCE"));
+			// Labels del panelLogin
+			luserAlias.setForeground(Color.decode("#DCC8EF"));
+			lPassword.setForeground(Color.decode("#DCC8EF"));
+			lEmail.setForeground(Color.decode("#DCC8EF"));
 
-	        // Botones del panelLogin
-	        login.setForeground(Color.decode("#F9CFCE"));
-	        login.setBackground(Color.decode("#BA1750"));
-	        back.setForeground(Color.decode("#F9CFCE"));
-	        back.setBackground(Color.decode("#BA1750"));
-	        adminMode.setForeground(Color.decode("#F9CFCE"));
-	        adminMode.setBackground(Color.decode("#BA1750"));
+			// Botones del panelLogin
+			login.setForeground(Color.decode("#DCC8EF"));
+			login.setBackground(Color.decode("#52247C"));
+			back.setForeground(Color.decode("#DCC8EF"));
+			back.setBackground(Color.decode("#52247C"));
+			adminMode.setForeground(Color.decode("#DCC8EF"));
+			adminMode.setBackground(Color.decode("#52247C"));
 
-	        // Campos de texto
-	        userAlias.setBackground(Color.decode("#1E1E1E"));
-	        userAlias.setForeground(Color.decode("#FFFFFF"));
-	        password.setBackground(Color.decode("#1E1E1E"));
-	        password.setForeground(Color.decode("#FFFFFF"));
-	        email.setBackground(Color.decode("#1E1E1E"));
-	        email.setForeground(Color.decode("#FFFFFF"));
+			// Campos de texto
+			userAlias.setBackground(Color.decode("#2A1F3A"));
+			userAlias.setForeground(Color.decode("#DCC8EF"));
+			password.setBackground(Color.decode("#2A1F3A"));
+			password.setForeground(Color.decode("#DCC8EF"));
+			email.setBackground(Color.decode("#2A1F3A"));
+			email.setForeground(Color.decode("#DCC8EF"));
 
-	        // Botón darkMode
-	        darkMode.setBackground(Color.decode("#BA1750"));
-	        darkMode.setForeground(Color.decode("#FFFFFF"));
-	        darkMode.setText("MODO CLARO");
-	        isDarkMode = true;
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#52247C"));
+			darkMode.setForeground(Color.decode("#DCC8EF"));
+			darkMode.setText("MODO CLARO");
+			isDarkMode = true;
 		}
 
 	}
@@ -339,22 +333,6 @@ public class LoginWindow extends JFrame {
 		this.lTitle = lTitle;
 	}
 
-	public JLabel getlWoman() {
-		return lWoman;
-	}
-
-	public void setlWoman(JLabel lWoman) {
-		this.lWoman = lWoman;
-	}
-
-	public JLabel getlMen() {
-		return lMen;
-	}
-
-	public void setlMen(JLabel lMen) {
-		this.lMen = lMen;
-	}
-
 	public JLabel getLuserAlias() {
 		return luserAlias;
 	}
@@ -377,6 +355,51 @@ public class LoginWindow extends JFrame {
 
 	public void setAdminMode(JButton adminMode) {
 		this.adminMode = adminMode;
+	}
+
+	public JPanel getPanelLogo() {
+		return panelLogo;
+	}
+
+	public void setPanelLogo(JPanel panelLogo) {
+		this.panelLogo = panelLogo;
+	}
+
+	public JPanel getPanelLogin() {
+		return panelLogin;
+	}
+
+	public void setPanelLogin(JPanel panelLogin) {
+		this.panelLogin = panelLogin;
+	}
+
+	public JLabel getlBosTinder() {
+		return lBosTinder;
+	}
+
+	public void setlBosTinder(JLabel lBosTinder) {
+		this.lBosTinder = lBosTinder;
+	}
+
+
+	public void setBackground(JLabel background) {
+		this.background = background;
+	}
+
+	public JButton getDarkMode() {
+		return darkMode;
+	}
+
+	public void setDarkMode(JButton darkMode) {
+		this.darkMode = darkMode;
+	}
+
+	public boolean isDarkMode() {
+		return isDarkMode;
+	}
+
+	public void setDarkMode(boolean isDarkMode) {
+		this.isDarkMode = isDarkMode;
 	}
 
 }

@@ -34,6 +34,7 @@ public class PreferencesWindow extends JFrame {
 	private JPanel panelPrincipal;
 	private JPanel panelCampos;
 	private JPanel panelBotones;
+	private JPanel panelTitulo;
 
 	// Variable para saber si se aceptó o canceló
 	private boolean aceptado = false;
@@ -56,7 +57,7 @@ public class PreferencesWindow extends JFrame {
 		panelPrincipal.setBackground(new Color(255, 240, 245));
 
 		// Panel superior con título
-		JPanel panelTitulo = new JPanel(new BorderLayout(5, 5));
+		panelTitulo = new JPanel(new BorderLayout(5, 5));
 		panelTitulo.setBackground(new Color(255, 240, 245));
 
 		lblTitulo = new JLabel("Configura tus Preferencias", SwingConstants.CENTER);
@@ -131,6 +132,11 @@ public class PreferencesWindow extends JFrame {
 		btnCancelar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+		darkMode = new JButton("MODO OSCURO");
+		darkMode.setBounds(10, 10, 150, 30);
+		darkMode.addActionListener(e -> cambiarAModoOscuroSW());
+		panelPrincipal.add(darkMode);
+
 		panelBotones.add(btnAceptar);
 		panelBotones.add(btnCancelar);
 
@@ -140,6 +146,106 @@ public class PreferencesWindow extends JFrame {
 		panelPrincipal.add(panelBotones, BorderLayout.SOUTH);
 
 		add(panelPrincipal);
+	}
+	
+	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
+	public void cambiarAModoOscuroSW() {
+	    if (isDarkMode) {
+	        // Mantiene el modo claro
+	        this.getContentPane().setBackground(Color.decode("#F9CFCE"));
+	        panelPrincipal.setBackground(new Color(255, 240, 245));
+	        panelTitulo.setBackground(new Color(255, 240, 245));
+	        panelCampos.setBackground(Color.WHITE);
+	        panelBotones.setBackground(new Color(255, 240, 245));
+	        
+	        // Labels
+	        lblTitulo.setForeground(new Color(220, 20, 60));
+	        lblSubtitulo.setForeground(new Color(100, 100, 100));
+	        lblEdadMin.setForeground(Color.BLACK);
+	        lblEdadMax.setForeground(Color.BLACK);
+	        lblDivorcios.setForeground(Color.BLACK);
+	        lblEstatura.setForeground(Color.BLACK);
+	        lblIngresos.setForeground(Color.BLACK);
+	        
+	        // Campos de texto
+	        txtEdadMin.setBackground(Color.WHITE);
+	        txtEdadMin.setForeground(Color.BLACK);
+	        txtEdadMax.setBackground(Color.WHITE);
+	        txtEdadMax.setForeground(Color.BLACK);
+	        txtEstatura.setBackground(Color.WHITE);
+	        txtEstatura.setForeground(Color.BLACK);
+	        txtIngresos.setBackground(Color.WHITE);
+	        txtIngresos.setForeground(Color.BLACK);
+	        
+	        // ComboBox
+	        cmbDivorcios.setBackground(Color.WHITE);
+	        cmbDivorcios.setForeground(Color.BLACK);
+	        
+	        // Bordes
+	        panelCampos.setBorder(BorderFactory.createCompoundBorder(
+	                BorderFactory.createLineBorder(new Color(220, 20, 60), 2), 
+	                new EmptyBorder(20, 20, 20, 20)));
+	        
+	        // Botones
+	        btnAceptar.setBackground(new Color(220, 20, 60));
+	        btnAceptar.setForeground(Color.WHITE);
+	        btnCancelar.setBackground(new Color(150, 150, 150));
+	        btnCancelar.setForeground(Color.WHITE);
+	        
+	        // Botón darkMode
+	        darkMode.setBackground(Color.decode("#EB5F5B"));
+	        darkMode.setForeground(Color.decode("#F9CFCE"));
+	        darkMode.setText("MODO OSCURO");
+	        isDarkMode = false;
+
+	    } else {
+	        // Cambia a modo oscuro
+	        this.getContentPane().setBackground(Color.decode("#11021E"));
+	        panelPrincipal.setBackground(Color.decode("#1E1724"));
+	        panelTitulo.setBackground(Color.decode("#1E1724"));
+	        panelCampos.setBackground(Color.decode("#1E1724"));
+	        panelBotones.setBackground(Color.decode("#1E1724"));
+	        
+	        // Labels
+	        lblTitulo.setForeground(Color.decode("#FF2B91"));
+	        lblSubtitulo.setForeground(Color.decode("#FF7171"));
+	        lblEdadMin.setForeground(Color.decode("#DCC8EF"));
+	        lblEdadMax.setForeground(Color.decode("#DCC8EF"));
+	        lblDivorcios.setForeground(Color.decode("#DCC8EF"));
+	        lblEstatura.setForeground(Color.decode("#DCC8EF"));
+	        lblIngresos.setForeground(Color.decode("#DCC8EF"));
+	        
+	        // Campos de texto
+	        txtEdadMin.setBackground(Color.decode("#2A1F3A"));
+	        txtEdadMin.setForeground(Color.decode("#DCC8EF"));
+	        txtEdadMax.setBackground(Color.decode("#2A1F3A"));
+	        txtEdadMax.setForeground(Color.decode("#DCC8EF"));
+	        txtEstatura.setBackground(Color.decode("#2A1F3A"));
+	        txtEstatura.setForeground(Color.decode("#DCC8EF"));
+	        txtIngresos.setBackground(Color.decode("#2A1F3A"));
+	        txtIngresos.setForeground(Color.decode("#DCC8EF"));
+	        
+	        // ComboBox
+	        cmbDivorcios.setBackground(Color.decode("#2A1F3A"));
+	        cmbDivorcios.setForeground(Color.decode("#DCC8EF"));
+	        
+	        // Bordes
+	        panelCampos.setBorder(BorderFactory.createCompoundBorder(
+	                BorderFactory.createLineBorder(Color.decode("#DCC8EF"), 2), 
+	                new EmptyBorder(20, 20, 20, 20)));
+	        
+	        // Botones
+	        btnAceptar.setBackground(Color.decode("#52247C"));
+	        btnAceptar.setForeground(Color.decode("#DCC8EF"));
+	        btnCancelar.setBackground(Color.decode("#52247C"));
+	        btnCancelar.setForeground(Color.decode("#DCC8EF"));
+	        
+	        // Botón darkMode
+	        darkMode.setBackground(Color.decode("#52247C"));
+	        darkMode.setForeground(Color.decode("#DCC8EF"));
+	        darkMode.setText("MODO CLARO");
+	        isDarkMode = true;
+	    }
 	}
 
 	/**
@@ -242,6 +348,22 @@ public class PreferencesWindow extends JFrame {
 
 	public void setAceptado(boolean aceptado) {
 		this.aceptado = aceptado;
+	}
+
+	public JButton getDarkMode() {
+		return darkMode;
+	}
+
+	public void setDarkMode(JButton darkMode) {
+		this.darkMode = darkMode;
+	}
+
+	public boolean isDarkMode() {
+		return isDarkMode;
+	}
+
+	public void setDarkMode(boolean isDarkMode) {
+		this.isDarkMode = isDarkMode;
 	}
 
 	public void limpiarCampos() {

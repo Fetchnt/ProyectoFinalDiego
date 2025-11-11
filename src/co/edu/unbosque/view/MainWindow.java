@@ -240,41 +240,41 @@ public class MainWindow extends JFrame {
 
 			} else {
 				// Cambia a modo oscuro
-				this.getContentPane().setBackground(Color.decode("#161615"));
-		        panelMenu.setBackground(Color.decode("#2D2D2D"));
-		        panelLogo.setBackground(Color.decode("#2D2D2D"));
-		        lBosTinder.setForeground(Color.decode("#F9CFCE"));
-		        lblTitulo.setForeground(Color.decode("#E3225C"));
-		        lblNameAge.setForeground(Color.decode("#F9CFCE"));
+				this.getContentPane().setBackground(Color.decode("#11021E"));
+				panelMenu.setBackground(Color.decode("#1E1724"));
+				panelLogo.setBackground(Color.decode("#1E1724"));
+				lBosTinder.setForeground(Color.decode("#FF2B91"));
+				lblTitulo.setForeground(Color.decode("#FF7171"));
+				lblNameAge.setForeground(Color.decode("#DCC8EF"));
 
-		        // Área de texto
-		        txtDescription.setBackground(Color.decode("#1E1E1E"));
-		        txtDescription.setForeground(Color.decode("#FFFFFF"));
+				// Área de texto
+				txtDescription.setBackground(Color.decode("#2A1F3A"));
+				txtDescription.setForeground(Color.decode("#DCC8EF"));
 
-		        // Botones principales
-		        btnLike.setForeground(Color.decode("#FFFFFF"));
-		        btnLike.setBackground(Color.decode("#BA1750"));
-		        btnNope.setForeground(Color.decode("#FFFFFF"));
-		        btnNope.setBackground(Color.decode("#BA1750"));
+				// Botones principales
+				btnLike.setForeground(Color.decode("#DCC8EF"));
+				btnLike.setBackground(Color.decode("#52247C"));
+				btnNope.setForeground(Color.decode("#DCC8EF"));
+				btnNope.setBackground(Color.decode("#52247C"));
 
-		        // Botones del panelMenu
-		        btnVerMeGusta.setForeground(Color.decode("#F9CFCE"));
-		        btnVerMeGusta.setBackground(Color.decode("#BA1750"));
-		        btnModoIncognito.setForeground(Color.decode("#F9CFCE"));
-		        btnModoIncognito.setBackground(Color.decode("#BA1750"));
-		        btnProfile.setForeground(Color.decode("#F9CFCE"));
-		        btnProfile.setBackground(Color.decode("#BA1750"));
-		        btnLogOff.setForeground(Color.decode("#F9CFCE"));
-		        btnLogOff.setBackground(Color.decode("#BA1750"));
+				// Botones del panelMenu
+				btnVerMeGusta.setForeground(Color.decode("#DCC8EF"));
+				btnVerMeGusta.setBackground(Color.decode("#52247C"));
+				btnModoIncognito.setForeground(Color.decode("#DCC8EF"));
+				btnModoIncognito.setBackground(Color.decode("#52247C"));
+				btnProfile.setForeground(Color.decode("#DCC8EF"));
+				btnProfile.setBackground(Color.decode("#52247C"));
+				btnLogOff.setForeground(Color.decode("#DCC8EF"));
+				btnLogOff.setBackground(Color.decode("#52247C"));
 
-		        // Borde de la foto de perfil
-		        lblProfilePicture.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+				// Borde de la foto de perfil
+				lblProfilePicture.setBorder(BorderFactory.createLineBorder(Color.decode("#DCC8EF"), 2));
 
-		        // Botón darkMode
-		        darkMode.setBackground(Color.decode("#BA1750"));
-		        darkMode.setForeground(Color.decode("#FFFFFF"));
-		        darkMode.setText("MODO CLARO");
-		        isDarkMode = true;
+				// Botón darkMode
+				darkMode.setBackground(Color.decode("#52247C"));
+				darkMode.setForeground(Color.decode("#DCC8EF"));
+				darkMode.setText("MODO CLARO");
+				isDarkMode = true;
 			}
 
 		}

@@ -93,7 +93,7 @@ public class MapWindow extends JFrame {
 		
 		//-----IMAGEN ADICIONAL-------
 
-		ImageIcon imagePartnerFour = new ImageIcon(getClass().getResource("partnerFour.JPG"));
+		ImageIcon imagePartnerFour = new ImageIcon(getClass().getResource("flower.png"));
 		lImage = new JLabel(imagePartnerFour);
 		lImage.setBounds(750, 247, 200, 300);
 		add(lImage);
@@ -236,22 +236,22 @@ public class MapWindow extends JFrame {
 		        isDarkMode = false;
 
 		} else {
-			// Cambia a modo oscuro
-			this.getContentPane().setBackground(Color.decode("#161615"));
-	        panelLogo.setBackground(Color.decode("#2D2D2D"));
-	        panelOption.setBackground(Color.decode("#2D2D2D"));
-	        panelMapa.setBackground(Color.decode("#1E1E1E"));
-	        lBosTinder.setForeground(Color.decode("#F9CFCE"));
-	        lText.setForeground(Color.decode("#E3225C"));
-	        lPaisSeleccionado.setForeground(Color.decode("#F9CFCE"));
+			 // Cambia a modo oscuro
+	        this.getContentPane().setBackground(Color.decode("#11021E"));
+	        panelLogo.setBackground(Color.decode("#1E1724"));
+	        panelOption.setBackground(Color.decode("#1E1724"));
+	        panelMapa.setBackground(Color.decode("#1E1724"));
+	        lBosTinder.setForeground(Color.decode("#FF2B91"));
+	        lText.setForeground(Color.decode("#FF7171"));
+	        lPaisSeleccionado.setForeground(Color.decode("#DCC8EF"));
 
 	        // Botón del panelOption
-	        btnBackMap.setForeground(Color.decode("#FFFFFF"));
-	        btnBackMap.setBackground(Color.decode("#BA1750"));
+	        btnBackMap.setForeground(Color.decode("#DCC8EF"));
+	        btnBackMap.setBackground(Color.decode("#52247C"));
 
 	        // Botón darkMode
-	        darkMode.setBackground(Color.decode("#BA1750"));
-	        darkMode.setForeground(Color.decode("#FFFFFF"));
+	        darkMode.setBackground(Color.decode("#52247C"));
+	        darkMode.setForeground(Color.decode("#DCC8EF"));
 	        darkMode.setText("MODO CLARO");
 	        isDarkMode = true;
 		}
