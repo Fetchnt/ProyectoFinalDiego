@@ -22,7 +22,6 @@ public class MainWindow extends JFrame {
 
 	private JButton btnLike;
 	private JButton btnNope;
-	private JButton btnFavorite;
 	private JButton btnProfile;
 	private JButton btnLogOff;
 	private JButton btnVerMeGusta;
@@ -99,14 +98,6 @@ public class MainWindow extends JFrame {
 		btnNope.setFocusPainted(false);
 		btnNope.setBorderPainted(false);
 		getContentPane().add(btnNope);
-
-		btnFavorite = new JButton("⭐ Favorito");
-		btnFavorite.setBounds(568, 583, 97, 40);
-		btnFavorite.setForeground(Color.decode("#F9CFCE"));
-		btnFavorite.setBackground(Color.decode("#EB5F5B"));
-		btnFavorite.setFocusPainted(false);
-		btnFavorite.setBorderPainted(false);
-		getContentPane().add(btnFavorite);
 
 		btnLike = new JButton("💖");
 		btnLike.setBounds(57, 583, 60, 40);
@@ -227,8 +218,6 @@ public class MainWindow extends JFrame {
 		        btnLike.setBackground(Color.decode("#EB5F5B"));
 		        btnNope.setForeground(Color.decode("#F9CFCE"));
 		        btnNope.setBackground(Color.decode("#EB5F5B"));
-		        btnFavorite.setForeground(Color.decode("#F9CFCE"));
-		        btnFavorite.setBackground(Color.decode("#EB5F5B"));
 
 		        // Botones del panelMenu
 		        btnVerMeGusta.setForeground(Color.decode("#EB5F5B"));
@@ -267,8 +256,6 @@ public class MainWindow extends JFrame {
 		        btnLike.setBackground(Color.decode("#BA1750"));
 		        btnNope.setForeground(Color.decode("#FFFFFF"));
 		        btnNope.setBackground(Color.decode("#BA1750"));
-		        btnFavorite.setForeground(Color.decode("#FFFFFF"));
-		        btnFavorite.setBackground(Color.decode("#BA1750"));
 
 		        // Botones del panelMenu
 		        btnVerMeGusta.setForeground(Color.decode("#F9CFCE"));
@@ -305,7 +292,6 @@ public class MainWindow extends JFrame {
 		// Botones principales
 		btnLike.setText(prop.getProperty("bostinder.view.mainwindow.button.like"));
 		btnNope.setText(prop.getProperty("bostinder.view.mainwindow.button.nope"));
-		btnFavorite.setText(prop.getProperty("bostinder.view.mainwindow.button.favorite"));
 		btnProfile.setText(prop.getProperty("bostinder.view.mainwindow.button.profile"));
 		btnLogOff.setText(prop.getProperty("bostinder.view.mainwindow.button.logout"));
 
@@ -349,14 +335,6 @@ public class MainWindow extends JFrame {
 
 	public void setBtnNope(JButton btnNope) {
 		this.btnNope = btnNope;
-	}
-
-	public JButton getBtnFavorite() {
-		return btnFavorite;
-	}
-
-	public void setBtnFavorite(JButton btnFavorite) {
-		this.btnFavorite = btnFavorite;
 	}
 
 	public JButton getBtnProfile() {

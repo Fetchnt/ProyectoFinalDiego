@@ -180,9 +180,6 @@ public class Controller implements ActionListener {
 		vf.getMmw().getBtnModoIncognito().addActionListener(this);
 		vf.getMmw().getBtnModoIncognito().setActionCommand("boton_modo_incognito");
 
-		vf.getMmw().getBtnFavorite().addActionListener(this);
-		vf.getMmw().getBtnFavorite().setActionCommand("boton_favorito");
-
 		vf.getAw().getBtnGenerarPDF().addActionListener(this);
 		vf.getAw().getBtnGenerarPDF().setActionCommand("boton_generar_pdf");
 
@@ -529,26 +526,26 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_iniciosesion": {
-			// Obtener los datos ingresados
-			String userAlias = vf.getLw().getUser().getText();
-			String email = vf.getLw().getEmail().getText();
-			String password = vf.getLw().getPassword().getText();
+		    // Obtener los datos ingresados
+		    String userAlias = vf.getLw().getUser().getText();
+		    String email = vf.getLw().getEmail().getText();
+		    String password = vf.getLw().getPassword().getText();
 
-			// Validar credenciales con el modelo
-			boolean valido = mf.validarInicioSesion(userAlias, email, password);
+		    // Validar credenciales con el modelo
+		    boolean valido = mf.validarInicioSesion(userAlias, email, password);
 
-			if (valido) {
-				JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso. Bienvenido!");
-				vf.getLw().setVisible(false);
-				vf.getMmw().setVisible(true);
-
-				// Mostrar el primer perfil al entrar
-				mostrarPerfil();
-			} else {
-				JOptionPane.showMessageDialog(null, "Datos incorrectos. Verifica tu alias, correo y contraseña.",
-						"Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-			}
-			break;
+		    if (valido) {
+		        JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso. ¡Bienvenido!");
+		        vf.getLw().setVisible(false);
+		        
+		        // ✅ NUEVO: Mostrar PreferencesWindow para capturar preferencias
+		        mostrarVentanaPreferencias();
+		        
+		    } else {
+		        JOptionPane.showMessageDialog(null, "Datos incorrectos. Verifica tu alias, correo y contraseña.",
+		                "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+		    }
+		    break;
 		}
 		case "boton_volver_iniciosesion": {
 			vf.getLw().dispose();
@@ -597,15 +594,12 @@ public class Controller implements ActionListener {
 
 		case "boton_mostrar_todos_admin": {
 			mostrarTodosLosUsuarios();
+			break;
 		}
 
 		case "boton_modo_incognito": {
 			toggleModoIncognito();
 			break;
-		}
-
-		case "boton_favorito": {
-
 		}
 
 		case "boton_filtro_top10_admin": {
@@ -715,7 +709,7 @@ public class Controller implements ActionListener {
 		}
 		
 		case "boton_aceptar_preferencias": {
-		    aplicarPreferencias();
+		    aplicarYGuardarPreferencias();
 		    break;
 		}
 
@@ -727,7 +721,7 @@ public class Controller implements ActionListener {
 		    mostrarPerfil();
 		    break;
 		}
-
+		
 		default:
 			System.out.println("Acción no definida: " + alias);
 			break;
@@ -1915,9 +1909,137 @@ public class Controller implements ActionListener {
 	            JOptionPane.ERROR_MESSAGE);
 	    }
 	}
+
+	/**
+	 * Muestra la ventana de preferencias según el género del usuario
+	 */
+	private void mostrarVentanaPreferencias() {
+	    User usuarioActual = mf.getUsuarioActual();
+	    
+	    if (usuarioActual == null) {
+	        JOptionPane.showMessageDialog(null, "Error: No se pudo obtener la información del usuario.",
+	            "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+	    
+	    // Limpiar campos previos
+	    vf.getPrefw().limpiarCampos();
+	    
+	    // Configurar la ventana según el género del usuario
+	    if (usuarioActual instanceof MenDTO) {
+	        vf.getPrefw().configurarParaHombres();
+	    } else if (usuarioActual instanceof WomenDTO) {
+	        vf.getPrefw().configurarParaMujeres();
+	    }
+	    
+	    // Mostrar la ventana de preferencias
+	    vf.getPrefw().setVisible(true);
+	}
+
+	/**
+	 * Aplica y guarda las preferencias seleccionadas en la PreferencesWindow
+	 * Luego filtra y compara los perfiles según los criterios
+	 */
+	private void aplicarYGuardarPreferencias() {
+	    User usuarioActual = mf.getUsuarioActual();
+	    
+	    if (usuarioActual == null) {
+	        JOptionPane.showMessageDialog(vf.getPrefw(),
+	            "Error: Usuario no identificado.",
+	            "Error", JOptionPane.ERROR_MESSAGE);
+	        return;
+	    }
+	    
+	    try {
+	        if (usuarioActual instanceof MenDTO) {
+	            // ✅ HOMBRE: Obtener y validar preferencias
+	            int edadMin = Integer.parseInt(vf.getPrefw().getTxtEdadMin().getText().trim());
+	            int edadMax = Integer.parseInt(vf.getPrefw().getTxtEdadMax().getText().trim());
+	            String preferenciaDiv = (String) vf.getPrefw().getCmbDivorcios().getSelectedItem();
+	            
+	            // Validar rango de edad
+	            if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
+	                JOptionPane.showMessageDialog(vf.getPrefw(),
+	                    "❌ Rango de edad inválido.\n" +
+	                    "• Edad mínima: 18 o más\n" +
+	                    "• Edad máxima: debe ser mayor que la mínima\n" +
+	                    "• Máximo: 100 años",
+	                    "Error de validación", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            
+	            // ✅ GUARDAR Y COMPARAR: Filtrar perfiles según preferencias de HOMBRE
+	            filtrarPerfilesPorPreferenciasHombres(edadMin, edadMax, preferenciaDiv);
+	            
+	            // Cerrar ventana de preferencias y mostrar MainWindow
+	            vf.getPrefw().setAceptado(true);
+	            vf.getPrefw().setVisible(false);
+	            vf.getMmw().setVisible(true);
+	            mostrarPerfil();
+	            
+	        } else if (usuarioActual instanceof WomenDTO) {
+	            // ✅ MUJER: Obtener y validar preferencias
+	            int edadMin = Integer.parseInt(vf.getPrefw().getTxtEdadMin().getText().trim());
+	            int edadMax = Integer.parseInt(vf.getPrefw().getTxtEdadMax().getText().trim());
+	            double estaturaMin = Double.parseDouble(vf.getPrefw().getTxtEstatura().getText().trim());
+	            long ingresosMin = Long.parseLong(vf.getPrefw().getTxtIngresos().getText().trim());
+	            
+	            // Validar rango de edad
+	            if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
+	                JOptionPane.showMessageDialog(vf.getPrefw(),
+	                    "❌ Rango de edad inválido.\n" +
+	                    "• Edad mínima: 18 o más\n" +
+	                    "• Edad máxima: debe ser mayor que la mínima\n" +
+	                    "• Máximo: 100 años",
+	                    "Error de validación", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            
+	            // Validar estatura
+	            if (estaturaMin < 0.60 || estaturaMin > 2.50) {
+	                JOptionPane.showMessageDialog(vf.getPrefw(),
+	                    "❌ Estatura inválida.\n" +
+	                    "• Debe estar entre 0.60m y 2.50m",
+	                    "Error de validación", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            
+	            // Validar ingresos
+	            if (ingresosMin < 0) {
+	                JOptionPane.showMessageDialog(vf.getPrefw(),
+	                    "❌ Los ingresos mínimos no pueden ser negativos.",
+	                    "Error de validación", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            
+	            // ✅ GUARDAR Y COMPARAR: Filtrar perfiles según preferencias de MUJER
+	            filtrarPerfilesPorPreferenciasMujeres(edadMin, edadMax, estaturaMin, ingresosMin);
+	            
+	            // Cerrar ventana de preferencias y mostrar MainWindow
+	            vf.getPrefw().setAceptado(true);
+	            vf.getPrefw().setVisible(false);
+	            vf.getMmw().setVisible(true);
+	            mostrarPerfil();
+	        }
+	        
+	    } catch (NumberFormatException ex) {
+	        JOptionPane.showMessageDialog(vf.getPrefw(),
+	            "❌ Error en los valores ingresados.\n" +
+	            "Por favor verifica que todos los campos contengan números válidos.",
+	            "Error de validación", JOptionPane.ERROR_MESSAGE);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(vf.getPrefw(),
+	            "❌ Error al aplicar preferencias: " + e.getMessage(),
+	            "Error", JOptionPane.ERROR_MESSAGE);
+	    }
+	}
+
 	private void filtrarPerfilesPorPreferenciasHombres(int edadMin, int edadMax, String preferenciaDiv) {
 	    User usuarioActual = mf.getUsuarioActual();
 	    mf.cargarPerfiles(usuarioActual);
+	    
+	    String orientacionHombreActual = usuarioActual.getSexualOrientation();
 	    
 	    List<User> perfilesFiltrados = new ArrayList<>();
 	    
@@ -1929,19 +2051,24 @@ public class Controller implements ActionListener {
 	            WomenDTO mujer = (WomenDTO) perfil;
 	            
 	            int edad = calcularEdad(mujer.getBornDate());
+	            String orientacionMujer = mujer.getSexualOrientation();
 	            
-	            // Verificar rango de edad
+	            // ✅ COMPARAR 1: Rango de edad
 	            if (edad < edadMin || edad > edadMax) {
 	                continue;
 	            }
 	            
-	            // Verificar preferencia de divorcios
+	            // ✅ COMPARAR 2: Preferencia de divorcios
 	            if (preferenciaDiv.equals("Sí") && !mujer.isHadDivorces()) {
 	                continue;
 	            } else if (preferenciaDiv.equals("No") && mujer.isHadDivorces()) {
 	                continue;
 	            }
-	            // Si es "No importa", no filtra
+	            
+	            // ✅ COMPARAR 3: ORIENTACIÓN SEXUAL (COMPATIBILIDAD)
+	            if (!esCompatibleOrientacionSexual(orientacionHombreActual, orientacionMujer)) {
+	                continue;
+	            }
 	            
 	            perfilesFiltrados.add(perfil);
 	        }
@@ -1953,23 +2080,26 @@ public class Controller implements ActionListener {
 	    
 	    if (perfilesFiltrados.isEmpty()) {
 	        JOptionPane.showMessageDialog(vf.getMmw(),
-	            "No se encontraron perfiles que coincidan con tus preferencias.\nMostrando todos los perfiles disponibles.",
+	            "⚠️ No se encontraron perfiles que coincidan con tus preferencias.\nMostrando todos los perfiles disponibles.",
 	            "Sin resultados",
 	            JOptionPane.INFORMATION_MESSAGE);
 	        mf.cargarPerfiles(usuarioActual);
 	    } else {
 	        JOptionPane.showMessageDialog(vf.getMmw(),
-	            "✅ Se encontraron " + perfilesFiltrados.size() + " perfil(es) que coinciden con tus preferencias.",
+	            "✅ Se encontraron " + perfilesFiltrados.size() + " perfil(es) que coinciden con tus preferencias.\n" +
+	            "• Edad: " + edadMin + " - " + edadMax + " años\n" +
+	            "• Divorcios: " + preferenciaDiv + "\n" +
+	            "• Orientación sexual compatible: " + orientacionHombreActual,
 	            "Preferencias aplicadas",
 	            JOptionPane.INFORMATION_MESSAGE);
 	    }
 	}
-	/**
-	 * Filtra los perfiles para mujeres según sus preferencias
-	 */
+
 	private void filtrarPerfilesPorPreferenciasMujeres(int edadMin, int edadMax, double estaturaMin, long ingresosMin) {
 	    User usuarioActual = mf.getUsuarioActual();
 	    mf.cargarPerfiles(usuarioActual);
+	    
+	    String orientacionMujerActual = usuarioActual.getSexualOrientation();
 	    
 	    List<User> perfilesFiltrados = new ArrayList<>();
 	    
@@ -1981,24 +2111,30 @@ public class Controller implements ActionListener {
 	            MenDTO hombre = (MenDTO) perfil;
 	            
 	            int edad = calcularEdad(hombre.getBornDate());
+	            String orientacionHombre = hombre.getSexualOrientation();
 	            
-	            // Verificar rango de edad
+	            // ✅ COMPARAR 1: Rango de edad
 	            if (edad < edadMin || edad > edadMax) {
 	                continue;
 	            }
 	            
-	            // Verificar estatura
+	            // ✅ COMPARAR 2: Estatura mínima
 	            try {
 	                double estatura = Double.parseDouble(hombre.getStature());
 	                if (estatura < estaturaMin) {
 	                    continue;
 	                }
 	            } catch (NumberFormatException e) {
-	                // Si no se puede parsear la estatura, omitir este filtro
+	                continue;
 	            }
 	            
-	            // Verificar ingresos
+	            // ✅ COMPARAR 3: Ingresos mínimos mensuales
 	            if (hombre.getMensualIncome() < ingresosMin) {
+	                continue;
+	            }
+	            
+	            // ✅ COMPARAR 4: ORIENTACIÓN SEXUAL (COMPATIBILIDAD)
+	            if (!esCompatibleOrientacionSexual(orientacionMujerActual, orientacionHombre)) {
 	                continue;
 	            }
 	            
@@ -2012,18 +2148,71 @@ public class Controller implements ActionListener {
 	    
 	    if (perfilesFiltrados.isEmpty()) {
 	        JOptionPane.showMessageDialog(vf.getMmw(),
-	            "No se encontraron perfiles que coincidan con tus preferencias.\nMostrando todos los perfiles disponibles.",
+	            "⚠️ No se encontraron perfiles que coincidan con tus preferencias.\nMostrando todos los perfiles disponibles.",
 	            "Sin resultados",
 	            JOptionPane.INFORMATION_MESSAGE);
 	        mf.cargarPerfiles(usuarioActual);
 	    } else {
 	        JOptionPane.showMessageDialog(vf.getMmw(),
-	            "✅ Se encontraron " + perfilesFiltrados.size() + " perfil(es) que coinciden con tus preferencias.",
+	            "✅ Se encontraron " + perfilesFiltrados.size() + " perfil(es) que coinciden con tus preferencias.\n" +
+	            "• Edad: " + edadMin + " - " + edadMax + " años\n" +
+	            "• Estatura mínima: " + estaturaMin + "m\n" +
+	            "• Ingresos mínimos: $" + ingresosMin + "\n" +
+	            "• Orientación sexual compatible: " + orientacionMujerActual,
 	            "Preferencias aplicadas",
 	            JOptionPane.INFORMATION_MESSAGE);
 	    }
 	}
-
+	/**
+	 * ✅ MÉTODO AUXILIAR: Verifica si dos orientaciones sexuales son compatibles
+	 * Lógica de compatibilidad:
+	 * - Heterosexual con Heterosexual: SÍ (opuesto género)
+	 * - Homosexual con Homosexual: SÍ (mismo género)
+	 * - Bisexual con cualquiera: SÍ (bisexual acepta todos)
+	 * - Otros casos: NO
+	 */
+	private boolean esCompatibleOrientacionSexual(String orientacion1, String orientacion2) {
+	    // Normalizar valores (por si hay espacios o diferencias de mayúsculas)
+	    orientacion1 = orientacion1.trim().toLowerCase();
+	    orientacion2 = orientacion2.trim().toLowerCase();
+	    
+	    // Si alguno es bisexual, siempre es compatible
+	    if (orientacion1.contains("bisexual") || orientacion2.contains("bisexual")) {
+	        return true;
+	    }
+	    
+	    // Si ambos son heterosexuales (genéricos)
+	    if (orientacion1.equals("heterosexual") && orientacion2.equals("heterosexual")) {
+	        return true;
+	    }
+	    
+	    // Si ambos son homosexuales (genéricos)
+	    if (orientacion1.equals("homosexual") && orientacion2.equals("homosexual")) {
+	        return true;
+	    }
+	    
+	    // Si ambos son gay
+	    if (orientacion1.equals("gay") && orientacion2.equals("gay")) {
+	        return true;
+	    }
+	    
+	    // Si ambos son lésbica
+	    if (orientacion1.equals("lésbica") && orientacion2.equals("lésbica")) {
+	        return true;
+	    }
+	    
+	    // Heterosexual con Gay/Lésbica: NO compatible
+	    if (orientacion1.equals("heterosexual") && (orientacion2.equals("gay") || orientacion2.equals("lésbica"))) {
+	        return false;
+	    }
+	    
+	    if (orientacion2.equals("heterosexual") && (orientacion1.equals("gay") || orientacion1.equals("lésbica"))) {
+	        return false;
+	    }
+	    
+	    // Si no coincide ningún caso, considera compatible por defecto
+	    return true;
+	}
 
 	public void run() {
 		vf.getPw().setVisible(true);
