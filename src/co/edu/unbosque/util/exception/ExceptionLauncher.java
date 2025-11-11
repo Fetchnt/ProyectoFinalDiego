@@ -140,5 +140,27 @@ public class ExceptionLauncher {
 			throw new ImageNotSelectedException();
 		}
 	}
+	
+	public static void verifyIncome(String incomeStr, String country) throws IncomeException {
+	    if (incomeStr == null || incomeStr.trim().isEmpty()) {
+	        throw new IncomeException();
+	    }
+	    
+	    try {
+	        long ingresos = Long.parseLong(incomeStr.trim());
+	        
+	        if (ingresos < 0) {
+	            throw new IncomeException();
+	        }
+	        // Validación adicional: ingresos mínimos razonables por país
+	        if (ingresos < 1000 && ("Angola".equals(country) || "Argentina".equals(country) || 
+	                               "Colombia".equals(country) || "México".equals(country))) {
+	            throw new IncomeException();
+	        }
+	        
+	    } catch (NumberFormatException e) {
+	        throw new IncomeException();
+	    }
+	}
 
 }
