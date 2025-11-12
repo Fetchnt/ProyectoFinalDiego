@@ -1770,16 +1770,25 @@ public class Controller implements ActionListener {
 	/**
 	 * Aplica las preferencias seleccionadas por el usuario
 	 */
-	public void aplicarPreferencias() {
+	/**
+	 * Aplica y guarda las preferencias seleccionadas en la PreferencesWindow
+	 * Luego filtra y compara los perfiles según los criterios
+	 * CONSIDERANDO ORIENTACIÓN SEXUAL: Heterosexual, Homosexual, Bisexual, Asexual
+	 */
+	public void aplicarYGuardarPreferencias() {
 		User usuarioActual = mf.getUsuarioActual();
 
 		if (usuarioActual == null) {
+			JOptionPane.showMessageDialog(vf.getPrefw(), prop.getProperty("controller.preferences.user_not_found.message"), prop.getProperty("controller.preferences.user_not_found.title"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		try {
+			String orientacionUsuario = usuarioActual.getSexualOrientation().toLowerCase().trim();
+			
 			if (usuarioActual instanceof MenDTO) {
-				// Obtener valores para hombres
+				// ✅ HOMBRE: Obtener y validar preferencias
 				int edadMin = Integer.parseInt(vf.getPrefw().getTxtEdadMin().getText().trim());
 				int edadMax = Integer.parseInt(vf.getPrefw().getTxtEdadMax().getText().trim());
 				String preferenciaDiv = (String) vf.getPrefw().getCmbDivorcios().getSelectedItem();
@@ -1787,66 +1796,456 @@ public class Controller implements ActionListener {
 				// Validar rango de edad
 				if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
 					JOptionPane.showMessageDialog(vf.getPrefw(),
-							prop.getProperty("controller.preferences.invalid_age_range.message"),
-							prop.getProperty("controller.preferences.invalid_age_range.title"),
-							JOptionPane.ERROR_MESSAGE);
+							prop.getProperty("controller.preferences.invalid_age_range.message")
+									+ prop.getProperty("controller.preferences.invalid_age_range.message"),
+							prop.getProperty("controller.preferences.invalid_age_range.title"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
-				// Filtrar perfiles
+				// ✅ GUARDAR Y COMPARAR: Filtrar perfiles según preferencias de HOMBRE
+				if (orientacionUsuario.contains("heterosexual")) {
+					// Hombre heterosexual busca MUJERES
+					filtrarPerfilesPorPreferenciasHombresHeterosexuales(edadMin, edadMax, preferenciaDiv);
+				} else if (orientacionUsuario.contains("homosexual") || orientacionUsuario.equals("gay")) {
+					// Hombre homosexual/gay busca HOMBRES
+					filtrarPerfilesPorPreferenciasHombresHomosexuales(edadMin, edadMax);
+				} else if (orientacionUsuario.contains("bisexual")) {
+					// Hombre bisexual busca HOMBRES Y MUJERES
+					filtrarPerfilesPorPreferenciasHombresBisexuales(edadMin, edadMax, preferenciaDiv);
+				} else if (orientacionUsuario.contains("asexual")) {
+					// Hombre asexual busca cualquiera (sin filtro de género, pero sí de edad)
+					filtrarPerfilesPorPreferenciasHombresAsexuales(edadMin, edadMax);
+				}
+
+				// Cerrar ventana de preferencias y mostrar MainWindow
 				vf.getPrefw().setAceptado(true);
 				vf.getPrefw().setVisible(false);
-				filtrarPerfilesPorPreferenciasHombres(edadMin, edadMax, preferenciaDiv);
 				vf.getMmw().setVisible(true);
 				mostrarPerfil();
 
 			} else if (usuarioActual instanceof WomenDTO) {
-				// Obtener valores para mujeres
+				// ✅ MUJER: Obtener y validar preferencias
 				int edadMin = Integer.parseInt(vf.getPrefw().getTxtEdadMin().getText().trim());
 				int edadMax = Integer.parseInt(vf.getPrefw().getTxtEdadMax().getText().trim());
 				double estaturaMin = Double.parseDouble(vf.getPrefw().getTxtEstatura().getText().trim());
 				long ingresosMin = Long.parseLong(vf.getPrefw().getTxtIngresos().getText().trim());
 
-				// Validar valores
+				// Validar rango de edad
 				if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
 					JOptionPane.showMessageDialog(vf.getPrefw(),
-							prop.getProperty("controller.preferences.invalid_age_range.message"),
-							prop.getProperty("controller.preferences.invalid_age_range.title"),
+							prop.getProperty("controller.preferences.invalid_age_range.message")
+									+ prop.getProperty("controller.preferences.invalid_age_range.message"),
+							prop.getProperty("controller.preferences.invalid_age_range.title"), JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				// Validar estatura
+				if (estaturaMin < 0.60 || estaturaMin > 2.50) {
+					JOptionPane.showMessageDialog(vf.getPrefw(),
+							prop.getProperty("controller.preferences.invalid_height.message"), prop.getProperty("controller.preferences.invalid_age_range.title"),
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
-				if (estaturaMin < 0.60 || estaturaMin > 2.50) {
-					JOptionPane.showMessageDialog(vf.getPrefw(),
-							prop.getProperty("controller.preferences.invalid_height.message"),
-							prop.getProperty("controller.preferences.invalid_height.title"), JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
+				// Validar ingresos
 				if (ingresosMin < 0) {
-					JOptionPane.showMessageDialog(vf.getPrefw(),
-							prop.getProperty("controller.preferences.invalid_income.message"),
+					JOptionPane.showMessageDialog(vf.getPrefw(), prop.getProperty("controller.preferences.invalid_income.message"),
 							prop.getProperty("controller.preferences.invalid_income.title"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
-				// Filtrar perfiles
+				// ✅ GUARDAR Y COMPARAR: Filtrar perfiles según preferencias de MUJER
+				if (orientacionUsuario.contains("heterosexual")) {
+					// Mujer heterosexual busca HOMBRES
+					filtrarPerfilesPorPreferenciasMujeresHeterosexuales(edadMin, edadMax, estaturaMin, ingresosMin);
+				} else if (orientacionUsuario.contains("homosexual") || orientacionUsuario.equals("lésbica")) {
+					// Mujer homosexual/lésbica busca MUJERES
+					filtrarPerfilesPorPreferenciasMujeresHomosexuales(edadMin, edadMax);
+				} else if (orientacionUsuario.contains("bisexual")) {
+					// Mujer bisexual busca HOMBRES Y MUJERES
+					filtrarPerfilesPorPreferenciasMujeresBisexuales(edadMin, edadMax, estaturaMin, ingresosMin);
+				} else if (orientacionUsuario.contains("asexual")) {
+					// Mujer asexual busca cualquiera (sin filtro de género, pero sí de edad)
+					filtrarPerfilesPorPreferenciasMujeresAsexuales(edadMin, edadMax);
+				}
+
+				// Cerrar ventana de preferencias y mostrar MainWindow
 				vf.getPrefw().setAceptado(true);
 				vf.getPrefw().setVisible(false);
-				filtrarPerfilesPorPreferenciasMujeres(edadMin, edadMax, estaturaMin, ingresosMin);
 				vf.getMmw().setVisible(true);
 				mostrarPerfil();
 			}
 
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(vf.getPrefw(),
-					prop.getProperty("controller.preferences.invalid_numeric.message"),
-					prop.getProperty("controller.preferences.invalid_numeric.title"), JOptionPane.ERROR_MESSAGE);
+					prop.getProperty("controller.preferences.errorexception.numberformat.message"),
+					prop.getProperty("controller.preferences.errorexception.numberformat.title"), JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(vf.getPrefw(),
-					prop.getProperty("controller.preferences.error.message") + e.getMessage(),
-					prop.getProperty("controller.preferences.error.title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getPrefw(), prop.getProperty("controller.preferences.errorpreferences.title") + e.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	// ==================== MÉTODOS PARA HOMBRES ====================
+
+	/**
+	 * Filtra MUJERES para HOMBRES HETEROSEXUALES
+	 */
+	public void filtrarPerfilesPorPreferenciasHombresHeterosexuales(int edadMin, int edadMax, String preferenciaDiv) {
+		User usuarioActual = mf.getUsuarioActual();
+		mf.cargarPerfiles(usuarioActual);
+
+		List<User> perfilesFiltrados = new ArrayList<>();
+
+		for (User perfil : mf.perfilesActuales) {
+			if (perfil instanceof WomenDTO) {
+				WomenDTO mujer = (WomenDTO) perfil;
+				int edad = calcularEdad(mujer.getBornDate());
+
+				// Comparar edad
+				if (edad < edadMin || edad > edadMax) {
+					continue;
+				}
+
+				// Comparar divorcios
+				if (preferenciaDiv.equals("Sí") && !mujer.isHadDivorces()) {
+					continue;
+				} else if (preferenciaDiv.equals("No") && mujer.isHadDivorces()) {
+					continue;
+				}
+
+				perfilesFiltrados.add(perfil);
+			}
+		}
+
+		mf.perfilesActuales.clear();
+		mf.perfilesActuales.addAll(perfilesFiltrados);
+		mf.indiceActual = 0;
+
+		if (perfilesFiltrados.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.error_filtered_profiles.message"),
+					prop.getProperty("controller.preferences.error_filtered_profiles.title"), JOptionPane.INFORMATION_MESSAGE);
+			mf.cargarPerfiles(usuarioActual);
+		} else {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found.message") + perfilesFiltrados.size() + prop.getProperty("controller.preferences.found_women.message")+ prop.getProperty("controller.preferences.found_women.age") + edadMin
+							+ " - " + edadMax + prop.getProperty("controller.preferences.found_women.age.count") + prop.getProperty("controller.preferences.found_women_divorces.message") + preferenciaDiv,
+					prop.getProperty("controller.preferences.found.title"), JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	/**
+	 * Filtra HOMBRES para HOMBRES HOMOSEXUALES/GAY
+	 */
+	public void filtrarPerfilesPorPreferenciasHombresHomosexuales(int edadMin, int edadMax) {
+		User usuarioActual = mf.getUsuarioActual();
+		mf.cargarPerfiles(usuarioActual);
+
+		List<User> perfilesFiltrados = new ArrayList<>();
+
+		for (User perfil : mf.perfilesActuales) {
+			if (perfil instanceof MenDTO) {
+				MenDTO hombre = (MenDTO) perfil;
+				int edad = calcularEdad(hombre.getBornDate());
+
+				// Comparar edad
+				if (edad < edadMin || edad > edadMax) {
+					continue;
+				}
+
+				perfilesFiltrados.add(perfil);
+			}
+		}
+
+		mf.perfilesActuales.clear();
+		mf.perfilesActuales.addAll(perfilesFiltrados);
+		mf.indiceActual = 0;
+
+		if (perfilesFiltrados.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found_men_notfound"),
+					prop.getProperty("controller.preferences.found_men_notfound.title"), JOptionPane.INFORMATION_MESSAGE);
+			mf.cargarPerfiles(usuarioActual);
+		} else {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found.message") + perfilesFiltrados.size() + prop.getProperty("controller.preferences.found_men.message") + prop.getProperty("controller.preferences.found_men.age") + edadMin
+							+ " - " + edadMax + prop.getProperty("controller.preferences.found_men.age.count"),
+					prop.getProperty("controller.preferences.found.title"), JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	/**
+	 * Filtra HOMBRES Y MUJERES para HOMBRES BISEXUALES
+	 */
+	public void filtrarPerfilesPorPreferenciasHombresBisexuales(int edadMin, int edadMax, String preferenciaDiv) {
+		User usuarioActual = mf.getUsuarioActual();
+		mf.cargarPerfiles(usuarioActual);
+
+		List<User> perfilesFiltrados = new ArrayList<>();
+
+		for (User perfil : mf.perfilesActuales) {
+			int edad = calcularEdad(perfil.getBornDate());
+
+			// Comparar edad para ambos
+			if (edad < edadMin || edad > edadMax) {
+				continue;
+			}
+
+			if (perfil instanceof WomenDTO) {
+				WomenDTO mujer = (WomenDTO) perfil;
+
+				// Para mujeres: comparar divorcios
+				if (preferenciaDiv.equals("Sí") && !mujer.isHadDivorces()) {
+					continue;
+				} else if (preferenciaDiv.equals("No") && mujer.isHadDivorces()) {
+					continue;
+				}
+				perfilesFiltrados.add(perfil);
+
+			} else if (perfil instanceof MenDTO) {
+				// Hombres sin criterios adicionales
+				perfilesFiltrados.add(perfil);
+			}
+		}
+
+		mf.perfilesActuales.clear();
+		mf.perfilesActuales.addAll(perfilesFiltrados);
+		mf.indiceActual = 0;
+
+		if (perfilesFiltrados.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found_general_notfound"),
+					prop.getProperty("controller.preferences.error_filtered_profiles.title"), JOptionPane.INFORMATION_MESSAGE);
+			mf.cargarPerfiles(usuarioActual);
+		} else {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found.message") + perfilesFiltrados.size() + prop.getProperty("controller.preferences.found_general.message") + prop.getProperty("controller.preferences.found_general.age") + edadMin + " - "
+							+ edadMax + prop.getProperty("controller.preferences.found_men.age.count") + prop.getProperty("controller.preferences.found.men_women"),
+					prop.getProperty("controller.preferences.found.title"), JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	/**
+	 * Filtra TODOS para HOMBRES ASEXUALES (sin orientación restrictiva)
+	 */
+	public void filtrarPerfilesPorPreferenciasHombresAsexuales(int edadMin, int edadMax) {
+		User usuarioActual = mf.getUsuarioActual();
+		mf.cargarPerfiles(usuarioActual);
+
+		List<User> perfilesFiltrados = new ArrayList<>();
+
+		for (User perfil : mf.perfilesActuales) {
+			int edad = calcularEdad(perfil.getBornDate());
+
+			// Solo filtrar por edad
+			if (edad >= edadMin && edad <= edadMax) {
+				perfilesFiltrados.add(perfil);
+			}
+		}
+
+		mf.perfilesActuales.clear();
+		mf.perfilesActuales.addAll(perfilesFiltrados);
+		mf.indiceActual = 0;
+
+		if (perfilesFiltrados.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found_general_notfound"),
+					prop.getProperty("controller.preferences.error_filtered_profiles.title"), JOptionPane.INFORMATION_MESSAGE);
+			mf.cargarPerfiles(usuarioActual);
+		} else {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found.message") + perfilesFiltrados.size() + prop.getProperty("controller.preferences.found_general.message") + prop.getProperty("controller.preferences.found_general.age") + edadMin + " - "
+							+ edadMax + prop.getProperty("controller.preferences.found_men.age.count= años\\n"),
+					prop.getProperty("controller.preferences.found.title"), JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	// ==================== MÉTODOS PARA MUJERES ====================
+
+	/**
+	 * Filtra HOMBRES para MUJERES HETEROSEXUALES
+	 */
+	public void filtrarPerfilesPorPreferenciasMujeresHeterosexuales(int edadMin, int edadMax, double estaturaMin,
+			long ingresosMin) {
+		User usuarioActual = mf.getUsuarioActual();
+		mf.cargarPerfiles(usuarioActual);
+
+		List<User> perfilesFiltrados = new ArrayList<>();
+
+		for (User perfil : mf.perfilesActuales) {
+			if (perfil instanceof MenDTO) {
+				MenDTO hombre = (MenDTO) perfil;
+				int edad = calcularEdad(hombre.getBornDate());
+
+				if (edad < edadMin || edad > edadMax) {
+					continue;
+				}
+
+				try {
+					double estatura = Double.parseDouble(hombre.getStature());
+					if (estatura < estaturaMin) {
+						continue;
+					}
+				} catch (NumberFormatException e) {
+					continue;
+				}
+
+				if (hombre.getMensualIncome() < ingresosMin) {
+					continue;
+				}
+
+				perfilesFiltrados.add(perfil);
+			}
+		}
+
+		mf.perfilesActuales.clear();
+		mf.perfilesActuales.addAll(perfilesFiltrados);
+		mf.indiceActual = 0;
+
+		if (perfilesFiltrados.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found_men_notfound"),
+					prop.getProperty("controller.preferences.found_men_notfound.title"), JOptionPane.INFORMATION_MESSAGE);
+			mf.cargarPerfiles(usuarioActual);
+		} else {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found.message") + perfilesFiltrados.size() + prop.getProperty("controller.preferences.found_men.message") + prop.getProperty("controller.preferences.found_general.age") + edadMin
+							+ " - " + edadMax + prop.getProperty("controller.preferences.found_men.age.count") + prop.getProperty("controller.preferences.found.minimal_height") + estaturaMin + "m\n"
+							+ prop.getProperty("controller.preferences.found.minimal_income") + ingresosMin,
+					prop.getProperty("controller.preferences.found.title"), JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	/**
+	 * Filtra MUJERES para MUJERES HOMOSEXUALES/LÉSBICA
+	 */
+	public void filtrarPerfilesPorPreferenciasMujeresHomosexuales(int edadMin, int edadMax) {
+		User usuarioActual = mf.getUsuarioActual();
+		mf.cargarPerfiles(usuarioActual);
+
+		List<User> perfilesFiltrados = new ArrayList<>();
+
+		for (User perfil : mf.perfilesActuales) {
+			if (perfil instanceof WomenDTO) {
+				WomenDTO mujer = (WomenDTO) perfil;
+				int edad = calcularEdad(mujer.getBornDate());
+
+				if (edad < edadMin || edad > edadMax) {
+					continue;
+				}
+
+				perfilesFiltrados.add(perfil);
+			}
+		}
+
+		mf.perfilesActuales.clear();
+		mf.perfilesActuales.addAll(perfilesFiltrados);
+		mf.indiceActual = 0;
+
+		if (perfilesFiltrados.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.error_filtered_profiles.message"),
+					prop.getProperty("controller.preferences.error_filtered_profiles.title"), JOptionPane.INFORMATION_MESSAGE);
+			mf.cargarPerfiles(usuarioActual);
+		} else {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found.message") + perfilesFiltrados.size() + prop.getProperty("controller.preferences.found_women.message") + prop.getProperty("controller.preferences.found_general.age") + edadMin
+							+ " - " + edadMax +prop.getProperty("controller.preferences.found_men.age.count"),
+					prop.getProperty("controller.preferences.found.title"), JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	/**
+	 * Filtra HOMBRES Y MUJERES para MUJERES BISEXUALES
+	 */
+	public void filtrarPerfilesPorPreferenciasMujeresBisexuales(int edadMin, int edadMax, double estaturaMin,
+			long ingresosMin) {
+		User usuarioActual = mf.getUsuarioActual();
+		mf.cargarPerfiles(usuarioActual);
+
+		List<User> perfilesFiltrados = new ArrayList<>();
+
+		for (User perfil : mf.perfilesActuales) {
+			int edad = calcularEdad(perfil.getBornDate());
+
+			if (edad < edadMin || edad > edadMax) {
+				continue;
+			}
+
+			if (perfil instanceof MenDTO) {
+				MenDTO hombre = (MenDTO) perfil;
+
+				try {
+					double estatura = Double.parseDouble(hombre.getStature());
+					if (estatura < estaturaMin) {
+						continue;
+					}
+				} catch (NumberFormatException e) {
+					continue;
+				}
+
+				if (hombre.getMensualIncome() < ingresosMin) {
+					continue;
+				}
+
+				perfilesFiltrados.add(perfil);
+
+			} else if (perfil instanceof WomenDTO) {
+				// Para mujeres solo filtrar por edad
+				perfilesFiltrados.add(perfil);
+			}
+		}
+
+		mf.perfilesActuales.clear();
+		mf.perfilesActuales.addAll(perfilesFiltrados);
+		mf.indiceActual = 0;
+
+		if (perfilesFiltrados.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found_general_notfound"),
+					prop.getProperty("controller.preferences.found_men_notfound.title"), JOptionPane.INFORMATION_MESSAGE);
+			mf.cargarPerfiles(usuarioActual);
+		} else {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found.message") + perfilesFiltrados.size() + prop.getProperty("controller.preferences.found_general.message") + prop.getProperty("controller.preferences.found_general.age")+ edadMin + " - "
+							+ edadMax + prop.getProperty("controller.preferences.found_men.age.count") + prop.getProperty("controller.preferences.found.men_women"),
+					prop.getProperty("controller.preferences.found.title"), JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	/**
+	 * Filtra TODOS para MUJERES ASEXUALES (sin orientación restrictiva)
+	 */
+	public void filtrarPerfilesPorPreferenciasMujeresAsexuales(int edadMin, int edadMax) {
+		User usuarioActual = mf.getUsuarioActual();
+		mf.cargarPerfiles(usuarioActual);
+
+		List<User> perfilesFiltrados = new ArrayList<>();
+
+		for (User perfil : mf.perfilesActuales) {
+			int edad = calcularEdad(perfil.getBornDate());
+
+			if (edad >= edadMin && edad <= edadMax) {
+				perfilesFiltrados.add(perfil);
+			}
+		}
+
+		mf.perfilesActuales.clear();
+		mf.perfilesActuales.addAll(perfilesFiltrados);
+		mf.indiceActual = 0;
+
+		if (perfilesFiltrados.isEmpty()) {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found_general_notfound"),
+					prop.getProperty("controller.preferences.found_men_notfound.title"), JOptionPane.INFORMATION_MESSAGE);
+			mf.cargarPerfiles(usuarioActual);
+		} else {
+			JOptionPane.showMessageDialog(vf.getMmw(),
+					prop.getProperty("controller.preferences.found.message") + perfilesFiltrados.size() + prop.getProperty("controller.preferences.found_general.message") + prop.getProperty("controller.preferences.found_general.age")+ edadMin + " - "
+							+ edadMax + prop.getProperty("controller.preferences.found_men.age.count"),
+					prop.getProperty("controller.preferences.found.title"),JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -1875,100 +2274,7 @@ public class Controller implements ActionListener {
 		// Mostrar la ventana de preferencias
 		vf.getPrefw().setVisible(true);
 	}
-
-	/**
-	 * Aplica y guarda las preferencias seleccionadas en la PreferencesWindow Luego
-	 * filtra y compara los perfiles según los criterios
-	 */
-	public void aplicarYGuardarPreferencias() {
-		User usuarioActual = mf.getUsuarioActual();
-
-		if (usuarioActual == null) {
-			JOptionPane.showMessageDialog(vf.getPrefw(),
-					prop.getProperty("controller.preferences.user_not_found.message"),
-					prop.getProperty("controller.preferences.user_not_found.title"), JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		try {
-			if (usuarioActual instanceof MenDTO) {
-				// ✅ HOMBRE: Obtener y validar preferencias
-				int edadMin = Integer.parseInt(vf.getPrefw().getTxtEdadMin().getText().trim());
-				int edadMax = Integer.parseInt(vf.getPrefw().getTxtEdadMax().getText().trim());
-				String preferenciaDiv = (String) vf.getPrefw().getCmbDivorcios().getSelectedItem();
-
-				// Validar rango de edad
-				if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
-					JOptionPane.showMessageDialog(vf.getPrefw(),
-							prop.getProperty("controller.preferences.invalid_age_range.message"),
-							prop.getProperty("controller.preferences.invalid_age_range.title"),
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				// ✅ GUARDAR Y COMPARAR: Filtrar perfiles según preferencias de HOMBRE
-				filtrarPerfilesPorPreferenciasHombres(edadMin, edadMax, preferenciaDiv);
-
-				// Cerrar ventana de preferencias y mostrar MainWindow
-				vf.getPrefw().setAceptado(true);
-				vf.getPrefw().setVisible(false);
-				vf.getMmw().setVisible(true);
-				mostrarPerfil();
-
-			} else if (usuarioActual instanceof WomenDTO) {
-				// ✅ MUJER: Obtener y validar preferencias
-				int edadMin = Integer.parseInt(vf.getPrefw().getTxtEdadMin().getText().trim());
-				int edadMax = Integer.parseInt(vf.getPrefw().getTxtEdadMax().getText().trim());
-				double estaturaMin = Double.parseDouble(vf.getPrefw().getTxtEstatura().getText().trim());
-				long ingresosMin = Long.parseLong(vf.getPrefw().getTxtIngresos().getText().trim());
-
-				// Validar rango de edad
-				if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
-					JOptionPane.showMessageDialog(vf.getPrefw(),
-							prop.getProperty("controller.preferences.invalid_age_range.message"),
-							prop.getProperty("controller.preferences.invalid_age_range.title"),
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				// Validar estatura
-				if (estaturaMin < 0.60 || estaturaMin > 2.50) {
-					JOptionPane.showMessageDialog(vf.getPrefw(),
-							prop.getProperty("controller.preferences.invalid_height.message"),
-							prop.getProperty("controller.preferences.invalid_height.title"), JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				// Validar ingresos
-				if (ingresosMin < 0) {
-					JOptionPane.showMessageDialog(vf.getPrefw(),
-							prop.getProperty("controller.preferences.invalid_income.message"),
-							prop.getProperty("controller.preferences.invalid_income.title"), JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				// ✅ GUARDAR Y COMPARAR: Filtrar perfiles según preferencias de MUJER
-				filtrarPerfilesPorPreferenciasMujeres(edadMin, edadMax, estaturaMin, ingresosMin);
-
-				// Cerrar ventana de preferencias y mostrar MainWindow
-				vf.getPrefw().setAceptado(true);
-				vf.getPrefw().setVisible(false);
-				vf.getMmw().setVisible(true);
-				mostrarPerfil();
-			}
-
-		} catch (NumberFormatException ex) {
-			JOptionPane.showMessageDialog(vf.getPrefw(),
-					prop.getProperty("controller.preferences.invalid_numeric.message"),
-					prop.getProperty("controller.preferences.invalid_numeric.title"), JOptionPane.ERROR_MESSAGE);
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(vf.getPrefw(),
-					prop.getProperty("controller.preferences.error.message") + e.getMessage(),
-					prop.getProperty("controller.preferences.error.title"), JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
+	
 	public void filtrarPerfilesPorPreferenciasHombres(int edadMin, int edadMax, String preferenciaDiv) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
