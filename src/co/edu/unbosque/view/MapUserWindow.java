@@ -2,6 +2,8 @@ package co.edu.unbosque.view;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Properties;
+
 import javax.swing.*;
 import co.edu.unbosque.model.User;
 
@@ -79,6 +81,14 @@ public class MapUserWindow extends JFrame {
 
 		panelUsuarios.revalidate();
 		panelUsuarios.repaint();
+	}
+	
+	public void aplicarInternacionalizacion(Properties prop) {
+	    setTitle(prop.getProperty("bostinder.view.mapuserwindow.title"));
+
+	    lTitulo.setText(prop.getProperty("bostinder.view.mapuserwindow.label.titulo"));
+
+	    btnVolver.setText(prop.getProperty("bostinder.view.mapuserwindow.button.volver"));
 	}
 
 	public JButton getBtnVolver() {

@@ -241,6 +241,7 @@ public class LoginWindow extends JFrame {
 		// Botones
 		login.setText(prop.getProperty("bostinder.view.loginwindow.button.login"));
 		back.setText(prop.getProperty("bostinder.view.loginwindow.button.back"));
+		adminMode.setText(prop.getProperty("bostinder.view.loginwindow.button.adminMode"));
 	}
 
 	// ---------GETTERS Y SETTERS---------

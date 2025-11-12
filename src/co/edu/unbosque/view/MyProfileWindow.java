@@ -325,28 +325,26 @@ public class MyProfileWindow extends JFrame {
 	}
 
 	public void aplicarInternacionalizacion(Properties prop) {
-		// Título de la ventana
-		setTitle(prop.getProperty("bostinder.view.myprofilewindow.title"));
+	    
+	    setTitle(prop.getProperty("bostinder.view.myprofilewindow.title"));
+	    ((TitledBorder) panelInformacion.getBorder())
+	        .setTitle(prop.getProperty("bostinder.view.myprofilewindow.panel.perfil"));
 
-		((TitledBorder) panelInformacion.getBorder())
-				.setTitle(prop.getProperty("bostinder.view.myprofilewindow.panel.perfil"));
+	    lblAlias.setText(prop.getProperty("bostinder.view.myprofilewindow.label.alias"));
+	    lblNombre.setText(prop.getProperty("bostinder.view.myprofilewindow.label.nombre"));
+	    lblApellido.setText(prop.getProperty("bostinder.view.myprofilewindow.label.apellido"));
+	    lblEdad.setText(prop.getProperty("bostinder.view.myprofilewindow.label.edad"));
+	    lblCorreo.setText(prop.getProperty("bostinder.view.myprofilewindow.label.correo"));
+	    lblIngresos.setText(prop.getProperty("bostinder.view.myprofilewindow.label.ingresos"));
 
-		// Labels dentro del panel de información
-		lblAlias.setText(prop.getProperty("bostinder.view.myprofilewindow.label.alias"));
-		lblNombre.setText(prop.getProperty("bostinder.view.myprofilewindow.label.nombre"));
-		lblApellido.setText(prop.getProperty("bostinder.view.myprofilewindow.label.apellido"));
-		lblEdad.setText(prop.getProperty("bostinder.view.myprofilewindow.label.edad"));
-		lblCorreo.setText(prop.getProperty("bostinder.view.myprofilewindow.label.correo"));
-		lblIngresos.setText(prop.getProperty("bostinder.view.myprofilewindow.label.ingresos"));
+	    option.setText(prop.getProperty("bostinder.view.myprofilewindow.label.opciones"));
+	    btnback.setText(prop.getProperty("bostinder.view.myprofilewindow.button.volver"));
+	    btnclose.setText(prop.getProperty("bostinder.view.myprofilewindow.button.cerrarsesion"));
+	    darkMode.setText(prop.getProperty("bostinder.view.myprofilewindow.button.modooscuro"));
 
-		// Panel de opciones
-		option.setText(prop.getProperty("bostinder.view.myprofilewindow.label.opciones"));
-		btnback.setText(prop.getProperty("bostinder.view.myprofilewindow.button.volver"));
-		//btnlose.setText(prop.getProperty("bostinder.view.myprofilewindow.button.cerrarsesion"));
-
-		// Panel de likes
-		lblLike.setText(prop.getProperty("bostinder.view.myprofilewindow.label.likesperfil"));
+	    lblLike.setText(prop.getProperty("bostinder.view.myprofilewindow.label.likesperfil"));
 	}
+
 
 	public JPanel getPanelOpcion() {
 		return panelOpcion;

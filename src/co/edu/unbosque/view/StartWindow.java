@@ -204,6 +204,7 @@ public class StartWindow extends JFrame {
 		// Botones principales
 		signIn.setText(prop.getProperty("bostinder.view.startwindow.button.signin"));
 		login.setText(prop.getProperty("bostinder.view.startwindow.button.login"));
+		lText.setText(prop.getProperty("bostinder.view.startwindow.button.login"));
 		exit.setText(prop.getProperty("bostinder.view.startwindow.button.exit"));
 		back.setText(prop.getProperty("bostinder.view.startwindow.button.back"));
 		mapButton.setText(prop.getProperty("bostinder.view.startwindow.button.map"));

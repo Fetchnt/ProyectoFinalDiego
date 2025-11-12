@@ -12,6 +12,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -34,7 +35,7 @@ public class MapWindow extends JFrame {
 
 	private JLabel icon;
 	private JLabel lImage;
-	private JLabel lText;
+	private JLabel lTituloMapa;
 	private JLabel lPaisSeleccionado;
 	private JLabel lBosTinder;
 
@@ -98,10 +99,10 @@ public class MapWindow extends JFrame {
 		lImage.setBounds(750, 247, 200, 300);
 		add(lImage);
 
-		lText = new JLabel("-MAPA USUARIOS-");
-		lText.setBounds(755, 140, 200, 100);
-		lText.setFont(new Font("Cooper Black", Font.PLAIN, 20));
-		add(lText);
+		lTituloMapa = new JLabel("-MAPA USUARIOS-");
+		lTituloMapa.setBounds(755, 140, 200, 100);
+		lTituloMapa.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		add(lTituloMapa);
 
 		lPaisSeleccionado = new JLabel("");
 		lPaisSeleccionado.setBounds(820, 210, 200, 30);
@@ -222,7 +223,7 @@ public class MapWindow extends JFrame {
 		        panelOption.setBackground(Color.decode("#FFFFFF"));
 		        panelMapa.setBackground(Color.decode("#FFFFFF"));
 		        lBosTinder.setForeground(Color.decode("#303080D"));
-		        lText.setForeground(Color.decode("#000000"));
+		        lTituloMapa.setForeground(Color.decode("#000000"));
 		        lPaisSeleccionado.setForeground(Color.decode("#000000"));
 
 		        // Botón del panelOption
@@ -242,7 +243,7 @@ public class MapWindow extends JFrame {
 	        panelOption.setBackground(Color.decode("#1E1724"));
 	        panelMapa.setBackground(Color.decode("#1E1724"));
 	        lBosTinder.setForeground(Color.decode("#FF2B91"));
-	        lText.setForeground(Color.decode("#FF7171"));
+	        lTituloMapa.setForeground(Color.decode("#FF7171"));
 	        lPaisSeleccionado.setForeground(Color.decode("#DCC8EF"));
 
 	        // Botón del panelOption
@@ -257,9 +258,21 @@ public class MapWindow extends JFrame {
 		}
 
 	}
+	
+	public void aplicarInternacionalizacion(Properties prop) {
+	    // Ventana
+	    setTitle(prop.getProperty("bostinder.view.mapwindow.title"));
+
+	    // Labels
+	    lBosTinder.setText(prop.getProperty("bostinder.view.mapwindow.label.bostinder"));
+	    lTituloMapa.setText(prop.getProperty("bostinder.view.mapwindow.label.titulomapa"));
+
+	    // Botones
+	    btnBackMap.setText(prop.getProperty("bostinder.view.mapwindow.button.volver"));
+	    darkMode.setText(prop.getProperty("bostinder.view.mapwindow.button.modooscuro"));
+	}
 
 
-	// 🔹 Nuevo método para actualizar el label
 	public void setPaisSeleccionado(String pais) {
 		lPaisSeleccionado.setText(pais != null ? pais : "");
 	}
