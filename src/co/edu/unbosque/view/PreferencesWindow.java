@@ -16,11 +16,11 @@ public class PreferencesWindow extends JFrame {
 	private JTextField txtEdadMin;
 	private JTextField txtEdadMax;
 
-	// Componentes específicos para hombres
+	// Componentes específicos para hombres (buscan mujeres)
 	private JLabel lblDivorcios;
 	private JComboBox<String> cmbDivorcios;
 
-	// Componentes específicos para mujeres
+	// Componentes específicos para mujeres (buscan hombres)
 	private JLabel lblEstatura;
 	private JTextField txtEstatura;
 	private JLabel lblIngresos;
@@ -43,7 +43,7 @@ public class PreferencesWindow extends JFrame {
 
 	public PreferencesWindow() {
 		setTitle("Preferencias de Búsqueda");
-		setSize(500, 450);
+		setSize(500, 550); // Aumentado para acomodar más campos
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -91,7 +91,7 @@ public class PreferencesWindow extends JFrame {
 		txtEdadMax.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtEdadMax.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
-		// Componentes para hombres
+		// Componentes para buscar mujeres
 		lblDivorcios = new JLabel("¿Ha tenido divorcios?");
 		lblDivorcios.setFont(new Font("Arial", Font.BOLD, 14));
 		String[] opcionesDivorcios = { "No importa", "Sí", "No" };
@@ -99,7 +99,7 @@ public class PreferencesWindow extends JFrame {
 		cmbDivorcios.setFont(new Font("Arial", Font.PLAIN, 14));
 		cmbDivorcios.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
-		// Componentes para mujeres
+		// Componentes para buscar hombres
 		lblEstatura = new JLabel("Estatura mínima (m):");
 		lblEstatura.setFont(new Font("Arial", Font.BOLD, 14));
 		txtEstatura = new JTextField("1.60");
@@ -147,169 +147,192 @@ public class PreferencesWindow extends JFrame {
 
 		add(panelPrincipal);
 	}
-	
-	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
-	public void cambiarAModoOscuroSW() {
-	    if (isDarkMode) {
-	        // Mantiene el modo claro
-	        this.getContentPane().setBackground(Color.decode("#F9CFCE"));
-	        panelPrincipal.setBackground(new Color(255, 240, 245));
-	        panelTitulo.setBackground(new Color(255, 240, 245));
-	        panelCampos.setBackground(Color.WHITE);
-	        panelBotones.setBackground(new Color(255, 240, 245));
-	        
-	        // Labels
-	        lblTitulo.setForeground(new Color(220, 20, 60));
-	        lblSubtitulo.setForeground(new Color(100, 100, 100));
-	        lblEdadMin.setForeground(Color.BLACK);
-	        lblEdadMax.setForeground(Color.BLACK);
-	        lblDivorcios.setForeground(Color.BLACK);
-	        lblEstatura.setForeground(Color.BLACK);
-	        lblIngresos.setForeground(Color.BLACK);
-	        
-	        // Campos de texto
-	        txtEdadMin.setBackground(Color.WHITE);
-	        txtEdadMin.setForeground(Color.BLACK);
-	        txtEdadMax.setBackground(Color.WHITE);
-	        txtEdadMax.setForeground(Color.BLACK);
-	        txtEstatura.setBackground(Color.WHITE);
-	        txtEstatura.setForeground(Color.BLACK);
-	        txtIngresos.setBackground(Color.WHITE);
-	        txtIngresos.setForeground(Color.BLACK);
-	        
-	        // ComboBox
-	        cmbDivorcios.setBackground(Color.WHITE);
-	        cmbDivorcios.setForeground(Color.BLACK);
-	        
-	        // Bordes
-	        panelCampos.setBorder(BorderFactory.createCompoundBorder(
-	                BorderFactory.createLineBorder(new Color(220, 20, 60), 2), 
-	                new EmptyBorder(20, 20, 20, 20)));
-	        
-	        // Botones
-	        btnAceptar.setBackground(new Color(220, 20, 60));
-	        btnAceptar.setForeground(Color.WHITE);
-	        btnCancelar.setBackground(new Color(150, 150, 150));
-	        btnCancelar.setForeground(Color.WHITE);
-	        
-	        // Botón darkMode
-	        darkMode.setBackground(Color.decode("#EB5F5B"));
-	        darkMode.setForeground(Color.decode("#F9CFCE"));
-	        darkMode.setText("MODO OSCURO");
-	        isDarkMode = false;
 
-	    } else {
-	        // Cambia a modo oscuro
-	        this.getContentPane().setBackground(Color.decode("#11021E"));
-	        panelPrincipal.setBackground(Color.decode("#1E1724"));
-	        panelTitulo.setBackground(Color.decode("#1E1724"));
-	        panelCampos.setBackground(Color.decode("#1E1724"));
-	        panelBotones.setBackground(Color.decode("#1E1724"));
-	        
-	        // Labels
-	        lblTitulo.setForeground(Color.decode("#FF2B91"));
-	        lblSubtitulo.setForeground(Color.decode("#FF7171"));
-	        lblEdadMin.setForeground(Color.decode("#DCC8EF"));
-	        lblEdadMax.setForeground(Color.decode("#DCC8EF"));
-	        lblDivorcios.setForeground(Color.decode("#DCC8EF"));
-	        lblEstatura.setForeground(Color.decode("#DCC8EF"));
-	        lblIngresos.setForeground(Color.decode("#DCC8EF"));
-	        
-	        // Campos de texto
-	        txtEdadMin.setBackground(Color.decode("#2A1F3A"));
-	        txtEdadMin.setForeground(Color.decode("#DCC8EF"));
-	        txtEdadMax.setBackground(Color.decode("#2A1F3A"));
-	        txtEdadMax.setForeground(Color.decode("#DCC8EF"));
-	        txtEstatura.setBackground(Color.decode("#2A1F3A"));
-	        txtEstatura.setForeground(Color.decode("#DCC8EF"));
-	        txtIngresos.setBackground(Color.decode("#2A1F3A"));
-	        txtIngresos.setForeground(Color.decode("#DCC8EF"));
-	        
-	        // ComboBox
-	        cmbDivorcios.setBackground(Color.decode("#2A1F3A"));
-	        cmbDivorcios.setForeground(Color.decode("#DCC8EF"));
-	        
-	        // Bordes
-	        panelCampos.setBorder(BorderFactory.createCompoundBorder(
-	                BorderFactory.createLineBorder(Color.decode("#DCC8EF"), 2), 
-	                new EmptyBorder(20, 20, 20, 20)));
-	        
-	        // Botones
-	        btnAceptar.setBackground(Color.decode("#52247C"));
-	        btnAceptar.setForeground(Color.decode("#DCC8EF"));
-	        btnCancelar.setBackground(Color.decode("#52247C"));
-	        btnCancelar.setForeground(Color.decode("#DCC8EF"));
-	        
-	        // Botón darkMode
-	        darkMode.setBackground(Color.decode("#52247C"));
-	        darkMode.setForeground(Color.decode("#DCC8EF"));
-	        darkMode.setText("MODO CLARO");
-	        isDarkMode = true;
-	    }
+	/**
+	 * Configura la ventana según el género y orientación sexual del usuario
+	 * @param genero El género del usuario ("Masculino" o "Femenino")
+	 * @param orientacion La orientación sexual ("Heterosexual", "Homosexual", "Bisexual", "Asexual")
+	 */
+	public void configurarSegunOrientacion(String genero, String orientacion) {
+		panelCampos.removeAll();
+		
+		// Normalizar orientación
+		orientacion = orientacion.toLowerCase().trim();
+		
+		// Siempre mostrar edad
+		panelCampos.add(lblEdadMin);
+		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
+		panelCampos.add(txtEdadMin);
+		panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
+
+		panelCampos.add(lblEdadMax);
+		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
+		panelCampos.add(txtEdadMax);
+		panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
+
+		// Determinar qué campos mostrar según género y orientación
+		boolean mostrarCamposMujeres = false; // Divorcios
+		boolean mostrarCamposHombres = false; // Estatura e Ingresos
+
+		if (orientacion.contains("bisexual") || orientacion.contains("asexual")) {
+			// Bisexual/Asexual: mostrar AMBOS conjuntos de campos
+			mostrarCamposMujeres = true;
+			mostrarCamposHombres = true;
+		} else if (orientacion.contains("heterosexual") || orientacion.equals("heterosexual")) {
+			// Heterosexual: mostrar campos del género opuesto
+			if (genero.equalsIgnoreCase("Masculino")) {
+				mostrarCamposMujeres = true; // Hombre heterosexual busca mujeres
+			} else {
+				mostrarCamposHombres = true; // Mujer heterosexual busca hombres
+			}
+		} else if (orientacion.contains("homosexual") || orientacion.equals("gay") || orientacion.equals("lésbica")) {
+			// Homosexual: mostrar campos del mismo género
+			if (genero.equalsIgnoreCase("Masculino")) {
+				mostrarCamposHombres = true; // Hombre homosexual busca hombres
+			} else {
+				mostrarCamposMujeres = true; // Mujer homosexual busca mujeres
+			}
+		}
+
+		// Agregar campos según lo determinado
+		if (mostrarCamposMujeres) {
+			JLabel lblSeccionMujeres = new JLabel("━━━━━━ Preferencias para Mujeres ━━━━━━");
+			lblSeccionMujeres.setFont(new Font("Arial", Font.BOLD, 12));
+			lblSeccionMujeres.setForeground(new Color(220, 20, 60));
+			lblSeccionMujeres.setAlignmentX(Component.CENTER_ALIGNMENT);
+			panelCampos.add(lblSeccionMujeres);
+			panelCampos.add(Box.createRigidArea(new Dimension(0, 10)));
+
+			panelCampos.add(lblDivorcios);
+			panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
+			panelCampos.add(cmbDivorcios);
+			panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
+		}
+
+		if (mostrarCamposHombres) {
+			JLabel lblSeccionHombres = new JLabel("━━━━━━ Preferencias para Hombres ━━━━━━");
+			lblSeccionHombres.setFont(new Font("Arial", Font.BOLD, 12));
+			lblSeccionHombres.setForeground(new Color(220, 20, 60));
+			lblSeccionHombres.setAlignmentX(Component.CENTER_ALIGNMENT);
+			panelCampos.add(lblSeccionHombres);
+			panelCampos.add(Box.createRigidArea(new Dimension(0, 10)));
+
+			panelCampos.add(lblEstatura);
+			panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
+			panelCampos.add(txtEstatura);
+			panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
+
+			panelCampos.add(lblIngresos);
+			panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
+			panelCampos.add(txtIngresos);
+		}
+
+		panelCampos.revalidate();
+		panelCampos.repaint();
 	}
 
 	/**
-	 * Configura la ventana para mostrar preferencias de hombres
+	 * @deprecated Usar configurarSegunOrientacion() en su lugar
 	 */
+	@Deprecated
 	public void configurarParaHombres() {
-		panelCampos.removeAll();
-
-		// Edad mínima
-		panelCampos.add(lblEdadMin);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
-		panelCampos.add(txtEdadMin);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
-
-		// Edad máxima
-		panelCampos.add(lblEdadMax);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
-		panelCampos.add(txtEdadMax);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
-
-		// Divorcios
-		panelCampos.add(lblDivorcios);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
-		panelCampos.add(cmbDivorcios);
-
-		panelCampos.revalidate();
-		panelCampos.repaint();
+		configurarSegunOrientacion("Masculino", "Heterosexual");
 	}
 
 	/**
-	 * Configura la ventana para mostrar preferencias de mujeres
+	 * @deprecated Usar configurarSegunOrientacion() en su lugar
 	 */
+	@Deprecated
 	public void configurarParaMujeres() {
-		panelCampos.removeAll();
+		configurarSegunOrientacion("Femenino", "Heterosexual");
+	}
 
-		// Edad mínima
-		panelCampos.add(lblEdadMin);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
-		panelCampos.add(txtEdadMin);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
+	public void cambiarAModoOscuroSW() {
+		if (isDarkMode) {
+			// Modo claro
+			this.getContentPane().setBackground(Color.decode("#F9CFCE"));
+			panelPrincipal.setBackground(new Color(255, 240, 245));
+			panelTitulo.setBackground(new Color(255, 240, 245));
+			panelCampos.setBackground(Color.WHITE);
+			panelBotones.setBackground(new Color(255, 240, 245));
 
-		// Edad máxima
-		panelCampos.add(lblEdadMax);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
-		panelCampos.add(txtEdadMax);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
+			lblTitulo.setForeground(new Color(220, 20, 60));
+			lblSubtitulo.setForeground(new Color(100, 100, 100));
+			lblEdadMin.setForeground(Color.BLACK);
+			lblEdadMax.setForeground(Color.BLACK);
+			lblDivorcios.setForeground(Color.BLACK);
+			lblEstatura.setForeground(Color.BLACK);
+			lblIngresos.setForeground(Color.BLACK);
 
-		// Estatura
-		panelCampos.add(lblEstatura);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
-		panelCampos.add(txtEstatura);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 15)));
+			txtEdadMin.setBackground(Color.WHITE);
+			txtEdadMin.setForeground(Color.BLACK);
+			txtEdadMax.setBackground(Color.WHITE);
+			txtEdadMax.setForeground(Color.BLACK);
+			txtEstatura.setBackground(Color.WHITE);
+			txtEstatura.setForeground(Color.BLACK);
+			txtIngresos.setBackground(Color.WHITE);
+			txtIngresos.setForeground(Color.BLACK);
 
-		// Ingresos
-		panelCampos.add(lblIngresos);
-		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
-		panelCampos.add(txtIngresos);
+			cmbDivorcios.setBackground(Color.WHITE);
+			cmbDivorcios.setForeground(Color.BLACK);
 
-		panelCampos.revalidate();
-		panelCampos.repaint();
+			panelCampos.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createLineBorder(new Color(220, 20, 60), 2), new EmptyBorder(20, 20, 20, 20)));
+
+			btnAceptar.setBackground(new Color(220, 20, 60));
+			btnAceptar.setForeground(Color.WHITE);
+			btnCancelar.setBackground(new Color(150, 150, 150));
+			btnCancelar.setForeground(Color.WHITE);
+
+			darkMode.setBackground(Color.decode("#EB5F5B"));
+			darkMode.setForeground(Color.decode("#F9CFCE"));
+			darkMode.setText("MODO OSCURO");
+			isDarkMode = false;
+
+		} else {
+			// Modo oscuro
+			this.getContentPane().setBackground(Color.decode("#11021E"));
+			panelPrincipal.setBackground(Color.decode("#1E1724"));
+			panelTitulo.setBackground(Color.decode("#1E1724"));
+			panelCampos.setBackground(Color.decode("#1E1724"));
+			panelBotones.setBackground(Color.decode("#1E1724"));
+
+			lblTitulo.setForeground(Color.decode("#FF2B91"));
+			lblSubtitulo.setForeground(Color.decode("#FF7171"));
+			lblEdadMin.setForeground(Color.decode("#DCC8EF"));
+			lblEdadMax.setForeground(Color.decode("#DCC8EF"));
+			lblDivorcios.setForeground(Color.decode("#DCC8EF"));
+			lblEstatura.setForeground(Color.decode("#DCC8EF"));
+			lblIngresos.setForeground(Color.decode("#DCC8EF"));
+
+			txtEdadMin.setBackground(Color.decode("#2A1F3A"));
+			txtEdadMin.setForeground(Color.decode("#DCC8EF"));
+			txtEdadMax.setBackground(Color.decode("#2A1F3A"));
+			txtEdadMax.setForeground(Color.decode("#DCC8EF"));
+			txtEstatura.setBackground(Color.decode("#2A1F3A"));
+			txtEstatura.setForeground(Color.decode("#DCC8EF"));
+			txtIngresos.setBackground(Color.decode("#2A1F3A"));
+			txtIngresos.setForeground(Color.decode("#DCC8EF"));
+
+			cmbDivorcios.setBackground(Color.decode("#2A1F3A"));
+			cmbDivorcios.setForeground(Color.decode("#DCC8EF"));
+
+			panelCampos.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createLineBorder(Color.decode("#DCC8EF"), 2), new EmptyBorder(20, 20, 20, 20)));
+
+			btnAceptar.setBackground(Color.decode("#52247C"));
+			btnAceptar.setForeground(Color.decode("#DCC8EF"));
+			btnCancelar.setBackground(Color.decode("#52247C"));
+			btnCancelar.setForeground(Color.decode("#DCC8EF"));
+
+			darkMode.setBackground(Color.decode("#52247C"));
+			darkMode.setForeground(Color.decode("#DCC8EF"));
+			darkMode.setText("MODO CLARO");
+			isDarkMode = true;
+		}
 	}
 
 	public void aplicarInternacionalizacion(Properties prop) {
-		// Título de la ventana
 		setTitle(prop.getProperty("bostinder.view.loginwindow.title"));
 	}
 
