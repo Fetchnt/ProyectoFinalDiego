@@ -30,13 +30,31 @@ import com.itextpdf.text.pdf.PdfWriter;
 import co.edu.unbosque.model.Men;
 import co.edu.unbosque.model.MenDTO;
 
+/**
+ * Clase de acceso a datos para la gestión de usuarios de tipo hombre.
+ * <b>pre:</b> Debe existir un sistema de archivos accesible para persistencia.
+ * <br>
+ * <b>post:</b> Gestiona las operaciones CRUD y generación de informes para
+ * usuarios masculinos.
+ * 
+ */
 public class MenDAO implements DAO<MenDTO> {
 
+	/** Lista de objetos DTO que representan a los usuarios masculinos. */
 	public ArrayList<MenDTO> listaMenDTO;
+
+	/** Propiedades utilizadas para la internacionalización o configuración. */
 	private Properties props;
+
+	/** Nombre del archivo de texto para almacenamiento en CSV. */
 	private final String FILE_NAME = "Men.csv";
+
+	/** Nombre del archivo binario para almacenamiento serializado. */
 	private final String SERIAL_FILE_NAME = "Men.bin";
 
+	/**
+	 * Constructor por defecto que inicializa la lista y carga datos desde archivos.
+	 */
 	public MenDAO() {
 		listaMenDTO = new ArrayList<>();
 		loadFromSerializedFile();
@@ -44,6 +62,11 @@ public class MenDAO implements DAO<MenDTO> {
 
 	}
 
+	/**
+	 * Crea un nuevo usuario masculino en el sistema.
+	 * 
+	 * @param nuevoDato Objeto DTO con los datos del nuevo usuario.
+	 */
 	@Override
 	public void create(MenDTO nuevoDato) {
 		Men entity = DataMapper.convertirMenDTOAMen(nuevoDato);
@@ -52,6 +75,11 @@ public class MenDAO implements DAO<MenDTO> {
 		writeTextFile();
 	}
 
+	/**
+	 * Muestra todos los usuarios masculinos registrados.
+	 * 
+	 * @return Cadena con la información de todos los usuarios.
+	 */
 	@Override
 	public String showAll() {
 		StringBuilder content = new StringBuilder();
@@ -64,6 +92,13 @@ public class MenDAO implements DAO<MenDTO> {
 		return content.toString();
 	}
 
+	/**
+	 * Elimina un usuario masculino por su índice en la lista.
+	 * 
+	 * @param indice Posición del usuario en la lista.
+	 * @return {@code true} si la eliminación fue exitosa, {@code false} en caso
+	 *         contrario.
+	 */
 	@Override
 	public boolean delete(int indice) {
 		if (indice < 0 || indice >= listaMenDTO.size()) {
@@ -75,11 +110,26 @@ public class MenDAO implements DAO<MenDTO> {
 		return true;
 	}
 
+	/**
+	 * Elimina un usuario masculino específico de la lista.
+	 * 
+	 * @param objetoAEliminar Objeto DTO del usuario a eliminar.
+	 * @return {@code true} si la eliminación fue exitosa, {@code false} en caso
+	 *         contrario.
+	 */
 	@Override
 	public boolean delete(MenDTO objetoAEliminar) {
 		return listaMenDTO.remove(objetoAEliminar);
 	}
 
+	/**
+	 * Actualiza los datos de un usuario masculino en una posición específica.
+	 * 
+	 * @param indice          Posición del usuario en la lista.
+	 * @param datoActualizado Objeto DTO con los datos actualizados.
+	 * @return {@code true} si la actualización fue exitosa, {@code false} en caso
+	 *         contrario.
+	 */
 	@Override
 	public boolean update(int indice, MenDTO datoActualizado) {
 		if (indice < 0 || indice >= listaMenDTO.size()) {
@@ -92,11 +142,21 @@ public class MenDAO implements DAO<MenDTO> {
 		}
 	}
 
+	/**
+	 * Cuenta el número total de usuarios masculinos registrados.
+	 * 
+	 * @return Cantidad de usuarios en la lista.
+	 */
 	@Override
 	public int count() {
 		return listaMenDTO.size();
 	}
 
+	/**
+	 * Lee los datos de usuarios desde un archivo de texto CSV.
+	 * 
+	 * @param url Ruta del archivo de texto a leer.
+	 */
 	@Override
 	public void readFromTextFile(String url) {
 		String content;
@@ -147,6 +207,9 @@ public class MenDAO implements DAO<MenDTO> {
 		}
 	}
 
+	/**
+	 * Escribe todos los datos de usuarios masculinos en un archivo de texto CSV.
+	 */
 	public void writeTextFile() {
 		StringBuilder sb = new StringBuilder();
 		for (MenDTO men : listaMenDTO) {
@@ -168,6 +231,9 @@ public class MenDAO implements DAO<MenDTO> {
 		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString());
 	}
 
+	/**
+	 * Carga los datos de usuarios desde un archivo serializado binario.
+	 */
 	@Override
 	public void loadFromSerializedFile() {
 		Object content = FileHandler.leerDesdeArchivoSerializado(SERIAL_FILE_NAME);
@@ -178,12 +244,20 @@ public class MenDAO implements DAO<MenDTO> {
 		}
 	}
 
+	/**
+	 * Escribe todos los datos de usuarios en un archivo serializado binario.
+	 */
 	@Override
 	public void writeSerializedFile() {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, listaMenDTO);
 
 	}
 
+	/**
+	 * Asigna las propiedades de internacionalización a todos los usuarios.
+	 * 
+	 * @param prop Propiedades de idioma o configuración.
+	 */
 	@Override
 	public void internacionalizacion(Properties prop) {
 		this.props = prop;
@@ -192,6 +266,15 @@ public class MenDAO implements DAO<MenDTO> {
 		}
 	}
 
+	/**
+	 * Valida las credenciales de un usuario masculino.
+	 * 
+	 * @param userAlias Alias del usuario.
+	 * @param email     Correo electrónico del usuario.
+	 * @param password  Contraseña del usuario.
+	 * @return {@code true} si las credenciales son válidas, {@code false} en caso
+	 *         contrario.
+	 */
 	public boolean validarUsuario(String userAlias, String email, String password) {
 		String content = FileHandler.leerDesdeArchivoTexto(FILE_NAME);
 		if (content == null || content.isBlank()) {
@@ -223,6 +306,14 @@ public class MenDAO implements DAO<MenDTO> {
 		return false;
 	}
 
+	/**
+	 * Actualiza el número de likes de un usuario específico.
+	 * 
+	 * @param alias       Alias del usuario.
+	 * @param nuevosLikes Nueva cantidad de likes.
+	 * @return {@code true} si la actualización fue exitosa, {@code false} en caso
+	 *         contrario.
+	 */
 	@Override
 	public boolean actualizarLikes(String alias, int nuevosLikes) {
 		for (MenDTO usuario : listaMenDTO) {
@@ -236,6 +327,10 @@ public class MenDAO implements DAO<MenDTO> {
 		return false;
 	}
 
+	/**
+	 * Ordena la lista de usuarios de forma ascendente por nombre usando el
+	 * algoritmo Selection Sort.
+	 */
 	@Override
 	public void selectionSortAsc() {
 		for (int i = 0; i < listaMenDTO.size() - 1; i++) {
@@ -255,6 +350,10 @@ public class MenDAO implements DAO<MenDTO> {
 		writeTextFile();
 	}
 
+	/**
+	 * Ordena la lista de usuarios de forma descendente por nombre usando el
+	 * algoritmo Insertion Sort.
+	 */
 	@Override
 	public void insertionSortDes() {
 		for (int i = 1; i < listaMenDTO.size(); i++) {
@@ -271,6 +370,12 @@ public class MenDAO implements DAO<MenDTO> {
 
 	}
 
+	/**
+	 * Genera un informe PDF detallado con estadísticas y gráficas para un usuario
+	 * específico.
+	 * 
+	 * @param alias Alias del usuario para el cual se generará el informe.
+	 */
 	@Override
 	public void generarInformePDF(String alias) {
 		MenDTO usuario = null;
@@ -434,16 +539,21 @@ public class MenDAO implements DAO<MenDTO> {
 		}
 	}
 
-
+	/**
+	 * Calcula la edad de un usuario masculino a partir de su fecha de nacimiento.
+	 * 
+	 * @param fechaNacimiento Fecha de nacimiento en formato dd/MM/yyyy.
+	 * @return Edad calculada en años, o 0 si hay error en el formato.
+	 */
 	private int calcularEdadMen(String fechaNacimiento) {
-	    try {
-	        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	        java.time.LocalDate fechaNac = java.time.LocalDate.parse(fechaNacimiento, formatter);
-	        java.time.LocalDate hoy = java.time.LocalDate.now();
-	        return java.time.Period.between(fechaNac, hoy).getYears();
-	    } catch (Exception e) {
-	        System.out.println("⚠️ Error al calcular edad para fecha: " + fechaNacimiento);
-	        return 0;
-	    }
+		try {
+			java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			java.time.LocalDate fechaNac = java.time.LocalDate.parse(fechaNacimiento, formatter);
+			java.time.LocalDate hoy = java.time.LocalDate.now();
+			return java.time.Period.between(fechaNac, hoy).getYears();
+		} catch (Exception e) {
+			System.out.println("⚠️ Error al calcular edad para fecha: " + fechaNacimiento);
+			return 0;
+		}
 	}
 }

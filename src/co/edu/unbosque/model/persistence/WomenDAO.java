@@ -30,19 +30,42 @@ import com.itextpdf.text.pdf.PdfWriter;
 import co.edu.unbosque.model.Women;
 import co.edu.unbosque.model.WomenDTO;
 
+/**
+ * Clase de acceso a datos para la gestión de usuarios de tipo mujer.
+ * <b>pre:</b> Debe existir un sistema de archivos accesible para persistencia.
+ * <br>
+ * <b>post:</b> Gestiona las operaciones CRUD y generación de informes para
+ * usuarios femeninos.
+ * 
+ */
 public class WomenDAO implements DAO<WomenDTO> {
 
+	/** Lista de objetos DTO que representan a las usuarios femeninas. */
 	public ArrayList<WomenDTO> listaWomenDTO;
+
+	/** Propiedades utilizadas para la internacionalización o configuración. */
 	private Properties props;
+
+	/** Nombre del archivo de texto para almacenamiento en CSV. */
 	private final String FILE_NAME = "Women.csv";
+
+	/** Nombre del archivo binario para almacenamiento serializado. */
 	private final String SERIAL_FILE_NAME = "Women.bin";
 
+	/**
+	 * Constructor por defecto que inicializa la lista y carga datos desde archivos.
+	 */
 	public WomenDAO() {
 		listaWomenDTO = new ArrayList<>();
 		loadFromSerializedFile();
 		readFromTextFile(FILE_NAME);
 	}
 
+	/**
+	 * Crea un nuevo usuario femenino en el sistema.
+	 * 
+	 * @param nuevoDato Objeto DTO con los datos del nuevo usuario.
+	 */
 	@Override
 	public void create(WomenDTO nuevoDato) {
 		Women entity = DataMapper.convertirWomenDTOAWomen(nuevoDato);
@@ -51,6 +74,11 @@ public class WomenDAO implements DAO<WomenDTO> {
 		writeTextFile();
 	}
 
+	/**
+	 * Muestra todos los usuarios femeninos registrados.
+	 * 
+	 * @return Cadena con la información de todos los usuarios.
+	 */
 	@Override
 	public String showAll() {
 		StringBuilder content = new StringBuilder();
@@ -63,6 +91,13 @@ public class WomenDAO implements DAO<WomenDTO> {
 		return content.toString();
 	}
 
+	/**
+	 * Elimina un usuario femenino por su índice en la lista.
+	 * 
+	 * @param indice Posición del usuario en la lista.
+	 * @return {@code true} si la eliminación fue exitosa, {@code false} en caso
+	 *         contrario.
+	 */
 	@Override
 	public boolean delete(int indice) {
 		if (indice < 0 || indice >= listaWomenDTO.size()) {
@@ -74,11 +109,26 @@ public class WomenDAO implements DAO<WomenDTO> {
 		return true;
 	}
 
+	/**
+	 * Elimina un usuario femenino específico de la lista.
+	 * 
+	 * @param objetoAEliminar Objeto DTO del usuario a eliminar.
+	 * @return {@code true} si la eliminación fue exitosa, {@code false} en caso
+	 *         contrario.
+	 */
 	@Override
 	public boolean delete(WomenDTO objetoAEliminar) {
 		return listaWomenDTO.remove(objetoAEliminar);
 	}
 
+	/**
+	 * Actualiza los datos de un usuario femenino en una posición específica.
+	 * 
+	 * @param indice          Posición del usuario en la lista.
+	 * @param datoActualizado Objeto DTO con los datos actualizados.
+	 * @return {@code true} si la actualización fue exitosa, {@code false} en caso
+	 *         contrario.
+	 */
 	@Override
 	public boolean update(int indice, WomenDTO datoActualizado) {
 		if (indice < 0 || indice >= listaWomenDTO.size()) {
@@ -92,11 +142,21 @@ public class WomenDAO implements DAO<WomenDTO> {
 		}
 	}
 
+	/**
+	 * Cuenta el número total de usuarios femeninos registrados.
+	 * 
+	 * @return Cantidad de usuarios en la lista.
+	 */
 	@Override
 	public int count() {
 		return listaWomenDTO.size();
 	}
 
+	/**
+	 * Lee los datos de usuarios desde un archivo de texto CSV.
+	 * 
+	 * @param url Ruta del archivo de texto a leer.
+	 */
 	@Override
 	public void readFromTextFile(String url) {
 		String content;
@@ -145,6 +205,9 @@ public class WomenDAO implements DAO<WomenDTO> {
 		}
 	}
 
+	/**
+	 * Escribe todos los datos de usuarios femeninos en un archivo de texto CSV.
+	 */
 	@Override
 	public void writeTextFile() {
 		StringBuilder sb = new StringBuilder();
@@ -167,6 +230,9 @@ public class WomenDAO implements DAO<WomenDTO> {
 		FileHandler.escribirEnArchivoTexto(FILE_NAME, sb.toString());
 	}
 
+	/**
+	 * Carga los datos de usuarios desde un archivo serializado binario.
+	 */
 	@Override
 	public void loadFromSerializedFile() {
 		Object content = FileHandler.leerDesdeArchivoSerializado(SERIAL_FILE_NAME);
@@ -177,12 +243,20 @@ public class WomenDAO implements DAO<WomenDTO> {
 		}
 	}
 
+	/**
+	 * Escribe todos los datos de usuarios en un archivo serializado binario.
+	 */
 	@Override
 	public void writeSerializedFile() {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, listaWomenDTO);
 
 	}
 
+	/**
+	 * Asigna las propiedades de internacionalización a todos los usuarios.
+	 * 
+	 * @param prop Propiedades de idioma o configuración.
+	 */
 	@Override
 	public void internacionalizacion(Properties prop) {
 		this.props = prop;
@@ -191,6 +265,15 @@ public class WomenDAO implements DAO<WomenDTO> {
 		}
 	}
 
+	/**
+	 * Valida las credenciales de un usuario femenino.
+	 * 
+	 * @param userAlias Alias del usuario.
+	 * @param email     Correo electrónico del usuario.
+	 * @param password  Contraseña del usuario.
+	 * @return {@code true} si las credenciales son válidas, {@code false} en caso
+	 *         contrario.
+	 */
 	public boolean validarUsuario(String userAlias, String email, String password) {
 		String content = FileHandler.leerDesdeArchivoTexto(FILE_NAME);
 		if (content == null || content.isBlank()) {
@@ -222,6 +305,14 @@ public class WomenDAO implements DAO<WomenDTO> {
 		return false;
 	}
 
+	/**
+	 * Actualiza el número de likes de un usuario específico.
+	 * 
+	 * @param alias       Alias del usuario.
+	 * @param nuevosLikes Nueva cantidad de likes.
+	 * @return {@code true} si la actualización fue exitosa, {@code false} en caso
+	 *         contrario.
+	 */
 	@Override
 	public boolean actualizarLikes(String alias, int nuevosLikes) {
 		for (WomenDTO usuario : listaWomenDTO) {
@@ -235,6 +326,10 @@ public class WomenDAO implements DAO<WomenDTO> {
 		return false;
 	}
 
+	/**
+	 * Ordena la lista de usuarios de forma ascendente por nombre usando el
+	 * algoritmo Selection Sort.
+	 */
 	@Override
 	public void selectionSortAsc() {
 		for (int i = 0; i < listaWomenDTO.size() - 1; i++) {
@@ -255,6 +350,10 @@ public class WomenDAO implements DAO<WomenDTO> {
 
 	}
 
+	/**
+	 * Ordena la lista de usuarios de forma descendente por nombre usando el
+	 * algoritmo Insertion Sort.
+	 */
 	@Override
 	public void insertionSortDes() {
 		for (int i = 1; i < listaWomenDTO.size(); i++) {
@@ -271,6 +370,12 @@ public class WomenDAO implements DAO<WomenDTO> {
 
 	}
 
+	/**
+	 * Genera un informe PDF detallado con estadísticas y gráficas para un usuario
+	 * específico.
+	 * 
+	 * @param alias Alias del usuario para el cual se generará el informe.
+	 */
 	@Override
 	public void generarInformePDF(String alias) {
 		WomenDTO usuario = null;

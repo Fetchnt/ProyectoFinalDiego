@@ -10,17 +10,42 @@ import java.util.Properties;
 import co.edu.unbosque.model.persistence.MenDAO;
 import co.edu.unbosque.model.persistence.WomenDAO;
 
+/**
+ * Fachada que centraliza la lógica de negocio del modelo. <b>pre:</b> Deben
+ * existir objetos DAO válidos para gestionar usuarios. <br>
+ * <b>post:</b> Proporciona una interfaz unificada para operaciones de usuarios,
+ * perfiles, likes y estadísticas.
+ * 
+ */
 public class ModelFacade {
 
+	/** Objeto de acceso a datos para usuarios femeninos. */
 	private WomenDAO wDAO;
+
+	/** Objeto de acceso a datos para usuarios masculinos. */
 	private MenDAO mDAO;
+
+	/** Lista de perfiles disponibles para visualización. */
 	public List<User> perfilesActuales;
+
+	/** Índice del perfil actual que se está mostrando. */
 	public int indiceActual = 0;
+
+	/** Lista de usuarios que han recibido like. */
 	private List<User> likes;
+
+	/** Lista de usuarios marcados como favoritos. */
 	private List<User> favoritos;
+
+	/** Indica si el modo incógnito está activo. */
 	private boolean modoIncognito;
+
+	/** Usuario que ha iniciado sesión actualmente. */
 	private User usuarioActual;
 
+	/**
+	 * Constructor por defecto que inicializa los DAOs y las listas de gestión.
+	 */
 	public ModelFacade() {
 		mDAO = new MenDAO();
 		wDAO = new WomenDAO();
@@ -31,39 +56,89 @@ public class ModelFacade {
 	}
 
 	// === GETTERS Y SETTERS ===
+
+	/**
+	 * Obtiene el DAO de usuarios femeninos.
+	 * 
+	 * @return Objeto WomenDAO.
+	 */
 	public WomenDAO getwDAO() {
 		return wDAO;
 	}
 
+	/**
+	 * Asigna el DAO de usuarios femeninos.
+	 * 
+	 * @param wDAO Objeto WomenDAO a asignar.
+	 */
 	public void setwDAO(WomenDAO wDAO) {
 		this.wDAO = wDAO;
 	}
 
+	/**
+	 * Obtiene el DAO de usuarios masculinos.
+	 * 
+	 * @return Objeto MenDAO.
+	 */
 	public MenDAO getmDAO() {
 		return mDAO;
 	}
 
+	/**
+	 * Asigna el DAO de usuarios masculinos.
+	 * 
+	 * @param mDAO Objeto MenDAO a asignar.
+	 */
 	public void setmDAO(MenDAO mDAO) {
 		this.mDAO = mDAO;
 	}
 
+	/**
+	 * Verifica si el modo incógnito está activo.
+	 * 
+	 * @return {@code true} si está en modo incógnito, {@code false} en caso
+	 *         contrario.
+	 */
 	public boolean isModoIncognito() {
 		return modoIncognito;
 	}
 
+	/**
+	 * Asigna el estado del modo incógnito.
+	 * 
+	 * @param modoIncognito Valor booleano para activar o desactivar el modo
+	 *                      incógnito.
+	 */
 	public void setModoIncognito(boolean modoIncognito) {
 		this.modoIncognito = modoIncognito;
 	}
 
+	/**
+	 * Obtiene el usuario que ha iniciado sesión actualmente.
+	 * 
+	 * @return Objeto User del usuario actual.
+	 */
 	public User getUsuarioActual() {
 		return usuarioActual;
 	}
 
+	/**
+	 * Asigna el usuario que ha iniciado sesión actualmente.
+	 * 
+	 * @param usuarioActual Objeto User del usuario actual.
+	 */
 	public void setUsuarioActual(User usuarioActual) {
 		this.usuarioActual = usuarioActual;
 	}
 
 	// === MÉTODOS DE USUARIOS Y PAÍSES ===
+
+	/**
+	 * Obtiene todos los usuarios que pertenecen a un país específico.
+	 * 
+	 * @param pais Nombre del país a filtrar.
+	 * @return Lista de usuarios del país especificado.
+	 */
 	public List<User> getUsuariosPorPais(String pais) {
 		List<User> resultado = new ArrayList<>();
 
@@ -82,11 +157,25 @@ public class ModelFacade {
 		return resultado;
 	}
 
+	/**
+	 * Carga las propiedades de internacionalización en los DAOs.
+	 * 
+	 * @param prop Propiedades de idioma o configuración.
+	 */
 	public void cargarProperties(Properties prop) {
 		mDAO.internacionalizacion(prop);
 		wDAO.internacionalizacion(prop);
 	}
 
+	/**
+	 * Valida las credenciales de inicio de sesión de un usuario.
+	 * 
+	 * @param userAlias Alias del usuario.
+	 * @param email     Correo electrónico del usuario.
+	 * @param password  Contraseña del usuario.
+	 * @return {@code true} si las credenciales son válidas, {@code false} en caso
+	 *         contrario.
+	 */
 	public boolean validarInicioSesion(String userAlias, String email, String password) {
 		// 🔹 Leer siempre los CSV más recientes
 		mDAO.listaMenDTO.clear();
@@ -116,6 +205,12 @@ public class ModelFacade {
 		return false;
 	}
 
+	/**
+	 * Obtiene un usuario específico por su alias.
+	 * 
+	 * @param alias Alias del usuario a buscar.
+	 * @return Objeto User encontrado, o {@code null} si no existe.
+	 */
 	public User obtenerUsuarioPorAlias(String alias) {
 		// Buscar en hombres
 		for (MenDTO hombre : mDAO.listaMenDTO) {
@@ -135,10 +230,21 @@ public class ModelFacade {
 	}
 
 	// === MÉTODOS DE PERFILES Y LIKES ===
+
+	/**
+	 * Carga todos los perfiles disponibles sin excluir ningún usuario.
+	 */
 	public void cargarPerfiles() {
 		cargarPerfiles(null);
 	}
 
+	/**
+	 * Carga todos los perfiles disponibles, excluyendo opcionalmente un usuario
+	 * específico.
+	 * 
+	 * @param usuarioExcluir Usuario a excluir de la lista de perfiles, o
+	 *                       {@code null} para no excluir ninguno.
+	 */
 	public void cargarPerfiles(User usuarioExcluir) {
 		perfilesActuales.clear();
 
@@ -159,6 +265,11 @@ public class ModelFacade {
 		indiceActual = 0;
 	}
 
+	/**
+	 * Obtiene el perfil que se está visualizando actualmente.
+	 * 
+	 * @return Objeto User del perfil actual, o {@code null} si no hay más perfiles.
+	 */
 	public User getPerfilActual() {
 		if (indiceActual < perfilesActuales.size()) {
 			return perfilesActuales.get(indiceActual);
@@ -166,6 +277,9 @@ public class ModelFacade {
 		return null;
 	}
 
+	/**
+	 * Avanza al siguiente perfil disponible en la lista.
+	 */
 	public void siguientePerfil() {
 		if (perfilesActuales.isEmpty()) {
 			indiceActual = 0;
@@ -175,16 +289,18 @@ public class ModelFacade {
 		if (indiceActual < perfilesActuales.size() - 1) {
 			indiceActual++;
 
-			
 			User siguiente = perfilesActuales.get(indiceActual);
 			if (usuarioActual != null && siguiente.getAlias().equals(usuarioActual.getAlias())) {
-				siguientePerfil(); 
+				siguientePerfil();
 			}
 		} else {
-			indiceActual = perfilesActuales.size(); 
+			indiceActual = perfilesActuales.size();
 		}
 	}
 
+	/**
+	 * Agrega un like al perfil actual y actualiza el contador de likes.
+	 */
 	public void agregarLike() {
 		User actual = getPerfilActual();
 		if (actual != null && !likes.contains(actual)) {
@@ -201,18 +317,34 @@ public class ModelFacade {
 			}
 		}
 	}
-	
-	
 
+	/**
+	 * Obtiene la cantidad de likes que tiene un usuario específico.
+	 * 
+	 * @param alias Alias del usuario.
+	 * @return Cantidad de likes del usuario, o 0 si no se encuentra.
+	 */
 	public int obtenerLikesUsuario(String alias) {
 		User usuario = buscarUsuarioPorAlias(alias);
 		return usuario != null ? usuario.getLikes() : 0;
 	}
 
+	/**
+	 * Obtiene la lista de usuarios que han recibido like.
+	 * 
+	 * @return Lista de usuarios con like.
+	 */
 	public List<User> getLikes() {
 		return likes;
 	}
 
+	/**
+	 * Agrega un usuario a la lista de favoritos.
+	 * 
+	 * @param usuario Usuario a agregar a favoritos.
+	 * @return {@code true} si se agregó correctamente, {@code false} si ya estaba
+	 *         en favoritos o es nulo.
+	 */
 	public boolean agregarAFavoritos(User usuario) {
 		if (usuario != null && !favoritos.contains(usuario)) {
 			favoritos.add(usuario);
@@ -221,11 +353,22 @@ public class ModelFacade {
 		return false;
 	}
 
+	/**
+	 * Obtiene la lista de usuarios marcados como favoritos.
+	 * 
+	 * @return Lista de usuarios favoritos.
+	 */
 	public List<User> getFavoritos() {
 		return favoritos;
 	}
 
 	// === MÉTODOS DE ADMINISTRACIÓN ===
+
+	/**
+	 * Obtiene todos los usuarios registrados en el sistema.
+	 * 
+	 * @return Lista con todos los usuarios masculinos y femeninos.
+	 */
 	public List<User> obtenerTodosLosUsuarios() {
 		List<User> todosLosUsuarios = new ArrayList<>();
 		todosLosUsuarios.addAll(mDAO.listaMenDTO);
@@ -233,6 +376,13 @@ public class ModelFacade {
 		return todosLosUsuarios;
 	}
 
+	/**
+	 * Elimina un usuario del sistema por su alias.
+	 * 
+	 * @param alias Alias del usuario a eliminar.
+	 * @return {@code true} si el usuario fue eliminado, {@code false} si no se
+	 *         encontró.
+	 */
 	public boolean eliminarUsuarioPorAlias(String alias) {
 		// Buscar y eliminar en hombres
 		for (int i = 0; i < mDAO.listaMenDTO.size(); i++) {
@@ -253,6 +403,12 @@ public class ModelFacade {
 		return false; // No se encontró el usuario
 	}
 
+	/**
+	 * Busca un usuario específico por su alias.
+	 * 
+	 * @param alias Alias del usuario a buscar.
+	 * @return Objeto User encontrado, o {@code null} si no existe.
+	 */
 	public User buscarUsuarioPorAlias(String alias) {
 		// Buscar en hombres
 		for (MenDTO hombre : mDAO.listaMenDTO) {
@@ -272,8 +428,13 @@ public class ModelFacade {
 	}
 
 	// === MÉTODOS DE MODO INCÓGNITO ===
+
 	/**
-	 * Retorna un usuario con datos ocultos si está en modo incógnito
+	 * Retorna un usuario con datos ocultos si está en modo incógnito.
+	 * 
+	 * @param usuarioOriginal Usuario original a procesar.
+	 * @return Usuario con datos ocultos si aplica modo incógnito, o el usuario
+	 *         original.
 	 */
 	public User getPerfilParaMostrar(User usuarioOriginal) {
 		if (usuarioOriginal == null)
@@ -289,7 +450,9 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Obtiene el perfil actual para mostrar (con lógica de incógnito aplicada)
+	 * Obtiene el perfil actual para mostrar con lógica de incógnito aplicada.
+	 * 
+	 * @return Usuario para mostrar con datos ocultos si aplica.
 	 */
 	public User getPerfilActualParaMostrar() {
 		User perfilActual = getPerfilActual();
@@ -297,11 +460,12 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Obtiene los usuarios ordenados por ingresos (solo hombres con ingresos >=
-	 * umbral)
+	 * Obtiene los usuarios ordenados por ingresos solo hombres con ingresos mayores
+	 * o iguales al umbral.
 	 * 
-	 * @param umbralIngresos El umbral mínimo de ingresos
-	 * @return Lista de hombres que cumplen con el criterio
+	 * @param umbralIngresos El umbral mínimo de ingresos.
+	 * @return Lista de hombres que cumplen con el criterio ordenados de mayor a
+	 *         menor ingreso.
 	 */
 	public List<User> obtenerUsuariosPorIngresos(double umbralIngresos) {
 		List<User> usuariosFiltrados = new ArrayList<>();
@@ -330,10 +494,10 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Obtiene usuarios filtrados por género
+	 * Obtiene usuarios filtrados por género.
 	 * 
-	 * @param genero El género a filtrar ("Masculino", "Femenino", o "Todos")
-	 * @return Lista de usuarios del género especificado
+	 * @param genero El género a filtrar ("Masculino", "Femenino", o "Todos").
+	 * @return Lista de usuarios del género especificado.
 	 */
 	public List<User> obtenerUsuariosPorGenero(String genero) {
 		List<User> usuariosFiltrados = new ArrayList<>();
@@ -352,7 +516,10 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Calcula la edad promedio de una lista de usuarios
+	 * Calcula la edad promedio de una lista de usuarios.
+	 * 
+	 * @param usuarios Lista de usuarios para calcular el promedio.
+	 * @return Edad promedio calculada, o 0 si no hay usuarios válidos.
 	 */
 	public double calcularEdadPromedio(List<User> usuarios) {
 		if (usuarios.isEmpty()) {
@@ -378,7 +545,10 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Calcula el ingreso promedio de hombres en una lista
+	 * Calcula el ingreso promedio de hombres en una lista.
+	 * 
+	 * @param usuarios Lista de usuarios para calcular el promedio.
+	 * @return Ingreso promedio calculado, o 0 si no hay hombres en la lista.
 	 */
 	public double calcularIngresoPromedio(List<User> usuarios) {
 		double sumaIngresos = 0;
@@ -396,7 +566,10 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Cuenta cuántas mujeres tienen divorcios en una lista
+	 * Cuenta cuántas mujeres tienen divorcios en una lista.
+	 * 
+	 * @param usuarios Lista de usuarios a analizar.
+	 * @return Cantidad de mujeres con divorcios.
 	 */
 	public int contarMujeresConDivorcios(List<User> usuarios) {
 		int contador = 0;
@@ -414,7 +587,11 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Cuenta cuántos usuarios hay por género
+	 * Cuenta cuántos usuarios hay por género.
+	 * 
+	 * @param usuarios Lista de usuarios a analizar.
+	 * @param genero   Género a contar ("Masculino" o "Femenino").
+	 * @return Cantidad de usuarios del género especificado.
 	 */
 	public int contarPorGenero(List<User> usuarios, String genero) {
 		int contador = 0;
@@ -431,7 +608,11 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Encuentra el país con más usuarios
+	 * Encuentra el país con más usuarios.
+	 * 
+	 * @param usuarios Lista de usuarios a analizar.
+	 * @return Cadena con el nombre del país y cantidad de usuarios, o cadena vacía
+	 *         si no hay usuarios.
 	 */
 	public String encontrarPaisMasUsuarios(List<User> usuarios) {
 		if (usuarios.isEmpty()) {
@@ -479,7 +660,10 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Calcula edad desde un string de fecha
+	 * Calcula edad desde un string de fecha.
+	 * 
+	 * @param fechaNacimiento Fecha de nacimiento en formato dd/MM/yyyy.
+	 * @return Edad calculada en años, o 0 si hay error en el formato.
 	 */
 	private int calcularEdadDesdeString(String fechaNacimiento) {
 		try {
@@ -493,7 +677,10 @@ public class ModelFacade {
 	}
 
 	/**
-	 * Crea una versión con datos ocultos del usuario
+	 * Crea una versión con datos ocultos del usuario.
+	 * 
+	 * @param usuarioOriginal Usuario original cuyos datos se ocultarán.
+	 * @return Usuario anónimo con datos genéricos.
 	 */
 	private User crearUsuarioOculto(User usuarioOriginal) {
 		// Usar una clase anónima para crear un usuario con datos ocultos
@@ -550,6 +737,13 @@ public class ModelFacade {
 		};
 	}
 
+	/**
+	 * Obtiene los usuarios más populares según su cantidad de likes.
+	 * 
+	 * @param cantidad Número máximo de usuarios a retornar.
+	 * @return Lista de usuarios más populares ordenados de mayor a menor cantidad
+	 *         de likes.
+	 */
 	public List<User> obtenerUsuariosMasPopulares(int cantidad) {
 		List<User> todosLosUsuarios = obtenerTodosLosUsuarios();
 
