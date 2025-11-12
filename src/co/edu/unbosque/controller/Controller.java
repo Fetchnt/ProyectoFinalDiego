@@ -1669,6 +1669,11 @@ public class Controller implements ActionListener {
 		vf.getMmw().getLblProfilePicture().setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
+	/**
+     * Maneja el ordenamiento ascendente de usuarios por likes según género.
+     * <b>pre</b> Hay un género seleccionado en el filtro. <br>
+     * <b>post</b> La tabla muestra usuarios ordenados ascendentemente por likes. <br>
+     */
 	public void manejarOrdenAscendente() {
 		String genero = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
 		if (genero == null || genero.equalsIgnoreCase(prop.getProperty("controller.sort.all.label"))) {
@@ -1702,11 +1707,12 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	 /**
-     * Ordena los usuarios de forma ascendente según criterios específicos.
-     * <b>pre</b> Hay un género seleccionado para ordenar. <br>
-     * <b>post</b> La tabla muestra usuarios ordenados ascendentemente. <br>
-     */
+	/**
+	 * Ordena los usuarios de forma descendente según criterios específicos.
+	 * <b>pre</b> Hay un género seleccionado para ordenar. <br>
+	 * <b>post</b> La tabla muestra usuarios ordenados descendentemente. <br>
+	 * @throws Exception Si no se puede realizar la ordenación
+	 */
 	public void manejarOrdenDescendente() {
 		String genero = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
 		if (genero == null || genero.equalsIgnoreCase(prop.getProperty("controller.sort.all.label"))) {
@@ -2079,8 +2085,12 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Filtra HOMBRES para HOMBRES HOMOSEXUALES/GAY
-	 */
+     * Filtra hombres para hombres homosexuales según edad.
+     * <b>pre</b> El usuario actual es un hombre homosexual. <br>
+     * <b>post</b> La lista de perfiles contiene solo hombres que cumplen los criterios. <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     */
 	public void filtrarPerfilesPorPreferenciasHombresHomosexuales(int edadMin, int edadMax) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
@@ -2119,8 +2129,13 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Filtra HOMBRES Y MUJERES para HOMBRES BISEXUALES
-	 */
+     * Filtra hombres y mujeres para hombres bisexuales según edad y divorcios.
+     * <b>pre</b> El usuario actual es un hombre bisexual. <br>
+     * <b>post</b> La lista de perfiles contiene personas de ambos géneros que cumplen los criterios. <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     * @param preferenciaDiv Preferencia sobre divorcios para mujeres. preferenciaDiv != null
+     */
 	public void filtrarPerfilesPorPreferenciasHombresBisexuales(int edadMin, int edadMax, String preferenciaDiv) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
@@ -2170,8 +2185,12 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Filtra TODOS para HOMBRES ASEXUALES (sin orientación restrictiva)
-	 */
+     * Filtra todos los perfiles para hombres asexuales solo por edad.
+     * <b>pre</b> El usuario actual es un hombre asexual. <br>
+     * <b>post</b> La lista de perfiles contiene personas de cualquier género en el rango de edad. <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     */
 	public void filtrarPerfilesPorPreferenciasHombresAsexuales(int edadMin, int edadMax) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
@@ -2206,9 +2225,15 @@ public class Controller implements ActionListener {
 
 	// ==================== MÉTODOS PARA MUJERES ====================
 
-	/**
-	 * Filtra HOMBRES para MUJERES HETEROSEXUALES
-	 */
+	 /**
+     * Filtra hombres para mujeres heterosexuales según edad, estatura e ingresos.
+     * <b>pre</b> El usuario actual es una mujer heterosexual. <br>
+     * <b>post</b> La lista de perfiles contiene solo hombres que cumplen los criterios. <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     * @param estaturaMin Estatura mínima en metros. estaturaMin >= 0.60
+     * @param ingresosMin Ingresos mínimos mensuales en USD. ingresosMin >= 0
+     */
 	public void filtrarPerfilesPorPreferenciasMujeresHeterosexuales(int edadMin, int edadMax, double estaturaMin,
 			long ingresosMin) {
 		User usuarioActual = mf.getUsuarioActual();
@@ -2261,8 +2286,12 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Filtra MUJERES para MUJERES HOMOSEXUALES/LÉSBICA
-	 */
+     * Filtra mujeres para mujeres homosexuales según edad.
+     * <b>pre</b> El usuario actual es una mujer homosexual. <br>
+     * <b>post</b> La lista de perfiles contiene solo mujeres que cumplen los criterios. <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     */
 	public void filtrarPerfilesPorPreferenciasMujeresHomosexuales(int edadMin, int edadMax) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
@@ -2300,8 +2329,14 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Filtra HOMBRES Y MUJERES para MUJERES BISEXUALES
-	 */
+     * Filtra hombres y mujeres para mujeres bisexuales según criterios mixtos.
+     * <b>pre</b> El usuario actual es una mujer bisexual. <br>
+     * <b>post</b> La lista contiene hombres (con filtros) y mujeres (solo edad). <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     * @param estaturaMin Estatura mínima para hombres. estaturaMin >= 0.60
+     * @param ingresosMin Ingresos mínimos para hombres. ingresosMin >= 0
+     */
 	public void filtrarPerfilesPorPreferenciasMujeresBisexuales(int edadMin, int edadMax, double estaturaMin,
 			long ingresosMin) {
 		User usuarioActual = mf.getUsuarioActual();
@@ -2357,9 +2392,13 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	/**
-	 * Filtra TODOS para MUJERES ASEXUALES (sin orientación restrictiva)
-	 */
+	 /**
+     * Filtra todos los perfiles para mujeres asexuales solo por edad.
+     * <b>pre</b> El usuario actual es una mujer asexual. <br>
+     * <b>post</b> La lista de perfiles contiene personas de cualquier género en el rango de edad. <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     */
 	public void filtrarPerfilesPorPreferenciasMujeresAsexuales(int edadMin, int edadMax) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
@@ -2392,8 +2431,10 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Muestra la ventana de preferencias según el género del usuario
-	 */
+     * Muestra la ventana de preferencias según el género del usuario.
+     * <b>pre</b> El usuario ha iniciado sesión correctamente. <br>
+     * <b>post</b> Se muestra la ventana de preferencias con campos apropiados al género. <br>
+     */
 	public void mostrarVentanaPreferencias() {
 		User usuarioActual = mf.getUsuarioActual();
 
@@ -2416,7 +2457,14 @@ public class Controller implements ActionListener {
 		// Mostrar la ventana de preferencias
 		vf.getPrefw().setVisible(true);
 	}
-	
+	 /**
+     * Filtra perfiles de mujeres para hombres según preferencias y orientación sexual.
+     * <b>pre</b> El usuario actual es un hombre con preferencias válidas. <br>
+     * <b>post</b> Se filtran mujeres compatibles según edad, divorcios y orientación. <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     * @param preferenciaDiv Preferencia sobre divorcios. preferenciaDiv != null
+     */
 	public void filtrarPerfilesPorPreferenciasHombres(int edadMin, int edadMax, String preferenciaDiv) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
@@ -2475,6 +2523,15 @@ public class Controller implements ActionListener {
 		}
 	}
 
+	 /**
+     * Filtra perfiles de hombres para mujeres según preferencias y orientación sexual.
+     * <b>pre</b> El usuario actual es una mujer con preferencias válidas. <br>
+     * <b>post</b> Se filtran hombres compatibles según edad, estatura, ingresos y orientación. <br>
+     * @param edadMin Edad mínima deseada. edadMin >= 18
+     * @param edadMax Edad máxima deseada. edadMax <= 100
+     * @param estaturaMin Estatura mínima en metros. estaturaMin >= 0.60
+     * @param ingresosMin Ingresos mínimos mensuales. ingresosMin >= 0
+     */
 	public void filtrarPerfilesPorPreferenciasMujeres(int edadMin, int edadMax, double estaturaMin, long ingresosMin) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
@@ -2543,11 +2600,14 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * ✅ MÉTODO AUXILIAR: Verifica si dos orientaciones sexuales son compatibles
-	 * Lógica de compatibilidad: - Heterosexual con Heterosexual: SÍ (opuesto
-	 * género) - Homosexual con Homosexual: SÍ (mismo género) - Bisexual con
-	 * cualquiera: SÍ (bisexual acepta todos) - Otros casos: NO
-	 */
+     * Verifica si dos orientaciones sexuales son compatibles para un match.
+     * <b>pre</b> Ambas orientaciones son cadenas válidas. <br>
+     * <b>post</b> Se determina si hay compatibilidad entre las orientaciones. <br>
+     * @param orientacion1 Orientación sexual del primer usuario. orientacion1 != null
+     * @param orientacion2 Orientación sexual del segundo usuario. orientacion2 != null
+     * @return true si las orientaciones son compatibles, false en caso contrario
+     */
+
 	public boolean esCompatibleOrientacionSexual(String orientacion1, String orientacion2) {
 		// Normalizar valores (por si hay espacios o diferencias de mayúsculas)
 		orientacion1 = orientacion1.trim().toLowerCase();
@@ -2592,13 +2652,13 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Convierte una cantidad de moneda local a dólares estadounidenses (USD) según
-	 * el país seleccionado
-	 * 
-	 * @param cantidad La cantidad en moneda local
-	 * @param pais     El país seleccionado (debe coincidir con los del ComboBox)
-	 * @return La cantidad convertida a USD, o -1 si hay error
-	 */
+     * Convierte una cantidad de moneda local a dólares estadounidenses según el país.
+     * <b>pre</b> La cantidad y el país son válidos. <br>
+     * <b>post</b> Se calcula el equivalente en USD. <br>
+     * @param cantidad La cantidad en moneda local. cantidad >= 0
+     * @param pais El país de origen de la moneda. pais != null, pais != ""
+     * @return La cantidad convertida a USD, o -1 si hay error
+     */
 	public double convertirMonedaADolares(double cantidad, String pais) {
 		if (pais == null || pais.isEmpty()) {
 			return -1;
@@ -2614,12 +2674,13 @@ public class Controller implements ActionListener {
 		return cantidad / tasaCambio;
 	}
 
-	/**
-	 * Obtiene la tasa de cambio de la moneda local a USD
-	 * 
-	 * @param pais El país seleccionado
-	 * @return La tasa de cambio, o -1 si el país no es válido
-	 */
+	 /**
+     * Obtiene la tasa de cambio de la moneda local a USD según el país.
+     * <b>pre</b> El país es válido y está en la lista soportada. <br>
+     * <b>post</b> Se retorna la tasa de cambio actual. <br>
+     * @param pais El país del cual obtener la tasa de cambio. pais != null, pais != ""
+     * @return La tasa de cambio, o -1 si el país no es válido
+     */
 	public double obtenerTasaCambio(String pais) {
 		switch (pais) {
 		case "Angola":
@@ -2653,6 +2714,11 @@ public class Controller implements ActionListener {
 		}
 	}
 
+	/**
+     * Inicia la ejecución de la aplicación mostrando la ventana principal.
+     * <b>pre</b> El controlador está correctamente inicializado. <br>
+     * <b>post</b> La ventana principal es visible y los perfiles están cargados. <br>
+     */
 	public void run() {
 		vf.getPw().setVisible(true);
 		inicializarPerfiles();
