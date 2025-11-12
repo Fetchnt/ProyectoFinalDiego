@@ -1,3 +1,16 @@
+/**
+ * Controlador principal de la aplicación BosTinder que maneja la lógica de negocio
+ * y coordina las interacciones entre el modelo y la vista.
+ * 
+ * <p>Esta clase implementa ActionListener para gestionar todos los eventos de la interfaz
+ * de usuario y contiene la lógica de aplicación para el sistema de citas BosTinder.</p>
+ * 
+ * @author Equipo de desarrollo BosTinder
+ * @version 1.0
+ * @see ActionListener
+ * @see ModelFacade
+ * @see ViewFacade
+ */
 package co.edu.unbosque.controller;
 
 import java.awt.event.ActionEvent;
@@ -40,6 +53,12 @@ public class Controller implements ActionListener {
 	private ViewFacade vf;
 	private Properties prop;
 
+	 /**
+     * Constructor principal del controlador.
+     * <b>pre</b> Las clases ModelFacade y ViewFacade están disponibles. <br>
+     * <b>post</b> Se ha inicializado el controlador con modelo y vista configurados. <br>
+     */
+	
 	public Controller() {
 		mf = new ModelFacade();
 		vf = new ViewFacade();
@@ -47,6 +66,12 @@ public class Controller implements ActionListener {
 		asignarOyentes();
 	}
 
+	/**
+     * Asigna los oyentes de eventos a todos los componentes de la interfaz.
+     * <b>pre</b> Todas las ventanas de la vista están inicializadas. <br>
+     * <b>post</b> Todos los botones tienen sus ActionListener asignados. <br>
+     */
+	
 	public void asignarOyentes() {
 		// ---------- BOTONES en PrincipalWindow ----------
 		vf.getPw().getStart().addActionListener(this);
@@ -194,6 +219,14 @@ public class Controller implements ActionListener {
 		vf.getPrefw().getBtnCancelar().setActionCommand("boton_cancelar_preferencias");
 
 	}
+	
+	 /**
+     * Maneja todos los eventos de acción generados por la interfaz de usuario.
+     * <b>pre</b> El controlador está correctamente inicializado. <br>
+     * <b>post</b> Se ha ejecutado la acción correspondiente al comando recibido. <br>
+     * @param e El evento de acción generado. e != null
+     */
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -765,10 +798,18 @@ public class Controller implements ActionListener {
 		}
 
 	}
+	
+	
 
 	// -------------METODOS AUXILIARES-----------------
 
-	// Maneja click en un país
+	 /**
+     * Maneja el evento de click en un país del mapa.
+     * <b>pre</b> El mapa está cargado y visible. <br>
+     * <b>post</b> Se muestran los usuarios del país seleccionado. <br>
+     * @param pais El nombre del país seleccionado. pais != null, pais != ""
+     */
+	
 	public void manejarClickPais(String pais) {
 		if (pais != null) {
 			// Actualiza el label con el país seleccionado en la ventana principal
@@ -785,6 +826,12 @@ public class Controller implements ActionListener {
 			vf.getMw().setVisible(false);
 		}
 	}
+	 /**
+     * Maneja el evento de hover sobre un país del mapa.
+     * <b>pre</b> El mapa está cargado y visible. <br>
+     * <b>post</b> Se actualiza la información del país en hover. <br>
+     * @param pais El nombre del país sobre el que se hace hover. pais != null
+     */
 
 	// Maneja mouse sobre pais
 	public void mostrarPaisHover(String pais) {
@@ -793,6 +840,12 @@ public class Controller implements ActionListener {
 			vf.getMw().setPaisSeleccionado(pais);
 		}
 	}
+	
+	 /**
+     * Muestra u oculta campos específicos según el género seleccionado en el registro.
+     * <b>pre</b> El ComboBox de género está inicializado. <br>
+     * <b>post</b> Los campos específicos de género son visibles u ocultos según la selección. <br>
+     */
 
 	public void mostrarCamposPorGenero() {
 		int indice = vf.getRw().getCmbGenero().getSelectedIndex();
@@ -827,6 +880,11 @@ public class Controller implements ActionListener {
 		}
 	}
 
+	/**
+     * Limpia todos los campos del formulario de registro.
+     * <b>pre</b> El formulario de registro está visible. <br>
+     * <b>post</b> Todos los campos de texto y selecciones están en su estado inicial. <br>
+     */
 	public void limpiarCamposRegistro() {
 		// Limpiar campos de texto
 		vf.getRw().getTxtNombres().setText("");
@@ -848,12 +906,27 @@ public class Controller implements ActionListener {
 		mostrarCamposPorGenero();
 	}
 
+	  /**
+     * Genera un código de verificación aleatorio de 6 dígitos.
+     * <b>pre</b> El sistema de números aleatorios está disponible. <br>
+     * <b>post</b> Se ha generado un código único de 6 dígitos. <br>
+     * @return Código de verificación de 6 dígitos. != null, longitud = 6
+     */
 	public String generarCodigo() {
 		Random rand = new Random();
 		int codigo = 100000 + rand.nextInt(900000);
 		return String.valueOf(codigo);
 	}
 
+	 /**
+     * Envía un correo electrónico con el código de verificación.
+     * <b>pre</b> El destinatario y código son válidos. <br>
+     * <b>post</b> Se ha intentado enviar el correo con el código. <br>
+     * @param destinatario Dirección de correo del destinatario. destinatario != null, destinatario != ""
+     * @param codigo Código de verificación a enviar. codigo != null, codigo != ""
+     * @return true si el correo fue enviado exitosamente, false en caso contrario
+     * @throws MessagingException Si hay errores en el envío del correo
+     */
 	public boolean enviarCorreo(String destinatario, String codigo) {
 
 		// --- Credenciales para envío del correo
@@ -922,10 +995,13 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Aplica internacionalización a TODO el programa (todas las ventanas y modelo).
-	 * 
-	 * @param idioma Código del idioma, ej: "es", "en", "pt", "chi", "heb", "rus"
-	 */
+     * Aplica la internacionalización a toda la aplicación según el idioma seleccionado.
+     * <b>pre</b> Los archivos de propiedades de idioma están disponibles. <br>
+     * <b>post</b> Todas las ventanas muestran textos en el idioma seleccionado. <br>
+     * @param idioma Código del idioma a aplicar. idioma != null, idioma != ""
+     * @throws IOException Si no se puede cargar el archivo de propiedades del idioma
+     */
+	
 	public void aplicarInternacionalizacion(String idioma) {
 		try {
 			String archivo = switch (idioma.toLowerCase()) {
@@ -962,6 +1038,11 @@ public class Controller implements ActionListener {
 		}
 	}
 
+	 /**
+     * Muestra el perfil actual en la ventana principal.
+     * <b>pre</b> Hay perfiles disponibles para mostrar. <br>
+     * <b>post</b> La información del perfil actual se muestra en la interfaz. <br>
+     */
 	public void mostrarPerfilMain() {
 		User actual = mf.getPerfilActual();
 		if (actual == null) {
@@ -983,6 +1064,11 @@ public class Controller implements ActionListener {
 						+ prop.getProperty("controller.mainprofile.age.years"));
 	}
 
+	 /**
+     * Muestra la lista de usuarios que han dado like al perfil actual.
+     * <b>pre</b> El usuario actual tiene una lista de likes. <br>
+     * <b>post</b> Se muestra la lista de likes en un diálogo. <br>
+     */
 	public void mostrarLikes() {
 		List<User> likes = mf.getLikes();
 		if (likes.isEmpty()) {
@@ -1000,6 +1086,14 @@ public class Controller implements ActionListener {
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	/**
+     * Calcula la edad a partir de una fecha de nacimiento.
+     * <b>pre</b> La fecha tiene formato dd/MM/yyyy. <br>
+     * <b>post</b> Se calcula la edad exacta en años. <br>
+     * @param fechaNacimiento Fecha de nacimiento en formato dd/MM/yyyy. fechaNacimiento != null, fechaNacimiento != ""
+     * @return Edad calculada en años. >= 0
+     * @throws DateTimeException Si el formato de fecha es inválido
+     */
 	public int calcularEdad(String fechaNacimiento) {
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -1012,10 +1106,12 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	/**
-	 * Inicializa la lista de perfiles y muestra el primero. Se llama después de que
-	 * las ventanas estén listas.
-	 */
+	 /**
+     * Inicializa la lista de perfiles disponibles en la aplicación.
+     * <b>pre</b> Los archivos CSV de usuarios están disponibles. <br>
+     * <b>post</b> Todos los perfiles están cargados y listos para mostrar. <br>
+     * @throws IOException Si no se pueden leer los archivos CSV
+     */
 	public void inicializarPerfiles() {
 		mf.getmDAO().listaMenDTO.clear();
 		mf.getmDAO().readFromTextFile("Men.csv");
@@ -1031,8 +1127,10 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Muestra todos los usuarios en la tabla del AdminWindow
-	 */
+     * Muestra todos los usuarios en la tabla de administración.
+     * <b>pre</b> El modo administrador está activo. <br>
+     * <b>post</b> La tabla muestra todos los usuarios registrados. <br>
+     */
 	public void mostrarTodosLosUsuarios() {
 
 		// --- Recargar datos desde los archivos CSV ---
@@ -1069,6 +1167,11 @@ public class Controller implements ActionListener {
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	  /**
+     * Muestra los detalles del usuario seleccionado en la tabla de administración.
+     * <b>pre</b> Hay una fila seleccionada en la tabla. <br>
+     * <b>post</b> Los campos de detalle muestran la información del usuario. <br>
+     */
 	public void mostrarDetalleUsuarioSeleccionado() {
 		int filaSeleccionada = vf.getAw().getTablaUsuarios().getSelectedRow();
 
@@ -1116,8 +1219,11 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Da de baja (elimina) al usuario seleccionado en la tabla
-	 */
+     * Da de baja (elimina) al usuario seleccionado de la base de datos.
+     * <b>pre</b> Hay un usuario seleccionado en la tabla. <br>
+     * <b>post</b> El usuario es eliminado del sistema si se confirma. <br>
+     * @throws Exception Si no se puede eliminar el usuario
+     */
 	public void darDeBajaUsuario() {
 		int filaSeleccionada = vf.getAw().getTablaUsuarios().getSelectedRow();
 
@@ -1172,8 +1278,10 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Limpia los campos de detalle del usuario en AdminWindow
-	 */
+     * Limpia los campos de detalle del usuario en la ventana de administración.
+     * <b>pre</b> Los campos de detalle están inicializados. <br>
+     * <b>post</b> Todos los campos de detalle están vacíos. <br>
+     */
 	public void limpiarCamposDetalleAdmin() {
 		vf.getAw().getTxtNombre().setText("");
 		vf.getAw().getTxtApellido().setText("");
@@ -1184,10 +1292,11 @@ public class Controller implements ActionListener {
 		vf.getAw().getTxtIngresos().setText("");
 		vf.getAw().getLblFotoPreview().setIcon(null);
 	}
-
-	/**
-	 * Activa/desactiva el modo incógnito
-	 */
+	 /**
+     * Activa o desactiva el modo incógnito del usuario actual.
+     * <b>pre</b> El usuario ha iniciado sesión. <br>
+     * <b>post</b> El modo incógnito cambia de estado. <br>
+     */
 	public void toggleModoIncognito() {
 		if (!vf.getMmw().isVisible())
 			return;
@@ -1205,8 +1314,10 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Filtra usuarios por ingresos mínimos (244.85 USD)
-	 */
+     * Filtra usuarios por ingresos mínimos en la ventana de administración.
+     * <b>pre</b> Hay usuarios cargados en el sistema. <br>
+     * <b>post</b> La tabla muestra solo usuarios que cumplen el criterio de ingresos. <br>
+     */
 	public void filtrarPorIngresos() {
 		// Recargar datos
 		mf.getmDAO().listaMenDTO.clear();
@@ -1252,8 +1363,10 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Filtra usuarios por género seleccionado
-	 */
+     * Filtra usuarios por género en la ventana de administración.
+     * <b>pre</b> Hay usuarios cargados en el sistema. <br>
+     * <b>post</b> La tabla muestra solo usuarios del género seleccionado. <br>
+     */
 	public void filtrarPorGenero() {
 		// Recargar datos
 		mf.getmDAO().listaMenDTO.clear();
@@ -1315,9 +1428,11 @@ public class Controller implements ActionListener {
 				String.format(prop.getProperty("controller.filter.gender.criteria"), generoSeleccionado));
 	}
 
-	/**
-	 * Busca usuarios por alias o correo
-	 */
+	 /**
+     * Busca usuarios por alias o correo en la ventana de administración.
+     * <b>pre</b> El campo de búsqueda contiene texto. <br>
+     * <b>post</b> La tabla muestra los usuarios que coinciden con la búsqueda. <br>
+     */
 	public void buscarUsuarioAdmin() {
 		String textoBusqueda = vf.getAw().getTxtBuscar().getText().trim();
 
