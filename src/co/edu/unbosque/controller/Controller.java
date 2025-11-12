@@ -304,170 +304,147 @@ public class Controller implements ActionListener {
 			break;
 
 		case "verificar_correo": {
-		    try {
-		        String correo = vf.getRw().getTxtCorreo().getText().trim();
+			try {
+				String correo = vf.getRw().getTxtCorreo().getText().trim();
 
-		        if (correoYaRegistrado(correo)) {
-		            JOptionPane.showMessageDialog(
-		                null,
-		                prop.getProperty("controller.verifyemail.already_registered.message"),
-		                prop.getProperty("controller.verifyemail.already_registered.title"),
-		                JOptionPane.ERROR_MESSAGE
-		            );
-		            vf.getRw().setCorreoVerificado(false);
-		            break;
-		        }
+				if (correoYaRegistrado(correo)) {
+					JOptionPane.showMessageDialog(null,
+							prop.getProperty("controller.verifyemail.already_registered.message"),
+							prop.getProperty("controller.verifyemail.already_registered.title"),
+							JOptionPane.ERROR_MESSAGE);
+					vf.getRw().setCorreoVerificado(false);
+					break;
+				}
 
-		        ExceptionLauncher.verifyEmail(correo);
+				ExceptionLauncher.verifyEmail(correo);
 
-		        String codigo = generarCodigo();
-		        boolean enviado = enviarCorreo(correo, codigo);
+				String codigo = generarCodigo();
+				boolean enviado = enviarCorreo(correo, codigo);
 
-		        if (!enviado) {
-		            int opc = JOptionPane.showConfirmDialog(
-		                null,
-		                prop.getProperty("controller.verifyemail.smtp_fail.message"),
-		                prop.getProperty("controller.verifyemail.smtp_fail.title"),
-		                JOptionPane.YES_NO_OPTION
-		            );
+				if (!enviado) {
+					int opc = JOptionPane.showConfirmDialog(null,
+							prop.getProperty("controller.verifyemail.smtp_fail.message"),
+							prop.getProperty("controller.verifyemail.smtp_fail.title"), JOptionPane.YES_NO_OPTION);
 
-		            if (opc != JOptionPane.YES_OPTION) {
-		                vf.getRw().setCorreoVerificado(false);
-		                break;
-		            }
+					if (opc != JOptionPane.YES_OPTION) {
+						vf.getRw().setCorreoVerificado(false);
+						break;
+					}
 
-		            JOptionPane.showMessageDialog(
-		                null,
-		                prop.getProperty("controller.verifyemail.simulated_code.message") + codigo
-		                        + prop.getProperty("controller.verifyemail.simulated_code.suffix"),
-		                prop.getProperty("controller.verifyemail.simulated_code.title"),
-		                JOptionPane.INFORMATION_MESSAGE
-		            );
-		        }
+					JOptionPane.showMessageDialog(null,
+							prop.getProperty("controller.verifyemail.simulated_code.message") + codigo
+									+ prop.getProperty("controller.verifyemail.simulated_code.suffix"),
+							prop.getProperty("controller.verifyemail.simulated_code.title"),
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 
-		        boolean verificado = false;
+				boolean verificado = false;
 
-		        String codigoIngresado = JOptionPane.showInputDialog(
-		            null,
-		            prop.getProperty("controller.verifyemail.enter_code.message"),
-		            prop.getProperty("controller.verifyemail.enter_code.title"),
-		            JOptionPane.QUESTION_MESSAGE
-		        );
+				String codigoIngresado = JOptionPane.showInputDialog(null,
+						prop.getProperty("controller.verifyemail.enter_code.message"),
+						prop.getProperty("controller.verifyemail.enter_code.title"), JOptionPane.QUESTION_MESSAGE);
 
-		        if (codigoIngresado == null) {
-		            JOptionPane.showMessageDialog(
-		                null,
-		                prop.getProperty("controller.verifyemail.cancelled.message"),
-		                prop.getProperty("controller.verifyemail.cancelled.title"),
-		                JOptionPane.WARNING_MESSAGE
-		            );
-		            vf.getRw().setCorreoVerificado(false);
-		            break;
-		        }
+				if (codigoIngresado == null) {
+					JOptionPane.showMessageDialog(null, prop.getProperty("controller.verifyemail.cancelled.message"),
+							prop.getProperty("controller.verifyemail.cancelled.title"), JOptionPane.WARNING_MESSAGE);
+					vf.getRw().setCorreoVerificado(false);
+					break;
+				}
 
-		        if (codigoIngresado.trim().equals(codigo)) {
-		            JOptionPane.showMessageDialog(
-		                null,
-		                prop.getProperty("controller.verifyemail.success.message"),
-		                prop.getProperty("controller.verifyemail.success.title"),
-		                JOptionPane.INFORMATION_MESSAGE
-		            );
-		            vf.getRw().setCorreoVerificado(true);
-		            vf.getRw().setCorreoVerificadoActual(correo);
-		            verificado = true;
-		            break;
-		        } else {
-		            JOptionPane.showMessageDialog(
-		                null,
-		                prop.getProperty("controller.verifyemail.incorrect.message"),
-		                prop.getProperty("controller.verifyemail.incorrect.title"),
-		                JOptionPane.ERROR_MESSAGE
-		            );
-		        }
+				if (codigoIngresado.trim().equals(codigo)) {
+					JOptionPane.showMessageDialog(null, prop.getProperty("controller.verifyemail.success.message"),
+							prop.getProperty("controller.verifyemail.success.title"), JOptionPane.INFORMATION_MESSAGE);
+					vf.getRw().setCorreoVerificado(true);
+					vf.getRw().setCorreoVerificadoActual(correo);
+					verificado = true;
+					break;
+				} else {
+					JOptionPane.showMessageDialog(null, prop.getProperty("controller.verifyemail.incorrect.message"),
+							prop.getProperty("controller.verifyemail.incorrect.title"), JOptionPane.ERROR_MESSAGE);
+				}
 
-		    } catch (EmailException ex) {
-		        JOptionPane.showMessageDialog(
-		            null,
-		            prop.getProperty("controller.verifyemail.invalid_format.message") + ex.getMessage(),
-		            prop.getProperty("controller.verifyemail.invalid_format.title"),
-		            JOptionPane.ERROR_MESSAGE
-		        );
-		    } catch (Exception ex) {
-		        JOptionPane.showMessageDialog(
-		            null,
-		            prop.getProperty("controller.verifyemail.general_error.message") + ex.getMessage(),
-		            prop.getProperty("controller.verifyemail.general_error.title"),
-		            JOptionPane.ERROR_MESSAGE
-		        );
-		    }
-		    break;
+			} catch (EmailException ex) {
+				JOptionPane.showMessageDialog(null,
+						prop.getProperty("controller.verifyemail.invalid_format.message") + ex.getMessage(),
+						prop.getProperty("controller.verifyemail.invalid_format.title"), JOptionPane.ERROR_MESSAGE);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						prop.getProperty("controller.verifyemail.general_error.message") + ex.getMessage(),
+						prop.getProperty("controller.verifyemail.general_error.title"), JOptionPane.ERROR_MESSAGE);
+			}
+			break;
 		}
-
 
 		// ---------- ACCIONES DEL REGISTRO ----------
 
-				case "boton_subir_foto":
-				    try {
-				        JFileChooser chooser = new JFileChooser();
-				        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
-				        chooser.setFileFilter(filter);
-				        chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));  // Directorio actual del proyecto
-				        int result = chooser.showOpenDialog(null);
+		case "boton_subir_foto": {
+			try {
+				JFileChooser chooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						prop.getProperty("controller.uploadphoto.filter.name"),
+						prop.getProperty("controller.uploadphoto.filter.extension"));
+				chooser.setFileFilter(filter);
+				chooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); // Directorio actual del proyecto
+				int result = chooser.showOpenDialog(null);
 
-				        if (result == JFileChooser.APPROVE_OPTION) {
-				            File selectedFile = chooser.getSelectedFile();
-				            String fileName = selectedFile.getName();
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = chooser.getSelectedFile();
+					String fileName = selectedFile.getName();
 
-				            
-				            File destinationFolder = new File("sources");
-				            if (!destinationFolder.exists()) {
-				                destinationFolder.mkdirs(); 
-				            }
-				            File destinationFile = new File(destinationFolder, fileName);
+					File destinationFolder = new File("sources");
+					if (!destinationFolder.exists()) {
+						destinationFolder.mkdirs();
+					}
+					File destinationFile = new File(destinationFolder, fileName);
 
-				            try {
-				                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				            } catch (IOException e1) {
-				                JOptionPane.showMessageDialog(null, e1.getMessage(), "ERROR DIRECCION", JOptionPane.ERROR_MESSAGE);
-				                return; 
-				            }
+					try {
+						Files.copy(selectedFile.toPath(), destinationFile.toPath(),
+								StandardCopyOption.REPLACE_EXISTING);
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(),
+								prop.getProperty("controller.uploadphoto.error.path.title"), JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 
-				            vf.getRw().setRutaImagenSeleccionada("sources/" + fileName);
+					vf.getRw().setRutaImagenSeleccionada("sources/" + fileName);
 
-				            ImageIcon image = new ImageIcon(destinationFile.getAbsolutePath());
-				            ImageIcon scaled = new ImageIcon(image.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
-				            vf.getRw().getlFotoPreview().setIcon(scaled);
+					ImageIcon image = new ImageIcon(destinationFile.getAbsolutePath());
+					ImageIcon scaled = new ImageIcon(image.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+					vf.getRw().getlFotoPreview().setIcon(scaled);
 
-				            JOptionPane.showMessageDialog(null, "Imagen cargada correctamente: " + fileName);
-				        } else {
-				            throw new ImageNotSelectedException();
-				        }
+					JOptionPane.showMessageDialog(null,
+							prop.getProperty("controller.uploadphoto.success.message") + fileName,
+							prop.getProperty("controller.uploadphoto.success.title"), JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					throw new ImageNotSelectedException();
+				}
 
-				    } catch (ImageNotSelectedException e1) {
-				        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				    }
-				    break;
+			} catch (ImageNotSelectedException e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage(),
+						prop.getProperty("controller.uploadphoto.error.general.title"), JOptionPane.ERROR_MESSAGE);
+			}
+			break;
+		}
+
 		case "seleccionar_genero":
 			mostrarCamposPorGenero();
 			break;
 
-		case "boton_registrar":
+		case "boton_registrar": {
 			try {
 				String correo = vf.getRw().getTxtCorreo().getText();
 
 				// Verificar si el correo ya fue validado antes
 				if (!vf.getRw().isCorreoVerificado() || !correo.equals(vf.getRw().getCorreoVerificadoActual())) {
-					JOptionPane.showMessageDialog(null,
-							"⚠️ Debes verificar tu correo electrónico antes de registrarte.", "Verificación requerida",
-							JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, prop.getProperty("controller.register.warning.verify_email"),
+							prop.getProperty("controller.register.warning.verify_title"), JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 
 				if (correoYaRegistrado(correo)) {
-					JOptionPane.showMessageDialog(null,
-							"Este correo electrónico ya fue registrado recientemente.\n\n"
-									+ "Por favor, verifica con otro correo",
-							"Correo Ya Registrado", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, prop.getProperty("controller.register.error.email_registered"),
+							prop.getProperty("controller.register.error.email_registered.title"),
+							JOptionPane.ERROR_MESSAGE);
 					vf.getRw().setCorreoVerificado(false);
 					return;
 				}
@@ -489,7 +466,7 @@ public class Controller implements ActionListener {
 				ExceptionLauncher.verifyRegisterPassword(password);
 				ExceptionLauncher.verifyImageSelected(vf.getRw().getRutaImagenSeleccionada());
 
-				if (genero.equals("Masculino")) {
+				if (genero.equals(prop.getProperty("controller.register.gender.male"))) {
 					String estatura = vf.getRw().getTxtEstatura().getText();
 					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
 					String ingresosStr = vf.getRw().getTxtIngresos().getText();
@@ -498,15 +475,14 @@ public class Controller implements ActionListener {
 					ExceptionLauncher.verifyComboBox(orientacion);
 					ExceptionLauncher.verifyIncome(ingresosStr, pais);
 
-
 					long ingresos = Long.parseLong(ingresosStr);
 					if (ingresos < 0) {
-						throw new NumberFormatException("Los ingresos no pueden ser negativos");
+						throw new NumberFormatException(prop.getProperty("controller.register.error.negative_income"));
 					}
 
 					double ingresosUSD = convertirMonedaADolares(ingresos, pais);
 					if (ingresosUSD == -1) {
-						throw new Exception("Error al convertir moneda para el país: " + pais);
+						throw new Exception(prop.getProperty("controller.register.error.currency_conversion") + pais);
 					}
 
 					String rutaFoto = vf.getRw().getRutaImagenSeleccionada();
@@ -514,7 +490,8 @@ public class Controller implements ActionListener {
 					MenDTO hombre = new MenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
 							orientacion, rutaFoto, pais, password, (long) ingresosUSD, prop);
 					mf.getmDAO().create(hombre);
-				} else if (genero.equals("Femenino")) {
+
+				} else if (genero.equals(prop.getProperty("controller.register.gender.female"))) {
 					String estatura = vf.getRw().getTxtEstatura().getText();
 					String orientacion = (String) vf.getRw().getCmbOrientacion().getSelectedItem();
 					String divorciosStr = (String) vf.getRw().getCmbDivorcios().getSelectedItem();
@@ -525,7 +502,7 @@ public class Controller implements ActionListener {
 					ExceptionLauncher.verifyComboBox(orientacion);
 					ExceptionLauncher.verifyComboBox(divorciosStr);
 
-					boolean tuvoDivorcios = divorciosStr.equals("Sí");
+					boolean tuvoDivorcios = divorciosStr.equals(prop.getProperty("controller.register.divorces.yes"));
 					String rutaFoto = vf.getRw().getRutaImagenSeleccionada();
 
 					WomenDTO mujer = new WomenDTO(nombres, apellidos, apodo, fechaNacimiento, estatura, correo, genero,
@@ -533,20 +510,25 @@ public class Controller implements ActionListener {
 					mf.getwDAO().create(mujer);
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Género no válido", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, prop.getProperty("controller.register.error.invalid_gender"),
+							prop.getProperty("controller.register.error.title"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
-				JOptionPane.showMessageDialog(null, "Registro exitoso.\n¡Bienvenido al sistema!");
+				JOptionPane.showMessageDialog(null, prop.getProperty("controller.register.success.message"),
+						prop.getProperty("controller.register.success.title"), JOptionPane.INFORMATION_MESSAGE);
+
 				vf.getRw().setVisible(false);
 				vf.getSw().setVisible(true);
 				limpiarCamposRegistro();
 
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, "Error en el registro: " + ex.getMessage(), "Error",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						prop.getProperty("controller.register.error.general") + ex.getMessage(),
+						prop.getProperty("controller.register.error.title"), JOptionPane.ERROR_MESSAGE);
 			}
 			break;
+		}
 
 		case "boton_volver_registro": {
 			limpiarCamposRegistro();
@@ -556,57 +538,53 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_entrar_modo_admin": {
-
 			String ADMIN_PASSWORD = "CarlosLlegueYa";
 			String passwordIngresada = JOptionPane.showInputDialog(vf.getLw(),
-					"Ingrese la contraseña de administrador:", "Acceso Restringido", JOptionPane.WARNING_MESSAGE);
+					prop.getProperty("controller.admin.prompt.password"),
+					prop.getProperty("controller.admin.title.restricted"), JOptionPane.WARNING_MESSAGE);
 
 			if (passwordIngresada == null) {
-				JOptionPane.showMessageDialog(vf.getLw(), "Acceso al modo administrador cancelado.", "Cancelado",
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(vf.getLw(), prop.getProperty("controller.admin.cancelled"),
+						prop.getProperty("controller.admin.title.cancelled"), JOptionPane.INFORMATION_MESSAGE);
 				break;
 			}
 
 			if (ADMIN_PASSWORD.equals(passwordIngresada.trim())) {
-
-				JOptionPane.showMessageDialog(vf.getLw(), "Contraseña correcta. Accediendo al modo administrador...",
-						"Acceso Permitido", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(vf.getLw(), prop.getProperty("controller.admin.access_granted"),
+						prop.getProperty("controller.admin.title.access_granted"), JOptionPane.INFORMATION_MESSAGE);
 
 				vf.getLw().setVisible(false);
 				vf.getAw().setVisible(true);
-
 				mostrarTodosLosUsuarios();
 
 			} else {
-
-				JOptionPane.showMessageDialog(vf.getLw(), "Contraseña incorrecta. Acceso denegado.",
-						"Error de Autenticación", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(vf.getLw(), prop.getProperty("controller.admin.access_denied"),
+						prop.getProperty("controller.admin.title.auth_error"), JOptionPane.ERROR_MESSAGE);
 			}
 			break;
 		}
 
 		case "boton_iniciosesion": {
-			// Obtener los datos ingresados
 			String userAlias = vf.getLw().getUser().getText();
 			String email = vf.getLw().getEmail().getText();
 			String password = vf.getLw().getPassword().getText();
 
-			// Validar credenciales con el modelo
 			boolean valido = mf.validarInicioSesion(userAlias, email, password);
 
 			if (valido) {
-				JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso. ¡Bienvenido!");
-				vf.getLw().setVisible(false);
+				JOptionPane.showMessageDialog(null, prop.getProperty("controller.login.success.message"),
+						prop.getProperty("controller.login.success.title"), JOptionPane.INFORMATION_MESSAGE);
 
-				// ✅ NUEVO: Mostrar PreferencesWindow para capturar preferencias
+				vf.getLw().setVisible(false);
 				mostrarVentanaPreferencias();
 
 			} else {
-				JOptionPane.showMessageDialog(null, "Datos incorrectos. Verifica tu alias, correo y contraseña.",
-						"Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, prop.getProperty("controller.login.error.message"),
+						prop.getProperty("controller.login.error.title"), JOptionPane.ERROR_MESSAGE);
 			}
 			break;
 		}
+
 		case "boton_volver_iniciosesion": {
 			vf.getLw().dispose();
 			vf.getSw().setVisible(true);
@@ -663,20 +641,17 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_filtro_top10_admin": {
-			// Ahora que los likes están implementados, podemos usar este filtro
 			List<User> top10Usuarios = mf.obtenerUsuariosMasPopulares(10);
 
 			if (top10Usuarios.isEmpty()) {
-				JOptionPane.showMessageDialog(vf.getAw(), "No hay usuarios con likes para mostrar.", "Sin resultados",
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.filter.top10.empty.message"),
+						prop.getProperty("controller.filter.top10.empty.title"), JOptionPane.INFORMATION_MESSAGE);
 				break;
 			}
 
-			// Limpiar la tabla
 			DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
 			modelo.setRowCount(0);
 
-			// Llenar la tabla con el top 10
 			for (User usuario : top10Usuarios) {
 				int edad = calcularEdad(usuario.getBornDate());
 
@@ -691,8 +666,8 @@ public class Controller implements ActionListener {
 				modelo.addRow(fila);
 			}
 
-			JOptionPane.showMessageDialog(vf.getAw(), "✅ Top 10 usuarios más populares cargados.", "Filtro aplicado",
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.filter.top10.success.message"),
+					prop.getProperty("controller.filter.top10.success.title"), JOptionPane.INFORMATION_MESSAGE);
 			break;
 		}
 
@@ -744,8 +719,9 @@ public class Controller implements ActionListener {
 		}
 
 		case "boton_cerrar_sesion_perfil": {
-			int confirmacion = JOptionPane.showConfirmDialog(vf.getMpw(), "¿Estás seguro de que deseas cerrar sesión?",
-					"Confirmar cierre de sesión", JOptionPane.YES_NO_OPTION);
+			int confirmacion = JOptionPane.showConfirmDialog(vf.getMpw(),
+					prop.getProperty("controller.logout.confirm.message"),
+					prop.getProperty("controller.logout.confirm.title"), JOptionPane.YES_NO_OPTION);
 
 			if (confirmacion == JOptionPane.YES_OPTION) {
 				vf.getMpw().dispose();
@@ -756,6 +732,7 @@ public class Controller implements ActionListener {
 			}
 			break;
 		}
+
 		case "boton_volver_myprofile": {
 			vf.getMpw().dispose();
 			vf.getMmw().setVisible(true);
@@ -899,8 +876,8 @@ public class Controller implements ActionListener {
 		} else if (remintente.endsWith("@yahoo.com") || remintente.endsWith("@yahoo.es")) {
 			host = "smtp.mail.yahoo.com";
 		} else {
-			JOptionPane.showMessageDialog(null, "❌ Dominio del remitente no soportado.", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, prop.getProperty("controller.email.unsupported_domain.message"),
+					prop.getProperty("controller.email.unsupported_domain.title"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		prop.put("mail.smtp.host", host);
@@ -917,26 +894,29 @@ public class Controller implements ActionListener {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(remintente));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
-			message.setSubject("Código de verificación - BosTinder 💌");
-			message.setText("Tu código de verificación es: " + codigo);
+			message.setSubject(prop.getProperty("controller.email.subject"));
+			message.setText(prop.getProperty("controller.email.body") + " " + codigo);
 
 			Transport.send(message);
 			return true;
 		} catch (AuthenticationFailedException e) {
-			JOptionPane.showMessageDialog(null, "❌ Error de autenticación: verifica usuario/contraseña",
-					"Error de autenticación", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, prop.getProperty("controller.email.auth_error.message"),
+					prop.getProperty("controller.email.auth_error.title"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		} catch (SendFailedException e) {
-			JOptionPane.showMessageDialog(null, "❌ Error al enviar: dirección inválida o rechazada.\n" + e.getMessage(),
-					"Error de envío", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					prop.getProperty("controller.email.send_error.message") + "\n" + e.getMessage(),
+					prop.getProperty("controller.email.send_error.title"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		} catch (MessagingException e) {
-			JOptionPane.showMessageDialog(null, "❌ Error SMTP al enviar el correo.\nDetalle: " + e.getMessage(),
-					"Error SMTP", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					prop.getProperty("controller.email.smtp_error.message") + "\n" + e.getMessage(),
+					prop.getProperty("controller.email.smtp_error.title"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "⚠️ Error inesperado al enviar correo: " + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					prop.getProperty("controller.email.unexpected_error.message") + " " + e.getMessage(),
+					prop.getProperty("controller.email.unexpected_error.title"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -975,8 +955,9 @@ public class Controller implements ActionListener {
 			vf.getMpw().repaint();
 
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Error al aplicar internacionalización: " + ex.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					prop.getProperty("controller.internationalization.error.message") + " " + ex.getMessage(),
+					prop.getProperty("controller.internationalization.error.title"), JOptionPane.ERROR_MESSAGE);
 			ex.printStackTrace();
 		}
 	}
@@ -984,36 +965,39 @@ public class Controller implements ActionListener {
 	public void mostrarPerfilMain() {
 		User actual = mf.getPerfilActual();
 		if (actual == null) {
-			JOptionPane.showMessageDialog(null, "No hay más perfiles por mostrar ");
+			JOptionPane.showMessageDialog(null, prop.getProperty("controller.mainprofile.noprofiles.message"),
+					prop.getProperty("controller.mainprofile.noprofiles.title"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
-		// --- Calcular edad a partir de la fecha de nacimiento ---
 		int edad = calcularEdad(actual.getBornDate());
 
-		// --- Mostrar texto básico ---
 		vf.getMmw().getLblNameAge().setText(actual.getName() + " " + actual.getLastName());
 
 		vf.getMmw().getTxtDescription()
-				.setText("Alias: " + actual.getAlias() + "\n" + "Género: " + actual.getGender() + "\n" + "Orientación: "
-						+ actual.getSexualOrientation() + "\n" + "País: " + actual.getCountry() + "\n" + "Edad: " + edad
-						+ " años");
-
-		// --- Mostrar imagen de perfil ---
+				.setText(prop.getProperty("controller.mainprofile.alias") + ": " + actual.getAlias() + "\n"
+						+ prop.getProperty("controller.mainprofile.gender") + ": " + actual.getGender() + "\n"
+						+ prop.getProperty("controller.mainprofile.orientation") + ": " + actual.getSexualOrientation()
+						+ "\n" + prop.getProperty("controller.mainprofile.country") + ": " + actual.getCountry() + "\n"
+						+ prop.getProperty("controller.mainprofile.age") + ": " + edad + " "
+						+ prop.getProperty("controller.mainprofile.age.years"));
 	}
 
 	public void mostrarLikes() {
 		List<User> likes = mf.getLikes();
 		if (likes.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Aún no has dado like a nadie");
+			JOptionPane.showMessageDialog(null, prop.getProperty("controller.likes.empty.message"),
+					prop.getProperty("controller.likes.empty.title"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
-		StringBuilder sb = new StringBuilder("Usuarios que te gustaron:\n\n");
+		StringBuilder sb = new StringBuilder(prop.getProperty("controller.likes.header") + "\n\n");
 		for (User u : likes) {
 			sb.append("- ").append(u.getName()).append(" ").append(u.getLastName()).append("\n");
 		}
-		JOptionPane.showMessageDialog(null, sb.toString());
+
+		JOptionPane.showMessageDialog(null, sb.toString(), prop.getProperty("controller.likes.title"),
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public int calcularEdad(String fechaNacimiento) {
@@ -1023,7 +1007,7 @@ public class Controller implements ActionListener {
 			LocalDate hoy = LocalDate.now();
 			return Period.between(fechaNac, hoy).getYears();
 		} catch (Exception e) {
-			System.out.println("⚠️ Error al calcular edad para fecha: " + fechaNacimiento);
+			System.out.println(prop.getProperty("controller.agecalc.error") + fechaNacimiento);
 			return 0;
 		}
 	}
@@ -1139,8 +1123,8 @@ public class Controller implements ActionListener {
 
 		// Verificar si hay una fila seleccionada
 		if (filaSeleccionada == -1) {
-			JOptionPane.showMessageDialog(vf.getAw(), "Por favor, selecciona un usuario de la tabla para dar de baja.",
-					"Sin selección", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.darbaja.noselection.message"),
+					prop.getProperty("controller.darbaja.noselection.title"), JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
@@ -1154,45 +1138,35 @@ public class Controller implements ActionListener {
 		User usuario = mf.buscarUsuarioPorAlias(alias);
 
 		if (usuario == null) {
-			JOptionPane.showMessageDialog(vf.getAw(), "Error: No se encontró el usuario en el sistema.", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.darbaja.usernotfound.message"),
+					prop.getProperty("controller.darbaja.usernotfound.title"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		// Crear mensaje de confirmación con detalles del usuario
-		String mensajeConfirmacion = String.format(
-				"¿Estás seguro de que deseas dar de baja al siguiente usuario?\n\n" + "Alias: %s\n" + "Nombre: %s %s\n"
-						+ "Correo: %s\n" + "País: %s\n\n" + "⚠️ Esta acción NO se puede deshacer.",
-				alias, nombre, apellido, usuario.getEmail(), usuario.getCountry());
+		String mensajeConfirmacion = String.format(prop.getProperty("controller.darbaja.confirm.message"), alias,
+				nombre, apellido, usuario.getEmail(), usuario.getCountry());
 
 		// Mostrar diálogo de confirmación
-		int confirmacion = JOptionPane.showConfirmDialog(vf.getAw(), mensajeConfirmacion, "Confirmar dar de baja",
-				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		int confirmacion = JOptionPane.showConfirmDialog(vf.getAw(), mensajeConfirmacion,
+				prop.getProperty("controller.darbaja.confirm.title"), JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE);
 
-		// Si el usuario confirma la eliminación
 		if (confirmacion == JOptionPane.YES_OPTION) {
-			// Eliminar del sistema
 			boolean eliminado = mf.eliminarUsuarioPorAlias(alias);
 
 			if (eliminado) {
-				// Eliminar de la tabla
 				modelo.removeRow(filaSeleccionada);
-
-				// Limpiar los campos de detalle
 				limpiarCamposDetalleAdmin();
 
-				// Mostrar mensaje de éxito
 				JOptionPane.showMessageDialog(vf.getAw(),
-						"✅ Usuario dado de baja exitosamente.\n\n" + "El usuario '" + alias
-								+ "' ha sido eliminado del sistema.",
-						"Usuario eliminado", JOptionPane.INFORMATION_MESSAGE);
+						String.format(prop.getProperty("controller.darbaja.success.message"), alias),
+						prop.getProperty("controller.darbaja.success.title"), JOptionPane.INFORMATION_MESSAGE);
 
-				// Actualizar estadísticas si las hay
 				actualizarEstadisticasAdmin();
-
 			} else {
-				JOptionPane.showMessageDialog(vf.getAw(), "❌ Error al eliminar el usuario del sistema.", "Error",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.darbaja.error.message"),
+						prop.getProperty("controller.darbaja.error.title"), JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -1221,10 +1195,12 @@ public class Controller implements ActionListener {
 		boolean modoActual = mf.isModoIncognito();
 		mf.setModoIncognito(!modoActual);
 
-		String mensaje = modoActual ? "Modo incógnito DESACTIVADO\n\n• Tu perfil es visible completamente"
-				: "Modo incógnito ACTIVADO\n\n• Tu perfil aparecerá oculto para otros";
+		String mensaje = modoActual ? prop.getProperty("controller.incognito.deactivated.message")
+				: prop.getProperty("controller.incognito.activated.message");
 
-		JOptionPane.showMessageDialog(null, mensaje, "Modo Incógnito", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, mensaje, prop.getProperty("controller.incognito.title"),
+				JOptionPane.INFORMATION_MESSAGE);
+
 		mostrarPerfilMain();
 	}
 
@@ -1243,8 +1219,8 @@ public class Controller implements ActionListener {
 
 		if (usuariosFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getAw(),
-					"No se encontraron usuarios con ingresos iguales o superiores a $" + umbralIngresos + " USD.",
-					"Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+					String.format(prop.getProperty("controller.filter.income.noresults.message"), umbralIngresos),
+					prop.getProperty("controller.filter.income.noresults.title"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
@@ -1255,7 +1231,6 @@ public class Controller implements ActionListener {
 		// Llenar la tabla con usuarios filtrados
 		for (User usuario : usuariosFiltrados) {
 			int edad = calcularEdad(usuario.getBornDate());
-
 			MenDTO hombre = (MenDTO) usuario;
 			String ingresos = String.format("%.2f", (double) hombre.getMensualIncome());
 
@@ -1264,17 +1239,16 @@ public class Controller implements ActionListener {
 			modelo.addRow(fila);
 		}
 
-		// Limpiar campos de detalle
 		limpiarCamposDetalleAdmin();
 
 		// Mostrar mensaje de éxito
 		JOptionPane.showMessageDialog(vf.getAw(),
-				"Filtro aplicado exitosamente.\n\n" + "Se encontraron " + usuariosFiltrados.size()
-						+ " usuario(s) con ingresos >= $" + umbralIngresos + " USD.",
-				"Filtro aplicado", JOptionPane.INFORMATION_MESSAGE);
+				String.format(prop.getProperty("controller.filter.income.success.message"), usuariosFiltrados.size(),
+						umbralIngresos),
+				prop.getProperty("controller.filter.income.success.title"), JOptionPane.INFORMATION_MESSAGE);
 
-		// Actualizar estadísticas
-		actualizarEstadisticasFiltro(usuariosFiltrados, "Ingresos >= $" + umbralIngresos + " USD");
+		actualizarEstadisticasFiltro(usuariosFiltrados,
+				String.format(prop.getProperty("controller.filter.income.criteria"), umbralIngresos));
 	}
 
 	/**
@@ -1291,7 +1265,8 @@ public class Controller implements ActionListener {
 		// Obtener género seleccionado del ComboBox
 		String generoSeleccionado = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
 
-		if (generoSeleccionado == null || generoSeleccionado.equals("Todos")) {
+		if (generoSeleccionado == null
+				|| generoSeleccionado.equals(prop.getProperty("controller.filter.gender.option.all"))) {
 			// Si es "Todos", mostrar todos los usuarios
 			mostrarTodosLosUsuarios();
 			return;
@@ -1301,8 +1276,9 @@ public class Controller implements ActionListener {
 		List<User> usuariosFiltrados = mf.obtenerUsuariosPorGenero(generoSeleccionado);
 
 		if (usuariosFiltrados.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getAw(), "No se encontraron usuarios del género: " + generoSeleccionado,
-					"Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getAw(),
+					String.format(prop.getProperty("controller.filter.gender.noresults.message"), generoSeleccionado),
+					prop.getProperty("controller.filter.gender.noresults.title"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
@@ -1330,12 +1306,13 @@ public class Controller implements ActionListener {
 
 		// Mostrar mensaje de éxito
 		JOptionPane.showMessageDialog(vf.getAw(),
-				"Filtro aplicado exitosamente.\n\n" + "Se encontraron " + usuariosFiltrados.size()
-						+ " usuario(s) del género: " + generoSeleccionado,
-				"Filtro aplicado", JOptionPane.INFORMATION_MESSAGE);
+				String.format(prop.getProperty("controller.filter.gender.success.message"), usuariosFiltrados.size(),
+						generoSeleccionado),
+				prop.getProperty("controller.filter.gender.success.title"), JOptionPane.INFORMATION_MESSAGE);
 
 		// Actualizar estadísticas
-		actualizarEstadisticasFiltro(usuariosFiltrados, "Género: " + generoSeleccionado);
+		actualizarEstadisticasFiltro(usuariosFiltrados,
+				String.format(prop.getProperty("controller.filter.gender.criteria"), generoSeleccionado));
 	}
 
 	/**
@@ -1345,8 +1322,8 @@ public class Controller implements ActionListener {
 		String textoBusqueda = vf.getAw().getTxtBuscar().getText().trim();
 
 		if (textoBusqueda.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getAw(), "Por favor, ingresa un alias o correo para buscar.",
-					"Campo vacío", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.admin.search.empty.message"),
+					prop.getProperty("controller.admin.search.empty.title"), JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
@@ -1370,8 +1347,8 @@ public class Controller implements ActionListener {
 
 		if (usuariosEncontrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getAw(),
-					"No se encontraron usuarios que coincidan con: \"" + textoBusqueda + "\"", "Sin resultados",
-					JOptionPane.INFORMATION_MESSAGE);
+					String.format(prop.getProperty("controller.admin.search.noresults.message"), textoBusqueda),
+					prop.getProperty("controller.admin.search.noresults.title"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
@@ -1399,11 +1376,12 @@ public class Controller implements ActionListener {
 
 		// Mostrar mensaje de éxito
 		JOptionPane.showMessageDialog(vf.getAw(),
-				"Búsqueda completada.\n\n" + "Se encontraron " + usuariosEncontrados.size() + " usuario(s).",
-				"Resultados de búsqueda", JOptionPane.INFORMATION_MESSAGE);
+				String.format(prop.getProperty("controller.admin.search.success.message"), usuariosEncontrados.size()),
+				prop.getProperty("controller.admin.search.success.title"), JOptionPane.INFORMATION_MESSAGE);
 
 		// Actualizar estadísticas
-		actualizarEstadisticasFiltro(usuariosEncontrados, "Búsqueda: \"" + textoBusqueda + "\"");
+		actualizarEstadisticasFiltro(usuariosEncontrados,
+				String.format(prop.getProperty("controller.admin.search.criteria"), textoBusqueda));
 	}
 
 	/**
@@ -1411,7 +1389,7 @@ public class Controller implements ActionListener {
 	 */
 	public void actualizarEstadisticasFiltro(List<User> usuariosFiltrados, String criterioFiltro) {
 		if (usuariosFiltrados.isEmpty()) {
-			vf.getAw().getTxtEstadisticas().setText("No hay usuarios que cumplan con el filtro aplicado.");
+			vf.getAw().getTxtEstadisticas().setText(prop.getProperty("controller.stats.filter.empty"));
 			return;
 		}
 
@@ -1421,16 +1399,19 @@ public class Controller implements ActionListener {
 		double ingresoPromedio = mf.calcularIngresoPromedio(usuariosFiltrados);
 
 		StringBuilder estadisticas = new StringBuilder();
-		estadisticas.append("Estadísticas del filtro aplicado\n");
-		estadisticas.append("=========================================\n");
-		estadisticas.append("Filtro: ").append(criterioFiltro).append("\n\n");
-		estadisticas.append("Total de usuarios: ").append(usuariosFiltrados.size()).append("\n");
-		estadisticas.append("Hombres: ").append(totalHombres).append("\n");
-		estadisticas.append("Mujeres: ").append(totalMujeres).append("\n");
-		estadisticas.append("Edad promedio: ").append(String.format("%.1f", edadPromedio)).append(" años\n");
+		estadisticas.append(prop.getProperty("controller.stats.filter.title")).append("\n");
+		estadisticas.append(prop.getProperty("controller.stats.separator")).append("\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.filter.criteria"), criterioFiltro))
+				.append("\n\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.total.users"), usuariosFiltrados.size()))
+				.append("\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.total.men"), totalHombres)).append("\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.total.women"), totalMujeres)).append("\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.avg.age"), edadPromedio)).append("\n");
 
 		if (totalHombres > 0) {
-			estadisticas.append("Ingreso promedio: $").append(String.format("%.2f", ingresoPromedio)).append(" USD");
+			estadisticas.append(String.format(prop.getProperty("controller.stats.avg.income"), ingresoPromedio))
+					.append("\n");
 		}
 
 		vf.getAw().getTxtEstadisticas().setText(estadisticas.toString());
@@ -1455,21 +1436,25 @@ public class Controller implements ActionListener {
 		double porcentajeDivorcios = totalMujeres > 0 ? (mujeresConDivorcios * 100.0 / totalMujeres) : 0;
 
 		StringBuilder estadisticas = new StringBuilder();
-		estadisticas.append("Estadísticas generales del sistema\n");
-		estadisticas.append("=========================================\n");
-		estadisticas.append("Total de usuarios: ").append(totalUsuarios).append("\n");
-		estadisticas.append("Hombres: ").append(totalHombres);
-		estadisticas.append(" (").append(String.format("%.1f%%", porcentajeHombres)).append(")\n");
-		estadisticas.append("Mujeres: ").append(totalMujeres);
-		estadisticas.append(" (").append(String.format("%.1f%%", porcentajeMujeres)).append(")\n");
-		estadisticas.append("Edad promedio: ").append(String.format("%.1f", edadPromedio)).append(" años\n");
-		estadisticas.append("Ingreso promedio (Hombres): $").append(String.format("%.2f", ingresoPromedio))
-				.append(" USD\n");
-		estadisticas.append("Mujeres con divorcios: ").append(mujeresConDivorcios);
-		estadisticas.append(" (").append(String.format("%.1f%%", porcentajeDivorcios)).append(")\n");
+		estadisticas.append(prop.getProperty("controller.stats.global.title")).append("\n");
+		estadisticas.append(prop.getProperty("controller.stats.separator")).append("\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.total.users"), totalUsuarios))
+				.append("\n");
+		estadisticas.append(
+				String.format(prop.getProperty("controller.stats.men.percent"), totalHombres, porcentajeHombres))
+				.append("\n");
+		estadisticas.append(
+				String.format(prop.getProperty("controller.stats.women.percent"), totalMujeres, porcentajeMujeres))
+				.append("\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.avg.age"), edadPromedio)).append("\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.avg.income.men"), ingresoPromedio))
+				.append("\n");
+		estadisticas.append(String.format(prop.getProperty("controller.stats.women.divorces.percent"),
+				mujeresConDivorcios, porcentajeDivorcios)).append("\n");
 
 		if (!paisMasUsuarios.isEmpty()) {
-			estadisticas.append("País con más usuarios: ").append(paisMasUsuarios);
+			estadisticas.append(String.format(prop.getProperty("controller.stats.top.country"), paisMasUsuarios))
+					.append("\n");
 		}
 
 		vf.getAw().getTxtEstadisticas().setText(estadisticas.toString());
@@ -1482,13 +1467,12 @@ public class Controller implements ActionListener {
 		User actual = mf.getPerfilActual();
 
 		if (actual == null) {
-			JOptionPane.showMessageDialog(vf.getMmw(),
-					"No hay más perfiles por mostrar.\nHas visto todos los perfiles disponibles!", "Fin de perfiles",
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getMmw(), prop.getProperty("controller.profile.none.message"),
+					prop.getProperty("controller.profile.none.title"), JOptionPane.INFORMATION_MESSAGE);
 
 			// Limpiar la ventana
-			vf.getMmw().getLblNameAge().setText("No hay más perfiles");
-			vf.getMmw().getTxtDescription().setText("Has visto todos los perfiles disponibles.");
+			vf.getMmw().getLblNameAge().setText(prop.getProperty("controller.profile.none.label"));
+			vf.getMmw().getTxtDescription().setText(prop.getProperty("controller.profile.none.description"));
 			vf.getMmw().getLblProfilePicture().setIcon(null);
 			return;
 		}
@@ -1501,25 +1485,29 @@ public class Controller implements ActionListener {
 
 		// --- Construir descripción según el tipo de usuario ---
 		StringBuilder descripcion = new StringBuilder();
-		descripcion.append("Alias: ").append(actual.getAlias()).append("\n\n");
+		descripcion.append(prop.getProperty("controller.profile.alias")).append(": ").append(actual.getAlias())
+				.append("\n\n");
+		descripcion.append(prop.getProperty("controller.profile.gender")).append(": ").append(actual.getGender())
+				.append("\n");
+		descripcion.append(prop.getProperty("controller.profile.orientation")).append(": ")
+				.append(actual.getSexualOrientation()).append("\n");
+		descripcion.append(prop.getProperty("controller.profile.stature")).append(": ").append(actual.getStature())
+				.append(" m\n");
+		descripcion.append(prop.getProperty("controller.profile.country")).append(": ").append(actual.getCountry())
+				.append("\n");
+		descripcion.append(prop.getProperty("controller.profile.age")).append(": ").append(edad).append(" ")
+				.append(prop.getProperty("controller.profile.age.years")).append("\n");
 
 		if (actual instanceof MenDTO) {
 			MenDTO hombre = (MenDTO) actual;
-			descripcion.append("Género: ").append(actual.getGender()).append("\n");
-			descripcion.append("Orientación: ").append(actual.getSexualOrientation()).append("\n");
-			descripcion.append("Estatura: ").append(actual.getStature()).append(" m\n");
-			descripcion.append("País: ").append(actual.getCountry()).append("\n");
-			descripcion.append("Edad: ").append(edad).append(" años\n");
-			descripcion.append("Ingresos: $").append(String.format("%.2f", (double) hombre.getMensualIncome()))
-					.append(" USD\n");
+			descripcion.append(prop.getProperty("controller.profile.income")).append(": $")
+					.append(String.format("%.2f", (double) hombre.getMensualIncome())).append(" USD\n");
 		} else if (actual instanceof WomenDTO) {
 			WomenDTO mujer = (WomenDTO) actual;
-			descripcion.append("Género: ").append(actual.getGender()).append("\n");
-			descripcion.append("Orientación: ").append(actual.getSexualOrientation()).append("\n");
-			descripcion.append("Estatura: ").append(actual.getStature()).append(" m\n");
-			descripcion.append("País: ").append(actual.getCountry()).append("\n");
-			descripcion.append("Edad: ").append(edad).append(" años\n");
-			descripcion.append("Divorcios: ").append(mujer.isHadDivorces() ? "Sí" : "No").append("\n");
+			descripcion.append(prop.getProperty("controller.profile.divorces")).append(": ")
+					.append(mujer.isHadDivorces() ? prop.getProperty("controller.profile.divorces.yes")
+							: prop.getProperty("controller.profile.divorces.no"))
+					.append("\n");
 		}
 
 		vf.getMmw().getTxtDescription().setText(descripcion.toString());
@@ -1537,8 +1525,8 @@ public class Controller implements ActionListener {
 					Image imagenEscalada = imagenOriginal.getImage().getScaledInstance(350, 350, Image.SCALE_SMOOTH);
 					ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
 					vf.getMmw().getLblProfilePicture().setIcon(iconoEscalado);
+					vf.getMmw().getLblProfilePicture().setText("");
 				} else {
-					// Si no se pudo cargar, mostrar icono por defecto
 					mostrarImagenPorDefecto();
 				}
 			} else {
@@ -1555,20 +1543,19 @@ public class Controller implements ActionListener {
 	 */
 	public void mostrarImagenPorDefecto() {
 		vf.getMmw().getLblProfilePicture().setIcon(null);
-		vf.getMmw().getLblProfilePicture().setText("Sin foto disponible");
+		vf.getMmw().getLblProfilePicture().setText(prop.getProperty("controller.profile.no.photo"));
 		vf.getMmw().getLblProfilePicture().setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 	public void manejarOrdenAscendente() {
 		String genero = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
-		if (genero == null || genero.equalsIgnoreCase("Todos")) {
-			JOptionPane.showMessageDialog(vf.getAw(),
-					"Selecciona 'Masculino' o 'Femenino' en el filtro antes de ordenar.", "Aviso",
-					JOptionPane.WARNING_MESSAGE);
+		if (genero == null || genero.equalsIgnoreCase(prop.getProperty("controller.sort.all.label"))) {
+			JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.sort.select_gender.message"),
+					prop.getProperty("controller.sort.warning.title"), JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
-		if (genero.equalsIgnoreCase("Masculino")) {
+		if (genero.equalsIgnoreCase(prop.getProperty("controller.sort.male.label"))) {
 			mf.getmDAO().selectionSortAsc();
 
 			DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
@@ -1579,11 +1566,9 @@ public class Controller implements ActionListener {
 				modelo.addRow(new Object[] { m.getAlias(), m.getName(), m.getLastName(), edad, m.getLikes(), ingresos,
 						m.getGender() });
 			}
-		} else if (genero.equalsIgnoreCase("Femenino")) {
-			// Ordenar la lista de mujeres
+		} else if (genero.equalsIgnoreCase(prop.getProperty("controller.sort.female.label"))) {
 			mf.getwDAO().selectionSortAsc();
 
-			// Repintar la tabla con la lista ordenada
 			DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
 			modelo.setRowCount(0);
 			for (WomenDTO w : mf.getwDAO().listaWomenDTO) {
@@ -1597,14 +1582,13 @@ public class Controller implements ActionListener {
 
 	public void manejarOrdenDescendente() {
 		String genero = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
-		if (genero == null || genero.equalsIgnoreCase("Todos")) {
-			JOptionPane.showMessageDialog(vf.getAw(),
-					"Selecciona 'Masculino' o 'Femenino' en el filtro antes de ordenar.", "Aviso",
-					JOptionPane.WARNING_MESSAGE);
+		if (genero == null || genero.equalsIgnoreCase(prop.getProperty("controller.sort.all.label"))) {
+			JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.sort.select_gender.message"),
+					prop.getProperty("controller.sort.warning.title"), JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
-		if (genero.equalsIgnoreCase("Masculino")) {
+		if (genero.equalsIgnoreCase(prop.getProperty("controller.sort.male.label"))) {
 			mf.getmDAO().insertionSortDes();
 
 			DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
@@ -1615,7 +1599,7 @@ public class Controller implements ActionListener {
 				modelo.addRow(new Object[] { m.getAlias(), m.getName(), m.getLastName(), edad, m.getLikes(), ingresos,
 						m.getGender() });
 			}
-		} else if (genero.equalsIgnoreCase("Femenino")) {
+		} else if (genero.equalsIgnoreCase(prop.getProperty("controller.sort.female.label"))) {
 			mf.getwDAO().insertionSortDes();
 
 			DefaultTableModel modelo = (DefaultTableModel) vf.getAw().getTablaUsuarios().getModel();
@@ -1629,23 +1613,17 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	/**
-	 * Muestra el perfil del usuario actual en MyProfileWindow
-	 */
 	public void mostrarMiPerfil() {
 		User usuarioActual = mf.getUsuarioActual();
 
 		if (usuarioActual == null) {
-			JOptionPane.showMessageDialog(vf.getMmw(),
-					"No se pudo cargar la información del perfil.\nPor favor, inicia sesión nuevamente.", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getMmw(), prop.getProperty("controller.myprofile.load.error.message"),
+					prop.getProperty("controller.myprofile.load.error.title"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		// Calcular edad
 		int edad = calcularEdad(usuarioActual.getBornDate());
 
-		// Llenar los campos de texto con la información del usuario
 		vf.getMpw().getTxtNombre().setText(usuarioActual.getName());
 		vf.getMpw().getTxtApellido().setText(usuarioActual.getLastName());
 		vf.getMpw().getTxtAlias().setText(usuarioActual.getAlias());
@@ -1653,78 +1631,54 @@ public class Controller implements ActionListener {
 		vf.getMpw().getTxtCorreo().setText(usuarioActual.getEmail());
 		vf.getMpw().getTxtLikes().setText(String.valueOf(usuarioActual.getLikes()));
 
-		// Mostrar información específica según el género
 		if (usuarioActual instanceof MenDTO) {
 			MenDTO hombre = (MenDTO) usuarioActual;
 			vf.getMpw().getTxtIngresos()
-					.setText("$" + String.format("%.2f", (double) hombre.getMensualIncome()) + " USD");
+					.setText(prop.getProperty("controller.myprofile.income.prefix") + " "
+							+ String.format("%.2f", (double) hombre.getMensualIncome()) + " "
+							+ prop.getProperty("controller.myprofile.income.suffix"));
 		} else if (usuarioActual instanceof WomenDTO) {
 			WomenDTO mujer = (WomenDTO) usuarioActual;
-			vf.getMpw().getTxtIngresos().setText(mujer.isHadDivorces() ? "Ha tenido divorcios" : "Sin divorcios");
+			vf.getMpw().getTxtIngresos()
+					.setText(mujer.isHadDivorces() ? prop.getProperty("controller.myprofile.divorced.yes")
+							: prop.getProperty("controller.myprofile.divorced.no"));
 		} else {
 			vf.getMpw().getTxtIngresos().setText("N/A");
 		}
 
-		// Cargar y mostrar foto de perfil
 		try {
 			String rutaImagen = usuarioActual.getProfilePictureRoute();
-
 			if (rutaImagen != null && !rutaImagen.isEmpty()) {
 				ImageIcon imagenOriginal = new ImageIcon(rutaImagen);
-
 				if (imagenOriginal.getIconWidth() > 0) {
-					// Escalar la imagen para el preview (100x100)
 					Image imagenEscalada = imagenOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 					ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
 					vf.getMpw().getLblFotoPreview().setIcon(iconoEscalado);
 					vf.getMpw().getLblFotoPreview().setText("");
 				} else {
 					vf.getMpw().getLblFotoPreview().setIcon(null);
-					vf.getMpw().getLblFotoPreview().setText("Sin foto");
+					vf.getMpw().getLblFotoPreview().setText(prop.getProperty("controller.myprofile.no.photo"));
 				}
 			} else {
 				vf.getMpw().getLblFotoPreview().setIcon(null);
-				vf.getMpw().getLblFotoPreview().setText("Sin foto");
+				vf.getMpw().getLblFotoPreview().setText(prop.getProperty("controller.myprofile.no.photo"));
 			}
 		} catch (Exception e) {
 			System.err.println("Error al cargar imagen de perfil: " + e.getMessage());
 			vf.getMpw().getLblFotoPreview().setIcon(null);
-			vf.getMpw().getLblFotoPreview().setText("Error al cargar");
+			vf.getMpw().getLblFotoPreview().setText(prop.getProperty("controller.myprofile.photo.error"));
 		}
 
-		// Actualizar el número grande de likes en el panel lateral
-		try {
-			Component[] components = vf.getMpw().getContentPane().getComponents();
-			for (Component comp : components) {
-				if (comp instanceof JPanel) {
-					JPanel panel = (JPanel) comp;
-					Component[] panelComps = panel.getComponents();
-					for (Component panelComp : panelComps) {
-						if (panelComp instanceof JLabel) {
-							JLabel label = (JLabel) panelComp;
-							// Buscar el label que muestra el número de likes (fuente grande)
-							if (label.getFont() != null && label.getFont().getSize() == 48) {
-								label.setText(String.valueOf(usuarioActual.getLikes()));
-							}
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			System.err.println("Error al actualizar likes visuales: " + e.getMessage());
-		}
-
-		// Mostrar la ventana de perfil
 		vf.getMmw().setVisible(false);
 		vf.getMpw().setVisible(true);
 	}
 
 	public void generarPDFUsuarioSeleccionado() {
-		String aliasSeleccionado = vf.getAw().getTxtBuscar().getText().trim(); // o el campo donde se muestra el alias
+		String aliasSeleccionado = vf.getAw().getTxtBuscar().getText().trim();
 
 		if (aliasSeleccionado.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getAw(), "Por favor ingresa o selecciona un alias válido.", "Alias vacío",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getAw(), prop.getProperty("controller.pdf.empty_alias.message"),
+					prop.getProperty("controller.pdf.empty_alias.title"), JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
@@ -1733,6 +1687,9 @@ public class Controller implements ActionListener {
 
 		if (men != null) {
 			mf.getmDAO().generarInformePDF(aliasSeleccionado);
+			JOptionPane.showMessageDialog(vf.getAw(),
+					prop.getProperty("controller.pdf.success.message").replace("{alias}", aliasSeleccionado),
+					prop.getProperty("controller.pdf.success.title"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
@@ -1741,14 +1698,17 @@ public class Controller implements ActionListener {
 
 		if (woman != null) {
 			mf.getwDAO().generarInformePDF(aliasSeleccionado);
+			JOptionPane.showMessageDialog(vf.getAw(),
+					prop.getProperty("controller.pdf.success.message").replace("{alias}", aliasSeleccionado),
+					prop.getProperty("controller.pdf.success.title"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
-		JOptionPane.showMessageDialog(vf.getAw(), "No se encontró ningún usuario con ese alias.",
-				"Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(vf.getAw(),
+				prop.getProperty("controller.pdf.user_not_found.message").replace("{alias}", aliasSeleccionado),
+				prop.getProperty("controller.pdf.user_not_found.title"), JOptionPane.ERROR_MESSAGE);
 	}
 
-	
 	/**
 	 * Verifica si un correo electrónico ya está registrado en el sistema
 	 * 
@@ -1810,7 +1770,7 @@ public class Controller implements ActionListener {
 	/**
 	 * Aplica las preferencias seleccionadas por el usuario
 	 */
-	private void aplicarPreferencias() {
+	public void aplicarPreferencias() {
 		User usuarioActual = mf.getUsuarioActual();
 
 		if (usuarioActual == null) {
@@ -1827,8 +1787,9 @@ public class Controller implements ActionListener {
 				// Validar rango de edad
 				if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
 					JOptionPane.showMessageDialog(vf.getPrefw(),
-							"Rango de edad inválido. La edad mínima debe ser 18 o más, y la edad máxima debe ser mayor que la mínima.",
-							"Error de validación", JOptionPane.ERROR_MESSAGE);
+							prop.getProperty("controller.preferences.invalid_age_range.message"),
+							prop.getProperty("controller.preferences.invalid_age_range.title"),
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -1849,21 +1810,23 @@ public class Controller implements ActionListener {
 				// Validar valores
 				if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
 					JOptionPane.showMessageDialog(vf.getPrefw(),
-							"Rango de edad inválido. La edad mínima debe ser 18 o más, y la edad máxima debe ser mayor que la mínima.",
-							"Error de validación", JOptionPane.ERROR_MESSAGE);
+							prop.getProperty("controller.preferences.invalid_age_range.message"),
+							prop.getProperty("controller.preferences.invalid_age_range.title"),
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				if (estaturaMin < 0.60 || estaturaMin > 2.50) {
 					JOptionPane.showMessageDialog(vf.getPrefw(),
-							"Estatura inválida. Debe estar entre 0.60 y 2.50 metros.", "Error de validación",
-							JOptionPane.ERROR_MESSAGE);
+							prop.getProperty("controller.preferences.invalid_height.message"),
+							prop.getProperty("controller.preferences.invalid_height.title"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				if (ingresosMin < 0) {
-					JOptionPane.showMessageDialog(vf.getPrefw(), "Los ingresos mínimos no pueden ser negativos.",
-							"Error de validación", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(vf.getPrefw(),
+							prop.getProperty("controller.preferences.invalid_income.message"),
+							prop.getProperty("controller.preferences.invalid_income.title"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -1877,19 +1840,20 @@ public class Controller implements ActionListener {
 
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(vf.getPrefw(),
-					"Por favor, ingresa valores numéricos válidos en todos los campos.", "Error de validación",
-					JOptionPane.ERROR_MESSAGE);
+					prop.getProperty("controller.preferences.invalid_numeric.message"),
+					prop.getProperty("controller.preferences.invalid_numeric.title"), JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(vf.getPrefw(), "Error al aplicar preferencias: " + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getPrefw(),
+					prop.getProperty("controller.preferences.error.message") + e.getMessage(),
+					prop.getProperty("controller.preferences.error.title"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	/**
 	 * Muestra la ventana de preferencias según el género del usuario
 	 */
-	private void mostrarVentanaPreferencias() {
+	public void mostrarVentanaPreferencias() {
 		User usuarioActual = mf.getUsuarioActual();
 
 		if (usuarioActual == null) {
@@ -1916,12 +1880,13 @@ public class Controller implements ActionListener {
 	 * Aplica y guarda las preferencias seleccionadas en la PreferencesWindow Luego
 	 * filtra y compara los perfiles según los criterios
 	 */
-	private void aplicarYGuardarPreferencias() {
+	public void aplicarYGuardarPreferencias() {
 		User usuarioActual = mf.getUsuarioActual();
 
 		if (usuarioActual == null) {
-			JOptionPane.showMessageDialog(vf.getPrefw(), "Error: Usuario no identificado.", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getPrefw(),
+					prop.getProperty("controller.preferences.user_not_found.message"),
+					prop.getProperty("controller.preferences.user_not_found.title"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -1935,9 +1900,9 @@ public class Controller implements ActionListener {
 				// Validar rango de edad
 				if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
 					JOptionPane.showMessageDialog(vf.getPrefw(),
-							"❌ Rango de edad inválido.\n" + "• Edad mínima: 18 o más\n"
-									+ "• Edad máxima: debe ser mayor que la mínima\n" + "• Máximo: 100 años",
-							"Error de validación", JOptionPane.ERROR_MESSAGE);
+							prop.getProperty("controller.preferences.invalid_age_range.message"),
+							prop.getProperty("controller.preferences.invalid_age_range.title"),
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -1960,24 +1925,25 @@ public class Controller implements ActionListener {
 				// Validar rango de edad
 				if (edadMin < 18 || edadMax > 100 || edadMin > edadMax) {
 					JOptionPane.showMessageDialog(vf.getPrefw(),
-							"❌ Rango de edad inválido.\n" + "• Edad mínima: 18 o más\n"
-									+ "• Edad máxima: debe ser mayor que la mínima\n" + "• Máximo: 100 años",
-							"Error de validación", JOptionPane.ERROR_MESSAGE);
+							prop.getProperty("controller.preferences.invalid_age_range.message"),
+							prop.getProperty("controller.preferences.invalid_age_range.title"),
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Validar estatura
 				if (estaturaMin < 0.60 || estaturaMin > 2.50) {
 					JOptionPane.showMessageDialog(vf.getPrefw(),
-							"❌ Estatura inválida.\n" + "• Debe estar entre 0.60m y 2.50m", "Error de validación",
-							JOptionPane.ERROR_MESSAGE);
+							prop.getProperty("controller.preferences.invalid_height.message"),
+							prop.getProperty("controller.preferences.invalid_height.title"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
 				// Validar ingresos
 				if (ingresosMin < 0) {
-					JOptionPane.showMessageDialog(vf.getPrefw(), "❌ Los ingresos mínimos no pueden ser negativos.",
-							"Error de validación", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(vf.getPrefw(),
+							prop.getProperty("controller.preferences.invalid_income.message"),
+							prop.getProperty("controller.preferences.invalid_income.title"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
@@ -1993,17 +1959,17 @@ public class Controller implements ActionListener {
 
 		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(vf.getPrefw(),
-					"❌ Error en los valores ingresados.\n"
-							+ "Por favor verifica que todos los campos contengan números válidos.",
-					"Error de validación", JOptionPane.ERROR_MESSAGE);
+					prop.getProperty("controller.preferences.invalid_numeric.message"),
+					prop.getProperty("controller.preferences.invalid_numeric.title"), JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(vf.getPrefw(), "❌ Error al aplicar preferencias: " + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getPrefw(),
+					prop.getProperty("controller.preferences.error.message") + e.getMessage(),
+					prop.getProperty("controller.preferences.error.title"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	private void filtrarPerfilesPorPreferenciasHombres(int edadMin, int edadMax, String preferenciaDiv) {
+	public void filtrarPerfilesPorPreferenciasHombres(int edadMin, int edadMax, String preferenciaDiv) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
 
@@ -2027,9 +1993,11 @@ public class Controller implements ActionListener {
 				}
 
 				// ✅ COMPARAR 2: Preferencia de divorcios
-				if (preferenciaDiv.equals("Sí") && !mujer.isHadDivorces()) {
+				if (preferenciaDiv.equals(prop.getProperty("controller.preferences.divorced.yes"))
+						&& !mujer.isHadDivorces()) {
 					continue;
-				} else if (preferenciaDiv.equals("No") && mujer.isHadDivorces()) {
+				} else if (preferenciaDiv.equals(prop.getProperty("controller.preferences.divorced.no"))
+						&& mujer.isHadDivorces()) {
 					continue;
 				}
 
@@ -2047,20 +2015,19 @@ public class Controller implements ActionListener {
 		mf.indiceActual = 0;
 
 		if (perfilesFiltrados.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getMmw(),
-					"⚠️ No se encontraron perfiles que coincidan con tus preferencias.\nMostrando todos los perfiles disponibles.",
-					"Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getMmw(), prop.getProperty("controller.preferences.no_results.message"),
+					prop.getProperty("controller.preferences.no_results.title"), JOptionPane.INFORMATION_MESSAGE);
 			mf.cargarPerfiles(usuarioActual);
 		} else {
-			JOptionPane.showMessageDialog(vf.getMmw(),
-					"✅ Se encontraron " + perfilesFiltrados.size() + " perfil(es) que coinciden con tus preferencias.\n"
-							+ "• Edad: " + edadMin + " - " + edadMax + " años\n" + "• Divorcios: " + preferenciaDiv
-							+ "\n" + "• Orientación sexual compatible: " + orientacionHombreActual,
-					"Preferencias aplicadas", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getMmw(), prop.getProperty("controller.preferences.men.results.message")
+					.replace("{count}", String.valueOf(perfilesFiltrados.size()))
+					.replace("{edadMin}", String.valueOf(edadMin)).replace("{edadMax}", String.valueOf(edadMax))
+					.replace("{preferenciaDiv}", preferenciaDiv).replace("{orientacion}", orientacionHombreActual),
+					prop.getProperty("controller.preferences.results.title"), JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
-	private void filtrarPerfilesPorPreferenciasMujeres(int edadMin, int edadMax, double estaturaMin, long ingresosMin) {
+	public void filtrarPerfilesPorPreferenciasMujeres(int edadMin, int edadMax, double estaturaMin, long ingresosMin) {
 		User usuarioActual = mf.getUsuarioActual();
 		mf.cargarPerfiles(usuarioActual);
 
@@ -2112,17 +2079,18 @@ public class Controller implements ActionListener {
 		mf.indiceActual = 0;
 
 		if (perfilesFiltrados.isEmpty()) {
-			JOptionPane.showMessageDialog(vf.getMmw(),
-					"⚠️ No se encontraron perfiles que coincidan con tus preferencias.\nMostrando todos los perfiles disponibles.",
-					"Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(vf.getMmw(), prop.getProperty("controller.preferences.no_results.message"),
+					prop.getProperty("controller.preferences.no_results.title"), JOptionPane.INFORMATION_MESSAGE);
 			mf.cargarPerfiles(usuarioActual);
 		} else {
 			JOptionPane.showMessageDialog(vf.getMmw(),
-					"✅ Se encontraron " + perfilesFiltrados.size() + " perfil(es) que coinciden con tus preferencias.\n"
-							+ "• Edad: " + edadMin + " - " + edadMax + " años\n" + "• Estatura mínima: " + estaturaMin
-							+ "m\n" + "• Ingresos mínimos: $" + ingresosMin + "\n" + "• Orientación sexual compatible: "
-							+ orientacionMujerActual,
-					"Preferencias aplicadas", JOptionPane.INFORMATION_MESSAGE);
+					prop.getProperty("controller.preferences.women.results.message")
+							.replace("{count}", String.valueOf(perfilesFiltrados.size()))
+							.replace("{edadMin}", String.valueOf(edadMin)).replace("{edadMax}", String.valueOf(edadMax))
+							.replace("{estaturaMin}", String.valueOf(estaturaMin))
+							.replace("{ingresosMin}", String.valueOf(ingresosMin))
+							.replace("{orientacion}", orientacionMujerActual),
+					prop.getProperty("controller.preferences.results.title"), JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -2132,7 +2100,7 @@ public class Controller implements ActionListener {
 	 * género) - Homosexual con Homosexual: SÍ (mismo género) - Bisexual con
 	 * cualquiera: SÍ (bisexual acepta todos) - Otros casos: NO
 	 */
-	private boolean esCompatibleOrientacionSexual(String orientacion1, String orientacion2) {
+	public boolean esCompatibleOrientacionSexual(String orientacion1, String orientacion2) {
 		// Normalizar valores (por si hay espacios o diferencias de mayúsculas)
 		orientacion1 = orientacion1.trim().toLowerCase();
 		orientacion2 = orientacion2.trim().toLowerCase();
@@ -2204,7 +2172,7 @@ public class Controller implements ActionListener {
 	 * @param pais El país seleccionado
 	 * @return La tasa de cambio, o -1 si el país no es válido
 	 */
-	private double obtenerTasaCambio(String pais) {
+	public double obtenerTasaCambio(String pais) {
 		switch (pais) {
 		case "Angola":
 			return 832.50; // Kwanza angoleño (AOA) a USD
