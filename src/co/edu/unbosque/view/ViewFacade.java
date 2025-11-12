@@ -51,6 +51,7 @@ public class ViewFacade {
 		mmw.cambiarAModoOscuroMW();
 		mpw.cambiarAModoOscuroMPW();
 		prefw.cambiarAModoOscuroSW();
+		aw.cambiarAModoOscuroSW();
 		
 		
 	}

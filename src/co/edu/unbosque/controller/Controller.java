@@ -218,6 +218,8 @@ public class Controller implements ActionListener {
 			vf.getMpw().repaint();
 			vf.getPrefw().revalidate();
 			vf.getPrefw().repaint();
+			vf.getAw().revalidate();
+			vf.getAw().repaint();
 			break;
 
 		case "internacionalizacion_esp":
