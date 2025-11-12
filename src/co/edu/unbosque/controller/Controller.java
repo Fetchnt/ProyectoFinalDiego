@@ -304,70 +304,105 @@ public class Controller implements ActionListener {
 			break;
 
 		case "verificar_correo": {
-			try {
-				String correo = vf.getRw().getTxtCorreo().getText().trim();
+		    try {
+		        String correo = vf.getRw().getTxtCorreo().getText().trim();
 
-				if (correoYaRegistrado(correo)) {
-					JOptionPane.showMessageDialog(null,
-							"Este correo electrónico ya está registrado en el sistema.\n\n"
-									+ "Por favor, utiliza otro correo o inicia sesión con tu cuenta existente.",
-							"Correo Ya Registrado", JOptionPane.ERROR_MESSAGE);
-					vf.getRw().setCorreoVerificado(false);
-					break;
-				}
+		        if (correoYaRegistrado(correo)) {
+		            JOptionPane.showMessageDialog(
+		                null,
+		                prop.getProperty("controller.verifyemail.already_registered.message"),
+		                prop.getProperty("controller.verifyemail.already_registered.title"),
+		                JOptionPane.ERROR_MESSAGE
+		            );
+		            vf.getRw().setCorreoVerificado(false);
+		            break;
+		        }
 
-				ExceptionLauncher.verifyEmail(correo);
+		        ExceptionLauncher.verifyEmail(correo);
 
-				String codigo = generarCodigo();
-				boolean enviado = enviarCorreo(correo, codigo);
+		        String codigo = generarCodigo();
+		        boolean enviado = enviarCorreo(correo, codigo);
 
-				if (!enviado) {
-					int opc = JOptionPane.showConfirmDialog(null,
-							"No fue posible enviar el correo.\n¿Deseas usar verificación simulada?", "SMTP falló",
-							JOptionPane.YES_NO_OPTION);
-					if (opc != JOptionPane.YES_OPTION) {
-						vf.getRw().setCorreoVerificado(false);
-						break;
-					}
+		        if (!enviado) {
+		            int opc = JOptionPane.showConfirmDialog(
+		                null,
+		                prop.getProperty("controller.verifyemail.smtp_fail.message"),
+		                prop.getProperty("controller.verifyemail.smtp_fail.title"),
+		                JOptionPane.YES_NO_OPTION
+		            );
 
-					JOptionPane.showMessageDialog(null,
-							"Modo SIMULADO: tu código es: " + codigo + "\n(En modo real este mensaje no aparece).",
-							"Código simulado", JOptionPane.INFORMATION_MESSAGE);
-				}
+		            if (opc != JOptionPane.YES_OPTION) {
+		                vf.getRw().setCorreoVerificado(false);
+		                break;
+		            }
 
-				// --- Verificación
+		            JOptionPane.showMessageDialog(
+		                null,
+		                prop.getProperty("controller.verifyemail.simulated_code.message") + codigo
+		                        + prop.getProperty("controller.verifyemail.simulated_code.suffix"),
+		                prop.getProperty("controller.verifyemail.simulated_code.title"),
+		                JOptionPane.INFORMATION_MESSAGE
+		            );
+		        }
 
-				boolean verificado = false;
+		        boolean verificado = false;
 
-				String codigoIngresado = JOptionPane.showInputDialog(null, "Introduce el código recibido por correo:",
-						"Verificación de correo", JOptionPane.QUESTION_MESSAGE);
+		        String codigoIngresado = JOptionPane.showInputDialog(
+		            null,
+		            prop.getProperty("controller.verifyemail.enter_code.message"),
+		            prop.getProperty("controller.verifyemail.enter_code.title"),
+		            JOptionPane.QUESTION_MESSAGE
+		        );
 
-				if (codigoIngresado == null) {
-					JOptionPane.showMessageDialog(null, "Verificación cancelada.");
-					vf.getRw().setCorreoVerificado(false);
-					break;
-				}
+		        if (codigoIngresado == null) {
+		            JOptionPane.showMessageDialog(
+		                null,
+		                prop.getProperty("controller.verifyemail.cancelled.message"),
+		                prop.getProperty("controller.verifyemail.cancelled.title"),
+		                JOptionPane.WARNING_MESSAGE
+		            );
+		            vf.getRw().setCorreoVerificado(false);
+		            break;
+		        }
 
-				if (codigoIngresado.trim().equals(codigo)) {
-					JOptionPane.showMessageDialog(null, "✅ Correo verificado correctamente.");
-					vf.getRw().setCorreoVerificado(true);
-					vf.getRw().setCorreoVerificadoActual(correo);
-					verificado = true;
-					break;
-				} else {
-					JOptionPane.showMessageDialog(null, "❌ Código incorrecto. Intenta nuevamente.");
-				}
+		        if (codigoIngresado.trim().equals(codigo)) {
+		            JOptionPane.showMessageDialog(
+		                null,
+		                prop.getProperty("controller.verifyemail.success.message"),
+		                prop.getProperty("controller.verifyemail.success.title"),
+		                JOptionPane.INFORMATION_MESSAGE
+		            );
+		            vf.getRw().setCorreoVerificado(true);
+		            vf.getRw().setCorreoVerificadoActual(correo);
+		            verificado = true;
+		            break;
+		        } else {
+		            JOptionPane.showMessageDialog(
+		                null,
+		                prop.getProperty("controller.verifyemail.incorrect.message"),
+		                prop.getProperty("controller.verifyemail.incorrect.title"),
+		                JOptionPane.ERROR_MESSAGE
+		            );
+		        }
 
-			} catch (EmailException ex) {
-				JOptionPane.showMessageDialog(null,
-						"Formato de correo inválido o dominio no permitido:\n" + ex.getMessage(), "Error",
-						JOptionPane.ERROR_MESSAGE);
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(null, "Error al verificar correo: " + ex.getMessage(), "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-			break;
+		    } catch (EmailException ex) {
+		        JOptionPane.showMessageDialog(
+		            null,
+		            prop.getProperty("controller.verifyemail.invalid_format.message") + ex.getMessage(),
+		            prop.getProperty("controller.verifyemail.invalid_format.title"),
+		            JOptionPane.ERROR_MESSAGE
+		        );
+		    } catch (Exception ex) {
+		        JOptionPane.showMessageDialog(
+		            null,
+		            prop.getProperty("controller.verifyemail.general_error.message") + ex.getMessage(),
+		            prop.getProperty("controller.verifyemail.general_error.title"),
+		            JOptionPane.ERROR_MESSAGE
+		        );
+		    }
+		    break;
 		}
+
 
 		// ---------- ACCIONES DEL REGISTRO ----------
 

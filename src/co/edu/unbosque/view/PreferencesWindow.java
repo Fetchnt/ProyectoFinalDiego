@@ -150,15 +150,17 @@ public class PreferencesWindow extends JFrame {
 
 	/**
 	 * Configura la ventana según el género y orientación sexual del usuario
-	 * @param genero El género del usuario ("Masculino" o "Femenino")
-	 * @param orientacion La orientación sexual ("Heterosexual", "Homosexual", "Bisexual", "Asexual")
+	 * 
+	 * @param genero      El género del usuario ("Masculino" o "Femenino")
+	 * @param orientacion La orientación sexual ("Heterosexual", "Homosexual",
+	 *                    "Bisexual", "Asexual")
 	 */
 	public void configurarSegunOrientacion(String genero, String orientacion) {
 		panelCampos.removeAll();
-		
+
 		// Normalizar orientación
 		orientacion = orientacion.toLowerCase().trim();
-		
+
 		// Siempre mostrar edad
 		panelCampos.add(lblEdadMin);
 		panelCampos.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -333,7 +335,32 @@ public class PreferencesWindow extends JFrame {
 	}
 
 	public void aplicarInternacionalizacion(Properties prop) {
-		setTitle(prop.getProperty("bostinder.view.loginwindow.title"));
+		// Título de la ventana
+		setTitle(prop.getProperty("bostinder.view.preferenceswindow.title"));
+
+		// Títulos y subtítulos
+		lblTitulo.setText(prop.getProperty("bostinder.view.preferenceswindow.label.titulo"));
+		lblSubtitulo.setText(prop.getProperty("bostinder.view.preferenceswindow.label.subtitulo"));
+
+		// Campos comunes
+		lblEdadMin.setText(prop.getProperty("bostinder.view.preferenceswindow.label.edadmin"));
+		lblEdadMax.setText(prop.getProperty("bostinder.view.preferenceswindow.label.edadmax"));
+
+		// Campos para hombres
+		lblDivorcios.setText(prop.getProperty("bostinder.view.preferenceswindow.label.divorcios"));
+		cmbDivorcios.removeAllItems();
+		cmbDivorcios.addItem(prop.getProperty("bostinder.view.preferenceswindow.combo.divorcios.opcion1"));
+		cmbDivorcios.addItem(prop.getProperty("bostinder.view.preferenceswindow.combo.divorcios.opcion2"));
+		cmbDivorcios.addItem(prop.getProperty("bostinder.view.preferenceswindow.combo.divorcios.opcion3"));
+
+		// Campos para mujeres
+		lblEstatura.setText(prop.getProperty("bostinder.view.preferenceswindow.label.estatura"));
+		lblIngresos.setText(prop.getProperty("bostinder.view.preferenceswindow.label.ingresos"));
+
+		// Botones
+		btnAceptar.setText(prop.getProperty("bostinder.view.preferenceswindow.button.aceptar"));
+		btnCancelar.setText(prop.getProperty("bostinder.view.preferenceswindow.button.cancelar"));
+		darkMode.setText(prop.getProperty("bostinder.view.preferenceswindow.button.modooscuro"));
 	}
 
 	// Getters y setters
