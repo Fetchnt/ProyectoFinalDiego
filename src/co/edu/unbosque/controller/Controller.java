@@ -18,6 +18,9 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.swing.*;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -368,32 +371,47 @@ public class Controller implements ActionListener {
 
 		// ---------- ACCIONES DEL REGISTRO ----------
 
-		case "boton_subir_foto":
-			try {
-				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
-				chooser.setFileFilter(filter);
-				int result = chooser.showOpenDialog(null);
+				case "boton_subir_foto":
+				    try {
+				        JFileChooser chooser = new JFileChooser();
+				        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
+				        chooser.setFileFilter(filter);
+				        chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));  // Directorio actual del proyecto
+				        int result = chooser.showOpenDialog(null);
 
-				if (result == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = chooser.getSelectedFile();
+				        if (result == JFileChooser.APPROVE_OPTION) {
+				            File selectedFile = chooser.getSelectedFile();
+				            String fileName = selectedFile.getName();
 
-					ImageIcon image = new ImageIcon(selectedFile.getAbsolutePath());
-					ImageIcon scaled = new ImageIcon(image.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+				            
+				            File destinationFolder = new File("sources");
+				            if (!destinationFolder.exists()) {
+				                destinationFolder.mkdirs(); 
+				            }
+				            File destinationFile = new File(destinationFolder, fileName);
 
-					vf.getRw().getlFotoPreview().setIcon(scaled);
-					vf.getRw().setRutaImagenSeleccionada(selectedFile.getAbsolutePath());
+				            try {
+				                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				            } catch (IOException e1) {
+				                JOptionPane.showMessageDialog(null, e1.getMessage(), "ERROR DIRECCION", JOptionPane.ERROR_MESSAGE);
+				                return; 
+				            }
 
-					JOptionPane.showMessageDialog(null, "Imagen cargada correctamente.");
-				} else {
-					throw new ImageNotSelectedException();
-				}
+				            vf.getRw().setRutaImagenSeleccionada("sources/" + fileName);
 
-			} catch (ImageNotSelectedException e1) {
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			break;
+				            ImageIcon image = new ImageIcon(destinationFile.getAbsolutePath());
+				            ImageIcon scaled = new ImageIcon(image.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+				            vf.getRw().getlFotoPreview().setIcon(scaled);
 
+				            JOptionPane.showMessageDialog(null, "Imagen cargada correctamente: " + fileName);
+				        } else {
+				            throw new ImageNotSelectedException();
+				        }
+
+				    } catch (ImageNotSelectedException e1) {
+				        JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				    }
+				    break;
 		case "seleccionar_genero":
 			mostrarCamposPorGenero();
 			break;
