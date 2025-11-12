@@ -171,7 +171,7 @@ public class MapWindow extends JFrame {
 		
 		darkMode = new JButton("MODO OSCURO");
 		darkMode.setBounds(800, 10, 150, 30);
-		darkMode.addActionListener(e -> cambiarAModoOscuroMW());
+		darkMode.addActionListener(e -> cambiarAModoOscuroMpW());
 		this.add(darkMode);
 
 		try {
@@ -214,7 +214,7 @@ public class MapWindow extends JFrame {
 		}
 		return null;
 	}
-	public void cambiarAModoOscuroMW() {
+	public void cambiarAModoOscuroMpW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
 			 this.getContentPane().setBackground(Color.decode("#F9CFCE"));

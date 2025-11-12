@@ -203,7 +203,7 @@ public class Controller implements ActionListener {
 
 		case "boton_modo_oscuro":
 			vf.aplicarModoOscuro();
-
+			vf.getPw().cambiarAModoOscuroPW();
 			vf.getPw().revalidate();
 			vf.getPw().repaint();
 			vf.getSw().revalidate();
@@ -216,6 +216,8 @@ public class Controller implements ActionListener {
 			vf.getMmw().repaint();
 			vf.getMpw().revalidate();
 			vf.getMpw().repaint();
+			vf.getPrefw().revalidate();
+			vf.getPrefw().repaint();
 			break;
 
 		case "internacionalizacion_esp":

@@ -154,31 +154,32 @@ public class PrincipalWindow extends JFrame {
 
 	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
 	public void cambiarAModoOscuroPW() {
-		if (isDarkMode) {
-			// Mantiene el modo claro
-			this.getContentPane().setBackground(Color.decode("#FFFFFF"));
-			lBosTinder.setForeground(Color.decode("#303080D"));
-			phrase.setForeground(Color.decode("#03080D"));
-			changeLanguage.setForeground(Color.decode("#03080D"));
-			start.setBackground(Color.decode("#EB5F5B"));
-			start.setForeground(Color.decode("#F9CFCE"));
-			darkMode.setBackground(Color.decode("#EB5F5B"));
-			darkMode.setForeground(Color.decode("#F9CFCE"));
-			darkMode.setText("MODO OSCURO");
-			isDarkMode = false;
-		} else {
-			// Cambia a modo oscuro
-			this.getContentPane().setBackground(Color.decode("#11021E"));
-			lBosTinder.setForeground(Color.decode("#FF2B91"));
-			phrase.setForeground(Color.decode("#FF7171"));
-			changeLanguage.setForeground(Color.decode("#FF7171"));
-			start.setBackground(Color.decode("#52247C"));
-			start.setForeground(Color.decode("#DCC8EF"));
-			darkMode.setBackground(Color.decode("#52247C"));
-			darkMode.setForeground(Color.decode("#DCC8EF"));
-			darkMode.setText("MODO CLARO");
-			isDarkMode = true;
-		}
+	    
+	    if (isDarkMode == true) {
+	        this.getContentPane().setBackground(Color.decode("#FFFFFF"));
+	        lBosTinder.setForeground(Color.decode("#303080D"));
+	        phrase.setForeground(Color.decode("#03080D"));
+	        changeLanguage.setForeground(Color.decode("#03080D"));
+	        start.setBackground(Color.decode("#EB5F5B"));
+	        start.setForeground(Color.decode("#F9CFCE"));
+	        darkMode.setBackground(Color.decode("#EB5F5B"));
+	        darkMode.setForeground(Color.decode("#F9CFCE"));
+	        darkMode.setText("MODO OSCURO");
+	        isDarkMode = false; 
+	        
+	    } else {
+	        // Cambia a MODO OSCURO
+	        this.getContentPane().setBackground(Color.decode("#11021E"));
+	        lBosTinder.setForeground(Color.decode("#FF2B91"));
+	        phrase.setForeground(Color.decode("#FF7171"));
+	        changeLanguage.setForeground(Color.decode("#FF7171"));
+	        start.setBackground(Color.decode("#52247C"));
+	        start.setForeground(Color.decode("#DCC8EF"));
+	        darkMode.setBackground(Color.decode("#52247C"));
+	        darkMode.setForeground(Color.decode("#DCC8EF"));
+	        darkMode.setText("MODO CLARO");
+	        isDarkMode = true; 
+	    }
 	}
 
 	public void aplicarInternacionalizacion(Properties prop) {
