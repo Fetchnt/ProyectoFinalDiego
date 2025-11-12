@@ -380,9 +380,8 @@ public class Controller implements ActionListener {
 		case "boton_subir_foto": {
 			try {
 				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-						prop.getProperty("controller.uploadphoto.filter.name"),
-						prop.getProperty("controller.uploadphoto.filter.extension"));
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagen PNG", "png");
+				chooser.setFileFilter(filter);
 				chooser.setFileFilter(filter);
 				chooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); // Directorio actual del proyecto
 				int result = chooser.showOpenDialog(null);
