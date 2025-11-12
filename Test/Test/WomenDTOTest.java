@@ -86,6 +86,7 @@ public class WomenDTOTest {
 	@After
 	
 	public void despuesDeCadaPrueba() {
+		assertNotNull(mujer);
 		
 	}
 	

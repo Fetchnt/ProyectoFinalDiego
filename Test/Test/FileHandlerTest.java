@@ -1,6 +1,7 @@
 package Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -32,7 +33,10 @@ public class FileHandlerTest {
 	
 	@Before
 	
-	public void setUp() {
+	public void antesDeCadaPrueba() {
+		assertFalse("El archivo csv debe estar limpio antes de la prueba", new File(CSV_FILE_NAME).exists());
+		assertFalse("El archivo serializado debe estar limpio antes de la prueba", new File(SERIAL_FILE_NAME).exists());
+		
 		new File(CSV_FILE_NAME).delete();
 		new File(SERIAL_FILE_NAME).delete();
 	}
@@ -41,6 +45,10 @@ public class FileHandlerTest {
 	
 	public void testEscribirYLeerArchivosCSV() {
 		FileHandler.escribirEnArchivoSerializado(CSV_FILE_NAME, contenidoCSV);
+		File archivoCSV = new File(CSV_FILE_NAME);
+		assertTrue("El archivo csv debe existir despues de escribir", archivoCSV.exists());
+		assertTrue("El archivo csv no debe estar vacio", archivoCSV.length() > 0);
+		
 		String resultado = FileHandler.leerDesdeArchivoTexto(CSV_FILE_NAME);
 		assertNotNull("El contenido csv no debe ser nulo", resultado);
 		assertTrue("Debe contener el nombre Carlos", resultado.contains("Carlos"));
@@ -51,6 +59,10 @@ public class FileHandlerTest {
 	
 	public void testEscribirYLeerArchivoSerealizado() {
 		FileHandler.escribirEnArchivoSerializado(SERIAL_FILE_NAME, contenidoSerializado);
+		File archivoSer = new File(SERIAL_FILE_NAME);
+		assertTrue("El archivo serializado debe existir despues de escribir", archivoSer.exists());
+		assertTrue("El archivo serializado no debe estar vacio", archivoSer.length() > 0);
+		
 		Object resultado = FileHandler.leerDesdeArchivoSerializado(SERIAL_FILE_NAME);
 		assertNotNull("El objeto deserealizado no debe ser nulo", resultado);
 		assertEquals("El objeto debe coincidir con el original", contenidoSerializado, resultado);
@@ -59,8 +71,8 @@ public class FileHandlerTest {
 	@After
 	
 	public void despuesDeCadaPrueba() {
-		new File(CSV_FILE_NAME).delete();
-		new File(SERIAL_FILE_NAME).delete();
+		assertTrue("El archivo csv debe eliminarse", new File(CSV_FILE_NAME).delete());
+		assertTrue("El archivo serializable debe eliminarse", new File(SERIAL_FILE_NAME).delete());
 	}
 	
 	@AfterClass

@@ -26,6 +26,7 @@ public class MenDTOTest {
 	@Before
 	
 	public void antesDeCadaPrueba() {
+		
 		properties = new Properties();
 		properties.setProperty("idioma", "es");
 		hombre = new MenDTO();
@@ -76,6 +77,7 @@ public class MenDTOTest {
 	@After
 	
 	public void despuesDeCadaPrueba() {
+		assertNotNull(hombre);
 		
 	}
 	
