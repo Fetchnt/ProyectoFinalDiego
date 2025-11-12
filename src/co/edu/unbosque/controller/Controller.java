@@ -1500,8 +1500,12 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Actualiza las estadísticas para mostrar información del filtro aplicado
-	 */
+     * Actualiza las estadísticas mostradas según el filtro aplicado.
+     * <b>pre</b> Hay una lista de usuarios filtrados. <br>
+     * <b>post</b> Las estadísticas reflejan los datos del filtro actual. <br>
+     * @param usuariosFiltrados Lista de usuarios después del filtrado. usuariosFiltrados != null
+     * @param criterioFiltro Descripción del criterio de filtrado. criterioFiltro != null
+     */
 	public void actualizarEstadisticasFiltro(List<User> usuariosFiltrados, String criterioFiltro) {
 		if (usuariosFiltrados.isEmpty()) {
 			vf.getAw().getTxtEstadisticas().setText(prop.getProperty("controller.stats.filter.empty"));
@@ -1532,9 +1536,11 @@ public class Controller implements ActionListener {
 		vf.getAw().getTxtEstadisticas().setText(estadisticas.toString());
 	}
 
-	/**
-	 * Actualiza las estadísticas mostradas en AdminWindow
-	 */
+	 /**
+     * Actualiza las estadísticas globales en la ventana de administración.
+     * <b>pre</b> Hay usuarios cargados en el sistema. <br>
+     * <b>post</b> Las estadísticas muestran datos actualizados de todos los usuarios. <br>
+     */
 	public void actualizarEstadisticasAdmin() {
 		List<User> todosLosUsuarios = mf.obtenerTodosLosUsuarios();
 
@@ -1575,9 +1581,11 @@ public class Controller implements ActionListener {
 		vf.getAw().getTxtEstadisticas().setText(estadisticas.toString());
 	}
 
-	/**
-	 * Muestra el perfil actual en la ventana principal
-	 */
+	 /**
+     * Muestra el perfil actual en la ventana principal con toda su información.
+     * <b>pre</b> Hay un perfil actual cargado. <br>
+     * <b>post</b> La interfaz muestra la información completa del perfil. <br>
+     */
 	public void mostrarPerfil() {
 		User actual = mf.getPerfilActual();
 
@@ -1652,10 +1660,11 @@ public class Controller implements ActionListener {
 			mostrarImagenPorDefecto();
 		}
 	}
-
-	/**
-	 * Muestra una imagen por defecto cuando no hay foto de perfil
-	 */
+	 /**
+     * Muestra una imagen por defecto cuando no hay foto de perfil disponible.
+     * <b>pre</b> El label de imagen está inicializado. <br>
+     * <b>post</b> El label muestra un mensaje de imagen no disponible. <br>
+     */
 	public void mostrarImagenPorDefecto() {
 		vf.getMmw().getLblProfilePicture().setIcon(null);
 		vf.getMmw().getLblProfilePicture().setText(prop.getProperty("controller.profile.no.photo"));
@@ -1695,6 +1704,11 @@ public class Controller implements ActionListener {
 		}
 	}
 
+	 /**
+     * Ordena los usuarios de forma ascendente según criterios específicos.
+     * <b>pre</b> Hay un género seleccionado para ordenar. <br>
+     * <b>post</b> La tabla muestra usuarios ordenados ascendentemente. <br>
+     */
 	public void manejarOrdenDescendente() {
 		String genero = (String) vf.getAw().getCmbGeneroFiltro().getSelectedItem();
 		if (genero == null || genero.equalsIgnoreCase(prop.getProperty("controller.sort.all.label"))) {
@@ -1727,6 +1741,11 @@ public class Controller implements ActionListener {
 			}
 		}
 	}
+	/**
+     * Muestra el perfil del usuario actual en la ventana de mi perfil.
+     * <b>pre</b> El usuario ha iniciado sesión. <br>
+     * <b>post</b> La ventana de mi perfil muestra la información personal. <br>
+     */
 
 	public void mostrarMiPerfil() {
 		User usuarioActual = mf.getUsuarioActual();
@@ -1787,7 +1806,12 @@ public class Controller implements ActionListener {
 		vf.getMmw().setVisible(false);
 		vf.getMpw().setVisible(true);
 	}
-
+	 /**
+     * Genera un PDF con la información del usuario seleccionado.
+     * <b>pre</b> Hay un usuario seleccionado o un alias especificado. <br>
+     * <b>post</b> Se genera un archivo PDF con la información del usuario. <br>
+     * @throws Exception Si no se puede generar el PDF
+     */
 	public void generarPDFUsuarioSeleccionado() {
 		String aliasSeleccionado = vf.getAw().getTxtBuscar().getText().trim();
 
@@ -1824,12 +1848,13 @@ public class Controller implements ActionListener {
 				prop.getProperty("controller.pdf.user_not_found.title"), JOptionPane.ERROR_MESSAGE);
 	}
 
-	/**
-	 * Verifica si un correo electrónico ya está registrado en el sistema
-	 * 
-	 * @param correo El correo a verificar
-	 * @return true si el correo ya está registrado, false si está disponible
-	 */
+	 /**
+     * Verifica si un correo electrónico ya está registrado en el sistema.
+     * <b>pre</b> Los archivos de usuarios están cargados. <br>
+     * <b>post</b> Se determina si el correo existe en el sistema. <br>
+     * @param correo Correo electrónico a verificar. correo != null, correo != ""
+     * @return true si el correo ya está registrado, false si está disponible
+     */
 	public boolean correoYaRegistrado(String correo) {
 
 		mf.getmDAO().listaMenDTO.clear();
@@ -1857,10 +1882,11 @@ public class Controller implements ActionListener {
 		return false;
 	}
 
-	/**
-	 * Solicita las preferencias del usuario según su género y filtra los perfiles
-	 * disponibles
-	 */
+	 /**
+     * Solicita las preferencias del usuario según su género para filtrar perfiles.
+     * <b>pre</b> El usuario ha iniciado sesión. <br>
+     * <b>post</b> Se muestra la ventana de preferencias configurada según el género. <br>
+     */
 	public void solicitarPreferenciasUsuario() {
 		User usuarioActual = mf.getUsuarioActual();
 
@@ -1883,13 +1909,12 @@ public class Controller implements ActionListener {
 	}
 
 	/**
-	 * Aplica las preferencias seleccionadas por el usuario
-	 */
-	/**
-	 * Aplica y guarda las preferencias seleccionadas en la PreferencesWindow
-	 * Luego filtra y compara los perfiles según los criterios
-	 * CONSIDERANDO ORIENTACIÓN SEXUAL: Heterosexual, Homosexual, Bisexual, Asexual
-	 */
+     * Aplica y guarda las preferencias seleccionadas por el usuario.
+     * <b>pre</b> El usuario ha completado el formulario de preferencias. <br>
+     * <b>post</b> Los perfiles se filtran según las preferencias y se muestra la ventana principal. <br>
+     * @throws NumberFormatException Si los valores numéricos no son válidos
+     * @throws Exception Si hay errores al aplicar las preferencias
+     */
 	public void aplicarYGuardarPreferencias() {
 		User usuarioActual = mf.getUsuarioActual();
 
@@ -2005,7 +2030,11 @@ public class Controller implements ActionListener {
 	// ==================== MÉTODOS PARA HOMBRES ====================
 
 	/**
-	 * Filtra MUJERES para HOMBRES HETEROSEXUALES
+	 * Filtra perfiles de HOMBRES para usuarios HOMOSEXUALES/GAY según rango de edad.
+	 * <b>pre</b> El usuario actual es homosexual/gay y está autenticado. <br>
+	 * <b>post</b> La lista de perfiles actuales contiene solo hombres dentro del rango de edad especificado. <br>
+	 * @param edadMin Edad mínima para el filtrado. edadMin >= 18
+	 * @param edadMax Edad máxima para el filtrado. edadMax >= edadMin, edadMax <= 100
 	 */
 	public void filtrarPerfilesPorPreferenciasHombresHeterosexuales(int edadMin, int edadMax, String preferenciaDiv) {
 		User usuarioActual = mf.getUsuarioActual();
