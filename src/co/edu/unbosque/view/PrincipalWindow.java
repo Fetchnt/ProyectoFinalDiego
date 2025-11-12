@@ -65,14 +65,14 @@ public class PrincipalWindow extends JFrame {
 		phrase = new JLabel("¡Tu amor ideal te está esperando!");
 		phrase.setBounds(335, 258, 480, 30);
 		phrase.setForeground(Color.decode("#03080D"));
-		phrase.setFont(new Font("Georgia", Font.BOLD, 18));
+		phrase.setFont(new Font("Noto Sans", Font.BOLD, 18));
 		this.add(phrase);
 
 		// ----- IDIOMAS -----
 		changeLanguage = new JLabel("Cambiar Idioma");
 		changeLanguage.setBounds(415, 440, 250, 150);
 		changeLanguage.setForeground(Color.decode("#03080D"));
-		changeLanguage.setFont(new Font("Georgia", Font.BOLD, 15));
+		changeLanguage.setFont(new Font("Noto Sans", Font.BOLD, 15));
 		this.add(changeLanguage);
 
 		ImageIcon imagen1 = new ImageIcon(getClass().getResource("spanish.JPG"));
@@ -120,7 +120,7 @@ public class PrincipalWindow extends JFrame {
 		// ----- BOTONES ------
 		start = new JButton("INICIAR");
 		start.setBounds(390, 340, 180, 50);
-		start.setFont(new Font("Arial", Font.BOLD, 20));
+		start.setFont(new Font("Noto Sans", Font.BOLD, 20));
 		start.setForeground(Color.decode("#F9CFCE"));// color letra
 		start.setBackground(Color.decode("#EB5F5B"));
 		start.setFocusPainted(false);
@@ -129,7 +129,7 @@ public class PrincipalWindow extends JFrame {
 
 		darkMode = new JButton("MODO OSCURO");
 		darkMode.setBounds(390, 410, 180, 50);
-		darkMode.setFont(new Font("Arial", Font.BOLD, 16));
+		darkMode.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		darkMode.setForeground(Color.decode("#F9CFCE"));// color letra
 		darkMode.setBackground(Color.decode("#EB5F5B"));
 		darkMode.setFocusPainted(false);

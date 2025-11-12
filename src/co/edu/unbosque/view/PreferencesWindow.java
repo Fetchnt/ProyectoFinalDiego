@@ -61,11 +61,11 @@ public class PreferencesWindow extends JFrame {
 		panelTitulo.setBackground(new Color(255, 240, 245));
 
 		lblTitulo = new JLabel("Configura tus Preferencias", SwingConstants.CENTER);
-		lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
+		lblTitulo.setFont(new Font("Noto Sans", Font.BOLD, 24));
 		lblTitulo.setForeground(new Color(220, 20, 60));
 
 		lblSubtitulo = new JLabel("Encuentra a tu match ideal", SwingConstants.CENTER);
-		lblSubtitulo.setFont(new Font("Arial", Font.ITALIC, 14));
+		lblSubtitulo.setFont(new Font("Noto Sans", Font.ITALIC, 14));
 		lblSubtitulo.setForeground(new Color(100, 100, 100));
 
 		panelTitulo.add(lblTitulo, BorderLayout.CENTER);
@@ -80,34 +80,34 @@ public class PreferencesWindow extends JFrame {
 
 		// Inicializar componentes comunes
 		lblEdadMin = new JLabel("Edad mínima:");
-		lblEdadMin.setFont(new Font("Arial", Font.BOLD, 14));
+		lblEdadMin.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		txtEdadMin = new JTextField("18");
 		txtEdadMin.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtEdadMin.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
 		lblEdadMax = new JLabel("Edad máxima:");
-		lblEdadMax.setFont(new Font("Arial", Font.BOLD, 14));
+		lblEdadMax.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		txtEdadMax = new JTextField("50");
 		txtEdadMax.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtEdadMax.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
 		// Componentes para buscar mujeres
 		lblDivorcios = new JLabel("¿Ha tenido divorcios?");
-		lblDivorcios.setFont(new Font("Arial", Font.BOLD, 14));
+		lblDivorcios.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		String[] opcionesDivorcios = { "No importa", "Sí", "No" };
 		cmbDivorcios = new JComboBox<>(opcionesDivorcios);
-		cmbDivorcios.setFont(new Font("Arial", Font.PLAIN, 14));
+		cmbDivorcios.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		cmbDivorcios.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
 		// Componentes para buscar hombres
 		lblEstatura = new JLabel("Estatura mínima (m):");
-		lblEstatura.setFont(new Font("Arial", Font.BOLD, 14));
+		lblEstatura.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		txtEstatura = new JTextField("1.60");
 		txtEstatura.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtEstatura.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
 
 		lblIngresos = new JLabel("Ingresos mínimos (USD):");
-		lblIngresos.setFont(new Font("Arial", Font.BOLD, 14));
+		lblIngresos.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		txtIngresos = new JTextField("1000");
 		txtIngresos.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtIngresos.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
@@ -117,7 +117,7 @@ public class PreferencesWindow extends JFrame {
 		panelBotones.setBackground(new Color(255, 240, 245));
 
 		btnAceptar = new JButton("Aplicar Preferencias");
-		btnAceptar.setFont(new Font("Arial", Font.BOLD, 14));
+		btnAceptar.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		btnAceptar.setBackground(new Color(220, 20, 60));
 		btnAceptar.setForeground(Color.WHITE);
 		btnAceptar.setFocusPainted(false);
@@ -125,7 +125,7 @@ public class PreferencesWindow extends JFrame {
 		btnAceptar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		btnCancelar = new JButton("Ver Todos");
-		btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+		btnCancelar.setFont(new Font("Noto Sans", Font.BOLD, 14));
 		btnCancelar.setBackground(new Color(150, 150, 150));
 		btnCancelar.setForeground(Color.WHITE);
 		btnCancelar.setFocusPainted(false);
@@ -199,7 +199,7 @@ public class PreferencesWindow extends JFrame {
 		// Agregar campos según lo determinado
 		if (mostrarCamposMujeres) {
 			JLabel lblSeccionMujeres = new JLabel("━━━━━━ Preferencias para Mujeres ━━━━━━");
-			lblSeccionMujeres.setFont(new Font("Arial", Font.BOLD, 12));
+			lblSeccionMujeres.setFont(new Font("Noto Sans", Font.BOLD, 12));
 			lblSeccionMujeres.setForeground(new Color(220, 20, 60));
 			lblSeccionMujeres.setAlignmentX(Component.CENTER_ALIGNMENT);
 			panelCampos.add(lblSeccionMujeres);
@@ -213,7 +213,7 @@ public class PreferencesWindow extends JFrame {
 
 		if (mostrarCamposHombres) {
 			JLabel lblSeccionHombres = new JLabel("━━━━━━ Preferencias para Hombres ━━━━━━");
-			lblSeccionHombres.setFont(new Font("Arial", Font.BOLD, 12));
+			lblSeccionHombres.setFont(new Font("Noto Sans", Font.BOLD, 12));
 			lblSeccionHombres.setForeground(new Color(220, 20, 60));
 			lblSeccionHombres.setAlignmentX(Component.CENTER_ALIGNMENT);
 			panelCampos.add(lblSeccionHombres);

@@ -110,7 +110,7 @@ public class RegisterWindow extends JFrame {
 
 		// ---------- TÍTULO ----------
 		lAreaDeRegistro = new JLabel("¡Regístrate y encuentra el amor!");
-		lAreaDeRegistro.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		lAreaDeRegistro.setFont(new Font("Noto Sans", Font.PLAIN, 20));
 		lAreaDeRegistro.setBounds(350, 174, 549, 58);
 		add(lAreaDeRegistro);
 
@@ -255,7 +255,7 @@ public class RegisterWindow extends JFrame {
 		// ---------- BOTONES ----------
 		btnRegistrar = new JButton("Registrar");
 		btnRegistrar.setBounds(755, 320, 120, 40);
-		btnRegistrar.setFont(new Font("Arial", Font.BOLD, 16));
+		btnRegistrar.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		btnRegistrar.setBackground(Color.decode("#F9CFCE"));
 		btnRegistrar.setFocusPainted(false);
 		btnRegistrar.setBorderPainted(false);
@@ -263,7 +263,7 @@ public class RegisterWindow extends JFrame {
 
 		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(660, 320, 90, 40);
-		btnVolver.setFont(new Font("Arial", Font.BOLD, 16));
+		btnVolver.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		btnVolver.setBackground(Color.decode("#F9CFCE"));
 		btnVolver.setFocusPainted(false);
 		btnVolver.setBorderPainted(false);

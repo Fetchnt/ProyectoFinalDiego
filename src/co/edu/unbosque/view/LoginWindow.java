@@ -83,7 +83,7 @@ public class LoginWindow extends JFrame {
 
 		// -------TITULO----------
 		lTitle = new JLabel("¡Inicia sesión para continuar!");
-		lTitle.setFont(new Font("Cooper Black", Font.PLAIN, 18));
+		lTitle.setFont(new Font("Noto Sans", Font.PLAIN, 18));
 		lTitle.setBounds(380, 225, 549, 58);
 		background.add(lTitle);
 
@@ -122,7 +122,7 @@ public class LoginWindow extends JFrame {
 		// --------BOTONES--------
 		login = new JButton("Entrar");
 		login.setBounds(160, 320, 90, 40);
-		login.setFont(new Font("Arial", Font.BOLD, 16));
+		login.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		login.setBackground(Color.decode("#F9CFCE"));
 		login.setFocusPainted(false);
 		login.setBorderPainted(false);
@@ -130,7 +130,7 @@ public class LoginWindow extends JFrame {
 
 		back = new JButton("Volver");
 		back.setBounds(60, 320, 90, 40);
-		back.setFont(new Font("Arial", Font.BOLD, 16));
+		back.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		back.setBackground(Color.decode("#F9CFCE"));
 		back.setFocusPainted(false);
 		back.setBorderPainted(false);
@@ -138,7 +138,7 @@ public class LoginWindow extends JFrame {
 
 		adminMode = new JButton("Modo Admin");
 		adminMode.setBounds(60, 270, 190, 40);
-		adminMode.setFont(new Font("Arial", Font.BOLD, 16));
+		adminMode.setFont(new Font("Noto Sans", Font.BOLD, 16));
 		adminMode.setBackground(Color.decode("#F9CFCE"));
 		adminMode.setFocusPainted(false);
 		adminMode.setBorderPainted(false);

@@ -76,14 +76,14 @@ public class StartWindow extends JFrame {
 		
 		lText = new JLabel("¡Bienvenido!");
 		lText.setBounds(70, 15, 250, 25);
-		lText.setFont(new Font("Georgia", Font.BOLD, 25));
+		lText.setFont(new Font("Noto Sans", Font.BOLD, 25));
 		lText.setForeground(Color.decode("#E3225C"));
 		panelOption.add(lText);
 
 		// ---------BOTONES-------------
 		signIn = new JButton("Registrarse");
 		signIn.setBounds(60, 60, 180, 50);
-		signIn.setFont(new Font("Arial", Font.BOLD, 20));
+		signIn.setFont(new Font("Noto Sans", Font.BOLD, 20));
 		signIn.setForeground(Color.decode("#EB5F5B"));// color letra
 		signIn.setBackground(Color.decode("#F9CFCE"));
 		signIn.setFocusPainted(false);
@@ -92,7 +92,7 @@ public class StartWindow extends JFrame {
 
 		login = new JButton("Iniciar Sesion");
 		login.setBounds(60, 120, 180, 50);
-		login.setFont(new Font("Arial", Font.BOLD, 20));
+		login.setFont(new Font("Noto Sans", Font.BOLD, 20));
 		login.setForeground(Color.decode("#EB5F5B"));
 		login.setBackground(Color.decode("#F9CFCE"));
 		login.setFocusPainted(false);
@@ -101,7 +101,7 @@ public class StartWindow extends JFrame {
 
 		exit = new JButton("Salir");
 		exit.setBounds(155, 240, 85, 50);
-		exit.setFont(new Font("Arial", Font.BOLD, 15));
+		exit.setFont(new Font("Noto Sans", Font.BOLD, 15));
 		exit.setForeground(Color.decode("#EB5F5B"));
 		exit.setBackground(Color.decode("#F9CFCE"));
 		exit.setFocusPainted(false);
@@ -110,7 +110,7 @@ public class StartWindow extends JFrame {
 
 		back = new JButton("Volver");
 		back.setBounds(60, 240, 85, 50);
-		back.setFont(new Font("Arial", Font.BOLD, 15));
+		back.setFont(new Font("Noto Sans", Font.BOLD, 15));
 		back.setForeground(Color.decode("#EB5F5B"));
 		back.setBackground(Color.decode("#F9CFCE"));
 		back.setFocusPainted(false);
@@ -119,7 +119,7 @@ public class StartWindow extends JFrame {
 
 		mapButton = new JButton("Ver mapa");
 		mapButton.setBounds(60, 180, 180, 50);
-		mapButton.setFont(new Font("Arial", Font.BOLD, 20));
+		mapButton.setFont(new Font("Noto Sans", Font.BOLD, 20));
 		mapButton.setForeground(Color.decode("#EB5F5B"));
 		mapButton.setBackground(Color.decode("#F9CFCE"));
 		mapButton.setFocusPainted(false);

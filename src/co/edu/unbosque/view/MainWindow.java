@@ -85,7 +85,7 @@ public class MainWindow extends JFrame {
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		txtDescription.setEditable(false);
-		txtDescription.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtDescription.setFont(new Font("Noto Sans", Font.PLAIN, 14));
 		txtDescription.setBackground(Color.WHITE);
 		txtDescription.setBorder(BorderFactory.createTitledBorder("Descripci贸n"));
 		getContentPane().add(txtDescription);
@@ -294,6 +294,8 @@ public class MainWindow extends JFrame {
 		btnNope.setText(prop.getProperty("bostinder.view.mainwindow.button.nope"));
 		btnProfile.setText(prop.getProperty("bostinder.view.mainwindow.button.profile"));
 		btnLogOff.setText(prop.getProperty("bostinder.view.mainwindow.button.logout"));
+		btnModoIncognito.setText(prop.getProperty("bostinder.view.mainwindow.button.incognito"));
+		btnVerMeGusta.setText(prop.getProperty("bostinder.view.mainwindow.button.seelikes"));
 
 	}
 
