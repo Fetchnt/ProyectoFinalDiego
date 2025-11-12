@@ -82,9 +82,9 @@ public class MyProfileWindow extends JFrame {
 				// add(lBosTinder);
 
 
-		ImageIcon image = new ImageIcon(getClass().getResource("partnerFive.JPG"));
+		ImageIcon image = new ImageIcon(getClass().getResource("partnerFive.png"));
 		partner = new JLabel(image);
-		partner.setBounds(20, 195, 300, 450);
+		partner.setBounds(20, 190, 300, 450);
 		add(partner);
 
 		// --INFORMACION DEL USUARIO---

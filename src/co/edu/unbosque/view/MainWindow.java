@@ -63,7 +63,7 @@ public class MainWindow extends JFrame {
 		// add(lBosTinder);
 
 		lblTitulo = new JLabel("隆Bienvenido a BosTinder!");
-		lblTitulo.setFont(new Font("Cooper Black", Font.PLAIN, 20));
+		lblTitulo.setFont(new Font("Noto Sans", Font.PLAIN, 20));
 		lblTitulo.setBounds(110, 166, 361, 58);
 		getContentPane().add(lblTitulo);
 
@@ -90,22 +90,25 @@ public class MainWindow extends JFrame {
 		txtDescription.setBorder(BorderFactory.createTitledBorder("Descripci贸n"));
 		getContentPane().add(txtDescription);
 
-		// --- BOTONES DE ACCI脫N ---
-		btnNope = new JButton("  鉁栵笍");
-		btnNope.setBounds(344, 583, 60, 40);
-		btnNope.setBackground(Color.decode("#EB5F5B"));
-		btnNope.setForeground(Color.decode("#F9CFCE"));
+		ImageIcon imagen1 = new ImageIcon(getClass().getResource("nope.png"));
+		JLabel labelImagen1 = new JLabel(imagen1);
+		btnNope = new JButton(imagen1);
+		btnNope.setBounds(284, 592, 69, 67);
+		btnNope.setOpaque(false);
+		btnNope.setContentAreaFilled(false);
 		btnNope.setFocusPainted(false);
 		btnNope.setBorderPainted(false);
 		getContentPane().add(btnNope);
-
-		btnLike = new JButton("馃挅");
-		btnLike.setBounds(57, 583, 60, 40);
-		btnLike.setBackground(Color.decode("#EB5F5B"));
-		btnLike.setForeground(Color.decode("#F9CFCE"));
+		
+		ImageIcon imagen2 = new ImageIcon(getClass().getResource("like.png"));
+		JLabel labelImagen2 = new JLabel(imagen2);
+		btnLike = new JButton(imagen2);
+		btnLike.setBounds(100, 595, 67, 67);
+		btnLike.setOpaque(false);
+		btnLike.setContentAreaFilled(false);
 		btnLike.setFocusPainted(false);
 		btnLike.setBorderPainted(false);
-		getContentPane().add(btnLike);
+		getContentPane().add(btnLike);	
 
 		// --- BOTONES LATERALES ---
 		panelMenu = new JPanel();
@@ -156,9 +159,9 @@ public class MainWindow extends JFrame {
 		add(darkMode);
 
 		// ------IMAGEN-------
-		ImageIcon imageHeartTwo = new ImageIcon(getClass().getResource("heartTwo.JPG"));
+		ImageIcon imageHeartTwo = new ImageIcon(getClass().getResource("heartTwo.png"));
 		JLabel imageHeart = new JLabel(imageHeartTwo);
-		imageHeart.setBounds(790, 300, 160, 300);
+		imageHeart.setBounds(810, 300, 160, 300);
 		this.add(imageHeart);
 
 		// --- CARGAR EL PRIMER PERFIL ---
