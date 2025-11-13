@@ -12,7 +12,7 @@ package co.edu.unbosque.util.exception;
  * </ul>
  * </p>
  * 
- * @author  
+ * @author  Juan cabarcas
  * @version 1.0
  */
 public class EmailException extends Exception {

@@ -18,7 +18,7 @@ package co.edu.unbosque.util.exception;
  * <li>El ingreso es negativo o menor al mínimo permitido según el país.</li>
  * </ul>
  * 
- * @author
+ * @author Juan Cabarcas
  * @version 1.0
  */
 public class IncomeException extends Exception {

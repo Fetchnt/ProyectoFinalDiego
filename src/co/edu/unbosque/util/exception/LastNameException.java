@@ -18,7 +18,7 @@ package co.edu.unbosque.util.exception;
  * <li>El apellido tiene menos de cinco caracteres válidos.</li>
  * </ul>
  * 
- * @author
+ * @author Juan cabarcas
  * @version 1.0
  */
 public class LastNameException extends Exception {
