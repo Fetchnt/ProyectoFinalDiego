@@ -7,6 +7,19 @@ import java.util.Properties;
 import javax.swing.*;
 import co.edu.unbosque.model.User;
 
+
+/**
+ * Ventana que muestra los usuarios registrados agrupados por país en la aplicación BosTinder.
+ * 
+ * <p>Esta interfaz permite visualizar una lista de usuarios con sus imágenes de perfil y alias,
+ * dentro de un panel desplazable. También incluye un botón para regresar a la ventana anterior.</p>
+ * 
+ * <p>La clase extiende {@code JFrame} y está diseñada para integrarse con el sistema de
+ * internacionalización de la aplicación.</p>
+ * 
+ * Autor: Maria Alejandra Carvajal Nepta
+*/
+
 public class MapUserWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -16,7 +29,14 @@ public class MapUserWindow extends JFrame {
 	private JPanel panelUsuarios;
 
 	private JButton btnVolver;
+	
 
+     /**
+     * Constructor por defecto.
+     * 
+     * @pre No se ha inicializado la ventana.
+     * @post Se configuran los componentes gráficos y se establece el diseño inicial.
+     */
 	public MapUserWindow() {
 		// CONFIGURACION DE LA PANTALLA
 		setTitle("Usuarios por país - BosTinder");
@@ -51,9 +71,14 @@ public class MapUserWindow extends JFrame {
 		add(btnVolver);
 	}
 
-	/**
-	 * Muestra los usuarios con sus imágenes y nombres.
-	 */
+
+     /**
+     * Muestra los usuarios registrados en el país actual, incluyendo su imagen de perfil y alias.
+     * 
+     * @param usuarios Lista de objetos {@code User} que representan los usuarios a mostrar.
+     * @pre La lista puede estar vacía o contener usuarios válidos.
+     * @post Se actualiza el panel con los datos de los usuarios o se muestra un mensaje si no hay usuarios.
+     */
 	public void mostrarUsuariosConImagen(List<User> usuarios) {
 		panelUsuarios.removeAll();
 
@@ -83,6 +108,14 @@ public class MapUserWindow extends JFrame {
 		panelUsuarios.repaint();
 	}
 	
+
+     /**
+     * Aplica los textos traducidos a los componentes de la ventana según las propiedades dadas.
+     * 
+     * @param prop Propiedades que contienen los textos traducidos por idioma.
+     * @pre Las propiedades deben estar correctamente cargadas.
+     * @post Se actualizan los textos de la ventana, título y botón de volver.
+     */
 	public void aplicarInternacionalizacion(Properties prop) {
 	    setTitle(prop.getProperty("bostinder.view.mapuserwindow.title"));
 
@@ -90,7 +123,13 @@ public class MapUserWindow extends JFrame {
 
 	    btnVolver.setText(prop.getProperty("bostinder.view.mapuserwindow.button.volver"));
 	}
+	
 
+     /**
+     * Obtiene el botón para regresar a la ventana anterior.
+     * 
+     * @return btnVolver Botón de volver.
+     */
 	public JButton getBtnVolver() {
 		return btnVolver;
 	}

@@ -7,6 +7,21 @@ import javax.swing.*;
 
 import java.util.Properties;
 
+
+
+ /**
+ * Ventana principal de la aplicación BosTinder.
+ * 
+ * <p>Esta interfaz gráfica permite al usuario visualizar perfiles, dar "me gusta" o "no me gusta",
+ * acceder a su perfil, cerrar sesión, activar modo incógnito, ver los perfiles que le han gustado
+ * y cambiar el tema visual entre modo claro y oscuro.</p>
+ * 
+ * <p>La clase extiende {@code JFrame} y contiene múltiples componentes gráficos organizados
+ * en paneles, etiquetas, botones y áreas de texto.</p>
+ * 
+ * Autor: Maria Alejandra Carvajal Nepta
+ */
+
 public class MainWindow extends JFrame {
 
 	/**
@@ -31,7 +46,14 @@ public class MainWindow extends JFrame {
 
 	private JPanel panelMenu;
 	private JPanel panelLogo;
+	
 
+     /**
+     * Constructor por defecto.
+     * 
+     * @pre No se ha inicializado la ventana.
+     * @post Se inicializan todos los componentes gráficos y se oculta la ventana.
+     */
 	public MainWindow() {
 		// CONFIGURACION DE LA VENTANA
 		this.setTitle("Inicio - BosTinder");
@@ -164,44 +186,15 @@ public class MainWindow extends JFrame {
 		imageHeart.setBounds(810, 300, 160, 300);
 		this.add(imageHeart);
 
-		// --- CARGAR EL PRIMER PERFIL ---
-		/*
-		 * actualizarPerfil();
-		 * 
-		 * // --- EVENTOS --- btnCerrarSesion.addActionListener(new ActionListener() {
-		 * public void actionPerformed(ActionEvent e) {
-		 * JOptionPane.showMessageDialog(null, "Sesi贸n cerrada correctamente.");
-		 * dispose(); } });
-		 * 
-		 * ActionListener siguientePerfil = new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { indiceActual++; if
-		 * (indiceActual >= perfiles.length) { indiceActual = 0; // reinicia cuando se
-		 * acaba la lista } actualizarPerfil(); } };
-		 * 
-		 * btnLike.addActionListener(siguientePerfil);
-		 * btnNope.addActionListener(siguientePerfil);
-		 * btnFavorito.addActionListener(siguientePerfil); }
-		 */
-
-		/**
-		 * Actualiza los datos del perfil mostrado (foto, nombre, edad, descripci贸n)
-		 * 
-		 * private void actualizarPerfil() { String nombre = perfiles[indiceActual][0];
-		 * String edad = perfiles[indiceActual][1]; String descripcion =
-		 * perfiles[indiceActual][2]; String rutaImagen = perfiles[indiceActual][3];
-		 * 
-		 * lblNombreEdad.setText(nombre + ", " + edad);
-		 * txtDescripcion.setText(descripcion);
-		 * 
-		 * ImageIcon image = new ImageIcon(BTMainWindow.class.getResource(rutaImagen));
-		 * ImageIcon scaled = new ImageIcon(image.getImage().getScaledInstance(350, 350,
-		 * java.awt.Image.SCALE_SMOOTH)); lblFotoPerfil.setIcon(scaled); }
-		 */
-
 	}
+	
 
-	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
+     /**
+     * Cambia el tema visual de la ventana entre modo claro y modo oscuro.
+     * 
+     * @pre La ventana debe estar inicializada.
+     * @post Se actualiza el color de fondo y estilo de los componentes según el modo.
+     */
 	public void cambiarAModoOscuroMW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
@@ -288,7 +281,15 @@ public class MainWindow extends JFrame {
 		}
 
 	}
+	
 
+	     /**
+	     * Aplica los textos traducidos a los componentes de la ventana según las propiedades dadas.
+	     * 
+	     * @param prop Propiedades que contienen los textos traducidos por idioma.
+	     * @pre Las propiedades deben estar correctamente cargadas.
+	     * @post Los textos de los botones, etiquetas y títulos se actualizan con los valores traducidos.
+	     */
 	public void aplicarInternacionalizacion(Properties prop) {
 		// T铆tulo de la ventana
 		setTitle(prop.getProperty("bostinder.view.mainwindow.title"));
@@ -308,123 +309,245 @@ public class MainWindow extends JFrame {
 		btnVerMeGusta.setText(prop.getProperty("bostinder.view.mainwindow.button.seelikes"));
 
 	}
+	
 
+     /**
+     * @return Etiqueta de la imagen del perfil.
+     */
 	public JLabel getLblProfilePicture() {
 		return lblProfilePicture;
 	}
+	
 
+     /**
+     * @param lblProfilePicture Etiqueta de la imagen del perfil.
+     */
 	public void setLblProfilePicture(JLabel lblProfilePicture) {
 		this.lblProfilePicture = lblProfilePicture;
 	}
+	
 
+     /**
+     * @return Etiqueta con el nombre y edad del perfil.
+     */
 	public JLabel getLblNameAge() {
 		return lblNameAge;
 	}
+	
 
+     /**
+     * @param lblNameAge Etiqueta con el nombre y edad del perfil.
+     */
 	public void setLblNameAge(JLabel lblNameAge) {
 		this.lblNameAge = lblNameAge;
 	}
+	
 
+     /**
+     * @return Área de texto con la descripción del perfil.
+     */
 	public JTextArea getTxtDescription() {
 		return txtDescription;
 	}
+	
 
+     /**
+     * @param txtDescription Área de texto con la descripción del perfil.
+     */
 	public void setTxtDescription(JTextArea txtDescription) {
 		this.txtDescription = txtDescription;
 	}
+	
 
+     /**
+     * @return Botón para dar "me gusta".
+     */
 	public JButton getBtnLike() {
 		return btnLike;
 	}
+	
+
+	 /**
+	 * @param btnLike Botón para dar "me gusta".
+     */
+
 
 	public void setBtnLike(JButton btnLike) {
 		this.btnLike = btnLike;
 	}
+	
 
+     /**
+     * @return Botón para dar "no me gusta".
+     */
 	public JButton getBtnNope() {
 		return btnNope;
 	}
+	
 
+     /**
+     * @param btnNope Botón para dar "no me gusta".
+     */
 	public void setBtnNope(JButton btnNope) {
 		this.btnNope = btnNope;
 	}
+	
 
+     /**
+     * @return Botón para acceder al perfil del usuario.
+     */
 	public JButton getBtnProfile() {
 		return btnProfile;
 	}
+	
 
+	 /**
+     * @param btnProfile Botón para acceder al perfil del usuario.
+     */
 	public void setBtnProfile(JButton btnProfile) {
 		this.btnProfile = btnProfile;
 	}
+	
 
+     /**
+     * @return Botón para cerrar sesión.
+     */
 	public JButton getBtnLogOff() {
 		return btnLogOff;
 	}
+	
 
+     /**
+     * @param btnLogOff Botón para cerrar sesión.
+     */
 	public void setBtnLogOff(JButton btnLogOff) {
 		this.btnLogOff = btnLogOff;
 	}
+	
 
+     /**
+     * @return Botón para ver los perfiles que le han gustado al usuario.
+     */
 	public JButton getBtnVerMeGusta() {
 		return btnVerMeGusta;
 	}
+	
 
+     /**
+     * @param btnVerMeGusta Botón para ver los perfiles que le han gustado al usuario.
+     */
 	public void setBtnVerMeGusta(JButton btnVerMeGusta) {
 		this.btnVerMeGusta = btnVerMeGusta;
 	}
+	
 
+     /**
+     * @return Botón para activar el modo incógnito.
+     */
 	public JButton getBtnModoIncognito() {
 		return btnModoIncognito;
 	}
+	
 
+     /**
+     * @param btnModoIncognito Botón para activar el modo incógnito.
+     */
 	public void setBtnModoIncognito(JButton btnModoIncognito) {
 		this.btnModoIncognito = btnModoIncognito;
 	}
+	
 
+     /**
+     * @return Etiqueta del título principal de la ventana.
+     */
 	public JLabel getLblTitulo() {
 		return lblTitulo;
 	}
+	
 
+     /**
+     * @param lblTitulo Etiqueta del título principal de la ventana.
+     */
 	public void setLblTitulo(JLabel lblTitulo) {
 		this.lblTitulo = lblTitulo;
 	}
+	
 
+     /**
+     * @return Panel que contiene los botones de navegación.
+     */
 	public JPanel getPanelMenu() {
 		return panelMenu;
 	}
+	
 
+     /**
+     * @param panelMenu Panel que contiene los botones de navegación.
+     */
 	public void setPanelMenu(JPanel panelMenu) {
 		this.panelMenu = panelMenu;
 	}
+	
 
+     /**
+     * @return Etiqueta del logo BosTinder.
+     */
 	public JLabel getlBosTinder() {
 		return lBosTinder;
 	}
+	
 
+     /**
+     * @param lBosTinder Etiqueta del logo BosTinder.
+     */
 	public void setlBosTinder(JLabel lBosTinder) {
 		this.lBosTinder = lBosTinder;
 	}
+	
 
+     /**
+     * @return Botón para cambiar el modo visual.
+     */
 	public JButton getDarkMode() {
 		return darkMode;
 	}
+	
 
+     /**
+     * @param darkMode Botón para cambiar el modo visual.
+     */
 	public void setDarkMode(JButton darkMode) {
 		this.darkMode = darkMode;
 	}
+	
 
+     /**
+     * @return true si el modo oscuro está activado, false si está en modo claro.
+     */
 	public boolean isDarkMode() {
 		return isDarkMode;
 	}
+	
 
+     /**
+     * @param isDarkMode true para activar modo oscuro, false para modo claro.
+     */
 	public void setDarkMode(boolean isDarkMode) {
 		this.isDarkMode = isDarkMode;
 	}
+	
 
+     /**
+     * @return Panel superior que contiene el logo.
+     */
 	public JPanel getPanelLogo() {
 		return panelLogo;
 	}
+	
 
+     /**
+     * @param panelLogo Panel superior que contiene el logo.
+     */
 	public void setPanelLogo(JPanel panelLogo) {
 		this.panelLogo = panelLogo;
 	}

@@ -12,11 +12,22 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+
+/**
+ * Ventana de inicio de sesión para la aplicación BosTinder.
+ * 
+ * <p>Permite al usuario ingresar sus credenciales (usuario, contraseña y correo electrónico)
+ * para acceder al sistema. También ofrece opciones para volver, acceder como administrador
+ * y cambiar el tema visual entre modo claro y oscuro.</p>
+ * 
+ * <p>Incluye soporte para internacionalización mediante propiedades externas.</p>
+ * 
+ * Autor: Maria Alejandra Carvajal Nepta
+ */
+
 public class LoginWindow extends JFrame {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -6607094145774420518L;
 	private JPanel panelLogo;
 	private JPanel panelLogin;
@@ -39,11 +50,25 @@ public class LoginWindow extends JFrame {
 	private JButton darkMode;
 	private boolean isDarkMode = false;
 
+	/**
+	 * Constructor por defecto.
+	 * 
+	 * @pre No se ha inicializado la ventana.
+	 * @post Se inicializan todos los componentes gráficos y se oculta la ventana.
+	 */
 	public LoginWindow() {
 		initializeComponents();
 		setVisible(false);
 	}
+	
+	
 
+	/**
+	 * Inicializa y configura todos los componentes gráficos de la ventana.
+	 * 
+	 * @pre No hay componentes gráficos en la ventana.
+	 * @post La ventana contiene todos los elementos visuales necesarios para el inicio de sesión.
+	 */
 	public void initializeComponents() {
 
 		// CONFIGURACION DE LA VENTANA
@@ -159,7 +184,13 @@ public class LoginWindow extends JFrame {
 
 	}
 
-	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
+
+     /**
+     * Cambia el tema visual de la ventana entre modo claro y modo oscuro.
+     * 
+     * @pre La ventana debe estar inicializada.
+     * @post Se actualiza el color de fondo y estilo de los componentes según el modo.
+     */
 	public void cambiarAModoOscuroLW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
@@ -233,7 +264,16 @@ public class LoginWindow extends JFrame {
 		}
 
 	}
+	
+	
 
+     /**
+     * Aplica los textos traducidos a los componentes de la ventana según las propiedades dadas.
+     * 
+     * @param prop Propiedades que contienen los textos traducidos por idioma.
+     * @pre Las propiedades deben estar correctamente cargadas.
+     * @post Los textos de los botones, etiquetas y título se actualizan con los valores traducidos.
+     */
 	public void aplicarInternacionalizacion(Properties prop) {
 		// Título de la ventana
 		setTitle(prop.getProperty("bostinder.view.loginwindow.title"));
@@ -254,159 +294,351 @@ public class LoginWindow extends JFrame {
 
 	// ---------GETTERS Y SETTERS---------
 
+
+   /**
+   * 
+   * @return lIcon Etiqueta con el ícono de la aplicación.
+   */
 	public JLabel getlIcon() {
 		return lIcon;
 	}
+	
 
+    /**
+    * Establece la etiqueta del ícono principal de BosTinder.
+    * 
+    * @param lIcon Etiqueta con el ícono de la aplicación.
+    */
 	public void setlIcon(JLabel lIcon) {
 		this.lIcon = lIcon;
 	}
+	
 
+    /**
+    * @return lDeco Etiqueta decorativa.
+    */
 	public JLabel getlDeco() {
 		return lDeco;
 	}
+	
 
+    /**
+    * @param lDeco Etiqueta decorativa.
+    */
 	public void setlDeco(JLabel lDeco) {
 		this.lDeco = lDeco;
 	}
+	
+	/**
+	 * 
+	 * @return luserAlias Etiqueta del campo de alias.
+	 */
 
 	public JLabel getlUser() {
 		return luserAlias;
 	}
+	
+	/**
+	 * 
+	 * @param lUser Etiqueta del campo de alias.
+	 */
 
 	public void setlUser(JLabel lUser) {
 		this.luserAlias = lUser;
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @return lPassword Etiqueta del campo de contraseña.
+	 */
 
 	public JLabel getlPassword() {
 		return lPassword;
 	}
+	
+	/**
+	 * 
+	 * @param lPassword Etiqueta del campo de contraseña.
+	 */
 
 	public void setlPassword(JLabel lPassword) {
 		this.lPassword = lPassword;
 	}
+	
+	/**
+	 * 
+	 * @return lEmail Etiqueta del campo de correo.
+	 */
 
 	public JLabel getlEmail() {
 		return lEmail;
 	}
+	
+	/**
+	 * 
+	 * @param lEmail Etiqueta del campo de correo.
+	 */
 
 	public void setlEmail(JLabel lEmail) {
 		this.lEmail = lEmail;
 	}
+	
+	/**
+	 * 
+	 * @return userAlias Campo de texto del alias.
+	 */
 
 	public JTextField getUser() {
 		return userAlias;
 	}
+	
+	/**
+	 * 
+	 * @param user Campo de texto del alias.
+	 */
 
 	public void setUser(JTextField user) {
 		this.userAlias = user;
 	}
-
-
+	
+	/**
+	 * 
+	 * @return email Campo de texto del correo.
+	 */
 	public JTextField getEmail() {
 		return email;
 	}
+	
+	/**
+	 * 
+	 * @param email Campo de texto del correo.
+	 */
 
 	public void setEmail(JTextField email) {
 		this.email = email;
 	}
+	
+	/**
+	 * 
+	 * @return login Botón de inicio de sesión.
+	 */
 
 	public JButton getLogin() {
 		return login;
 	}
+	
+	/**
+	 * 
+	 * @param login Botón de inicio de sesión.
+	 */
 
 	public void setLogin(JButton login) {
 		this.login = login;
 	}
+	
+	/**
+	 * 
+	 * @return back Botón de volver.
+	 */
 
 	public JButton getBack() {
 		return back;
 	}
-
+	
+	/**
+	 * 
+	 * @param back Botón de volver.
+	 */
 	public void setBack(JButton back) {
 		this.back = back;
 	}
+	
+	/**
+	 * 
+	 * @return lTitle Etiqueta del título.
+	 */
 
 	public JLabel getlTitle() {
 		return lTitle;
 	}
+	
+	/**
+	 * 
+	 * @param lTitle Etiqueta del título.
+	 */
 
 	public void setlTitle(JLabel lTitle) {
 		this.lTitle = lTitle;
 	}
+	
+	/**
+	 * 
+	 * @return luserAlias Etiqueta del alias.
+	 */
 
 	public JLabel getLuserAlias() {
 		return luserAlias;
 	}
+	
+	/**
+	 * 
+	 * @param luserAlias Etiqueta del alias.
+	 */
 
 	public void setLuserAlias(JLabel luserAlias) {
 		this.luserAlias = luserAlias;
 	}
+	
+	/**
+	 * 
+	 * @return userAlias Campo de texto del alias.
+	 */
 
 	public JTextField getUserAlias() {
 		return userAlias;
 	}
+	
+	/**
+	 * 
+	 * @param userAlias Campo de texto del alias.
+	 */
 
 	public void setUserAlias(JTextField userAlias) {
 		this.userAlias = userAlias;
 	}
+	
+	/**
+	 * 
+	 * @return adminMode Botón de modo administrador.
+	 */
 
 	public JButton getAdminMode() {
 		return adminMode;
 	}
+	
+	/**
+	 * 
+	 * @param adminMode Botón de modo administrador.
+	 */
 
 	public void setAdminMode(JButton adminMode) {
 		this.adminMode = adminMode;
 	}
+	
+	/**
+	 * 
+	 * @return panelLogo Panel con el logo.
+	 */
 
 	public JPanel getPanelLogo() {
 		return panelLogo;
 	}
+	
+	/**
+	 * 
+	 * @param panelLogo Panel con el logo.
+	 */
 
 	public void setPanelLogo(JPanel panelLogo) {
 		this.panelLogo = panelLogo;
 	}
+	
+	/**
+	 * 
+	 * @return panelLogin Panel de login.
+	 */
 
 	public JPanel getPanelLogin() {
 		return panelLogin;
 	}
+	
+	/**
+	 * 
+	 * @param panelLogin Panel de login.
+	 */
 
 	public void setPanelLogin(JPanel panelLogin) {
 		this.panelLogin = panelLogin;
 	}
-
+	
+	/**
+	 * 
+	 * @return lBosTinder Etiqueta del logo.
+	 */
+	
 	public JLabel getlBosTinder() {
 		return lBosTinder;
 	}
+	
+	/**
+	 * 
+	 * @param lBosTinder Etiqueta del logo.
+	 */
 
 	public void setlBosTinder(JLabel lBosTinder) {
 		this.lBosTinder = lBosTinder;
 	}
+	
+	/**
+	 * 
+	 * @param background Etiqueta con la imagen de fondo.
+	 */
 
 
 	public void setBackground(JLabel background) {
 		this.background = background;
 	}
+	
+	/**
+	 * 
+	 * @return darkMode Botón de modo oscuro.
+	 */
 
 	public JButton getDarkMode() {
 		return darkMode;
 	}
+	
+	/**
+	 * 
+	 * @param darkMode Botón de modo oscuro.
+	 */
 
 	public void setDarkMode(JButton darkMode) {
 		this.darkMode = darkMode;
 	}
+	
+	/**
+	 * 
+	 * @return True si está activado, false si está en modo claro.
+	 */
 
 	public boolean isDarkMode() {
 		return isDarkMode;
 	}
+	
+	/**
+	 * 
+	 * @param isDarkMode true para activar, false para desactivar.
+	 */
 
 	public void setDarkMode(boolean isDarkMode) {
 		this.isDarkMode = isDarkMode;
 	}
+	
+	/**
+	 * 
+	 * @return password Campo de contraseña.
+	 */
 
 	public JTextField getPassword() {
 		return password;
 	}
+	
+	/**
+	 * 
+	 * @param password Campo de contraseña.
+	 */
 
 	public void setPassword(JTextField password) {
 		this.password = password;

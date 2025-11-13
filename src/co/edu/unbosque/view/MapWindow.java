@@ -21,7 +21,28 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * Ventana que muestra un mapa interactivo con puntos que representan países donde hay usuarios registrados.
+ * 
+ * <p>Permite al usuario visualizar el mapa, hacer clic en los países para obtener información,
+ * activar el modo oscuro, aplicar internacionalización y regresar a la ventana anterior.</p>
+ * 
+ * <p>La clase extiende {@code JFrame} y contiene componentes gráficos como paneles, etiquetas,
+ * botones e imágenes, además de un sistema de eventos para interacción con el mapa.</p>
+ * 
+ * Autor: Maria Alejandra Carvajal Nepta
+ */
 public class MapWindow extends JFrame {
+	
+
+/**
+     * Constructor por defecto.
+     * 
+     * @pre No se ha inicializado la ventana.
+     * @post Se configuran los componentes gráficos y se definen los puntos de países en el mapa.
+     */
+
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,7 +83,14 @@ public class MapWindow extends JFrame {
 	public void setMapaListener(MapaListener listener) {
 		this.mapaListener = listener;
 	}
+	
 
+     /**
+     * Inicializa todos los componentes gráficos de la ventana.
+     * 
+     * @pre No hay componentes en la ventana.
+     * @post Se agregan paneles, botones, etiquetas e imágenes al contenedor principal.
+     */
 	public void initializeComponents() {
 		// CONFIGURACION DE LA VENTANA
 		setTitle("Mapa de usuarios - BosTinder");
@@ -189,7 +217,14 @@ public class MapWindow extends JFrame {
 			System.out.println("Error al cargar el mapa: " + e.getMessage());
 		}
 	}
+	
 
+     /**
+     * Define los puntos en el mapa que representan países.
+     * 
+     * @pre El mapa debe estar cargado correctamente.
+     * @post Se asignan coordenadas a cada país en el mapa.
+     */
 	private void definirPuntosPaises() {
 		puntosPaises = new HashMap<>();
 		puntosPaises.put("Espana", new Point(338, 220));
@@ -208,11 +243,13 @@ public class MapWindow extends JFrame {
 
 	}
 
-	/**
-	 * Devuelve el nombre del país si el punto está cerca (<10 px) de alguno de los
-	 * puntos definidos; si no, devuelve null.
-	 */
 
+     /**
+     * Devuelve el nombre del país si el punto está cerca (<10 px) de alguno de los puntos definidos.
+     * 
+     * @param p Punto donde se realizó el clic o movimiento del mouse.
+     * @return Nombre del país si se encuentra cerca de un punto; {@code null} en caso contrario.
+     */
 	public String getPaisEnPunto(Point p) {
 		for (Map.Entry<String, Point> entry : puntosPaises.entrySet()) {
 			Point paisPoint = entry.getValue();
@@ -224,6 +261,13 @@ public class MapWindow extends JFrame {
 		return null;
 	}
 
+
+     /**
+     * Cambia el tema visual de la ventana entre modo claro y modo oscuro.
+     * 
+     * @pre La ventana debe estar inicializada.
+     * @post Se actualiza el color de fondo y estilo de los componentes según el modo.
+     */
 	public void cambiarAModoOscuroMpW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
@@ -267,7 +311,15 @@ public class MapWindow extends JFrame {
 		}
 
 	}
+	
 
+     /**
+     * Aplica los textos traducidos a los componentes de la ventana según las propiedades dadas.
+     * 
+     * @param prop Propiedades que contienen los textos traducidos por idioma.
+     * @pre Las propiedades deben estar correctamente cargadas.
+     * @post Se actualizan los textos de la ventana, etiquetas y botones.
+     */
 	public void aplicarInternacionalizacion(Properties prop) {
 		// Ventana
 		setTitle(prop.getProperty("bostinder.view.mapwindow.title"));
@@ -280,15 +332,37 @@ public class MapWindow extends JFrame {
 		btnBackMap.setText(prop.getProperty("bostinder.view.mapwindow.button.volver"));
 		darkMode.setText(prop.getProperty("bostinder.view.mapwindow.button.modooscuro"));
 	}
+	
+
+	 /**
+	     * Establece el nombre del país seleccionado en la etiqueta correspondiente.
+	     * 
+	     * @param pais Nombre del país seleccionado.
+	     * @pre El país debe estar definido en el mapa.
+	     * @post Se muestra el nombre del país en la interfaz.
+	     */
+
 
 	public void setPaisSeleccionado(String pais) {
 		lPaisSeleccionado.setText(pais != null ? pais : "");
 	}
+	
 
+     /**
+     * Obtiene el panel que contiene el mapa.
+     * 
+     * @return panelMapa Panel del mapa.
+     */
 	public JPanel getPanelMapa() {
 		return panelMapa;
 	}
+	
 
+     /**
+     * Obtiene el botón para regresar a la ventana anterior.
+     * 
+     * @return btnBackMap Botón de volver.
+     */
 	public JButton getBtnBackMap() {
 		return btnBackMap;
 	}
