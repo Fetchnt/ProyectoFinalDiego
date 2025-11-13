@@ -119,9 +119,10 @@ public class PrincipalWindow extends JFrame {
 		this.add(bPortuguese);
 		
 		
-		//ImageIcon imagenEnglish = new ImageIcon(getClass().getResource("english.JPG")); // Asegúrate de tener la imagen
-		bEnglish = new JButton();
-		bEnglish.setBounds(580, 540, 35, 35); // Posición al lado del portugués
+		ImageIcon imagenEnglish = new ImageIcon(getClass().getResource("english.JPG"));
+		JLabel labelImagen6 = new JLabel(imagenEnglish);
+		bEnglish = new JButton(imagenEnglish);
+		bEnglish.setBounds(560, 540, 35, 35); 
 		bEnglish.setFocusPainted(false);
 		bEnglish.setBorderPainted(false);
 		bEnglish.setBackground(Color.RED);
@@ -146,7 +147,7 @@ public class PrincipalWindow extends JFrame {
 		darkMode.setBorderPainted(false);
 		darkMode.addActionListener(e -> cambiarAModoOscuroPW());
 		this.add(darkMode);
-
+		
 		// ------ IMAGENES ------
 	
 

@@ -269,8 +269,15 @@ public class RegisterWindow extends JFrame {
 		btnVolver.setBorderPainted(false);
 		panelForm.add(btnVolver);
 
-		darkMode = new JButton("MODO OSCURO");
-		darkMode.setBounds(800, 10, 150, 30);
+		ImageIcon changeMode = new ImageIcon(getClass().getResource("changeMode.png"));
+		JLabel lChangeMode = new JLabel(changeMode);
+		darkMode = new JButton(changeMode);
+		darkMode.setBounds(8, 160, 66, 60);
+		darkMode.setOpaque(false);
+		darkMode.setOpaque(false);
+		darkMode.setContentAreaFilled(false);
+		darkMode.setFocusPainted(false);
+		darkMode.setBorderPainted(false);
 		darkMode.addActionListener(e -> cambiarAModoOscuroRW());
 		this.add(darkMode);
 	}

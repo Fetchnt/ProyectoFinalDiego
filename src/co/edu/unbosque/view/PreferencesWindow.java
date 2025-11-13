@@ -132,10 +132,20 @@ public class PreferencesWindow extends JFrame {
 		btnCancelar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		darkMode = new JButton("MODO OSCURO");
-		darkMode.setBounds(10, 10, 150, 30);
-		darkMode.addActionListener(e -> cambiarAModoOscuroSW());
+		ImageIcon changeMode = new ImageIcon(getClass().getResource("changeMode.png"));
+		JLabel lChangeMode = new JLabel(changeMode);
+		darkMode = new JButton(changeMode);
+		darkMode.setBounds(5, 5, 66, 60);		
+		darkMode.setOpaque(false);
+		darkMode.setOpaque(false);
+		darkMode.setContentAreaFilled(false);
+		darkMode.setFocusPainted(false);
+		darkMode.setBorderPainted(false);
+				darkMode.addActionListener(e -> cambiarAModoOscuroSW());
 		panelPrincipal.add(darkMode);
+
+		panelBotones.add(btnAceptar);
+		panelBotones.add(btnCancelar);
 
 		panelBotones.add(btnAceptar);
 		panelBotones.add(btnCancelar);
