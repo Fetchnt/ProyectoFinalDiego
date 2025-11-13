@@ -653,7 +653,7 @@ public class ModelFacade {
 	 * @param fechaNacimiento Fecha de nacimiento en formato dd/MM/yyyy.
 	 * @return Edad calculada en años, o 0 si hay error en el formato.
 	 */
-	private int calcularEdadDesdeString(String fechaNacimiento) {
+	public int calcularEdadDesdeString(String fechaNacimiento) {
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			LocalDate fechaNac = LocalDate.parse(fechaNacimiento, formatter);
@@ -670,7 +670,7 @@ public class ModelFacade {
 	 * @param usuarioOriginal Usuario original cuyos datos se ocultarán.
 	 * @return Usuario anónimo con datos genéricos.
 	 */
-	private User crearUsuarioOculto(User usuarioOriginal) {
+	public User crearUsuarioOculto(User usuarioOriginal) {
 		// Usar una clase anónima para crear un usuario con datos ocultos
 		return new User() {
 			@Override
