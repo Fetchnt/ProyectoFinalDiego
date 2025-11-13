@@ -72,7 +72,7 @@ public class MapWindow extends JFrame {
 		setLayout(null);
 		getContentPane().setBackground(Color.decode("#F9CFCE"));
 
-		//------IMAGEN SUPERIOR----
+		// ------IMAGEN SUPERIOR----
 		panelLogo = new JPanel();
 		panelLogo.setBounds(0, 0, 980, 150);
 		panelLogo.setBackground(Color.decode("#FFFFFF"));
@@ -91,8 +91,8 @@ public class MapWindow extends JFrame {
 		lBosTinder.setFont(new Font("Georgia", Font.BOLD, 70));
 		panelLogo.add(lBosTinder);
 		// add(lBosTinder);
-		
-		//-----IMAGEN ADICIONAL-------
+
+		// -----IMAGEN ADICIONAL-------
 
 		ImageIcon imagePartnerFour = new ImageIcon(getClass().getResource("flower.png"));
 		lImage = new JLabel(imagePartnerFour);
@@ -169,7 +169,7 @@ public class MapWindow extends JFrame {
 		btnBackMap.setFocusPainted(false);
 		btnBackMap.setBorderPainted(false);
 		panelOption.add(btnBackMap);
-		
+
 		ImageIcon changeMode = new ImageIcon(getClass().getResource("changeMode.png"));
 		JLabel lChangeMode = new JLabel(changeMode);
 		darkMode = new JButton(changeMode);
@@ -192,7 +192,7 @@ public class MapWindow extends JFrame {
 
 	private void definirPuntosPaises() {
 		puntosPaises = new HashMap<>();
-		puntosPaises.put("España", new Point(338, 220));
+		puntosPaises.put("Espana", new Point(338, 220));
 		puntosPaises.put("Portugal", new Point(327, 220));
 		puntosPaises.put("Israel", new Point(410, 235));
 		puntosPaises.put("Rusia", new Point(529, 149));
@@ -205,13 +205,14 @@ public class MapWindow extends JFrame {
 		puntosPaises.put("Mexico", new Point(142, 264));
 		puntosPaises.put("Argentina", new Point(210, 406));
 		puntosPaises.put("Colombia", new Point(200, 318));
+
 	}
 
 	/**
 	 * Devuelve el nombre del país si el punto está cerca (<10 px) de alguno de los
 	 * puntos definidos; si no, devuelve null.
 	 */
-	
+
 	public String getPaisEnPunto(Point p) {
 		for (Map.Entry<String, Point> entry : puntosPaises.entrySet()) {
 			Point paisPoint = entry.getValue();
@@ -222,63 +223,63 @@ public class MapWindow extends JFrame {
 		}
 		return null;
 	}
+
 	public void cambiarAModoOscuroMpW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
-			 this.getContentPane().setBackground(Color.decode("#F9CFCE"));
-		        panelLogo.setBackground(Color.decode("#FFFFFF"));
-		        panelOption.setBackground(Color.decode("#FFFFFF"));
-		        panelMapa.setBackground(Color.decode("#FFFFFF"));
-		        lBosTinder.setForeground(Color.decode("#303080D"));
-		        lTituloMapa.setForeground(Color.decode("#000000"));
-		        lPaisSeleccionado.setForeground(Color.decode("#000000"));
+			this.getContentPane().setBackground(Color.decode("#F9CFCE"));
+			panelLogo.setBackground(Color.decode("#FFFFFF"));
+			panelOption.setBackground(Color.decode("#FFFFFF"));
+			panelMapa.setBackground(Color.decode("#FFFFFF"));
+			lBosTinder.setForeground(Color.decode("#303080D"));
+			lTituloMapa.setForeground(Color.decode("#000000"));
+			lPaisSeleccionado.setForeground(Color.decode("#000000"));
 
-		        // Botón del panelOption
-		        btnBackMap.setForeground(Color.decode("#FFFFFF"));
-		        btnBackMap.setBackground(Color.decode("#F4716D"));
+			// Botón del panelOption
+			btnBackMap.setForeground(Color.decode("#FFFFFF"));
+			btnBackMap.setBackground(Color.decode("#F4716D"));
 
-		        // Botón darkMode
-		        darkMode.setBackground(Color.decode("#EB5F5B"));
-		        darkMode.setForeground(Color.decode("#F9CFCE"));
-		        darkMode.setText("MODO OSCURO");
-		        isDarkMode = false;
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#EB5F5B"));
+			darkMode.setForeground(Color.decode("#F9CFCE"));
+			darkMode.setText("MODO OSCURO");
+			isDarkMode = false;
 
 		} else {
-			 // Cambia a modo oscuro
-	        this.getContentPane().setBackground(Color.decode("#11021E"));
-	        panelLogo.setBackground(Color.decode("#1E1724"));
-	        panelOption.setBackground(Color.decode("#1E1724"));
-	        panelMapa.setBackground(Color.decode("#1E1724"));
-	        lBosTinder.setForeground(Color.decode("#FF2B91"));
-	        lTituloMapa.setForeground(Color.decode("#FF7171"));
-	        lPaisSeleccionado.setForeground(Color.decode("#DCC8EF"));
+			// Cambia a modo oscuro
+			this.getContentPane().setBackground(Color.decode("#11021E"));
+			panelLogo.setBackground(Color.decode("#1E1724"));
+			panelOption.setBackground(Color.decode("#1E1724"));
+			panelMapa.setBackground(Color.decode("#1E1724"));
+			lBosTinder.setForeground(Color.decode("#FF2B91"));
+			lTituloMapa.setForeground(Color.decode("#FF7171"));
+			lPaisSeleccionado.setForeground(Color.decode("#DCC8EF"));
 
-	        // Botón del panelOption
-	        btnBackMap.setForeground(Color.decode("#DCC8EF"));
-	        btnBackMap.setBackground(Color.decode("#52247C"));
+			// Botón del panelOption
+			btnBackMap.setForeground(Color.decode("#DCC8EF"));
+			btnBackMap.setBackground(Color.decode("#52247C"));
 
-	        // Botón darkMode
-	        darkMode.setBackground(Color.decode("#52247C"));
-	        darkMode.setForeground(Color.decode("#DCC8EF"));
-	        darkMode.setText("MODO CLARO");
-	        isDarkMode = true;
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#52247C"));
+			darkMode.setForeground(Color.decode("#DCC8EF"));
+			darkMode.setText("MODO CLARO");
+			isDarkMode = true;
 		}
 
 	}
-	
+
 	public void aplicarInternacionalizacion(Properties prop) {
-	    // Ventana
-	    setTitle(prop.getProperty("bostinder.view.mapwindow.title"));
+		// Ventana
+		setTitle(prop.getProperty("bostinder.view.mapwindow.title"));
 
-	    // Labels
-	    lBosTinder.setText(prop.getProperty("bostinder.view.mapwindow.label.bostinder"));
-	    lTituloMapa.setText(prop.getProperty("bostinder.view.mapwindow.label.titulomapa"));
+		// Labels
+		lBosTinder.setText(prop.getProperty("bostinder.view.mapwindow.label.bostinder"));
+		lTituloMapa.setText(prop.getProperty("bostinder.view.mapwindow.label.titulomapa"));
 
-	    // Botones
-	    btnBackMap.setText(prop.getProperty("bostinder.view.mapwindow.button.volver"));
-	    darkMode.setText(prop.getProperty("bostinder.view.mapwindow.button.modooscuro"));
+		// Botones
+		btnBackMap.setText(prop.getProperty("bostinder.view.mapwindow.button.volver"));
+		darkMode.setText(prop.getProperty("bostinder.view.mapwindow.button.modooscuro"));
 	}
-
 
 	public void setPaisSeleccionado(String pais) {
 		lPaisSeleccionado.setText(pais != null ? pais : "");

@@ -171,7 +171,7 @@ public class MenDAO implements DAO<MenDTO> {
 			String[] columnas = filas[i].split(separador);
 
 			if (columnas.length < 12) {
-				System.err.println("⚠️ Línea inválida en CSV (fila " + (i + 1) + "): " + filas[i]);
+				System.err.println(" Línea inválida en CSV (fila " + (i + 1) + "): " + filas[i]);
 				continue;
 			}
 
@@ -191,7 +191,7 @@ public class MenDAO implements DAO<MenDTO> {
 			try {
 				temp.setMensualIncome(Long.parseLong(columnas[11].trim()));
 			} catch (NumberFormatException e) {
-				System.err.println("⚠️ Error convirtiendo ingreso mensual en fila " + (i + 1));
+				System.err.println(" Error convirtiendo ingreso mensual en fila " + (i + 1));
 				temp.setMensualIncome(0);
 			}
 
