@@ -9,5 +9,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Language_properties"/>
 	<classpathentry kind="src" path="Test"/>
+	<classpathentry kind="lib" path="C:/Users/deiby/Downloads/jfreechart-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/deiby/Downloads/itextpdf-5.5.13.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/deiby/Downloads/lib (1)/lib (1)/lib/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/deiby/Downloads/lib (1)/lib (1)/lib/javax.faces-api-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/deiby/Downloads/lib (1)/lib (1)/lib/javax.ejb.jar"/>
+	<classpathentry kind="lib" path="C:/Users/deiby/Downloads/lib (1)/lib (1)/lib/javax.activation-1.1.0.v201105071233.jar"/>
+	<classpathentry kind="lib" path="C:/Users/deiby/Downloads/lib (1)/lib (1)/lib/javax-inject.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
