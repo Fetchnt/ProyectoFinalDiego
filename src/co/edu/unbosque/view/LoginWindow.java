@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class LoginWindow extends JFrame {
@@ -111,7 +112,7 @@ public class LoginWindow extends JFrame {
 		userAlias.setBounds(73, 105, 164, 20);
 		panelLogin.add(userAlias);
 
-		password = new JTextField();
+		password = new JPasswordField();
 		password.setBounds(73, 160, 164, 20);
 		panelLogin.add(password);
 
