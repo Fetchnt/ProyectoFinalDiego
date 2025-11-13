@@ -1,17 +1,38 @@
 package co.edu.unbosque.view;
 
 import java.awt.*;
+
 import java.util.Properties;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class AdminWindow extends JFrame {
 
-	/**
-		 * 
-		 */
+/**
+ * Ventana de administracion de la aplicacion BosIinder.
+ * 
+ * <p>
+ * Permite visualizar, buscar, ordenar, filtrar y gestionar usuarios registrados en el
+ * sistema.
+ * </p>
+ * 
+ * <p>
+ * Incluye funcionalidades como generar informes en PDF, visualizacion de estadisticas,
+ * aplicacion de filtros rapidos y cambio de tema visual (Modo oscuro).
+ * </p>
+ * 
+ * <p>
+ * Esta clase extiende {@code JFrame} y contiene multiples componentes graficos para la
+ * interaccion con el administradoor.
+ * </p>
+ * 
+ * Autor: Maria Alejandra Carvajal Nepta.
+ */
+
+public class AdminWindow extends JFrame {
+	
+
 	private static final long serialVersionUID = -2832789673331679513L;
 	private JTable tablaUsuarios;
 	private JTextField txtBuscar;
@@ -56,11 +77,23 @@ public class AdminWindow extends JFrame {
 	private JPanel panelLogo;
 	private JLabel icon;
 
+	/**
+	 * Constructor por defecto
+	 * 
+	 * @pre No se ha inicializaado la ventana.
+	 * @post Se inicializan todos los componentes graficos y se oculta la ventana.
+	 */
 	public AdminWindow() {
 		initializeComponents();
 		setVisible(false);
 	}
-
+	
+	/**
+	 * Inicia y configura los componentes graficos de la ventana.
+	 * 
+	 * @pre No hay componentes graficos en la ventana.
+	 * @post La ventana contiene todos los elementos visuales necesarios para la administracion.
+	 */
 	public void initializeComponents() {
 		// CONFIGURACION DE LA VENTANA
 		setTitle("Panel de Administración - BosTinder");
@@ -308,7 +341,12 @@ public class AdminWindow extends JFrame {
 		this.add(darkMode);
 	}
 
-	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
+	/**
+	 * Cambia el temavisual de la ventana entre el modo claro y el modo oscuro.
+	 * 
+	 * @pre La ventana debe estar inicializada.
+	 * @post Se actualiza el color de fondo y estilo de los componentes segun el modo.
+	 */
 	public void cambiarAModoOscuroSW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
@@ -502,6 +540,16 @@ public class AdminWindow extends JFrame {
 			isDarkMode = true;
 		}
 	}
+	
+	
+	/**
+	 * Aplica los textos traducidos a los componentes de la ventana segun las propiedades dadas.
+	 * 
+	 * 
+	 * @param prop Propiedades que contiene los textos traducidos por idioma.
+	 * @pre Las propiedades deben estar correctamente cargadas.
+	 * @post Los textos de los botones, etiquetas y combos se actualizan con los valores traducidos.
+	 */
 
 	public void aplicarInternacionalizacion(Properties prop) {
 		// Título de la ventana
@@ -557,186 +605,416 @@ public class AdminWindow extends JFrame {
 		txtEstadisticas.setText(prop.getProperty("bostinder.view.adminwindow.text.estadisticas",
 				"¡Al generar el PDF, se calcularán las estadísticas de los usuarios actuales!"));
 	}
+	
+	/**
+	 * 
+	 * @return Tabla que muestran los usuarios registrados.
+	 */
 
 	public JTable getTablaUsuarios() {
 		return tablaUsuarios;
 	}
+	
+	/**
+	 * 
+	 * @param tablaUsuarios Tabla que muestra los usuarios registrados.
+	 */
 
 	public void setTablaUsuarios(JTable tablaUsuarios) {
 		this.tablaUsuarios = tablaUsuarios;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de texto para buscar usuarios.
+	 */
 
 	public JTextField getTxtBuscar() {
 		return txtBuscar;
 	}
+	
+	/**
+	 * 
+	 * @param txtBuscar Campo de texto para buscar usuarios.
+	 */
 
 	public void setTxtBuscar(JTextField txtBuscar) {
 		this.txtBuscar = txtBuscar;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de texto con el nombre del ususario
+	 */
 
 	public JTextField getTxtNombre() {
 		return txtNombre;
 	}
+	
+	/**
+	 * 
+	 * @param txtNombre Campo de texto con el nombre del usuario
+	 */
 
 	public void setTxtNombre(JTextField txtNombre) {
 		this.txtNombre = txtNombre;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de texto con el apellido del usuario.
+	 */
 
 	public JTextField getTxtApellido() {
 		return txtApellido;
 	}
+	
+	/**
+	 * 
+	 * @param txtApellido Campo de texto con el apellido del usuario.
+	 */
 
 	public void setTxtApellido(JTextField txtApellido) {
 		this.txtApellido = txtApellido;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de texto con la edad del usuario.
+	 */
 
 	public JTextField getTxtEdad() {
 		return txtEdad;
 	}
+	
+	/**
+	 * 
+	 * @param txtEdad Campo de texto con la edad del usuario.
+	 */
 
 	public void setTxtEdad(JTextField txtEdad) {
 		this.txtEdad = txtEdad;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de texto con el correo del ususario.
+	 */
 
 	public JTextField getTxtCorreo() {
 		return txtCorreo;
 	}
+	
+	/**
+	 * 
+	 * @param txtCorreo Campo de texto con el correo del usuario.
+	 */
 
 	public void setTxtCorreo(JTextField txtCorreo) {
 		this.txtCorreo = txtCorreo;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de texto con el alias del usuario
+	 */
 
 	public JTextField getTxtAlias() {
 		return txtAlias;
 	}
+	
+	/**
+	 * 
+	 * @param txtAlias Campo de texto con el alias del usuario.
+	 */
 
 	public void setTxtAlias(JTextField txtAlias) {
 		this.txtAlias = txtAlias;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de texto con la cantidad de likes del ususario.
+	 */
 
 	public JTextField getTxtLikes() {
 		return txtLikes;
 	}
+	
+	/**
+	 * 
+	 * @param txtLikes Campo de teto con la cantidad de likes del ususario.
+	 */
 
 	public void setTxtLikes(JTextField txtLikes) {
 		this.txtLikes = txtLikes;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de texto con los ingresos del ususario.
+	 */
 
 	public JTextField getTxtIngresos() {
 		return txtIngresos;
 	}
+	
+	/**
+	 * 
+	 * @param txtIngresos Campo de texto con los ingresos del usuario
+	 */
 
 	public void setTxtIngresos(JTextField txtIngresos) {
 		this.txtIngresos = txtIngresos;
 	}
+	
+	/**
+	 * 
+	 * @return Campo de imagen con la foto del usuario.
+	 */
 
 	public JLabel getLblFotoPreview() {
 		return lblFotoPreview;
 	}
+	
+	/**
+	 * 
+	 * @param lblFotoPreview Campo de imagen con la foto del usuario.
+	 */
 
 	public void setLblFotoPreview(JLabel lblFotoPreview) {
 		this.lblFotoPreview = lblFotoPreview;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para buscar.
+	 */
 
 	public JButton getBtnBuscar() {
 		return btnBuscar;
 	}
+	
+	/**
+	 * 
+	 * @param btnBuscar Boton para buscar.
+	 */
 
 	public void setBtnBuscar(JButton btnBuscar) {
 		this.btnBuscar = btnBuscar;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para mostrar a todos.
+	 */
 
 	public JButton getBtnMostrarTodos() {
 		return btnMostrarTodos;
 	}
+	
+	/**
+	 * 
+	 * @param btnMostrarTodos Boton para mostrar a todos
+	 */
 
 	public void setBtnMostrarTodos(JButton btnMostrarTodos) {
 		this.btnMostrarTodos = btnMostrarTodos;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para ordenar de manera ascendente.
+	 */
 
 	public JButton getBtnOrdenAsc() {
 		return btnOrdenAsc;
 	}
+	
+	/**
+	 * 
+	 * @param btnOrdenAsc Boton para ordenar de manera ascendente.
+	 */
 
 	public void setBtnOrdenAsc(JButton btnOrdenAsc) {
 		this.btnOrdenAsc = btnOrdenAsc;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para ordenar de manera descendente.
+	 */
 
 	public JButton getBtnOrdenDesc() {
 		return btnOrdenDesc;
 	}
+	
+	/**
+	 * 
+	 * @param btnOrdenDesc Boton para ordenar de manera descendente.
+	 */
 
 	public void setBtnOrdenDesc(JButton btnOrdenDesc) {
 		this.btnOrdenDesc = btnOrdenDesc;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para dar de baja.
+	 */
 
 	public JButton getBtnDarBaja() {
 		return btnDarBaja;
 	}
+	
+	/**
+	 * 
+	 * @param btnDarBaja Boton para dadr de baja.
+	 */
 
 	public void setBtnDarBaja(JButton btnDarBaja) {
 		this.btnDarBaja = btnDarBaja;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para generar informe PDF.
+	 */
 
 	public JButton getBtnGenerarPDF() {
 		return btnGenerarPDF;
 	}
+	
+	/**
+	 * 
+	 * @param btnGenerarPDF Boton para generar informe PDF.
+	 */
 
 	public void setBtnGenerarPDF(JButton btnGenerarPDF) {
 		this.btnGenerarPDF = btnGenerarPDF;
 	}
+	
+	/**
+	 * 
+	 * @returnBoton para sair del modo administrador.
+	 */
 
 	public JButton getBtnSalirModoAdmin() {
 		return btnSalirModoAdmin;
 	}
+	
+	/**
+	 * 
+	 * @param btnSalirModoAdmin Boton para salir del modo administrador.
+	 */
 
 	public void setBtnSalirModoAdmin(JButton btnSalirModoAdmin) {
 		this.btnSalirModoAdmin = btnSalirModoAdmin;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para el filtro de top10
+	 */
 
 	public JButton getBtnFiltroTop10() {
 		return btnFiltroTop10;
 	}
+	
+	/**
+	 * 
+	 * @param btnFiltroTop10 Boton para el filtro top10.
+	 */
 
 	public void setBtnFiltroTop10(JButton btnFiltroTop10) {
 		this.btnFiltroTop10 = btnFiltroTop10;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para filtrar ingresos.
+	 */
 
 	public JButton getBtnFiltroIngresos() {
 		return btnFiltroIngresos;
 	}
+	
+	/**
+	 * 
+	 * @param btnFiltroIngresos Boton para filtrar ingresos.
+	 */
 
 	public void setBtnFiltroIngresos(JButton btnFiltroIngresos) {
 		this.btnFiltroIngresos = btnFiltroIngresos;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para filtrar genero.
+	 */
 
 	public JButton getBtnFiltroGenero() {
 		return btnFiltroGenero;
 	}
+	
+	/**
+	 * 
+	 * @param btnFiltroGenero Boton para filtrar genero.
+	 */
 
 	public void setBtnFiltroGenero(JButton btnFiltroGenero) {
 		this.btnFiltroGenero = btnFiltroGenero;
 	}
+	
+	/**
+	 * 
+	 * @return Combo box para ordenar.
+	 */
 
 	public JComboBox<String> getCmbOrden() {
 		return cmbOrden;
 	}
+	
+	/**
+	 * 
+	 * @param cmbOrden Combo box para ordenar.
+	 */
 
 	public void setCmbOrden(JComboBox<String> cmbOrden) {
 		this.cmbOrden = cmbOrden;
 	}
+	
+	/**
+	 * 
+	 * @return Combo box para el filtro de genero.
+	 */
 
 	public JComboBox<String> getCmbGeneroFiltro() {
 		return cmbGeneroFiltro;
 	}
+	
+	/**
+	 * 
+	 * @param cmbGeneroFiltro Combo box para el filtro de genero
+	 */
 
 	public void setCmbGeneroFiltro(JComboBox<String> cmbGeneroFiltro) {
 		this.cmbGeneroFiltro = cmbGeneroFiltro;
 	}
+	
+	/**
+	 * 
+	 * @return Area de texto que muestra estadisticas informativas.
+	 */
 
 	public JTextArea getTxtEstadisticas() {
 		return txtEstadisticas;
 	}
+	
+	/**
+	 * 
+	 * @param txtEstadisticas Area de texto que muestra estadisticas informativas.
+	 */
 
 	public void setTxtEstadisticas(JTextArea txtEstadisticas) {
 		this.txtEstadisticas = txtEstadisticas;
