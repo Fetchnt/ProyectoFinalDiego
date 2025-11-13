@@ -15,12 +15,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * Clase que representa la ventana de registro de la aplicación BosTinder.
+ * 
+ * <p>
+ * Esta ventana permite al usuario registrarse proporcionando información
+ * personal como nombres, apellidos, apodo, fecha de nacimiento, correo
+ * electrónico, género, orientación sexual, estatura, ingresos, divorcios, país
+ * de residencia y una foto de perfil. Incluye validación de correo, subida de
+ * imagen y opciones para cambiar el tema visual (modo claro/oscuro).
+ * </p>
+ * 
+ * <p>
+ * Incluye elementos gráficos como botones, etiquetas, campos de texto, combos y
+ * paneles, y permite aplicar configuraciones de internacionalización y tema
+ * visual.
+ * </p>
+ * Autor: Maria Alejandra Carvajal Nepta
+ */
 public class RegisterWindow extends JFrame {
 
 	/**
-	 * 
+	 * Identificador de versión para la serialización.
 	 */
 	private static final long serialVersionUID = -663545927077308663L;
+	
+	//Componentes gráficos de la ventana
 	private JPanel panelLogo;
 	private JPanel panelForm;
 	private JLabel lIcon;
@@ -67,11 +87,23 @@ public class RegisterWindow extends JFrame {
 	private boolean correoVerificado = false;
 	private String correoVerificadoActual = "";
 
+	/**
+	 * Constructor por defecto.
+	 * 
+	 * @pre No se ha inicializado la ventana.
+	 * @post Se inicializan los componentes y se oculta la ventana.
+	 */
 	public RegisterWindow() {
 		initializeComponents();
 		setVisible(false);
 	}
 
+	/**
+	 * Inicializa y configura todos los componentes gráficos de la ventana.
+	 * 
+	 * @pre No hay componentes gráficos en la ventana.
+	 * @post La ventana contiene todos los elementos visuales necesarios, incluyendo paneles, etiquetas, campos de texto, combos y botones.
+	 */
 	public void initializeComponents() {
 
 		// CONFIGURACIÓN GENERAL DE LA VENTANA
@@ -282,7 +314,12 @@ public class RegisterWindow extends JFrame {
 		this.add(darkMode);
 	}
 
-	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
+	/**
+	 * Cambia el tema visual de la ventana entre modo claro y modo oscuro.
+	 * 
+	 * @pre La ventana debe estar inicializada.
+	 * @post Se actualiza el color de fondo y estilo de los componentes según el modo.
+	 */
 	public void cambiarAModoOscuroRW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
@@ -355,76 +392,84 @@ public class RegisterWindow extends JFrame {
 			isDarkMode = false;
 
 		} else {
-			 // Cambia a modo oscuro
-		    this.getContentPane().setBackground(Color.decode("#11021E"));
-		    panelLogo.setBackground(Color.decode("#1E1724"));
-		    panelForm.setBackground(Color.decode("#1E1724"));
-		    lBosTinder.setForeground(Color.decode("#FF2B91"));
-		    lAreaDeRegistro.setForeground(Color.decode("#FF7171"));
+			// Cambia a modo oscuro
+			this.getContentPane().setBackground(Color.decode("#11021E"));
+			panelLogo.setBackground(Color.decode("#1E1724"));
+			panelForm.setBackground(Color.decode("#1E1724"));
+			lBosTinder.setForeground(Color.decode("#FF2B91"));
+			lAreaDeRegistro.setForeground(Color.decode("#FF7171"));
 
-		    // Labels del formulario
-		    lNombres.setForeground(Color.decode("#DCC8EF"));
-		    lApellidos.setForeground(Color.decode("#DCC8EF"));
-		    lApodo.setForeground(Color.decode("#DCC8EF"));
-		    lFechaNacimiento.setForeground(Color.decode("#DCC8EF"));
-		    lCorreo.setForeground(Color.decode("#DCC8EF"));
-		    lPassword.setForeground(Color.decode("#DCC8EF"));
-		    lPais.setForeground(Color.decode("#DCC8EF"));
-		    lGenero.setForeground(Color.decode("#DCC8EF"));
-		    lEstatura.setForeground(Color.decode("#DCC8EF"));
-		    lOrientacion.setForeground(Color.decode("#DCC8EF"));
-		    lIngresos.setForeground(Color.decode("#DCC8EF"));
-		    lDivorcios.setForeground(Color.decode("#DCC8EF"));
-		    lFoto.setForeground(Color.decode("#DCC8EF"));
+			// Labels del formulario
+			lNombres.setForeground(Color.decode("#DCC8EF"));
+			lApellidos.setForeground(Color.decode("#DCC8EF"));
+			lApodo.setForeground(Color.decode("#DCC8EF"));
+			lFechaNacimiento.setForeground(Color.decode("#DCC8EF"));
+			lCorreo.setForeground(Color.decode("#DCC8EF"));
+			lPassword.setForeground(Color.decode("#DCC8EF"));
+			lPais.setForeground(Color.decode("#DCC8EF"));
+			lGenero.setForeground(Color.decode("#DCC8EF"));
+			lEstatura.setForeground(Color.decode("#DCC8EF"));
+			lOrientacion.setForeground(Color.decode("#DCC8EF"));
+			lIngresos.setForeground(Color.decode("#DCC8EF"));
+			lDivorcios.setForeground(Color.decode("#DCC8EF"));
+			lFoto.setForeground(Color.decode("#DCC8EF"));
 
-		    // Botones del formulario
-		    btnSubirFoto.setForeground(Color.decode("#DCC8EF"));
-		    btnSubirFoto.setBackground(Color.decode("#52247C"));
-		    btnVerificarCorreo.setForeground(Color.decode("#DCC8EF"));
-		    btnVerificarCorreo.setBackground(Color.decode("#52247C"));
-		    btnRegistrar.setForeground(Color.decode("#DCC8EF"));
-		    btnRegistrar.setBackground(Color.decode("#52247C"));
-		    btnVolver.setForeground(Color.decode("#DCC8EF"));
-		    btnVolver.setBackground(Color.decode("#52247C"));
+			// Botones del formulario
+			btnSubirFoto.setForeground(Color.decode("#DCC8EF"));
+			btnSubirFoto.setBackground(Color.decode("#52247C"));
+			btnVerificarCorreo.setForeground(Color.decode("#DCC8EF"));
+			btnVerificarCorreo.setBackground(Color.decode("#52247C"));
+			btnRegistrar.setForeground(Color.decode("#DCC8EF"));
+			btnRegistrar.setBackground(Color.decode("#52247C"));
+			btnVolver.setForeground(Color.decode("#DCC8EF"));
+			btnVolver.setBackground(Color.decode("#52247C"));
 
-		    // Campos de texto
-		    txtNombres.setBackground(Color.decode("#2A1F3A"));
-		    txtNombres.setForeground(Color.decode("#DCC8EF"));
-		    txtApellidos.setBackground(Color.decode("#2A1F3A"));
-		    txtApellidos.setForeground(Color.decode("#DCC8EF"));
-		    txtApodo.setBackground(Color.decode("#2A1F3A"));
-		    txtApodo.setForeground(Color.decode("#DCC8EF"));
-		    txtFechaNacimiento.setBackground(Color.decode("#2A1F3A"));
-		    txtFechaNacimiento.setForeground(Color.decode("#DCC8EF"));
-		    txtCorreo.setBackground(Color.decode("#2A1F3A"));
-		    txtCorreo.setForeground(Color.decode("#DCC8EF"));
-		    txtPassword.setBackground(Color.decode("#2A1F3A"));
-		    txtPassword.setForeground(Color.decode("#DCC8EF"));
-		    txtEstatura.setBackground(Color.decode("#2A1F3A"));
-		    txtEstatura.setForeground(Color.decode("#DCC8EF"));
-		    txtIngresos.setBackground(Color.decode("#2A1F3A"));
-		    txtIngresos.setForeground(Color.decode("#DCC8EF"));
+			// Campos de texto
+			txtNombres.setBackground(Color.decode("#2A1F3A"));
+			txtNombres.setForeground(Color.decode("#DCC8EF"));
+			txtApellidos.setBackground(Color.decode("#2A1F3A"));
+			txtApellidos.setForeground(Color.decode("#DCC8EF"));
+			txtApodo.setBackground(Color.decode("#2A1F3A"));
+			txtApodo.setForeground(Color.decode("#DCC8EF"));
+			txtFechaNacimiento.setBackground(Color.decode("#2A1F3A"));
+			txtFechaNacimiento.setForeground(Color.decode("#DCC8EF"));
+			txtCorreo.setBackground(Color.decode("#2A1F3A"));
+			txtCorreo.setForeground(Color.decode("#DCC8EF"));
+			txtPassword.setBackground(Color.decode("#2A1F3A"));
+			txtPassword.setForeground(Color.decode("#DCC8EF"));
+			txtEstatura.setBackground(Color.decode("#2A1F3A"));
+			txtEstatura.setForeground(Color.decode("#DCC8EF"));
+			txtIngresos.setBackground(Color.decode("#2A1F3A"));
+			txtIngresos.setForeground(Color.decode("#DCC8EF"));
 
-		    // ComboBox
-		    cmbPais.setBackground(Color.decode("#2A1F3A"));
-		    cmbPais.setForeground(Color.decode("#DCC8EF"));
-		    cmbGenero.setBackground(Color.decode("#2A1F3A"));
-		    cmbGenero.setForeground(Color.decode("#DCC8EF"));
-		    cmbOrientacion.setBackground(Color.decode("#2A1F3A"));
-		    cmbOrientacion.setForeground(Color.decode("#DCC8EF"));
-		    cmbDivorcios.setBackground(Color.decode("#2A1F3A"));
-		    cmbDivorcios.setForeground(Color.decode("#DCC8EF"));
+			// ComboBox
+			cmbPais.setBackground(Color.decode("#2A1F3A"));
+			cmbPais.setForeground(Color.decode("#DCC8EF"));
+			cmbGenero.setBackground(Color.decode("#2A1F3A"));
+			cmbGenero.setForeground(Color.decode("#DCC8EF"));
+			cmbOrientacion.setBackground(Color.decode("#2A1F3A"));
+			cmbOrientacion.setForeground(Color.decode("#DCC8EF"));
+			cmbDivorcios.setBackground(Color.decode("#2A1F3A"));
+			cmbDivorcios.setForeground(Color.decode("#DCC8EF"));
 
-		    // Foto preview
-		    lFotoPreview.setBorder(BorderFactory.createLineBorder(Color.decode("#DCC8EF")));
+			// Foto preview
+			lFotoPreview.setBorder(BorderFactory.createLineBorder(Color.decode("#DCC8EF")));
 
-		    // Botón darkMode
-		    darkMode.setBackground(Color.decode("#52247C"));
-		    darkMode.setForeground(Color.decode("#DCC8EF"));
-		    darkMode.setText("MODO CLARO");
-		    isDarkMode = true;		}
+			// Botón darkMode
+			darkMode.setBackground(Color.decode("#52247C"));
+			darkMode.setForeground(Color.decode("#DCC8EF"));
+			darkMode.setText("MODO CLARO");
+			isDarkMode = true;
+		}
 	}
 
+	/**
+	 * Aplica los textos traducidos a los componentes  de la ventana segun las propiedades dadas.
+	 * 
+	 * @param prop Propiedades que contienen los textos traducidos por el idioma.
+	 * @pre Las propiedades deben estar correctaamente cargadas.
+	 * @post Los textos de los botones y etiquetas se actualizan con los valores traducidos.
+	 */
 	public void aplicarInternacionalizacion(Properties prop) {
 		// Ventana
 		setTitle(prop.getProperty("bostinder.view.registerwindow.title"));
@@ -480,282 +525,445 @@ public class RegisterWindow extends JFrame {
 
 	// ---------- GETTERS Y SETTERSS ----------
 
+	/**
+	 * 
+	 * @return Etiqueta del icono principal.
+	 */
 	public JLabel getlIcon() {
 		return lIcon;
 	}
-
+	/**
+	 * 
+	 * @param lIcon Etiqueta del icono principal.
+	 */
 	public void setlIcon(JLabel lIcon) {
 		this.lIcon = lIcon;
 	}
 
+	/**
+	 * 
+	 * @return Etiqueta de la foto de perfil del usuario.
+	 */
 	public JLabel getlFotoPreview() {
 		return lFotoPreview;
 	}
 
+	/**
+	 * 
+	 * @param lFotoPreview Etiqueta de foto de perfil del usuario.
+	 */
 	public void setlFotoPreview(JLabel lFotoPreview) {
 		this.lFotoPreview = lFotoPreview;
 	}
 
+	/**
+	 * 
+	 * @return Etiqueta del area de registro.
+	 */
 	public JLabel getlAreaDeRegistro() {
 		return lAreaDeRegistro;
 	}
 
+	/**
+	 * 
+	 * @param lAreaDeRegistro Etiqueta del Area de registro.
+	 */
 	public void setlAreaDeRegistro(JLabel lAreaDeRegistro) {
 		this.lAreaDeRegistro = lAreaDeRegistro;
 	}
 
+	/**
+	 * @return Etiqueta de nombres.
+	 */
 	public JLabel getlNombres() {
 		return lNombres;
 	}
 
+	/**
+	 * @param lNombres Etiqueta de nombres.
+	 */
 	public void setlNombres(JLabel lNombres) {
 		this.lNombres = lNombres;
 	}
 
+	/**
+	 * @return Etiqueta de apellidos.
+	 */
 	public JLabel getlApellidos() {
 		return lApellidos;
 	}
 
+	/**
+	 * @param lApellidos Etiqueta de apellidos.
+	 */
 	public void setlApellidos(JLabel lApellidos) {
 		this.lApellidos = lApellidos;
 	}
 
+	/**
+	 * @return Etiqueta de apodo.
+	 */
 	public JLabel getlApodo() {
 		return lApodo;
 	}
-
+	/**
+	 * @param lApodo Etiqueta de apodo.
+	 */
 	public void setlApodo(JLabel lApodo) {
 		this.lApodo = lApodo;
 	}
 
+	/**
+	 * @return Etiqueta de correo electrónico.
+	 */
 	public JLabel getlCorreo() {
 		return lCorreo;
 	}
 
+	/**
+	 * @param lCorreo Etiqueta de correo electrónico.
+	 */
 	public void setlCorreo(JLabel lCorreo) {
 		this.lCorreo = lCorreo;
 	}
-
+	
+	/**
+	 * @return Etiqueta de género.
+	 */
 	public JLabel getlGenero() {
 		return lGenero;
 	}
 
+	/**
+	 * @param lGenero Etiqueta de género.
+	 */
 	public void setlGenero(JLabel lGenero) {
 		this.lGenero = lGenero;
 	}
-
+	/**
+	 * @return Etiqueta de orientación sexual.
+	 */
 	public JLabel getlOrientacion() {
 		return lOrientacion;
 	}
 
+	/**
+	 * @param lOrientacion Etiqueta de orientación sexual.
+	 */
 	public void setlOrientacion(JLabel lOrientacion) {
 		this.lOrientacion = lOrientacion;
 	}
 
+	/**
+	 * @return Etiqueta de estatura.
+	 */
 	public JLabel getlEstatura() {
 		return lEstatura;
 	}
-
+	/**
+	 * @param lEstatura Etiqueta de estatura.
+	 */
 	public void setlEstatura(JLabel lEstatura) {
 		this.lEstatura = lEstatura;
 	}
-
+	/**
+	 * @return Etiqueta de ingresos.
+	 */
 	public JLabel getlIngresos() {
 		return lIngresos;
 	}
-
+	/**
+	 * @param lIngresos Etiqueta de ingresos.
+	 */
 	public void setlIngresos(JLabel lIngresos) {
 		this.lIngresos = lIngresos;
 	}
-
+	/**
+	 * @return Etiqueta de divorcios.
+	 */
 	public JLabel getlDivorcios() {
 		return lDivorcios;
 	}
-
+	/**
+	 * @param lDivorcios Etiqueta de divorcios.
+	 */
 	public void setlDivorcios(JLabel lDivorcios) {
 		this.lDivorcios = lDivorcios;
 	}
-
+	/**
+	 * @return Etiqueta de fecha de nacimiento.
+	 */
 	public JLabel getlFechaNacimiento() {
 		return lFechaNacimiento;
 	}
-
+	/**
+	 * @param lFechaNacimiento Etiqueta de fecha de nacimiento.
+	 */
 	public void setlFechaNacimiento(JLabel lFechaNacimiento) {
 		this.lFechaNacimiento = lFechaNacimiento;
 	}
-
+	/**
+	 * @return Campo de texto para nombres.
+	 */
 	public JTextField getTxtNombres() {
 		return txtNombres;
 	}
-
+	/**
+	 * @param txtNombres Campo de texto para nombres.
+	 */
 	public void setTxtNombres(JTextField txtNombres) {
 		this.txtNombres = txtNombres;
 	}
-
+	/**
+	 * @return Campo de texto para apellidos.
+	 */
 	public JTextField getTxtApellidos() {
 		return txtApellidos;
 	}
-
+	/**
+	 * @param txtApellidos Campo de texto para apellidos.
+	 */
 	public void setTxtApellidos(JTextField txtApellidos) {
 		this.txtApellidos = txtApellidos;
 	}
 
+	/**
+	 * @return Campo de texto para apodo.
+	 */
 	public JTextField getTxtApodo() {
 		return txtApodo;
 	}
-
+	/**
+	 * @param txtApodo Campo de texto para apodo.
+	 */
 	public void setTxtApodo(JTextField txtApodo) {
 		this.txtApodo = txtApodo;
 	}
-
+	/**
+	 * @return Campo de texto para correo electrónico.
+	 */
 	public JTextField getTxtCorreo() {
 		return txtCorreo;
 	}
-
+	/**
+	 * @param txtCorreo Campo de texto para correo electrónico.
+	 */
 	public void setTxtCorreo(JTextField txtCorreo) {
 		this.txtCorreo = txtCorreo;
 	}
-
+	/**
+	 * @return Campo de texto para estatura.
+	 */
 	public JTextField getTxtEstatura() {
 		return txtEstatura;
 	}
-
+	/**
+	 * @param txtEstatura Campo de texto para estatura.
+	 */
 	public void setTxtEstatura(JTextField txtEstatura) {
 		this.txtEstatura = txtEstatura;
 	}
-
+	/**
+	 * @return Campo de texto para ingresos.
+	 */
 	public JTextField getTxtIngresos() {
 		return txtIngresos;
 	}
-
+	/**
+	 * @param txtIngresos Campo de texto para ingresos.
+	 */
 	public void setTxtIngresos(JTextField txtIngresos) {
 		this.txtIngresos = txtIngresos;
 	}
-
+	/**
+	 * @return Campo de texto para fecha de nacimiento.
+	 */
 	public JTextField getTxtFechaNacimiento() {
 		return txtFechaNacimiento;
 	}
-
+	/**
+	 * @param txtFechaNacimiento Campo de texto para fecha de nacimiento.
+	 */
 	public void setTxtFechaNacimiento(JTextField txtFechaNacimiento) {
 		this.txtFechaNacimiento = txtFechaNacimiento;
 	}
-
+	/**
+	 * @return ComboBox para selección de género.
+	 */
 	public JComboBox<String> getCmbGenero() {
 		return cmbGenero;
 	}
-
+	/**
+	 * @param cmbGenero ComboBox para selección de género.
+	 */
 	public void setCmbGenero(JComboBox<String> cmbGenero) {
 		this.cmbGenero = cmbGenero;
 	}
-
+	/**
+	 * @return ComboBox para selección de orientación sexual.
+	 */
 	public JComboBox<String> getCmbOrientacion() {
 		return cmbOrientacion;
 	}
-
+	/**
+	 * @param cmbOrientacion ComboBox para selección de orientación sexual.
+	 */
 	public void setCmbOrientacion(JComboBox<String> cmbOrientacion) {
 		this.cmbOrientacion = cmbOrientacion;
 	}
-
+	/**
+	 * @return ComboBox para selección de divorcios.
+	 */
 	public JComboBox<String> getCmbDivorcios() {
 		return cmbDivorcios;
 	}
-
+	/**
+	 * @param cmbDivorcios ComboBox para selección de divorcios.
+	 */
 	public void setCmbDivorcios(JComboBox<String> cmbDivorcios) {
 		this.cmbDivorcios = cmbDivorcios;
 	}
-
+	/**
+	 * @return Botón para subir foto.
+	 */
 	public JButton getBtnSubirFoto() {
 		return btnSubirFoto;
 	}
-
+	/**
+	 * @param btnSubirFoto Botón para subir foto.
+	 */
 	public void setBtnSubirFoto(JButton btnSubirFoto) {
 		this.btnSubirFoto = btnSubirFoto;
 	}
-
+	/**
+	 * @return Botón para verificar correo.
+	 */
 	public JButton getBtnVerificarCorreo() {
 		return btnVerificarCorreo;
 	}
-
+	/**
+	 * @param btnVerificarCorreo Botón para verificar correo.
+	 */
 	public void setBtnVerificarCorreo(JButton btnVerificarCorreo) {
 		this.btnVerificarCorreo = btnVerificarCorreo;
 	}
-
+	/**
+	 * @return Botón para registrar.
+	 */
 	public JButton getBtnRegistrar() {
 		return btnRegistrar;
 	}
-
+	/**
+	 * @param btnRegistrar Botón para registrar.
+	 */
 	public void setBtnRegistrar(JButton btnRegistrar) {
 		this.btnRegistrar = btnRegistrar;
 	}
-
+	/**
+	 * @return Etiqueta de imagen adicional.
+	 */
 	public JLabel getlImage() {
 		return lImage;
 	}
-
+	/**
+	 * @param lImage Etiqueta de imagen adicional.
+	 */
 	public void setlImage(JLabel lImage) {
 		this.lImage = lImage;
 	}
-
+	/**
+	 * @return Etiqueta de país.
+	 */
 	public JLabel getlPais() {
 		return lPais;
 	}
-
+	/**
+	 * @param lPais Etiqueta de país.
+	 */
 	public void setlPais(JLabel lPais) {
 		this.lPais = lPais;
 	}
-
+	/**
+	 * @return Etiqueta de contraseña.
+	 */
 	public JLabel getlPassword() {
 		return lPassword;
 	}
-
+	/**
+	 * @param lPassword Etiqueta de contraseña.
+	 */
 	public void setlPassword(JLabel lPassword) {
 		this.lPassword = lPassword;
 	}
-
+	/**
+	 * @return Campo de texto para contraseña.
+	 */
 	public JTextField getTxtPassword() {
 		return txtPassword;
 	}
-
+	/**
+	 * @param txtPassword Campo de texto para contraseña.
+	 */
 	public void setTxtPassword(JTextField txtPassword) {
 		this.txtPassword = txtPassword;
 	}
-
+	/**
+	 * @return ComboBox para selección de país.
+	 */
 	public JComboBox<String> getCmbPais() {
 		return cmbPais;
 	}
-
+	/**
+	 * @param cmbPais ComboBox para selección de país.
+	 */
 	public void setCmbPais(JComboBox<String> cmbPais) {
 		this.cmbPais = cmbPais;
 	}
-
+	/**
+	 * @return Botón para volver.
+	 */
 	public JButton getBtnVolver() {
 		return btnVolver;
 	}
-
+	/**
+	 * @param btnVolver Botón para volver.
+	 */
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
 	}
-
+	/**
+	 * @return Ruta de la imagen seleccionada.
+	 */
 	public String getRutaImagenSeleccionada() {
 		return rutaImagenSeleccionada;
 	}
-
+	/**
+	 * @param rutaImagenSeleccionada Ruta de la imagen seleccionada.
+	 */
 	public void setRutaImagenSeleccionada(String rutaImagenSeleccionada) {
 		this.rutaImagenSeleccionada = rutaImagenSeleccionada;
 	}
-
+	/**
+	 * @return Estado de verificación del correo.
+	 */
 	public boolean isCorreoVerificado() {
 		return correoVerificado;
 	}
-
+	/**
+	 * @param correoVerificado Estado de verificación del correo.
+	 */
 	public void setCorreoVerificado(boolean correoVerificado) {
 		this.correoVerificado = correoVerificado;
 	}
-
+	/**
+	 * @return Correo verificado actual.
+	 */
 	public String getCorreoVerificadoActual() {
 		return correoVerificadoActual;
 	}
-
+	/**
+	 * @param correoVerificadoActual Correo verificado actual.
+	 */
 	public void setCorreoVerificadoActual(String correoVerificadoActual) {
 		this.correoVerificadoActual = correoVerificadoActual;
 	}

@@ -5,7 +5,23 @@ import java.util.Properties;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+/**
+ * Clase que representa la ventana de preferencias de búsqueda en la aplicación BosTinder.
+ * 
+ * <p>
+ * Esta ventana permite al usuario configurar sus preferencias para encontrar parejas ideales,
+ * incluyendo rangos de edad, estatura, ingresos y estado civil, dependiendo del género y
+ * orientación sexual del usuario. Incluye opciones para aplicar filtros o ver todos los perfiles,
+ * además de soporte para internacionalización y cambio de tema visual (modo claro/oscuro).
+ * </p>
+ * 
+ * <p>
+ * Incluye elementos gráficos como etiquetas, campos de texto, combos, botones y paneles,
+ * y permite aplicar configuraciones de internacionalización y tema visual.
+ * </p>
+ * 
+ * Autor: Maria Alejandra Carvajal Nepta
+ */
 public class PreferencesWindow extends JFrame {
 
 	// Componentes comunes (para ambos géneros)
@@ -40,7 +56,12 @@ public class PreferencesWindow extends JFrame {
 	private boolean aceptado = false;
 	private JButton darkMode;
 	private boolean isDarkMode = false;
-
+	/**
+	 * Constructor por defecto.
+	 * 
+	 * @pre No se ha inicializado la ventana.
+	 * @post Se inicializan los componentes y se configura la ventana.
+	 */
 	public PreferencesWindow() {
 		setTitle("Preferencias de Búsqueda");
 		setSize(500, 550); // Aumentado para acomodar más campos
@@ -50,7 +71,12 @@ public class PreferencesWindow extends JFrame {
 
 		inicializarComponentes();
 	}
-
+	/**
+	 * Inicializa y configura todos los componentes gráficos de la ventana.
+	 * 
+	 * @pre No hay componentes gráficos en la ventana.
+	 * @post La ventana contiene todos los elementos visuales necesarios, incluyendo paneles, etiquetas, campos y botones.
+	 */
 	private void inicializarComponentes() {
 		panelPrincipal = new JPanel(new BorderLayout(10, 10));
 		panelPrincipal.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -242,15 +268,31 @@ public class PreferencesWindow extends JFrame {
 		panelCampos.revalidate();
 		panelCampos.repaint();
 	}
+	/**
+	 * Configura la ventana para preferencias de hombres heterosexuales.
+	 * 
+	 * @pre La ventana debe estar inicializada.
+	 * @post Los campos se configuran para buscar mujeres.
+	 */
 
 	public void configurarParaHombres() {
 		configurarSegunOrientacion("Masculino", "Heterosexual");
 	}
-
+	/**
+	 * Configura la ventana para preferencias de mujeres heterosexuales.
+	 * 
+	 * @pre La ventana debe estar inicializada.
+	 * @post Los campos se configuran para buscar hombres.
+	 */
 	public void configurarParaMujeres() {
 		configurarSegunOrientacion("Femenino", "Heterosexual");
 	}
-
+	/**
+	 * Cambia el tema visual de la ventana entre modo claro y modo oscuro.
+	 * 
+	 * @pre La ventana debe estar inicializada.
+	 * @post Se actualiza el color de fondo y estilo de los componentes según el modo.
+	 */
 	public void cambiarAModoOscuroSW() {
 		if (isDarkMode) {
 			// Modo claro
@@ -335,7 +377,13 @@ public class PreferencesWindow extends JFrame {
 			isDarkMode = true;
 		}
 	}
-
+	/**
+	 * Aplica los textos traducidos a los componentes de la ventana según las propiedades dadas.
+	 * 
+	 * @param prop Propiedades que contienen los textos traducidos por el idioma.
+	 * @pre Las propiedades deben estar correctamente cargadas.
+	 * @post Los textos de los botones y etiquetas se actualizan con los valores traducidos.
+	 */
 	public void aplicarInternacionalizacion(Properties prop) {
 		// Título de la ventana
 		setTitle(prop.getProperty("bostinder.view.preferenceswindow.title"));
@@ -365,59 +413,91 @@ public class PreferencesWindow extends JFrame {
 		darkMode.setText(prop.getProperty("bostinder.view.preferenceswindow.button.modooscuro"));
 	}
 
-	// Getters y setters
+	//-------GETTERS Y SETTERS-----
+	/**
+	 * @return Campo de texto para la edad mínima.
+	 */
 	public JTextField getTxtEdadMin() {
 		return txtEdadMin;
 	}
-
+	/**
+	 * @return Campo de texto para la edad máxima.
+	 */
 	public JTextField getTxtEdadMax() {
 		return txtEdadMax;
 	}
-
+	/**
+	 * @return ComboBox para selección de divorcios.
+	 */
 	public JComboBox<String> getCmbDivorcios() {
 		return cmbDivorcios;
 	}
-
+	/**
+	 * @return Campo de texto para la estatura.
+	 */
 	public JTextField getTxtEstatura() {
 		return txtEstatura;
 	}
-
+	/**
+	 * @return Campo de texto para los ingresos.
+	 */
 	public JTextField getTxtIngresos() {
 		return txtIngresos;
 	}
-
+	/**
+	 * @return Botón para aceptar las preferencias.
+	 */
 	public JButton getBtnAceptar() {
 		return btnAceptar;
 	}
-
+	/**
+	 * @return Botón para cancelar y ver todos.
+	 */
 	public JButton getBtnCancelar() {
 		return btnCancelar;
 	}
-
+	/**
+	 * @return Estado de aceptación de las preferencias.
+	 */
 	public boolean isAceptado() {
 		return aceptado;
 	}
-
+	/**
+	 * @param aceptado Estado de aceptación de las preferencias.
+	 */
 	public void setAceptado(boolean aceptado) {
 		this.aceptado = aceptado;
 	}
-
+	/**
+	 * @return Botón para cambiar el aspecto.
+	 */
 	public JButton getDarkMode() {
 		return darkMode;
 	}
-
+	/**
+	 * @param darkMode Botón para cambiar el aspecto.
+	 */
 	public void setDarkMode(JButton darkMode) {
 		this.darkMode = darkMode;
 	}
-
+	/**
+	 * @return Estado actual del modo oscuro.
+	 */
 	public boolean isDarkMode() {
 		return isDarkMode;
 	}
-
+	/**
+	 * @param isDarkMode Estado del modo oscuro a establecer.
+	 */
 	public void setDarkMode(boolean isDarkMode) {
 		this.isDarkMode = isDarkMode;
 	}
-
+	/**
+	 * Limpia todos los campos de la ventana a sus valores por defecto.
+	 * 
+	 * @pre La ventana debe estar inicializada.
+	 * @post Los campos se restablecen a valores predeterminados y el estado de aceptación se establece en falso.
+	 */
 	public void limpiarCampos() {
 		txtEdadMin.setText("18");
 		txtEdadMax.setText("50");

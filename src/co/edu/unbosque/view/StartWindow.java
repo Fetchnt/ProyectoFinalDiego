@@ -188,8 +188,6 @@ public class StartWindow extends JFrame {
 	 * @pre La ventana debe estar inicializada.
 	 * @post Se actualiza el color de fondo y estilo de los componentes segun el modo.
 	 */
-
-	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
 	public void cambiarAModoOscuroSW() {
 		if (isDarkMode) {
 			// Mantiene el modo claro
@@ -283,7 +281,7 @@ public class StartWindow extends JFrame {
 	
 	/**
 	 * 
-	 * @return Etiqueta de la imagen de los socios.
+	 * @return Etiqueta de imagen decorativa.
 	 */
 
 	public JLabel getlPartnerThree() {
@@ -292,7 +290,7 @@ public class StartWindow extends JFrame {
 	
 	/**
 	 * 
-	 * @param lPartnerThree Etiqueta de la imagen de los socios.
+	 * @param lPartnerThree Etiqueta de la imagen decorativa.
 	 */
 
 	public void setlPartnerThree(JLabel lPartnerThree) {
