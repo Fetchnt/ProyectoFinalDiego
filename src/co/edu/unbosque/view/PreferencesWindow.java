@@ -233,18 +233,10 @@ public class PreferencesWindow extends JFrame {
 		panelCampos.repaint();
 	}
 
-	/**
-	 * @deprecated Usar configurarSegunOrientacion() en su lugar
-	 */
-	@Deprecated
 	public void configurarParaHombres() {
 		configurarSegunOrientacion("Masculino", "Heterosexual");
 	}
 
-	/**
-	 * @deprecated Usar configurarSegunOrientacion() en su lugar
-	 */
-	@Deprecated
 	public void configurarParaMujeres() {
 		configurarSegunOrientacion("Femenino", "Heterosexual");
 	}

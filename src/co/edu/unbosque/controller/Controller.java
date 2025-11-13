@@ -2054,7 +2054,7 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (User perfil : mf.perfilesActuales) {
+		for (User perfil : mf.getPerfilesActuales()) {
 			if (perfil instanceof WomenDTO) {
 				WomenDTO mujer = (WomenDTO) perfil;
 				int edad = calcularEdad(mujer.getBornDate());
@@ -2075,9 +2075,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(),
@@ -2105,7 +2105,7 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (User perfil : mf.perfilesActuales) {
+		for (User perfil : mf.getPerfilesActuales()) {
 			if (perfil instanceof MenDTO) {
 				MenDTO hombre = (MenDTO) perfil;
 				int edad = calcularEdad(hombre.getBornDate());
@@ -2119,9 +2119,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(),
@@ -2150,7 +2150,7 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (User perfil : mf.perfilesActuales) {
+		for (User perfil : mf.getPerfilesActuales()) {
 			int edad = calcularEdad(perfil.getBornDate());
 
 			// Comparar edad para ambos
@@ -2175,9 +2175,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(),
@@ -2205,7 +2205,7 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (User perfil : mf.perfilesActuales) {
+		for (User perfil : mf.getPerfilesActuales()) {
 			int edad = calcularEdad(perfil.getBornDate());
 
 			// Solo filtrar por edad
@@ -2214,9 +2214,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(),
@@ -2249,7 +2249,7 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (User perfil : mf.perfilesActuales) {
+		for (User perfil : mf.getPerfilesActuales()) {
 			if (perfil instanceof MenDTO) {
 				MenDTO hombre = (MenDTO) perfil;
 				int edad = calcularEdad(hombre.getBornDate());
@@ -2275,9 +2275,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(),
@@ -2306,7 +2306,7 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (User perfil : mf.perfilesActuales) {
+		for (User perfil : mf.getPerfilesActuales()) {
 			if (perfil instanceof WomenDTO) {
 				WomenDTO mujer = (WomenDTO) perfil;
 				int edad = calcularEdad(mujer.getBornDate());
@@ -2319,9 +2319,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(),
@@ -2352,7 +2352,7 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (User perfil : mf.perfilesActuales) {
+		for (User perfil : mf.getPerfilesActuales()) {
 			int edad = calcularEdad(perfil.getBornDate());
 
 			if (edad < edadMin || edad > edadMax) {
@@ -2383,9 +2383,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(),
@@ -2413,7 +2413,7 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (User perfil : mf.perfilesActuales) {
+		for (User perfil : mf.getPerfilesActuales()) {
 			int edad = calcularEdad(perfil.getBornDate());
 
 			if (edad >= edadMin && edad <= edadMax) {
@@ -2421,9 +2421,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(),
@@ -2481,8 +2481,8 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (int i = 0; i < mf.perfilesActuales.size(); i++) {
-			User perfil = mf.perfilesActuales.get(i);
+		for (int i = 0; i < mf.getPerfilesActuales().size(); i++) {
+			User perfil = mf.getPerfilesActuales().get(i);
 
 			// Solo filtrar mujeres
 			if (perfil instanceof WomenDTO) {
@@ -2514,10 +2514,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
-
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(), prop.getProperty("controller.preferences.no_results.message"),
 					prop.getProperty("controller.preferences.no_results.title"), JOptionPane.INFORMATION_MESSAGE);
@@ -2548,8 +2547,8 @@ public class Controller implements ActionListener {
 
 		List<User> perfilesFiltrados = new ArrayList<>();
 
-		for (int i = 0; i < mf.perfilesActuales.size(); i++) {
-			User perfil = mf.perfilesActuales.get(i);
+		for (int i = 0; i < mf.getPerfilesActuales().size(); i++) {
+			User perfil = mf.getPerfilesActuales().get(i);
 
 			// Solo filtrar hombres
 			if (perfil instanceof MenDTO) {
@@ -2587,9 +2586,9 @@ public class Controller implements ActionListener {
 			}
 		}
 
-		mf.perfilesActuales.clear();
-		mf.perfilesActuales.addAll(perfilesFiltrados);
-		mf.indiceActual = 0;
+		mf.getPerfilesActuales().clear();
+		mf.getPerfilesActuales().addAll(perfilesFiltrados);
+		mf.setIndiceActual(0);
 
 		if (perfilesFiltrados.isEmpty()) {
 			JOptionPane.showMessageDialog(vf.getMmw(), prop.getProperty("controller.preferences.no_results.message"),

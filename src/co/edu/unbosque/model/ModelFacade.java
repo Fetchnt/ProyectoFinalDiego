@@ -26,16 +26,13 @@ public class ModelFacade {
 	private MenDAO mDAO;
 
 	/** Lista de perfiles disponibles para visualización. */
-	public List<User> perfilesActuales;
+	private List<User> perfilesActuales;
 
 	/** Índice del perfil actual que se está mostrando. */
-	public int indiceActual = 0;
+	private int indiceActual = 0;
 
 	/** Lista de usuarios que han recibido like. */
 	private List<User> likes;
-
-	/** Lista de usuarios marcados como favoritos. */
-	private List<User> favoritos;
 
 	/** Indica si el modo incógnito está activo. */
 	private boolean modoIncognito;
@@ -51,7 +48,6 @@ public class ModelFacade {
 		wDAO = new WomenDAO();
 		perfilesActuales = new ArrayList<User>();
 		likes = new ArrayList<User>();
-		favoritos = new ArrayList<User>();
 		modoIncognito = false;
 	}
 
@@ -130,7 +126,23 @@ public class ModelFacade {
 	public void setUsuarioActual(User usuarioActual) {
 		this.usuarioActual = usuarioActual;
 	}
+	
 
+	public List<User> getPerfilesActuales() {
+		return perfilesActuales;
+	}
+
+	public void setPerfilesActuales(List<User> perfilesActuales) {
+		this.perfilesActuales = perfilesActuales;
+	}
+
+	public int getIndiceActual() {
+		return indiceActual;
+	}
+
+	public void setIndiceActual(int indiceActual) {
+		this.indiceActual = indiceActual;
+	}
 	// === MÉTODOS DE USUARIOS Y PAÍSES ===
 
 	/**
@@ -336,30 +348,6 @@ public class ModelFacade {
 	 */
 	public List<User> getLikes() {
 		return likes;
-	}
-
-	/**
-	 * Agrega un usuario a la lista de favoritos.
-	 * 
-	 * @param usuario Usuario a agregar a favoritos.
-	 * @return {@code true} si se agregó correctamente, {@code false} si ya estaba
-	 *         en favoritos o es nulo.
-	 */
-	public boolean agregarAFavoritos(User usuario) {
-		if (usuario != null && !favoritos.contains(usuario)) {
-			favoritos.add(usuario);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Obtiene la lista de usuarios marcados como favoritos.
-	 * 
-	 * @return Lista de usuarios favoritos.
-	 */
-	public List<User> getFavoritos() {
-		return favoritos;
 	}
 
 	// === MÉTODOS DE ADMINISTRACIÓN ===
