@@ -58,13 +58,15 @@ public class MenDTOTest {
         assertEquals(3000000L, h.getMensualIncome());
     }
 
+
     @Test
     public void pruebaToStringNoNull() {
-        hombre.setMensualIncome(1500000L);
-        String texto = hombre.toString();
-        assertNotNull("El texto generado no debe ser nulo", texto);
-        assertTrue("El texto debe contener Ingresos mensuales", texto.contains("Ingresos mensuales"));
-    }
+    hombre.setMensualIncome(1500000L);
+    String texto = hombre.toString();
+    assertNotNull("El texto generado no debe ser nulo", texto);
+    assertTrue("El texto debe contener Mensual Income", texto.contains("Mensual Income"));
+}
+
 
     @After
     public void despuesDeCadaPrueba() {

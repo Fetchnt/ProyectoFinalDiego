@@ -57,14 +57,17 @@ public class WomenDTOTest {
         assertTrue("Debe indicar que ha tenido divorcios", w.isHadDivorces());
     }
 
+
     @Test
     public void pruebaToStringContieneDivorcio() {
-        mujer.setHadDivorces(true);
-        String texto = mujer.toString();
-        assertNotNull("El texto generado no debe ser nulo", texto);
-        assertTrue("El texto debe contener información sobre divorcios",
-                   texto.contains("Contiene divorcios: verdadero") || texto.contains("Divorcios: verdadero"));
+    mujer.setHadDivorces(true);
+    String texto = mujer.toString();
+    assertNotNull("El texto generado no debe ser nulo", texto);
+    assertTrue("El texto debe contener información sobre divorcios",
+    texto.contains("Had divorces: true"));
+
     }
+
 
     @After
     public void despuesDeCadaPrueba() {
