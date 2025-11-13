@@ -14,7 +14,7 @@ public class MenDTO extends User implements Serializable {
 
 	private static final long serialVersionUID = 8703244232885622082L;
 	private long mensualIncome;
-	private Properties prop;
+	private transient Properties prop;
 
 	/**
 	 * Constructor por defecto. <b>pre:</b> No se requiere información previa. <br>

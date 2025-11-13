@@ -23,7 +23,7 @@ public class WomenDTO extends User implements Serializable {
 	private boolean hadDivorces;
 
 	/** Propiedades utilizadas para la internacionalización o configuración. */
-	private Properties prop;
+	private transient Properties prop;
 
 	/**
 	 * Constructor por defecto.
