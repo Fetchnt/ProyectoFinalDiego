@@ -80,7 +80,7 @@ public class PrincipalWindow extends JFrame {
 		JLabel labelImagen1 = new JLabel(imagen1);
 		bSpanish = new JButton(imagen1);
 		bSpanish.setBackground(Color.RED);
-		bSpanish.setBounds(380, 540, 35, 35);
+		bSpanish.setBounds(360, 540, 35, 35);
 		bSpanish.setFocusPainted(false);
 		bSpanish.setBorderPainted(false);
 		this.add(bSpanish);
@@ -89,7 +89,7 @@ public class PrincipalWindow extends JFrame {
 		JLabel labelImagen2 = new JLabel(imagen2);
 		bChinnesse = new JButton(imagen2);
 		bChinnesse.setBackground(Color.RED);
-		bChinnesse.setBounds(420, 540, 35, 35);
+		bChinnesse.setBounds(400, 540, 35, 35);
 		bChinnesse.setFocusPainted(false);
 		bChinnesse.setBorderPainted(false);
 		this.add(bChinnesse);
@@ -97,7 +97,7 @@ public class PrincipalWindow extends JFrame {
 		ImageIcon imagen3 = new ImageIcon(getClass().getResource("hebrew.JPG"));
 		JLabel labelImagen3 = new JLabel(imagen3);
 		bHebrew = new JButton(imagen3);
-		bHebrew.setBounds(460, 540, 35, 35);
+		bHebrew.setBounds(440, 540, 35, 35);
 		bHebrew.setFocusPainted(false);
 		bHebrew.setBorderPainted(false);
 		this.add(bHebrew);
@@ -105,7 +105,7 @@ public class PrincipalWindow extends JFrame {
 		ImageIcon imagen4 = new ImageIcon(getClass().getResource("russian.JPG"));
 		JLabel labelImagen4 = new JLabel(imagen4);
 		bRussian = new JButton(imagen4);
-		bRussian.setBounds(500, 540, 35, 35);
+		bRussian.setBounds(480, 540, 35, 35);
 		bRussian.setFocusPainted(false);
 		bRussian.setBorderPainted(false);
 		this.add(bRussian);
@@ -113,15 +113,16 @@ public class PrincipalWindow extends JFrame {
 		ImageIcon imagen5 = new ImageIcon(getClass().getResource("portuguesse.JPG"));
 		JLabel labelImagen5 = new JLabel(imagen5);
 		bPortuguese = new JButton(imagen5);
-		bPortuguese.setBounds(540, 540, 35, 35);
+		bPortuguese.setBounds(520, 540, 35, 35);
 		bPortuguese.setFocusPainted(false);
 		bPortuguese.setBorderPainted(false);
 		this.add(bPortuguese);
 		
 		
-		//ImageIcon imagenEnglish = new ImageIcon(getClass().getResource("english.JPG")); // Asegúrate de tener la imagen
-		bEnglish = new JButton();
-		bEnglish.setBounds(580, 540, 35, 35); // Posición al lado del portugués
+		ImageIcon imagenEnglish = new ImageIcon(getClass().getResource("english.JPG"));
+		JLabel labelImagen6 = new JLabel(imagenEnglish);
+		bEnglish = new JButton(imagenEnglish);
+		bEnglish.setBounds(560, 540, 35, 35); 
 		bEnglish.setFocusPainted(false);
 		bEnglish.setBorderPainted(false);
 		bEnglish.setBackground(Color.RED);
@@ -146,7 +147,7 @@ public class PrincipalWindow extends JFrame {
 		darkMode.setBorderPainted(false);
 		darkMode.addActionListener(e -> cambiarAModoOscuroPW());
 		this.add(darkMode);
-
+		
 		// ------ IMAGENES ------
 	
 

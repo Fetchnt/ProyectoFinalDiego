@@ -13,7 +13,11 @@ import java.util.Properties;
  */
 public class WomenDTO extends User implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6033022692515366899L;
 
 	/** Indica si la usuaria ha tenido divorcios. */
 	private boolean hadDivorces;

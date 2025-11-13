@@ -236,10 +236,17 @@ public class MainWindow extends JFrame {
 			lblProfilePicture.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
 
 			// Bot贸n darkMode
-			darkMode.setBackground(Color.decode("#EB5F5B"));
-			darkMode.setForeground(Color.decode("#F9CFCE"));
-			darkMode.setText("MODO OSCURO");
-			isDarkMode = false;
+			ImageIcon changeMode = new ImageIcon(getClass().getResource("changeMode.png"));
+			JLabel lChangeMode = new JLabel(changeMode);
+			darkMode = new JButton(changeMode);
+			darkMode.setBounds(8, 160, 66, 60);
+			darkMode.setOpaque(false);
+			darkMode.setOpaque(false);
+			darkMode.setContentAreaFilled(false);
+			darkMode.setFocusPainted(false);
+			darkMode.setBorderPainted(false);
+			darkMode.addActionListener(e -> cambiarAModoOscuroMW());
+			add(darkMode);
 
 		} else {
 			// Cambia a modo oscuro
