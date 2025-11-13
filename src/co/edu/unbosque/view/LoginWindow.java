@@ -295,13 +295,6 @@ public class LoginWindow extends JFrame {
 		this.userAlias = user;
 	}
 
-	public JTextField getPassword() {
-		return password;
-	}
-
-	public void setPassword(JTextField password) {
-		this.password = password;
-	}
 
 	public JTextField getEmail() {
 		return email;
@@ -403,5 +396,15 @@ public class LoginWindow extends JFrame {
 	public void setDarkMode(boolean isDarkMode) {
 		this.isDarkMode = isDarkMode;
 	}
+
+	public JTextField getPassword() {
+		return password;
+	}
+
+	public void setPassword(JTextField password) {
+		this.password = password;
+	}
+	
+	
 
 }

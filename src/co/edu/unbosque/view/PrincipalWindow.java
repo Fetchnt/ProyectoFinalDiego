@@ -33,6 +33,7 @@ public class PrincipalWindow extends JFrame {
 	private JButton bRussian;
 	private JButton bChinnesse;
 	private JButton bHebrew;
+	private JButton bEnglish;
 	private JButton darkMode;
 	private boolean isDarkMode = false;
 
@@ -116,6 +117,15 @@ public class PrincipalWindow extends JFrame {
 		bPortuguese.setFocusPainted(false);
 		bPortuguese.setBorderPainted(false);
 		this.add(bPortuguese);
+		
+		
+		//ImageIcon imagenEnglish = new ImageIcon(getClass().getResource("english.JPG")); // Asegúrate de tener la imagen
+		bEnglish = new JButton();
+		bEnglish.setBounds(580, 540, 35, 35); // Posición al lado del portugués
+		bEnglish.setFocusPainted(false);
+		bEnglish.setBorderPainted(false);
+		bEnglish.setBackground(Color.RED);
+		this.add(bEnglish);
 
 		// ----- BOTONES ------
 		start = new JButton("INICIAR");
@@ -344,5 +354,14 @@ public class PrincipalWindow extends JFrame {
 	public void setDarkMode(boolean isDarkMode) {
 		this.isDarkMode = isDarkMode;
 	}
+
+	public JButton getbEnglish() {
+		return bEnglish;
+	}
+
+	public void setbEnglish(JButton bEnglish) {
+		this.bEnglish = bEnglish;
+	}
+	
 
 }

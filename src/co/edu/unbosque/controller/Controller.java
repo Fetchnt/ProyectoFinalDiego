@@ -94,6 +94,9 @@ public class Controller implements ActionListener {
 
 		vf.getPw().getbRussian().addActionListener(this);
 		vf.getPw().getbRussian().setActionCommand("internacionalizacion_rus");
+		
+		vf.getPw().getbEnglish().addActionListener(this);
+		vf.getPw().getbEnglish().setActionCommand("internacionalizacion_eng");
 
 		// ---------- BOTONES en SignInWindow ----------
 		vf.getSw().getSignIn().addActionListener(this);
@@ -283,6 +286,10 @@ public class Controller implements ActionListener {
 
 		case "internacionalizacion_rus":
 			aplicarInternacionalizacion("rus");
+			break;
+			
+		case "internacionalizacion_eng":
+			aplicarInternacionalizacion("eng");
 			break;
 
 		case "abrir_mapa":
@@ -1008,6 +1015,7 @@ public class Controller implements ActionListener {
 			case "chi" -> "chin.properties";
 			case "heb" -> "heb.properties";
 			case "rus" -> "rus.properties";
+			case "eng" -> "eng.properties";
 			default -> "spa.properties";
 			};
 			prop.load(new FileInputStream("Language_properties/" + archivo));
