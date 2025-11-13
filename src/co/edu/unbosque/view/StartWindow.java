@@ -10,12 +10,30 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
+/**
+ * Clase que representa la ventana de inicio de laaplicacion BosTinder.
+ * 
+ * <p>
+ * Esta ventana permite al usuario acceder a las opciones principales como registrarse,
+ * iniciar sesion, ver el mapa, cambiar al modo oscuro, salir o volver.
+ * </p>
+ * 
+ * <p>
+ * Incluye elementos graficos como botones, etiquetas, paneles e imagenes, y permite
+ * aplicar configuraciones de internacionalizacion y tema visual.
+ * </p>
+ * 
+ * Autor: Maria Alejandra Carvajal Nepta.
+ */
 public class StartWindow extends JFrame {
 
 	/**
-	 * 
+	 * Identificador de version para la serializacion.
 	 */
 	private static final long serialVersionUID = 4030797315944790873L;
+	
+	// Componentes graficos.
 	private JPanel panelLogo;
 	private JPanel panelOption;
 
@@ -33,12 +51,24 @@ public class StartWindow extends JFrame {
 	private JButton mapButton;
 	private JButton darkMode;
 	private boolean isDarkMode = false;
-
+	
+	/**
+	 * Constructor por defecto.
+	 * 
+	 * @pre No se ha inicializado la ventana.
+	 * @post Se inicializan los componentes y se oculta la ventana. 
+	 */
 	public StartWindow() {
 		initializeComponents();
 		setVisible(false);
 	}
-
+	
+	/**
+	 * Inicializa y configura todos los componentes graficos de la ventana.
+	 * 
+	 * @pre No hay componentes graficos en la ventana.
+	 * @post La ventana contiene todos los elementos visuales necesarios.
+	 */
 	public void initializeComponents() {
 		// CONFIGURACIÓN GENERAL DE LA VENTANA
 		this.setTitle("Menú principal - BosTinder");
@@ -151,6 +181,13 @@ public class StartWindow extends JFrame {
 		this.add(lMail);
 
 	}
+	
+	/**
+	 * Cambia el tema visual de la ventana entre modo claro y modo oscuro.
+	 * 
+	 * @pre La ventana debe estar inicializada.
+	 * @post Se actualiza el color de fondo y estilo de los componentes segun el modo.
+	 */
 
 	// ----METODO PARA CAMBIAR EL TEMA DEL APLICATIVO------
 	public void cambiarAModoOscuroSW() {
@@ -203,6 +240,14 @@ public class StartWindow extends JFrame {
 			isDarkMode = true;
 		}
 	}
+	
+	/**
+	 * Aplica los textos traducidos a los componentes  de la ventana segun las propiedades dadas.
+	 * 
+	 * @param prop Propiedades que contienen los textos traducidos por el idioma.
+	 * @pre Las propiedades deben estar correctaamente cargadas.
+	 * @post Los textos de los botones y etiquetas se actualizan con los valores traducidos.
+	 */
 
 	public void aplicarInternacionalizacion(Properties prop) {
 		// Ventana
@@ -218,105 +263,235 @@ public class StartWindow extends JFrame {
 	}
 
 	// --------GETTERS Y SETTERS------
+	
+	/**
+	 * 
+	 * @return Etiqueta del icono principal.
+	 */
 	public JLabel getlIcon() {
 		return lIcon;
 	}
+	
+	/**
+	 * 
+	 * @param lIcon Etiqueta del icono principal.
+	 */
 
 	public void setlIcon(JLabel lIcon) {
 		this.lIcon = lIcon;
 	}
+	
+	/**
+	 * 
+	 * @return Etiqueta de la imagen de los socios.
+	 */
 
 	public JLabel getlPartnerThree() {
 		return lPartnerThree;
 	}
+	
+	/**
+	 * 
+	 * @param lPartnerThree Etiqueta de la imagen de los socios.
+	 */
 
 	public void setlPartnerThree(JLabel lPartnerThree) {
 		this.lPartnerThree = lPartnerThree;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para registrarse.
+	 */
 
 	public JButton getSignIn() {
 		return signIn;
 	}
+	
+	/**
+	 * 
+	 * @param signIn Boton para registrarse.
+	 */
 
 	public void setSignIn(JButton signIn) {
 		this.signIn = signIn;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para iniciar sesion.
+	 */
 
 	public JButton getLogin() {
 		return login;
 	}
+	
+	/**
+	 * 
+	 * @param login Boton para iniciar sesion.
+	 */
 
 	public void setLogin(JButton login) {
 		this.login = login;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para salir.
+	 */
 
 	public JButton getExit() {
 		return exit;
 	}
+	
+	/**
+	 * 
+	 * @param exit Boton para salir.
+	 */
 
 	public void setExit(JButton exit) {
 		this.exit = exit;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para volver.
+	 */
 
 	public JButton getBack() {
 		return back;
 	}
+	
+	/**
+	 * 
+	 * @param back Boton para volver.
+	 */
 
 	public void setBack(JButton back) {
 		this.back = back;
 	}
+	
+	/**
+	 * 
+	 * @return Etiqueta de imagen decorativo.
+	 */
 
 	public JLabel getlImage() {
 		return lImage;
 	}
+	
+	/**
+	 * 
+	 * @param lImage Etiqueta de imagen decorativa.
+	 */
 
 	public void setlImage(JLabel lImage) {
 		this.lImage = lImage;
 	}
+	
+	/**
+	 * 
+	 * @return Etiqueta del icono de correo.
+	 */
 
 	public JLabel getlMail() {
 		return lMail;
 	}
+	
+	/**
+	 * 
+	 * @param lMail Etiqueta del icono de correo.
+	 */
 
 	public void setlMail(JLabel lMail) {
 		this.lMail = lMail;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para ver el mapa.
+	 */
 
 	public JButton getMapButton() {
 		return mapButton;
 	}
+	
+	/**
+	 * 
+	 * @param mapButton Boton para ver el mapa.
+	 */
 
 	public void setMapButton(JButton mapButton) {
 		this.mapButton = mapButton;
 	}
+	
+	/**
+	 * 
+	 * @return Boton para cambiar el aspecto.
+	 */
 
 	public JButton getDarkMode() {
 		return darkMode;
 	}
+	
+	/**
+	 * 
+	 * @param darkMode Boton para cambiar el aspecto.
+	 */
 
 	public void setDarkMode(JButton darkMode) {
 		this.darkMode = darkMode;
 	}
+	
+	/**
+	 * 
+	 * @return Estado actual del modo oscuro.
+	 */
 
 	public boolean isDarkMode() {
 		return isDarkMode;
 	}
+	
+	/**
+	 * 
+	 * @param isDarkMode Estado del modo oscuro a establecer.
+	 */
 
 	public void setDarkMode(boolean isDarkMode) {
 		this.isDarkMode = isDarkMode;
 	}
+	
+	/**
+	 * 
+	 * @return Panel del logo.
+	 */
 
 	public JPanel getPanelLogo() {
 		return panelLogo;
 	}
+	
+	/**
+	 * 
+	 * @param panelLogo Panel del logo a establecer.
+	 */
 
 	public void setPanelLogo(JPanel panelLogo) {
 		this.panelLogo = panelLogo;
 	}
+	
+	/**
+	 * 
+	 * @return Etiqueta del titulo BosTinder.
+	 */
 
 	public JLabel getlBosTinder() {
 		return lBosTinder;
 	}
+	
+	/**
+	 * 
+	 * @param lBosTinder Etiqueta del titulo BosTinder.
+	 */
 
 	public void setlBosTinder(JLabel lBosTinder) {
 		this.lBosTinder = lBosTinder;
