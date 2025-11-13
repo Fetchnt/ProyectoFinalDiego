@@ -230,7 +230,7 @@ public class RegisterWindow extends JFrame {
 		lDivorcios.setVisible(false);
 		panelForm.add(lDivorcios);
 
-		cmbDivorcios = new JComboBox<>(new String[] { "...", "Sí", "No" });
+		cmbDivorcios = new JComboBox<>(new String[] { "...", "Si", "No" });
 		cmbDivorcios.setBounds(250, 330, 150, 20);
 		cmbDivorcios.setVisible(false);
 		panelForm.add(cmbDivorcios);
